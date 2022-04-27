@@ -150,7 +150,7 @@ body {
 }
 
 #wrap-con::after {
-	content : "
+	content : "";
 	position : absolute;
 	left : 0;
 	top : 0;
