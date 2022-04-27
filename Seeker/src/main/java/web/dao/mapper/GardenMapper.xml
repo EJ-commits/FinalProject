@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+<mapper namespace="Seeker.dao.face.GardenDao">
+	
+	<select id="selectByGardenName" parameterType="finalproject.dto.Garden" resultType="int">
+		SELECT garden_no FROM garden
+		WHERE garden_name=#{gardenName}
+	</select>
+	
+	<select id="selectCntByGardenNo" parameterType="int" resultType="int">
+		SELECT count(*)
+		FROM garden_review
+		WHERE garden_no = #{gardenNo}
+	</select>
+	
+<!-- 	<select id="selectCntByGardenNo" parameterType="int" resultType="finalproject.dto.Garden"> -->
+		
+<!-- 	</select> -->
+	
+</mapper>
