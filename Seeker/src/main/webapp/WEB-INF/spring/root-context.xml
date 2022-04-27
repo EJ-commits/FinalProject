@@ -35,6 +35,9 @@
 		<!-- dataSource빈으로 등록된 DB연결 설정 정보 적용하기 -->
 		<property name="dataSource" ref="dataSource" />
 		
+		<!-- 마이바티스 설정 파일 -->
+		<property name="configLocation" value="classpath:/mybatis-config.xml"></property> 
+		
 		<!-- Mapper XML 파일의 위치 설정하기 -->
 		<property name="mapperLocations">
 			<array>
@@ -46,6 +49,12 @@
 	<!-- 마이바티스 인터페이스 설정(DAO설정) -->
 	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
 		<property name="basePackage" value="web.dao" />
+	</bean>
+	
+	
+	<!-- 트랜잭션 매니저 설정 -->
+	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource"></property>
 	</bean>
 		
 </beans>
