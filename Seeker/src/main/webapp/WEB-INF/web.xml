@@ -37,6 +37,7 @@
 			<param-value>/WEB-INF/spring/appServlet/servlet-context.xml</param-value>
 		</init-param>
 		<load-on-startup>1</load-on-startup>
+		<asnyc-supported>true</asnyc-supported><!-- 비동기 지원 : 웹소켓 설정용  -->
 	</servlet>
 		
 	<servlet-mapping>

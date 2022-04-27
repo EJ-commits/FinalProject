@@ -14,6 +14,8 @@
 		<org.slf4j-version>1.6.6</org.slf4j-version>
 	</properties>
 	
+	
+	
 	<!-- ODJDBC6 repositories -->
 	<repositories>
 		<repository>
@@ -24,11 +26,26 @@
 	
 	<dependencies>
 		
+	<!-- Spring WebSocket » 5.3.19 -->
+	<dependency>
+	    <groupId>org.springframework</groupId>
+	    <artifactId>spring-websocket</artifactId>
+	    <version>5.3.19</version>
+	</dependency>
+		
 		<dependency>
     		<groupId>com.googlecode.json-simple</groupId>
     		<artifactId>json-simple</artifactId>
     		<version>1.1</version>
 		</dependency>
+		
+			
+		<dependency>
+			<groupId>javax.websocket</groupId>
+			<artifactId>javax.websocket-api</artifactId>
+			<version>1.1</version>
+		</dependency>
+		
 		
 		<dependency>
 		    <groupId>commons-io</groupId>
