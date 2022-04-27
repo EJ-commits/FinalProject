@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+ <mapper namespace="web.dao.face.DiaryDao">
+ 
+ 	<resultMap type="web.dto.Diary" id="Diary">
+ 		<id column="diary_no" property="diaryNo"/>
+ 		<result column="myplant_no" property="myPlantNo"/>
+ 		<result column="diary_temp" property="diaryTemp"/>
+ 		<result column="diary_humid" property="diaryHumid"/>
+ 		<result column="diary_dirt" property="diaryDirt"/>
+ 		<result column="diary_water" property="diaryWater"/>
+ 		<result column="diary_repot" property="diaryRepot"/>
+ 		<result column="diary_cmt" property="diaryCmt"/>
+ 		<result column="diary_date" property="diaryDate"/>
+ 	</resultMap>
+ 	
+ 	<select id="select" resultMap="Diary" parameterType='String'>
+ 		SELECT * FROM diary
+ 		WHERE diary_date = #{date}
+ 	</select>
+ 	
+ 	<insert id="insert" parameterType="web.dto.Diary">
+		INSERT INTO diary ( diary_temp, diary_humid, diary_dirt, diary_water, diary_repot, diary_cmt, diary_date )
+		VALUES ( #{diaryTemp}, #{diaryHumid}, #{diaryDirt}, #{diaryWater}, #{diaryRepot}, #{diaryCmt}, #{diaryDate} )
+	</insert>
+	
+	<update id="update" parameterType="web.dto.Diary">
+		UPDATE diary SET 
+			diary_temp = #{diaryTemp},
+			diary_humid = #{diaryHumid},
+			diary_dirt = #{diaryDirt},
+			diary_water = #{diaryWater},
+			diary_repot = #{diaryRepot},
+			diary_cmt = #{diaryCmt}
+		WHERE diary_date = #{diaryDate}
+	</update>
+	
+	<delete id="delete" parameterType='String'>
+ 		DELETE diary
+ 		WHERE diary_date = #{date}
+ 	</delete>
+ 
+ </mapper>
