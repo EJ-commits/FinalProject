@@ -23,7 +23,7 @@ import web.util.TransDate;
 @Controller
 @RequestMapping( value = "/diary")
 public class DiaryController {
-	//..
+
 	private static final Logger logger = LoggerFactory.getLogger(DiaryController.class);
 	
 	@Autowired private DiaryService diaryService;
