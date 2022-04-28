@@ -84,7 +84,7 @@ public class DiaryController {
 		
 		TransDate transDate = new TransDate();
 		
-		String newDate = transDate.toString(diary.getDiaryDate());
+		String newDate = transDate.toString(diary.getDdate());
 		
 		logger.info("{}", diary);
 		logger.info("{}", newDate);
@@ -107,7 +107,7 @@ public class DiaryController {
 		
 		TransDate transDate = new TransDate();
 		
-		String newDate = transDate.toString(diary.getDiaryDate());
+		String newDate = transDate.toString(diary.getDdate());
 		
 		logger.info("{}", diary);
 		logger.info("{}", newDate);
@@ -131,7 +131,7 @@ public class DiaryController {
 		
 		TransDate transDate = new TransDate();
 		
-		String newDate = transDate.toString(diary.getDiaryDate());
+		String newDate = transDate.toString(diary.getDdate());
 		
 		logger.info("{}", diary);
 		logger.info("{}", newDate);

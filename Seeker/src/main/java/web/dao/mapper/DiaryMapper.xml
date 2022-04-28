@@ -9,39 +9,39 @@
  	<resultMap type="web.dto.Diary" id="Diary">
  		<id column="diary_no" property="diaryNo"/>
  		<result column="myplant_no" property="myPlantNo"/>
- 		<result column="diary_temp" property="diaryTemp"/>
- 		<result column="diary_humid" property="diaryHumid"/>
- 		<result column="diary_dirt" property="diaryDirt"/>
- 		<result column="diary_water" property="diaryWater"/>
- 		<result column="diary_repot" property="diaryRepot"/>
- 		<result column="diary_cmt" property="diaryCmt"/>
- 		<result column="diary_date" property="diaryDate"/>
+ 		<result column="temp" property="temp"/>
+ 		<result column="humid" property="humid"/>
+ 		<result column="dirt" property="dirt"/>
+ 		<result column="water" property="water"/>
+ 		<result column="repot" property="repot"/>
+ 		<result column="cmt" property="cmt"/>
+ 		<result column="ddate" property="ddate"/>
  	</resultMap>
  	
  	<select id="select" resultMap="Diary" parameterType='String'>
  		SELECT * FROM diary
- 		WHERE diary_date = #{date}
+ 		WHERE ddate = #{ddate}
  	</select>
  	
  	<insert id="insert" parameterType="web.dto.Diary">
-		INSERT INTO diary ( diary_temp, diary_humid, diary_dirt, diary_water, diary_repot, diary_cmt, diary_date )
-		VALUES ( #{diaryTemp}, #{diaryHumid}, #{diaryDirt}, #{diaryWater}, #{diaryRepot}, #{diaryCmt}, #{diaryDate} )
+		INSERT INTO diary ( diary_no ,myplant_no, temp, humid, dirt, water, repot, cmt, ddate )
+		VALUES ( diary_seq.NEXTVAL, 20000000, #{temp}, #{humid}, #{dirt}, #{water}, #{repot}, #{cmt}, #{ddate} )
 	</insert>
 	
 	<update id="update" parameterType="web.dto.Diary">
 		UPDATE diary SET 
-			diary_temp = #{diaryTemp},
-			diary_humid = #{diaryHumid},
-			diary_dirt = #{diaryDirt},
-			diary_water = #{diaryWater},
-			diary_repot = #{diaryRepot},
-			diary_cmt = #{diaryCmt}
-		WHERE diary_date = #{diaryDate}
+			temp = #{temp},
+			humid = #{humid},
+			dirt = #{dirt},
+			water = #{water},
+			repot = #{repot},
+			cmt = #{cmt}
+		WHERE ddate = #{ddate}
 	</update>
 	
 	<delete id="delete" parameterType='String'>
  		DELETE diary
- 		WHERE diary_date = #{date}
+ 		WHERE ddate = #{ddate}
  	</delete>
  
  </mapper>

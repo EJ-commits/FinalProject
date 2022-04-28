@@ -98,13 +98,13 @@ window.onload = function() {
 			<div class="diary-box">
 				<div class="write-box">
 					<p class="text-danger">온도</p>
-					<input type="text" class="form-control" name="diaryTemp" value="${diary.diaryTemp}" disabled>
+					<input type="text" class="form-control" name="diaryTemp" value="${diary.temp}" disabled>
 				</div>
 				<div class="tip-box">
 				</div>
 				<div class="write-box">
 					<p class="text-primary">습도</p>
-					<input type="text" class="form-control" name="diaryHumid" value="${diary.diaryHumid}" disabled>
+					<input type="text" class="form-control" name="diaryHumid" value="${diary.humid}" disabled>
 				</div>
 				<div class="tip-box">
 				</div>
@@ -112,11 +112,11 @@ window.onload = function() {
 			<div class="diary-box">
 				<div class="write-box">
 					<p class="text-warning">흙</p>
-					<input type="text" class="form-control" name="diaryDirt" value="${diary.diaryDirt}" disabled>
+					<input type="text" class="form-control" name="diaryDirt" value="${diary.dirt}" disabled>
 					<div class="hidden-box" hidden="true">
 						<div class="btn-group" data-toggle="buttons">
 							<c:choose>
-								<c:when test="${diary.diaryDirt eq '과습'}">
+								<c:when test="${diary.dirt eq '과습'}">
   								<label class="btn btn-xs btn-info active">
    									<input type="radio" name="diaryDirt" value="과습" checked>과습
 	  							</label>
@@ -128,7 +128,7 @@ window.onload = function() {
 	  							</c:otherwise>
 	  						</c:choose>
 	  						<c:choose>
-								<c:when test="${diary.diaryDirt eq '보통'}">
+								<c:when test="${diary.dirt eq '보통'}">
 	  							<label class="btn btn-xs btn-success active">
 	   								<input type="radio" name="diaryDirt" value="보통" checked>보통
 	   							</label>
@@ -140,7 +140,7 @@ window.onload = function() {
 	   							</c:otherwise>
 	   						</c:choose>
 	   						<c:choose>
-								<c:when test="${diary.diaryDirt eq '건조'}">
+								<c:when test="${diary.dirt eq '건조'}">
 	  							<label class="btn btn-xs btn-warning active">
 	   								<input type="radio" name="diaryDirt" value="건조" checked>건조
 	 							 </label>
@@ -161,10 +161,10 @@ window.onload = function() {
 						<tr>
 							<td>물주기</td>
 							<td>
-							<c:if test="${diary.diaryWater eq '1'}">
+							<c:if test="${diary.water eq '1'}">
 							<span class="glyphicon glyphicon-ok"></span>
 							</c:if>
-							<c:if test="${diary.diaryWater eq '0'}">
+							<c:if test="${diary.water eq '0'}">
 							<span class="glyphicon glyphicon-remove"></span>
 							</c:if>
 							</td>
@@ -172,10 +172,10 @@ window.onload = function() {
 						<tr>
 							<td>분갈이</td>
 							<td>
-							<c:if test="${diary.diaryRepot eq '1'}">
+							<c:if test="${diary.repot eq '1'}">
 							<span class="glyphicon glyphicon-ok"></span>
 							</c:if>
-							<c:if test="${diary.diaryRepot eq '0'}">
+							<c:if test="${diary.repot eq '0'}">
 							<span class="glyphicon glyphicon-remove"></span>
 							</c:if>
 							</td>
@@ -186,10 +186,10 @@ window.onload = function() {
 						<tr>
 							<td>물주기</td>
 							<td>
-							<c:if test="${diary.diaryWater eq '1'}">
+							<c:if test="${diary.water eq '1'}">
 							<td><input type="checkbox" name="diaryWater" checked></td>
 							</c:if>
-							<c:if test="${diary.diaryWater eq '0'}">
+							<c:if test="${diary.water eq '0'}">
 							<td><input type="checkbox" name="diaryWater"></td>
 							</c:if>
 							</td>
@@ -197,10 +197,10 @@ window.onload = function() {
 						<tr>
 							<td>분갈이</td>
 							<td>
-							<c:if test="${diary.diaryRepot eq '1'}">
+							<c:if test="${diary.repot eq '1'}">
 							<td><input type="checkbox" name="diaryRepot" checked></td>
 							</c:if>
-							<c:if test="${diary.diaryRepot eq '0'}">
+							<c:if test="${diary.repot eq '0'}">
 							<td><input type="checkbox" name="diaryRepot"></td>
 							</c:if>
 							</td>
@@ -214,7 +214,7 @@ window.onload = function() {
 			<div id="content-con">
 				<div id="content-box">
 					<div class="title-box">일기 쓰기&nbsp;<span class="glyphicon glyphicon-menu-down"></span></div>
-					<textarea class="form-control" rows="4" name="diaryCmt" disabled>${diary.diaryCmt}</textarea>
+					<textarea class="form-control" rows="4" name="diaryCmt" disabled>${diary.cmt}</textarea>
 				</div>
 				<div id="upload-box">
 					<div class="title-box">
@@ -228,7 +228,7 @@ window.onload = function() {
 						<div id="upload-name">
 						</div>
 						<div id="submit-box">
-							<input type="text" name="diaryDate" id="diary-date" value="${diary.diaryDate}" hidden="true">
+							<input type="text" name="diaryDate" id="diary-date" value="${diary.ddate}" hidden="true">
 							<button type="button" class="btn btn-success btn-sm" id="alter-button">수정 하기</button>
 							<button type="button" class="btn btn-warning btn-sm" id="drop-button">삭제 하기</button>
 							<div class="hidden-box" hidden="true">

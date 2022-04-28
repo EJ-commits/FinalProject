@@ -44,29 +44,29 @@ public class DiaryServiceImpl implements DiaryService {
 	@Override
 	public void write(Diary diary) {
 		
-		if(diary.getDiaryDirt() == null) {
+		if(diary.getDirt() == null) {
 			
-			diary.setDiaryDirt("");
-			
-		}
-		
-		if(diary.getDiaryWater() != null) {
-			
-			diary.setDiaryWater("1");
-			
-		} else {
-			
-			diary.setDiaryWater("0");
+			diary.setDirt("");
 			
 		}
 		
-		if(diary.getDiaryRepot() != null) {
+		if(diary.getWater() != null) {
 			
-			diary.setDiaryRepot("1");
+			diary.setWater("1");
 			
 		} else {
 			
-			diary.setDiaryRepot("0");
+			diary.setWater("0");
+			
+		}
+		
+		if(diary.getRepot() != null) {
+			
+			diary.setRepot("1");
+			
+		} else {
+			
+			diary.setRepot("0");
 			
 		}
 		
@@ -77,29 +77,29 @@ public class DiaryServiceImpl implements DiaryService {
 	@Override
 	public void alter(Diary diary) {
 		
-		if(diary.getDiaryDirt() == null) {
+		if(diary.getDirt() == null) {
 			
-			diary.setDiaryDirt("");
+			diary.setDirt("");
 		}
 		
 		
-		if(diary.getDiaryWater() != null) {
+		if(diary.getWater() != null) {
 			
-			diary.setDiaryWater("1");
+			diary.setWater("1");
 			
 		} else {
 			
-			diary.setDiaryWater("0");
+			diary.setWater("0");
 			
 		}
 		
-		if(diary.getDiaryRepot() != null) {
+		if(diary.getRepot() != null) {
 			
-			diary.setDiaryRepot("1");
+			diary.setRepot("1");
 			
 		} else {
 			
-			diary.setDiaryRepot("0");
+			diary.setRepot("0");
 			
 		}
 		

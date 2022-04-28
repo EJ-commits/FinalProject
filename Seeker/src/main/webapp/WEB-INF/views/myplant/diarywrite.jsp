@@ -59,13 +59,13 @@ window.onload = function() {
 			<div class="diary-box">
 				<div class="write-box">
 					<p>온도</p>
-					<input type="text" class="form-control" name="diaryTemp">
+					<input type="text" class="form-control" name="temp">
 				</div>
 				<div class="tip-box">
 				</div>
 				<div class="write-box">
 					<p>습도</p>
-					<input type="text" class="form-control" name="diaryHumid">
+					<input type="text" class="form-control" name="humid">
 				</div>
 				<div class="tip-box">
 				</div>
@@ -75,13 +75,13 @@ window.onload = function() {
 					<p>흙</p>
 					<div class="btn-group" data-toggle="buttons">
   						<label class="btn btn-xs btn-info">
-   							 <input type="radio" name="diaryDirt" value="과습">과습
+   							 <input type="radio" name="dirt" value="과습">과습
   						</label>
   						<label class="btn btn-xs btn-success">
-   							 <input type="radio" name="diaryDirt" value="보통">보통
+   							 <input type="radio" name="dirt" value="보통">보통
   						</label>
   						<label class="btn btn-xs btn-warning">
-   							 <input type="radio" name="diaryDirt" value="건조">건조
+   							 <input type="radio" name="dirt" value="건조">건조
  						 </label>
 					</div>
 				</div>
@@ -91,11 +91,11 @@ window.onload = function() {
 					<table class="table" id="check-table">
 						<tr>
 							<td>물주기</td>
-							<td><input type="checkbox" name="diaryWater"></td>
+							<td><input type="checkbox" name="water"></td>
 						</tr>
 						<tr>
 							<td>분갈이</td>
-							<td><input type="checkbox" name="diaryRepot"></td>
+							<td><input type="checkbox" name="repot"></td>
 						</tr>
 					</table>
 				</div>
@@ -106,7 +106,7 @@ window.onload = function() {
 				<div id="content-box">
 					<div class="title-box">일기 쓰기&nbsp;<span class="glyphicon glyphicon-menu-down"></span></div>
 					<div id="text-box">
-						<textarea class="form-control" rows="4" name="diaryCmt"></textarea>
+						<textarea class="form-control" rows="4" name="cmt"></textarea>
 					</div>
 				</div>
 				<div id="upload-box">
@@ -121,6 +121,7 @@ window.onload = function() {
 						<div id="upload-name">
 						</div>
 						<div id="submit-box">
+							<input type="text" name="ddate" value="${date}" hidden="true">
 							<button type="submit" class="btn btn-success btn-sm" id="write-button">작성 완료</button>
 						</div>
 					</div>
