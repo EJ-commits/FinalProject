@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="web.dao.face.ChatDao">
+	
+	<insert id="saveMsg" parameterType="web.dto.ChatDto">
+		insert into chatlog (isstart, isend , userid, chat_log)
+		values (#{isStart},#{isEnd}, #{userid}, #{chatLog})
+	</insert>
+	
+	
+</mapper>
