@@ -20,14 +20,10 @@ public class FileUpload {
 		File storedFolder = new File( storedPath );
 		
 		if( !storedFolder.exists() ) {
-			
 			storedFolder.mkdir();
-			
 		}
 		
 		String storedName =  UUID.randomUUID().toString().split("-")[4]; 
-		
-		System.out.println(storedPath);
 		
 		File dest = new File(storedFolder, storedName);
 		

@@ -25,8 +25,22 @@ window.onload = function() {
 		img.style.width = '130px';
 		img.style.height = '130px';
 		
+		while (pbox.firstChild) {
+			pbox.removeChild( pbox.firstChild);
+		}
+		
 		pbox.appendChild(img);
-		nbox.textContent = name;
+		nbox.innerHTML = name + '&nbsp;<span class="glyphicon glyphicon-remove-circle" id="remove"></span>';
+		
+		const remove = document.getElementById('remove');
+		
+		remove.onclick = function() {
+			
+			upload.value = '';
+			pbox.removeChild( pbox.firstChild);
+			nbox.textContent = '';
+			
+		}
 		
 	}
 	
@@ -35,7 +49,7 @@ window.onload = function() {
 </script>
 
 <div id="wrap-box-top">
-	<div><a href="/diary/calender"><span class="glyphicon glyphicon-arrow-left"></span>&nbsp;일기 달력</a></div>
+	<div><a href="/diary/calendar"><span class="glyphicon glyphicon-arrow-left"></span>&nbsp;일기 달력</a></div>
 	<div id="title-box">일기 쓰기</div>
 	<div></div>
 </div>
@@ -111,7 +125,7 @@ window.onload = function() {
 						<label for="upload-file">
 							사진 첨부&nbsp;<span class="glyphicon glyphicon-picture"></span>
 						</label>
-							<input type="file" accept="image" id="upload-file" name="file">
+							<input type="file" accept="image/gif, image/jpeg, image/png" id="upload-file" name="file">
 					</div>
 					<div id="upload-photo-box"></div>
 					<div>

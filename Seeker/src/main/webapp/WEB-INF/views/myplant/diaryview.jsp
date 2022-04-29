@@ -53,13 +53,21 @@ window.onload = function() {
 		img.style.height = '130px';
 		
 		while (pbox.firstChild) {
-			
 			pbox.removeChild( pbox.firstChild);
-			
 		}
 
 		pbox.appendChild(img);
-		nbox.textContent = name;
+		nbox.innerHTML = name + '&nbsp;<span class="glyphicon glyphicon-remove-circle" id="remove"></span>';
+		
+		const remove = document.getElementById('remove');
+		
+		remove.onclick = function() {
+			
+			upload.value = '';
+			pbox.removeChild( pbox.firstChild);
+			nbox.textContent = '';
+			
+		}
 		
 	}
 	
@@ -74,7 +82,7 @@ window.onload = function() {
 </script>
 
 <div id="wrap-box-top">
-	<div><a href="/diary/calender"><span class="glyphicon glyphicon-arrow-left"></span>&nbsp;일기 달력</a></div>
+	<div><a href="/diary/calendar"><span class="glyphicon glyphicon-arrow-left"></span>&nbsp;일기 달력</a></div>
 	<div id="title-box">일기 보기</div>
 	<div></div>
 </div>

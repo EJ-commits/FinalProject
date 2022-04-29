@@ -31,12 +31,12 @@ public class DiaryController {
 	@Autowired private DiaryService diaryService;
 	@Autowired private PlantService plantService;
 	
-	@RequestMapping(value = "/calender", method = RequestMethod.GET)
-	public String calender() {
+	@RequestMapping(value = "/calendar", method = RequestMethod.GET)
+	public String calendar() {
 		
-		logger.info("diary/calender [GET]");
+		logger.info("diary/calendar [GET]");
 		
-		return "/myplant/calender";
+		return "/myplant/calendar";
 		
 	}
 	
@@ -148,7 +148,7 @@ public class DiaryController {
 		
 		diaryService.drop(date);
 		
-		return "redirect:/diary/calender";
+		return "redirect:/diary/calendar";
 		
 	}
 

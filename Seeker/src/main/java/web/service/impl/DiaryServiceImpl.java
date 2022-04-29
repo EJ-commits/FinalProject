@@ -88,7 +88,6 @@ public class DiaryServiceImpl implements DiaryService {
 			diary.setDirt("");
 		}
 		
-		
 		if(diary.getWater() != null) {
 			diary.setWater("1");
 		} else {

@@ -21,9 +21,7 @@ public class TransDate {
 			date = afterFormat.format(tempDate);
 			
 		} catch (ParseException e) {
-			
 			e.printStackTrace();
-			
 		}
 		
 		
@@ -42,9 +40,7 @@ public class TransDate {
 			tempDate = format.parse(str);
 			
 		} catch (ParseException e) {
-			
 			e.printStackTrace();
-			
 		}
 		
 		return tempDate;
