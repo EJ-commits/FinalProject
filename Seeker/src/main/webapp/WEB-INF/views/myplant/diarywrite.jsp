@@ -55,7 +55,7 @@ window.onload = function() {
 		<div id="date-box">
 			<span>${newDate}</span>
 		</div>
-		<form action="/diary/write" method="post">
+		<form action="/diary/write" method="post" enctype="multipart/form-data">
 			<div class="diary-box">
 				<div class="write-box">
 					<p>온도</p>
@@ -76,9 +76,6 @@ window.onload = function() {
 					<div class="btn-group" data-toggle="buttons">
   						<label class="btn btn-xs btn-info">
    							 <input type="radio" name="dirt" value="과습">과습
-  						</label>
-  						<label class="btn btn-xs btn-success">
-   							 <input type="radio" name="dirt" value="보통">보통
   						</label>
   						<label class="btn btn-xs btn-warning">
    							 <input type="radio" name="dirt" value="건조">건조
@@ -114,7 +111,7 @@ window.onload = function() {
 						<label for="upload-file">
 							사진 첨부&nbsp;<span class="glyphicon glyphicon-picture"></span>
 						</label>
-							<input type="file" accept="image" id="upload-file">
+							<input type="file" accept="image" id="upload-file" name="file">
 					</div>
 					<div id="upload-photo-box"></div>
 					<div>

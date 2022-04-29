@@ -218,9 +218,9 @@ window.onload = function() {
 					
 							let html = " ";
 							
-							if( result[i].diaryTemp != null) {
+							if( result[i].temp != null) {
 							
-							html += "<tr><td>온도 : " + result[i].diaryTemp + "&#x2103;</td></tr>";
+							html += "<tr><td>온도 : " + result[i].temp + "&#x2103;</td></tr>";
 							
 							} else {
 							
@@ -228,9 +228,9 @@ window.onload = function() {
 							
 							}
 							
-							if( result[i].diaryHumid != null)	{
+							if( result[i].humid != null)	{
 							
-							html += "<tr><td>습도 : " + result[i].diaryHumid + "%</td></tr>";
+							html += "<tr><td>습도 : " + result[i].humid + "%</td></tr>";
 							
 							} else {
 							
@@ -238,9 +238,9 @@ window.onload = function() {
 							
 							}
 							
-							if( result[i].diaryDirt != null)	{
+							if( result[i].dirt != null)	{
 							
-							html += "<tr><td>흙 : " + result[i].diaryDirt + "</td></tr>";
+							html += "<tr><td>흙 : " + result[i].dirt + "</td></tr>";
 							
 							} else {
 							
@@ -248,7 +248,7 @@ window.onload = function() {
 							
 							}
 						
-							if( result[i].diaryWater == '1' ) {
+							if( result[i].water == '1' ) {
 						
 								html += "<tr><td>물주기 : <span class='glyphicon glyphicon-ok'></span></td></tr>";
 							
@@ -258,7 +258,7 @@ window.onload = function() {
 						
 							}
 						
-							if( result[i].diaryRepot ==='1' ) {
+							if( result[i].repot ==='1' ) {
 						
 								html += "<tr><td>분갈이 : <span class='glyphicon glyphicon-ok'></span></td></tr>";
 							

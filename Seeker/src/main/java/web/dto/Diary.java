@@ -11,12 +11,14 @@ public class Diary {
 	private String repot;
 	private String cmt;
 	private String ddate;
+	private String origin;
+	private String stored;
 	
 	@Override
 	public String toString() {
 		return "Diary [diaryNo=" + diaryNo + ", myPlantNo=" + myPlantNo + ", temp=" + temp + ", humid=" + humid
 				+ ", dirt=" + dirt + ", water=" + water + ", repot=" + repot + ", cmt=" + cmt + ", ddate=" + ddate
-				+ "]";
+				+ ", origin=" + origin + ", stored=" + stored + "]";
 	}
 
 	public int getDiaryNo() {
@@ -89,6 +91,22 @@ public class Diary {
 
 	public void setDdate(String ddate) {
 		this.ddate = ddate;
+	}
+
+	public String getOrigin() {
+		return origin;
+	}
+
+	public void setOrigin(String origin) {
+		this.origin = origin;
+	}
+
+	public String getStored() {
+		return stored;
+	}
+
+	public void setStored(String stored) {
+		this.stored = stored;
 	}
 	
 }

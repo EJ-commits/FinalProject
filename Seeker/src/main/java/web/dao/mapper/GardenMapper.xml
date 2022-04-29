@@ -6,7 +6,7 @@
     
 <mapper namespace="Seeker.dao.face.GardenDao">
 	
-	<select id="selectByGardenName" parameterType="finalproject.dto.Garden" resultType="int">
+	<select id="selectByGardenName" parameterType="web.dto.Garden" resultType="int">
 		SELECT garden_no FROM garden
 		WHERE garden_name=#{gardenName}
 	</select>
