@@ -11,4 +11,5 @@ public interface DiaryDao {
 	public void update(Diary diary);
 
 	public void delete(String date);
+	
 }

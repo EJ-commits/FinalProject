@@ -3,17 +3,22 @@ package web.service.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.ServletContext;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import web.dao.face.DiaryDao;
 import web.dto.Diary;
 import web.service.face.DiaryService;
+import web.util.FileUpload;
 
 @Service
 public class DiaryServiceImpl implements DiaryService {
 	
 	@Autowired DiaryDao diaryDao;
+	@Autowired ServletContext context;
 
 	@Override
 	public List<Diary> list(String week) {
@@ -42,32 +47,34 @@ public class DiaryServiceImpl implements DiaryService {
 	}
 
 	@Override
-	public void write(Diary diary) {
+	public void write(Diary diary, MultipartFile file) {
 		
-		if(diary.getDiaryDirt() == null) {
-			
-			diary.setDiaryDirt("");
+		if(diary.getDirt() == null) {
+			diary.setDirt("");
+		}
+		
+		if(diary.getWater() != null) {
+			diary.setWater("1");
+		} else {
+			diary.setWater("0");
+		}
+		
+		if(diary.getRepot() != null) {
+			diary.setRepot("1");
+		} else {
+			diary.setRepot("0");
 			
 		}
 		
-		if(diary.getDiaryWater() != null) {
-			
-			diary.setDiaryWater("1");
-			
-		} else {
-			
-			diary.setDiaryWater("0");
-			
-		}
+		FileUpload fileUpload = new FileUpload();
 		
-		if(diary.getDiaryRepot() != null) {
-			
-			diary.setDiaryRepot("1");
-			
-		} else {
-			
-			diary.setDiaryRepot("0");
-			
+		String stored = fileUpload.on(file, context);
+		
+		if(stored != null) {
+		
+		diary.setOrigin(file.getOriginalFilename());
+		diary.setStored(stored);
+		
 		}
 		
 		diaryDao.insert(diary);
@@ -75,32 +82,33 @@ public class DiaryServiceImpl implements DiaryService {
 	}
 	
 	@Override
-	public void alter(Diary diary) {
+	public void alter(Diary diary, MultipartFile file) {
 		
-		if(diary.getDiaryDirt() == null) {
-			
-			diary.setDiaryDirt("");
+		if(diary.getDirt() == null) {
+			diary.setDirt("");
 		}
 		
-		
-		if(diary.getDiaryWater() != null) {
-			
-			diary.setDiaryWater("1");
-			
+		if(diary.getWater() != null) {
+			diary.setWater("1");
 		} else {
-			
-			diary.setDiaryWater("0");
-			
+			diary.setWater("0");
 		}
 		
-		if(diary.getDiaryRepot() != null) {
-			
-			diary.setDiaryRepot("1");
-			
+		if(diary.getRepot() != null) {
+			diary.setRepot("1");
 		} else {
-			
-			diary.setDiaryRepot("0");
-			
+			diary.setRepot("0");
+		}
+		
+		FileUpload fileUpload = new FileUpload();
+		
+		String stored = fileUpload.on(file, context);
+		
+		if(stored != null) {
+		
+		diary.setOrigin(file.getOriginalFilename());
+		diary.setStored(stored);
+		
 		}
 		
 		diaryDao.update(diary);

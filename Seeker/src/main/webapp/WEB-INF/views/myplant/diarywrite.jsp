@@ -25,8 +25,22 @@ window.onload = function() {
 		img.style.width = '130px';
 		img.style.height = '130px';
 		
+		while (pbox.firstChild) {
+			pbox.removeChild( pbox.firstChild);
+		}
+		
 		pbox.appendChild(img);
-		nbox.textContent = name;
+		nbox.innerHTML = name + '&nbsp;<span class="glyphicon glyphicon-remove-circle" id="remove"></span>';
+		
+		const remove = document.getElementById('remove');
+		
+		remove.onclick = function() {
+			
+			upload.value = '';
+			pbox.removeChild( pbox.firstChild);
+			nbox.textContent = '';
+			
+		}
 		
 	}
 	
@@ -35,7 +49,7 @@ window.onload = function() {
 </script>
 
 <div id="wrap-box-top">
-	<div><a href="/diary/calender"><span class="glyphicon glyphicon-arrow-left"></span>&nbsp;일기 달력</a></div>
+	<div><a href="/diary/calendar"><span class="glyphicon glyphicon-arrow-left"></span>&nbsp;일기 달력</a></div>
 	<div id="title-box">일기 쓰기</div>
 	<div></div>
 </div>
@@ -55,17 +69,17 @@ window.onload = function() {
 		<div id="date-box">
 			<span>${newDate}</span>
 		</div>
-		<form action="/diary/write" method="post">
+		<form action="/diary/write" method="post" enctype="multipart/form-data">
 			<div class="diary-box">
 				<div class="write-box">
 					<p>온도</p>
-					<input type="text" class="form-control" name="diaryTemp">
+					<input type="text" class="form-control" name="temp">
 				</div>
 				<div class="tip-box">
 				</div>
 				<div class="write-box">
 					<p>습도</p>
-					<input type="text" class="form-control" name="diaryHumid">
+					<input type="text" class="form-control" name="humid">
 				</div>
 				<div class="tip-box">
 				</div>
@@ -75,13 +89,10 @@ window.onload = function() {
 					<p>흙</p>
 					<div class="btn-group" data-toggle="buttons">
   						<label class="btn btn-xs btn-info">
-   							 <input type="radio" name="diaryDirt" value="과습">과습
-  						</label>
-  						<label class="btn btn-xs btn-success">
-   							 <input type="radio" name="diaryDirt" value="보통">보통
+   							 <input type="radio" name="dirt" value="과습">과습
   						</label>
   						<label class="btn btn-xs btn-warning">
-   							 <input type="radio" name="diaryDirt" value="건조">건조
+   							 <input type="radio" name="dirt" value="건조">건조
  						 </label>
 					</div>
 				</div>
@@ -91,11 +102,11 @@ window.onload = function() {
 					<table class="table" id="check-table">
 						<tr>
 							<td>물주기</td>
-							<td><input type="checkbox" name="diaryWater"></td>
+							<td><input type="checkbox" name="water"></td>
 						</tr>
 						<tr>
 							<td>분갈이</td>
-							<td><input type="checkbox" name="diaryRepot"></td>
+							<td><input type="checkbox" name="repot"></td>
 						</tr>
 					</table>
 				</div>
@@ -106,7 +117,7 @@ window.onload = function() {
 				<div id="content-box">
 					<div class="title-box">일기 쓰기&nbsp;<span class="glyphicon glyphicon-menu-down"></span></div>
 					<div id="text-box">
-						<textarea class="form-control" rows="4" name="diaryCmt"></textarea>
+						<textarea class="form-control" rows="4" name="cmt"></textarea>
 					</div>
 				</div>
 				<div id="upload-box">
@@ -114,13 +125,14 @@ window.onload = function() {
 						<label for="upload-file">
 							사진 첨부&nbsp;<span class="glyphicon glyphicon-picture"></span>
 						</label>
-							<input type="file" accept="image" id="upload-file">
+							<input type="file" accept="image/gif, image/jpeg, image/png" id="upload-file" name="file">
 					</div>
 					<div id="upload-photo-box"></div>
 					<div>
 						<div id="upload-name">
 						</div>
 						<div id="submit-box">
+							<input type="text" name="ddate" value="${date}" hidden="true">
 							<button type="submit" class="btn btn-success btn-sm" id="write-button">작성 완료</button>
 						</div>
 					</div>

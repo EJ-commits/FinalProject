@@ -1,6 +1,7 @@
 package web.controller;
 
 import java.io.IOException;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -23,18 +25,19 @@ import web.util.TransDate;
 @Controller
 @RequestMapping( value = "/diary")
 public class DiaryController {
-	//..
+
 	private static final Logger logger = LoggerFactory.getLogger(DiaryController.class);
 	
 	@Autowired private DiaryService diaryService;
 	@Autowired private PlantService plantService;
 	
-	@RequestMapping(value = "/calender", method = RequestMethod.GET)
-	public String calender() {
+	@RequestMapping(value = "/calendar", method = RequestMethod.GET)
+	public String calendar() {
 		
-		logger.info("diary/calender [GET]");
+		logger.info("diary/calendar [GET]");
 		
-		return "/myplant/calender";
+		return "/myplant/calendar";
+		
 	}
 	
 	@RequestMapping(value = "/list", method = RequestMethod.GET, produces = "application/text; charset=utf8")
@@ -60,13 +63,11 @@ public class DiaryController {
 	public String getWrite(String date, Model model) {
 		
 		logger.info("diary/write [GET]");
+		logger.info("{}", date);
 		
 		TransDate transDate = new TransDate();
 		
 		String newDate = transDate.toString(date);
-		
-		logger.info("{}", date);
-		logger.info("{}", newDate);
 		
 		model.addAttribute("date", date);
 		model.addAttribute("newDate", newDate);
@@ -76,18 +77,16 @@ public class DiaryController {
 	}
 	
 	@RequestMapping(value = "/write", method = RequestMethod.POST)
-	public String write(Diary diary, Model model) {
+	public String write(Diary diary, MultipartFile file, Model model) {
 		
 		logger.info("diary/write [POST]");
+		logger.info("{}", diary);
 		
-		diaryService.write(diary);
+		diaryService.write(diary, file);
 		
 		TransDate transDate = new TransDate();
 		
-		String newDate = transDate.toString(diary.getDiaryDate());
-		
-		logger.info("{}", diary);
-		logger.info("{}", newDate);
+		String newDate = transDate.toString(diary.getDdate());
 		
 		model.addAttribute(diary);
 		model.addAttribute("newDate", newDate);
@@ -99,7 +98,8 @@ public class DiaryController {
 	@RequestMapping(value = "/view", method = RequestMethod.GET)
 	public String getView(String date, Model model) throws IOException {
 		
-		logger.info("/diary/detail");
+		logger.info("/diary/view [GET]");
+		logger.info("{}", date);
 		
 		Diary diary = diaryService.diary(date);
 		
@@ -107,10 +107,9 @@ public class DiaryController {
 		
 		TransDate transDate = new TransDate();
 		
-		String newDate = transDate.toString(diary.getDiaryDate());
+		String newDate = transDate.toString(diary.getDdate());
 		
 		logger.info("{}", diary);
-		logger.info("{}", newDate);
 		logger.info("{}", plant);
 
 		model.addAttribute(diary);
@@ -122,19 +121,16 @@ public class DiaryController {
 	}
 	
 	@RequestMapping(value = "/alter", method = RequestMethod.POST)
-	public String alter(Diary diary, Model model) {
+	public String alter(Diary diary, MultipartFile file, Model model) {
 		
-		logger.info("diary/write [POST]");
-		logger.info("request : {}", diary);
-		
-		diaryService.alter(diary);
+		logger.info("diary/alter [POST]");
+		logger.info("{}", diary);
+
+		diaryService.alter(diary, file);
 		
 		TransDate transDate = new TransDate();
 		
-		String newDate = transDate.toString(diary.getDiaryDate());
-		
-		logger.info("{}", diary);
-		logger.info("{}", newDate);
+		String newDate = transDate.toString(diary.getDdate());
 		
 		model.addAttribute(diary);
 		model.addAttribute("newDate", newDate);
@@ -152,7 +148,7 @@ public class DiaryController {
 		
 		diaryService.drop(date);
 		
-		return "redirect:/diary/calender";
+		return "redirect:/diary/calendar";
 		
 	}
 

@@ -4,19 +4,21 @@ public class Diary {
 	
 	private int diaryNo;
 	private int myPlantNo;
-	private String diaryTemp;
-	private String diaryHumid;
-	private String diaryDirt;
-	private String diaryWater;
-	private String diaryRepot;
-	private String diaryCmt;
-	private String diaryDate;
+	private String temp;
+	private String humid;
+	private String dirt;
+	private String water;
+	private String repot;
+	private String cmt;
+	private String ddate;
+	private String origin;
+	private String stored;
 	
 	@Override
 	public String toString() {
-		return "Diary [diaryNo=" + diaryNo + ", myPlantNo=" + myPlantNo + ", diaryTemp=" + diaryTemp + ", diaryHumid="
-				+ diaryHumid + ", diaryDirt=" + diaryDirt + ", diaryWater=" + diaryWater + ", diaryRepot=" + diaryRepot
-				+ ", diaryCmt=" + diaryCmt + ", diaryDate=" + diaryDate + "]";
+		return "Diary [diaryNo=" + diaryNo + ", myPlantNo=" + myPlantNo + ", temp=" + temp + ", humid=" + humid
+				+ ", dirt=" + dirt + ", water=" + water + ", repot=" + repot + ", cmt=" + cmt + ", ddate=" + ddate
+				+ ", origin=" + origin + ", stored=" + stored + "]";
 	}
 
 	public int getDiaryNo() {
@@ -35,60 +37,76 @@ public class Diary {
 		this.myPlantNo = myPlantNo;
 	}
 
-	public String getDiaryTemp() {
-		return diaryTemp;
+	public String getTemp() {
+		return temp;
 	}
 
-	public void setDiaryTemp(String diaryTemp) {
-		this.diaryTemp = diaryTemp;
+	public void setTemp(String temp) {
+		this.temp = temp;
 	}
 
-	public String getDiaryHumid() {
-		return diaryHumid;
+	public String getHumid() {
+		return humid;
 	}
 
-	public void setDiaryHumid(String diaryHumid) {
-		this.diaryHumid = diaryHumid;
+	public void setHumid(String humid) {
+		this.humid = humid;
 	}
 
-	public String getDiaryDirt() {
-		return diaryDirt;
+	public String getDirt() {
+		return dirt;
 	}
 
-	public void setDiaryDirt(String diaryDirt) {
-		this.diaryDirt = diaryDirt;
+	public void setDirt(String dirt) {
+		this.dirt = dirt;
 	}
 
-	public String getDiaryWater() {
-		return diaryWater;
+	public String getWater() {
+		return water;
 	}
 
-	public void setDiaryWater(String diaryWater) {
-		this.diaryWater = diaryWater;
+	public void setWater(String water) {
+		this.water = water;
 	}
 
-	public String getDiaryRepot() {
-		return diaryRepot;
+	public String getRepot() {
+		return repot;
 	}
 
-	public void setDiaryRepot(String diaryRepot) {
-		this.diaryRepot = diaryRepot;
+	public void setRepot(String repot) {
+		this.repot = repot;
 	}
 
-	public String getDiaryCmt() {
-		return diaryCmt;
+	public String getCmt() {
+		return cmt;
 	}
 
-	public void setDiaryCmt(String diaryCmt) {
-		this.diaryCmt = diaryCmt;
+	public void setCmt(String cmt) {
+		this.cmt = cmt;
 	}
 
-	public String getDiaryDate() {
-		return diaryDate;
+	public String getDdate() {
+		return ddate;
 	}
 
-	public void setDiaryDate(String diaryDate) {
-		this.diaryDate = diaryDate;
+	public void setDdate(String ddate) {
+		this.ddate = ddate;
 	}
 
+	public String getOrigin() {
+		return origin;
+	}
+
+	public void setOrigin(String origin) {
+		this.origin = origin;
+	}
+
+	public String getStored() {
+		return stored;
+	}
+
+	public void setStored(String stored) {
+		this.stored = stored;
+	}
+	
 }

@@ -4,7 +4,7 @@
 
 <c:import url="/WEB-INF/views/layout/header.jsp" />
 
-<script type="text/javascript" src="/resources/js/calender.js"></script>
+<script type="text/javascript" src="/resources/js/calendar.js"></script>
 
 <style type="text/css">
 #cal-header {
