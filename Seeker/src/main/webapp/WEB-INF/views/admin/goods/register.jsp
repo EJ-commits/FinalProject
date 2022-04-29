@@ -5,6 +5,40 @@
     
 <c:import url ="../../layout/header.jsp" ></c:import>
 
+<!-- <!-- 스마트 에디터 2 로드 -->
+<script type="text/javascript" src="/resources/se2/js/service/HuskyEZCreator.js"></script>
+
+<script type="text/javascript">
+function submitContents(elClickedObj) {
+	oEditors.getById["content"].exec("UPDATE_CONTENTS_FIELD", [])
+	
+	try {
+		elClickedObj.form.submit();
+	} catch(e) {}
+}
+</script> -->
+
+
+<script type="text/javascript">
+$(document).ready(function() {
+	
+	 //작성버튼 동작
+	$("#btnWrite").click(function() {
+		
+		//submit전에 스마트에디터에 작성된 내용을 <textarea>로 반영한다
+		/* submitContents( $("#btnWrite") );  */
+		
+		$("form").submit();
+	}); 
+	
+	//취소버튼 동작
+	$("#btnCancel").click(function() {
+		history.go(-1);
+	});
+	
+});
+</script>
+
 <style>
  body { font-family:'맑은 고딕', verdana; padding:0; margin:0; }
  ul { padding:0; margin:0; list-style:none;  }
@@ -36,6 +70,8 @@
  input { width:150px; }
  textarea#gdsDes { width:400px; height:180px; }
  
+ .select_img img {margin: 20px 0;}
+ 
 </style>
 
 
@@ -48,7 +84,7 @@
 	<div id="container_box">
 		<h2>상품 등록</h2>
 		
-		<form role="form" method="post" autocomplete="off">
+		<form role="form" method="post" enctype="multipart/form-data">
  
  			<div class="inputArea"> 
  				<label>1차 분류</label>
@@ -81,9 +117,32 @@
  				<label for="gdsDes">상품소개</label>
  				<textarea rows="5" cols="50" id="gdsDes" name="gdsDes"></textarea>
 			</div>
+			
+			<div class="inputArea">
+ 				<label for="ImgOriginName">이미지</label>
+				 <input type="file" id="ImgOriginName" name="file" />
+ 			<div class="select_img"><img src="" /></div>
+ 
+ 			<script>
+ 			//어떤 이미지인지 미리보기
+  			$("#ImgOriginName").change(function(){
+  				
+  				//앞에께 true인 경우, 뒤에꺼 반환 // 앞에께 false인 경우, 앞에꺼 반환 
+   				if(this.files && this.files[0]) {
+    				var reader = new FileReader;
+    				reader.onload = function(data) {
+     					$(".select_img img").attr("src", data.target.result).width(500);        
+    				}
+    			reader.readAsDataURL(this.files[0]);
+   				}
+  			});
+ 			</script>
+ 			
+			</div>
 
 			<div class="inputArea">
- 				<button type="submit" id="register_Btn" class="btn btn-primary">등록</button>
+ 				<button type="button" id="btnWrite" class="btn btn-info">등록</button>
+				<button type="button" id="btnCancel" class="btn btn-danger">취소</button>
 			</div>
  
 		</form>
@@ -170,4 +229,15 @@ $(document).on("change", "select.category1", function(){
 
 
 </script> 
+
+
+<!-- <script type="text/javascript">
+var oEditors = [];
+nhn.husky.EZCreator.createInIFrame({
+	oAppRef: oEditors
+	, elPlaceHolder: "content"
+	, sSkinURI: "/resources/se2/SmartEditor2Skin.html"
+	, fCreator: "createSEditor2"
+})
+</script> -->
 <c:import url ="../../layout/footer.jsp" ></c:import>

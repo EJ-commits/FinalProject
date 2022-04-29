@@ -2,6 +2,8 @@ package web.service.face;
 
 import java.util.List;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import web.dto.Category;
 import web.dto.Goods;
 import web.dto.GoodsView;
@@ -19,8 +21,9 @@ public interface AdminService {
 	 * 상품 등록
 	 * 
 	 * @param goods - 등록할 상품 DTO
+	 * @param file - 등록할 상품 썸네일이미지
 	 */
-	public void register(Goods goods);
+	public void register(Goods goods, MultipartFile file);
 	
 	/**
 	 * 상품 목록 조회
