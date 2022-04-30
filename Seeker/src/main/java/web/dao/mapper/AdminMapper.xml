@@ -47,6 +47,8 @@
          gdsPrice = #{gdsPrice},
          gdsStock = #{gdsStock},
          gdsDes = #{gdsDes}
+         ImgOriginName = #{ImgOriginName}
+         ImgStoredName = #{ImgStoredName}
      	WHERE gdsNum = ${gdsNum}
 	</update>
 	

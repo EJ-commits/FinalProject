@@ -5,6 +5,51 @@
     
 <c:import url ="../../layout/header.jsp" ></c:import>
 
+<!-- 스마트 에디터 2 로드 -->
+<script type="text/javascript" src="/resources/se2/js/service/HuskyEZCreator.js"></script>
+
+<script type="text/javascript">
+function submitContents(elClickedObj) {
+	oEditors.getById["gdsDes"].exec("UPDATE_CONTENTS_FIELD", [])
+	
+	try {
+		elClickedObj.form.submit();
+	} catch(e) {}
+}
+</script> 
+
+
+<script type="text/javascript">
+$(document).ready(function() {
+	
+	//수정버튼 동작
+	$("#btnUpdate").click(function() {
+		
+		//스마트 에디터의 내용을 <textarea>에 적용하는 함수를 호출한다
+		submitContents( $("#btnUpdate") )
+		
+		$("form").submit();
+	});
+	
+	//취소버튼 동작
+	$("#btnCancel").click(function() {
+		history.go(-1);
+	});
+	
+	/* if( ${empty goods} ) {
+		$("#newFile").show()
+	} else {
+		$("#originFile").show()
+	}
+	
+	$("#deleteFile").click(function() {
+		$("#originFile").toggleClass("through")
+		$("#newFile").toggle();
+	}) */
+	
+});
+</script>
+
 <style>
  body { font-family:'맑은 고딕', verdana; padding:0; margin:0; }
  ul { padding:0; margin:0; list-style:none;  }
@@ -36,6 +81,8 @@
  input { width:150px; }
  textarea#gdsDes { width:400px; height:180px; }
  
+  .select_img img {margin: 20px 0;}
+ 
 </style>
 
 
@@ -48,7 +95,7 @@
 	<div id="container_box">
 		<h2>상품 수정</h2>
 		
-		<form action="/admin/goods/update" method="post">
+		<form action="/admin/goods/update" method="post" enctype="multipart/form-data">
 		
 		<input type="hidden" name="gdsNum" value="${goods.gdsNum }" />
  
@@ -83,10 +130,85 @@
  				<label for="gdsDes">상품소개</label>
  				<textarea rows="5" cols="50" id="gdsDes" name="gdsDes">${goods.gdsDes }</textarea>
 			</div>
+			
+ 		<%-- 	<div class="inputArea">
+ 				<label for="originFile">기존파일</label>
+ 				
+ 				<!-- el은 첫번째 문자를 소문자로 해주면 에러가 나지않는다. ImgStoredName -> X, imgStoredName O -->
+				<c:if test="${not empty goods }">
+				<img src="<%=request.getContextPath() %>/upload/${goods.imgStoredName }" 
+			 		alt="그림을 불러오지못함" width="50%" height="50%" class="oriImg"><br>
+				<a href="<%=request.getContextPath() %>/upload/${goods.imgStoredName }"
+			 		download="${goods.imgOriginName }" >
+					${goods.imgOriginName }
+				</a>
+				</c:if>
+				<span id="deleteFile">X</span>
+			</div>
+ 			
+
+				<div id="newFile">
+				<hr>
+				<label for="file">새로운 첨부파일</label>
+				<input type="file" id="file" name="file">
+				<div class="select_img"><img src="" /></div>
+				<small>** 새로운 파일로 첨부하면 기존 파일은 삭제됩니다</small>
+				</div>
+ 
+ 			<script>
+ 			//어떤 이미지인지 미리보기
+  			$("#newFile").change(function(){
+  				
+  				//앞에께 true인 경우, 뒤에꺼 반환 // 앞에께 false인 경우, 앞에꺼 반환 
+   				if(this.files && this.files[0]) {
+    				var reader = new FileReader;
+    				reader.onload = function(data) {
+     					$(".select_img img").attr("src", data.target.result).width(500);        
+    				}
+    			reader.readAsDataURL(this.files[0]);
+   				}
+  			});
+ 			</script> 
+ 			
+			</div> --%>
+			
+			<!-- el은 첫번째 문자를 소문자로 해주면 에러가 나지않는다. ImgStoredName -> X, imgStoredName O -->
+			<div>
+			<c:if test="${not empty goods }">
+			<img src="<%=request.getContextPath() %>/upload/${goods.imgStoredName }" 
+			 	alt="그림을 불러오지못함" width="50%" height="50%" class="oriImg"><br>
+			<a href="<%=request.getContextPath() %>/upload/${goods.imgStoredName }"
+				 download="${goods.imgOriginName }" >
+				${goods.imgOriginName }
+			</a>
+			</c:if>
+			</div>
+			
+			<div class="inputArea">
+ 				<label for="ImgOriginName">새 파일</label>
+				 <input type="file" id="ImgOriginName" name="file" />
+ 			<div class="select_img"><img src="" /></div>
+ 
+ 			<script>
+ 			//어떤 이미지인지 미리보기
+  			$("#ImgOriginName").change(function(){
+  				
+  				//앞에께 true인 경우, 뒤에꺼 반환 // 앞에께 false인 경우, 앞에꺼 반환 
+   				if(this.files && this.files[0]) {
+    				var reader = new FileReader;
+    				reader.onload = function(data) {
+     					$(".select_img img").attr("src", data.target.result).width(500);        
+    				}
+    			reader.readAsDataURL(this.files[0]);
+   				}
+  			});
+ 			</script>
+ 			
+			</div>
 
 			<div class="inputArea">
- 				<button type="button" id="update_Btn" class="btn btn-primary">완료</button>
- 				<button type="button" id="back_Btn" class="btn btn-warning">취소</button>
+ 				<button type="button" id="btnUpdate" class="btn btn-primary">완료</button>
+ 				<button type="button" id="btnCancel" class="btn btn-warning">취소</button>
 			</div>
 			
 			
@@ -98,19 +220,6 @@
 
 </section>
 
-<script>
- 				
- 	$("#back_Btn").click(function(){
-  		history.back();
-  		//location.href = "/admin/goods/view?n=" + ${goods.gdsNum};
- 	});
- 				
-	$("#update_Btn").click(function() {
-		$("form").submit();
-	})
- 				
- 				
-</script>
 
 <script>
 
@@ -210,6 +319,16 @@ if(select_cateCodeRef != null && select_cateCodeRef != '') {
  $(".category2").append("<option value='" + select_cateCode + "' selected='selected'>전체</option>");
 }  
 </script>
+
+<script type="text/javascript">
+var oEditors = [];
+nhn.husky.EZCreator.createInIFrame({
+	oAppRef: oEditors
+	, elPlaceHolder: "gdsDes"
+	, sSkinURI: "/resources/se2/SmartEditor2Skin.html"
+	, fCreator: "createSEditor2"
+})
+</script> 
 
 
 <c:import url ="../../layout/footer.jsp" ></c:import>

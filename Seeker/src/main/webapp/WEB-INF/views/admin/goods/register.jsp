@@ -5,18 +5,18 @@
     
 <c:import url ="../../layout/header.jsp" ></c:import>
 
-<!-- <!-- 스마트 에디터 2 로드 -->
+<!-- 스마트 에디터 2 로드 -->
 <script type="text/javascript" src="/resources/se2/js/service/HuskyEZCreator.js"></script>
 
 <script type="text/javascript">
 function submitContents(elClickedObj) {
-	oEditors.getById["content"].exec("UPDATE_CONTENTS_FIELD", [])
+	oEditors.getById["gdsDes"].exec("UPDATE_CONTENTS_FIELD", [])
 	
 	try {
 		elClickedObj.form.submit();
 	} catch(e) {}
 }
-</script> -->
+</script> 
 
 
 <script type="text/javascript">
@@ -26,7 +26,7 @@ $(document).ready(function() {
 	$("#btnWrite").click(function() {
 		
 		//submit전에 스마트에디터에 작성된 내용을 <textarea>로 반영한다
-		/* submitContents( $("#btnWrite") );  */
+		 submitContents( $("#btnWrite") );  
 		
 		$("form").submit();
 	}); 
@@ -231,13 +231,13 @@ $(document).on("change", "select.category1", function(){
 </script> 
 
 
-<!-- <script type="text/javascript">
+<script type="text/javascript">
 var oEditors = [];
 nhn.husky.EZCreator.createInIFrame({
 	oAppRef: oEditors
-	, elPlaceHolder: "content"
+	, elPlaceHolder: "gdsDes"
 	, sSkinURI: "/resources/se2/SmartEditor2Skin.html"
 	, fCreator: "createSEditor2"
 })
-</script> -->
+</script> 
 <c:import url ="../../layout/footer.jsp" ></c:import>

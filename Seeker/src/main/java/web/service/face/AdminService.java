@@ -44,8 +44,9 @@ public interface AdminService {
 	 * 상품 수정
 	 * 
 	 * @param goods - 새로 수정한 상품 정보
+	 * @param file - 새로 수정한 상품 썸네일이미지
 	 */
-	public void goodsUpdate(GoodsView goods);
+	public void goodsUpdate(GoodsView goods, MultipartFile file);
 	
 	/**
 	 * 상품 삭제

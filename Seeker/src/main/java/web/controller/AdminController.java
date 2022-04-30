@@ -91,12 +91,12 @@ public class AdminController {
 	//상품 수정 POST
 	@Transactional
 	@RequestMapping(value = "/goods/update", method = RequestMethod.POST)
-	public String goodsUpdateProc(GoodsView goods) {
+	public String goodsUpdateProc(GoodsView goods, MultipartFile file) {
 		
 		logger.info("/admin/goods/update [POST]");
 		logger.info("goods : {}", goods);
 		
-		adminService.goodsUpdate(goods);
+		adminService.goodsUpdate(goods, file);
 		
 		return "redirect:/admin/goods/list";
 	

@@ -85,13 +85,13 @@
  			<!-- 첨부파일 -->
 			<div>
 
-
+		<!-- el은 첫번째 문자를 소문자로 해주면 에러가 나지않는다. ImgStoredName -> X, imgStoredName O -->
 		<c:if test="${not empty goods }">
-		<img src="<%=request.getContextPath() %>/upload/${goods.ImgStoredName }" 
+		<img src="<%=request.getContextPath() %>/upload/${goods.imgStoredName }" 
 			 alt="그림을 불러오지못함" width="50%" height="50%" class="oriImg"><br>
-		<a href="<%=request.getContextPath() %>/upload/${goods.ImgStoredName }"
-			download="${goods.ImgOriginName }">
-			${ goods.ImgOriginName }
+		<a href="<%=request.getContextPath() %>/upload/${goods.imgStoredName }"
+			 download="${goods.imgOriginName }" >
+			${goods.imgOriginName }
 		</a>
 		</c:if>
 		</div>
