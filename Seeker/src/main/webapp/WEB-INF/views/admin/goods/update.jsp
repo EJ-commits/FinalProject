@@ -188,6 +188,7 @@ $(document).ready(function() {
  				<label for="ImgOriginName">새 파일</label>
 				 <input type="file" id="ImgOriginName" name="file" />
  			<div class="select_img"><img src="" /></div>
+ 			<small>** 새로운 파일로 첨부하면 기존 파일은 삭제됩니다</small>
  
  			<script>
  			//어떤 이미지인지 미리보기
@@ -219,6 +220,20 @@ $(document).ready(function() {
 
 
 </section>
+
+<script>
+// 가격과 수량에서 숫자가 아닌 데이터는 받지 않기
+//상품 가격과 상품 수량에 숫자가 아닌 다른 문자를 입력하려고하면, 곧바로 지워지게됨
+var regExp = /[^0-9]/gi;
+
+$("#gdsPrice").keyup(function(){ numCheck($(this)); });
+$("#gdsStock").keyup(function(){ numCheck($(this)); });
+
+function numCheck(selector) {
+ var tempVal = selector.val();
+ selector.val(tempVal.replace(regExp, ""));
+}
+</script>
 
 
 <script>

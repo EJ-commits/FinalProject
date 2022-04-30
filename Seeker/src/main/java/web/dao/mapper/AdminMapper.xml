@@ -21,11 +21,12 @@
 	</insert>
 	
 	<!-- 상품 목록 --> 
-	<select id="goodsList" resultType="web.dto.Goods">
+	<select id="goodsList" resultType="web.dto.GoodsView">
  		SELECT
-  			gdsNum, gdsName, cateCode, gdsPrice, gdsStock, gdsDes, ImgOriginName, gdsDate
-    	FROM tbl_goods
-        ORDER BY gdsNum DESC
+  			gdsNum, gdsName, g.cateCode, c.cateCodeRef, c.cateName, gdsPrice, gdsStock, gdsDes, gdsDate, ImgOriginName, ImgStoredName
+    	FROM tbl_goods g, goods_category c
+    	WHERE g.cateCode = c.cateCode
+        
 	</select>
 	
 	

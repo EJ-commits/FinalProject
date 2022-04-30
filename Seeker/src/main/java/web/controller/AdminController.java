@@ -59,7 +59,7 @@ public class AdminController {
 	@RequestMapping(value = "/goods/list", method = RequestMethod.GET)
 	public void goodsList(Model model) {
 		
-		List<Goods> list = adminService.goodsList();
+		List<GoodsView> list = adminService.goodsList();
 		
 		model.addAttribute("list", list);
 	}

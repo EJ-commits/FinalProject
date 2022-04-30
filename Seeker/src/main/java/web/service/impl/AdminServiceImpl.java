@@ -85,7 +85,7 @@ public class AdminServiceImpl implements AdminService {
 
 	//상품목록
 	@Override
-	public List<Goods> goodsList() {
+	public List<GoodsView> goodsList() {
 		
 		return adminDao.goodsList();
 	}

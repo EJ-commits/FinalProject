@@ -26,11 +26,11 @@ public interface AdminService {
 	public void register(Goods goods, MultipartFile file);
 	
 	/**
-	 * 상품 목록 조회
+	 * 상품 목록 조회 
 	 * 
 	 * @return - 상품 목록 List
 	 */
-	public List<Goods> goodsList();
+	public List<GoodsView> goodsList();
 	
 	/**
 	 * 상품 상세조회 + 카테고리 조인

@@ -154,6 +154,21 @@ $(document).ready(function() {
 
 
 <script>
+// 가격과 수량에서 숫자가 아닌 데이터는 받지 않기
+//상품 가격과 상품 수량에 숫자가 아닌 다른 문자를 입력하려고하면, 곧바로 지워지게됨
+var regExp = /[^0-9]/gi;
+
+$("#gdsPrice").keyup(function(){ numCheck($(this)); });
+$("#gdsStock").keyup(function(){ numCheck($(this)); });
+
+function numCheck(selector) {
+ var tempVal = selector.val();
+ selector.val(tempVal.replace(regExp, ""));
+}
+</script>
+
+
+<script>
 
 //	컨트롤러에서 데이터 받기
 var jsonData = JSON.parse('${category}');
