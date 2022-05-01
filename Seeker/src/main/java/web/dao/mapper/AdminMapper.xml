@@ -26,7 +26,7 @@
   			gdsNum, gdsName, g.cateCode, c.cateCodeRef, c.cateName, gdsPrice, gdsStock, gdsDes, gdsDate, ImgOriginName, ImgStoredName
     	FROM tbl_goods g, goods_category c
     	WHERE g.cateCode = c.cateCode
-        
+        ORDER BY gdsNum DESC
 	</select>
 	
 	
@@ -47,8 +47,8 @@
          cateCode = #{cateCode},
          gdsPrice = #{gdsPrice},
          gdsStock = #{gdsStock},
-         gdsDes = #{gdsDes}
-         ImgOriginName = #{ImgOriginName}
+         gdsDes = #{gdsDes},
+         ImgOriginName = #{ImgOriginName},
          ImgStoredName = #{ImgStoredName}
      	WHERE gdsNum = ${gdsNum}
 	</update>
