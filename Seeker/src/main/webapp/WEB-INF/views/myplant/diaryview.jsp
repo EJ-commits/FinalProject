@@ -22,7 +22,7 @@
 			<table class="table" id="profile-table">
 				<tr><td>학명 : </td><td>감자</td></tr>
 				<tr><td>이름 : </td><td>감돌이</td></tr>
-				<tr><td>심은날 : </td><td>2022년 04월 01일 (${diary.ddate - 20220401}일째 되는 날)</td></tr>
+				<tr><td>심은날 : </td><td>2022년 04월 01일</td></tr>
 			</table>	
 		</div>
 	</div>
@@ -30,7 +30,7 @@
 			<span hidden="true">${diary.ddate}</span>
 			<span>${newDate}</span>
 		</div>
-		<form action="/diary/alter" method="post" enctype="multipart/form-data">
+		<form action="/diary/alter" method="post" enctype="multipart/form-data" id="form">
 			<div class="diary-box">
 				<div class="write-box">
 					<p>온도</p>

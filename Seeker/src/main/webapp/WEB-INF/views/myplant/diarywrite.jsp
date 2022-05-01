@@ -5,50 +5,7 @@
 <c:import url="/WEB-INF/views/layout/header.jsp" />
 
 <link rel="stylesheet" href="/resources/css/diaryform.css">
-
-<script type="text/javascript">
-window.onload = function() {
-	
-	const upload = document.getElementById('upload-file');
-	
-	upload.onchange = function() {
-		
-		while (pbox.firstChild) {
-			pbox.removeChild( pbox.firstChild);
-		}
-
-		const file = upload.files[0];
-		
-		const pbox = document.getElementById('upload-photo-box');
-		const nbox = document.getElementById('upload-name');
-		
-		const img = document.createElement('img');
-		const url = URL.createObjectURL(file);
-		
-		img.src = url;
-		img.style.width = '130px';
-		img.style.height = '130px';
-		
-		pbox.appendChild(img);
-		
-		const name = file.name;
-		
-		nbox.innerHTML = name + '&nbsp;<span class="glyphicon glyphicon-remove-circle" id="remove-button"></span>';
-		
-		const remove = document.getElementById('remove-button');
-		
-		remove.onclick = function() {
-			
-			upload.value = '';
-			pbox.removeChild(pbox.firstChild);
-			nbox.textContent = '';
-			
-		};
-		
-	};
-	
-};
-</script>
+<script type="text/javascript" src="/resources/js/diarywrite.js"></script>
 
 <div id="wrap-box-top">
 	<div><a href="/diary/calendar"><span class="glyphicon glyphicon-arrow-left"></span>&nbsp;일기 달력</a></div>
@@ -64,14 +21,14 @@ window.onload = function() {
 			<table class="table" id="profile-table">
 				<tr><td>학명 : </td><td>감자</td></tr>
 				<tr><td>이름 : </td><td>감돌이</td></tr>
-				<tr><td>심은날 : </td><td>2022년 04월 01일 (${date - 20220401}일째 되는 날)</td></tr>
+				<tr><td>심은날 : </td><td>2022년 04월 01일</td></tr>
 			</table>	
 		</div>
 	</div>
 		<div id="date-box">
 			<span>${newDate}</span>
 		</div>
-		<form action="/diary/write" method="post" enctype="multipart/form-data">
+		<form action="/diary/write" method="post" enctype="multipart/form-data" id="form">
 			<div class="diary-box">
 				<div class="write-box">
 					<p>온도</p>

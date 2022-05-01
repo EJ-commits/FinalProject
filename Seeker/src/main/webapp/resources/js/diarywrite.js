@@ -1,64 +1,13 @@
 window.onload = function() {
-
+	
 	const form = document.getElementById('form');
 	const input = document.getElementsByClassName('form-control');
-	
-	const write = document.getElementById('write-button');
-	const alter = document.getElementById('alter-button');
-	const drop = document.getElementById('drop-button');
-	
 	const upload = document.getElementById('upload-file');
-	
 	const tbox = document.getElementsByClassName('tip-box');
-	const pbox = document.getElementById('upload-photo-box');
-	const nbox = document.getElementById('upload-name');
 	
-	alter.onclick = function() {
+	tbox[0].innerHTML = '';
+	tbox[1].innerHTML = '';
 	
-		const check = document.getElementById('check-table');
-		const hbox = document.getElementsByClassName('hidden-box');
-		const remove = document.getElementById('remove-button');
-	
-		alter.parentNode.removeChild(alter);
-		drop.parentNode.removeChild(drop);
-		
-		for(let i = 0; i < tbox.length; ++i) {
-			tbox[i].innerHTML = '';
-		}
-		
-		input[2].parentNode.removeChild(input[2]);
-		
-		check.hidden = true;
-		
-		for(let i = 0; i < input.length; ++i) {
-			input[i].disabled = false;
-		}
-		
-		for(let i = 0; i < hbox.length; ++i) {
-			hbox[i].hidden = false;
-		}
-		
-		if(remove != null) {
-		
-			remove.hidden = false;
-			
-			remove.onclick = function() {
-				
-				pbox.innerHTML = '';
-				nbox.textContent = '';
-				
-				const origin = document.getElementById('origin');
-				const stored = document.getElementById('stored');
-				
-				origin.value = null;
-				stored.value = null;
-			
-			};
-		
-		}
-		
-	};
-		
 	input[0].onblur = function() {
 		
 		if(input[0].value != null && input[0].value != '') {
@@ -128,9 +77,12 @@ window.onload = function() {
 	
 	upload.onchange = function() {
 		
-		pbox.innerHTML = '';
-		nbox.textContent = '';
+		const pbox = document.getElementById('upload-photo-box');
+		const nbox = document.getElementById('upload-name');
 		
+		pbox.innerHTML= '';
+		nbox.textContent = '';
+
 		const file = upload.files[0];
 		const img = document.createElement('img');
 		const url = URL.createObjectURL(file);
@@ -148,32 +100,20 @@ window.onload = function() {
 		const remove = document.getElementById('remove-button');
 		
 		remove.onclick = function() {
-				
+			
 			upload.value = '';
-			pbox.innerHTML = '';
+			pbox.innerHTML= '';
 			nbox.textContent = '';
 			
-			const origin = document.getElementById('origin');
-			const stored = document.getElementById('stored');
-				
-			origin.value = null;
-			stored.value = null;
-		
 		};
 		
 	};
 	
 	form.onsubmit = function() {
-	
+		
 		if(tbox[0].innerHTML.length == 0 && tbox[1].innerHTML.length == 0) return true;
 		
 		return false;
 	};
 	
-	drop.onclick = function() {
-		
-		location.href= '/diary/delete';
-		
-	};
-
 };

@@ -71,6 +71,7 @@ public class DiaryController {
 		} else {
 			date = (String) session.getAttribute("date");
 		}
+		
 		logger.info("{}", date);
 		
 		Diary diary = diaryService.diary(date);
@@ -79,13 +80,12 @@ public class DiaryController {
 		
 		HashMap<String, String> tip = plantService.getTip(code);
 		
-		TransDate transDate = new TransDate();
-		String newDate = transDate.toString(diary.getDdate());
-		
 		model.addAttribute("diary", diary);
 		model.addAttribute("code", code);
 		model.addAttribute("tip", tip);
-		model.addAttribute("newDate", newDate);
+		
+		TransDate transDate = new TransDate();
+		model.addAttribute("newDate", transDate.toString(date));
 		
 		return "/myplant/diaryview";
 		
@@ -97,12 +97,10 @@ public class DiaryController {
 		logger.info("diary/write [GET]");
 		logger.info("{}", date);
 		
-		TransDate transDate = new TransDate();
-		String newDate = transDate.toString(date);
-		
-		model.addAttribute("date", date);
-		model.addAttribute("newDate", newDate);
 		session.setAttribute("date", date);
+		
+		TransDate transDate = new TransDate();
+		model.addAttribute("newDate", transDate.toString(date));
 		
 		return "/myplant/diarywrite";
 		
@@ -125,12 +123,8 @@ public class DiaryController {
 	public String alter(HttpSession session, Diary diary, MultipartFile file) {
 		
 		logger.info("diary/alter [POST]");
-		logger.info("{}", diary);
 		
-		String date = (String) session.getAttribute("date");
-		logger.info("{}", date);
-		
-		diary.setDdate(date);
+		diary.setDdate((String) session.getAttribute("date"));
 
 		diaryService.alter(diary, file);
 		
