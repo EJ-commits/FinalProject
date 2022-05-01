@@ -16,14 +16,14 @@
 	
 	<!-- 상품 등록 -->
 	<insert id="register" parameterType="web.dto.Goods">
- 		INSERT INTO tbl_goods (gdsNum, gdsName, cateCode, gdsPrice, gdsStock, gdsDes, ImgOriginName, ImgStoredName)
-     	VALUES (tbl_goods_seq.nextval, #{gdsName}, #{cateCode}, #{gdsPrice}, #{gdsStock}, #{gdsDes}, #{ImgOriginName}, #{ImgStoredName})
+ 		INSERT INTO tbl_goods (gdsNum, gdsName, cateCode, gdsPrice, gdsStock, gdsDes)
+     	VALUES (tbl_goods_seq.nextval, #{gdsName}, #{cateCode}, #{gdsPrice}, #{gdsStock}, #{gdsDes})
 	</insert>
 	
 	<!-- 상품 목록 --> 
 	<select id="goodsList" resultType="web.dto.Goods">
  		SELECT
-  			gdsNum, gdsName, cateCode, gdsPrice, gdsStock, gdsDes, ImgOriginName, gdsDate
+  			gdsNum, gdsName, cateCode, gdsPrice, gdsStock, gdsDes, gdsImg, gdsDate
     	FROM tbl_goods
         ORDER BY gdsNum DESC
 	</select>
@@ -32,7 +32,7 @@
 	<!-- 상품 조회 + 카테고리 조인-->
 	<select id="goodsView" resultType="web.dto.GoodsView">
  		SELECT
-     		g.gdsNum, g.gdsName, g.cateCode, c.cateCodeRef, c.cateName, gdsPrice, gdsStock, gdsDes, gdsDate,ImgOriginName, ImgStoredName
+     		g.gdsNum, g.gdsName, g.cateCode, c.cateCodeRef, c.cateName, gdsPrice, gdsStock, gdsDes, gdsImg, gdsDate
         FROM tbl_goods g, goods_category c                        
         WHERE g.cateCode = c.cateCode  
         AND g.gdsNum = #{gdsNum}

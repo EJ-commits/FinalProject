@@ -2,8 +2,6 @@ package web.controller;
 
 import java.util.List;
 
-import javax.annotation.Resource;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +11,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.MultipartFile;
 
 import net.sf.json.JSONArray;
 import web.dto.Category;
@@ -49,8 +46,8 @@ public class AdminController {
 	//상품등록
 	@Transactional
 	@RequestMapping(value = "/goods/register", method = RequestMethod.POST)
-	public String goodsRegisterProc(Goods goods, MultipartFile file) {
-		adminService.register(goods, file);
+	public String goodsRegisterProc(Goods goods) {
+		adminService.register(goods);
 		
 		return "redirect:/admin/index";
 	}
@@ -69,8 +66,6 @@ public class AdminController {
 	public void goodsView(@RequestParam("n") int gdsNum, Model model) {
 		
 		GoodsView goods = adminService.goodsView(gdsNum);
-		
-		logger.info("goods : {}", goods);
 		
 		model.addAttribute("goods", goods);
 	}
@@ -111,6 +106,4 @@ public class AdminController {
 		
 		return "redirect:/admin/goods/list";
 	}
-	
-	
 }
