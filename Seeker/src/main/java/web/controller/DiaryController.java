@@ -1,6 +1,9 @@
 package web.controller;
 
 import java.io.IOException;
+import java.util.HashMap;
+
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,7 +20,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import web.dto.Diary;
-import web.dto.Plant;
+import web.dto.PlantCode;
 import web.service.face.DiaryService;
 import web.service.face.PlantService;
 import web.util.TransDate;
@@ -51,7 +54,6 @@ public class DiaryController {
 		logger.info("{}", week);
 		
 		ObjectMapper objectMapper = new ObjectMapper();
-		
 		String result = objectMapper.writeValueAsString(diaryService.list(week));
 		
 		return result;
@@ -59,94 +61,94 @@ public class DiaryController {
 		
 	}
 	
+	@RequestMapping(value = "/view", method = {RequestMethod.GET, RequestMethod.POST})
+	public String getView(HttpSession session, String date, Model model) throws IOException {
+		
+		logger.info("/diary/view [GET, POST]");
+		
+		if(date != null) {
+			session.setAttribute("date", date);
+		} else {
+			date = (String) session.getAttribute("date");
+		}
+		logger.info("{}", date);
+		
+		Diary diary = diaryService.diary(date);
+		
+		PlantCode code = plantService.getCode("13242");
+		
+		HashMap<String, String> tip = plantService.getTip(code);
+		
+		TransDate transDate = new TransDate();
+		String newDate = transDate.toString(diary.getDdate());
+		
+		model.addAttribute("diary", diary);
+		model.addAttribute("code", code);
+		model.addAttribute("tip", tip);
+		model.addAttribute("newDate", newDate);
+		
+		return "/myplant/diaryview";
+		
+	}
+	
 	@RequestMapping(value = "/write", method = RequestMethod.GET)
-	public String getWrite(String date, Model model) {
+	public String getWrite(HttpSession session, String date, Model model) {
 		
 		logger.info("diary/write [GET]");
 		logger.info("{}", date);
 		
 		TransDate transDate = new TransDate();
-		
 		String newDate = transDate.toString(date);
 		
 		model.addAttribute("date", date);
 		model.addAttribute("newDate", newDate);
+		session.setAttribute("date", date);
 		
 		return "/myplant/diarywrite";
 		
 	}
 	
 	@RequestMapping(value = "/write", method = RequestMethod.POST)
-	public String write(Diary diary, MultipartFile file, Model model) {
+	public String write(HttpSession session, Diary diary, MultipartFile file) {
 		
 		logger.info("diary/write [POST]");
-		logger.info("{}", diary);
+		
+		diary.setDdate((String) session.getAttribute("date"));
 		
 		diaryService.write(diary, file);
 		
-		TransDate transDate = new TransDate();
-		
-		String newDate = transDate.toString(diary.getDdate());
-		
-		model.addAttribute(diary);
-		model.addAttribute("newDate", newDate);
-		
-		return "/myplant/diaryview";
-		
-	}
-	
-	@RequestMapping(value = "/view", method = RequestMethod.GET)
-	public String getView(String date, Model model) throws IOException {
-		
-		logger.info("/diary/view [GET]");
-		logger.info("{}", date);
-		
-		Diary diary = diaryService.diary(date);
-		
-		Plant plant = plantService.getTip("13242");
-		
-		TransDate transDate = new TransDate();
-		
-		String newDate = transDate.toString(diary.getDdate());
-		
-		logger.info("{}", diary);
-		logger.info("{}", plant);
-
-		model.addAttribute(diary);
-		model.addAttribute("newDate", newDate);
-		model.addAttribute(plant);
-		
-		return "/myplant/diaryview";
+		return "forward:/diary/view";
 		
 	}
 	
 	@RequestMapping(value = "/alter", method = RequestMethod.POST)
-	public String alter(Diary diary, MultipartFile file, Model model) {
+	public String alter(HttpSession session, Diary diary, MultipartFile file) {
 		
 		logger.info("diary/alter [POST]");
 		logger.info("{}", diary);
+		
+		String date = (String) session.getAttribute("date");
+		logger.info("{}", date);
+		
+		diary.setDdate(date);
 
 		diaryService.alter(diary, file);
 		
-		TransDate transDate = new TransDate();
-		
-		String newDate = transDate.toString(diary.getDdate());
-		
-		model.addAttribute(diary);
-		model.addAttribute("newDate", newDate);
-		
-		return "/myplant/diaryview";
+		return "forward:/diary/view";
 		
 	}
 	
 	
 	@RequestMapping(value="/delete", method = RequestMethod.GET)
-	public String drop(String date) {
+	public String drop(HttpSession session) {
 		
 		logger.info("diary/delete [GET]");
+		
+		String date = (String) session.getAttribute("date");
 		logger.info("{}", date);
 		
 		diaryService.drop(date);
+		session.removeAttribute("date");
 		
 		return "redirect:/diary/calendar";
 		

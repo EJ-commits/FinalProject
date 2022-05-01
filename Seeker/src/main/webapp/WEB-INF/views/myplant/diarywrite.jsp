@@ -13,37 +13,39 @@ window.onload = function() {
 	
 	upload.onchange = function() {
 		
+		while (pbox.firstChild) {
+			pbox.removeChild( pbox.firstChild);
+		}
+
 		const file = upload.files[0];
-		const name = file.name;
-		const url = URL.createObjectURL(file);
 		
 		const pbox = document.getElementById('upload-photo-box');
-		const img = document.createElement('img');
 		const nbox = document.getElementById('upload-name');
+		
+		const img = document.createElement('img');
+		const url = URL.createObjectURL(file);
 		
 		img.src = url;
 		img.style.width = '130px';
 		img.style.height = '130px';
 		
-		while (pbox.firstChild) {
-			pbox.removeChild( pbox.firstChild);
-		}
-		
 		pbox.appendChild(img);
-		nbox.innerHTML = name + '&nbsp;<span class="glyphicon glyphicon-remove-circle" id="remove"></span>';
 		
-		const remove = document.getElementById('remove');
+		const name = file.name;
+		
+		nbox.innerHTML = name + '&nbsp;<span class="glyphicon glyphicon-remove-circle" id="remove-button"></span>';
+		
+		const remove = document.getElementById('remove-button');
 		
 		remove.onclick = function() {
 			
 			upload.value = '';
-			pbox.removeChild( pbox.firstChild);
+			pbox.removeChild(pbox.firstChild);
 			nbox.textContent = '';
 			
-		}
+		};
 		
-	}
-	
+	};
 	
 };
 </script>
@@ -73,13 +75,13 @@ window.onload = function() {
 			<div class="diary-box">
 				<div class="write-box">
 					<p>온도</p>
-					<input type="text" class="form-control" name="temp">
+					<input type="text" class="form-control" name="temp" placeholder="&#x2103;">
 				</div>
 				<div class="tip-box">
 				</div>
 				<div class="write-box">
 					<p>습도</p>
-					<input type="text" class="form-control" name="humid">
+					<input type="text" class="form-control" name="humid" placeholder="%">
 				</div>
 				<div class="tip-box">
 				</div>
@@ -125,14 +127,13 @@ window.onload = function() {
 						<label for="upload-file">
 							사진 첨부&nbsp;<span class="glyphicon glyphicon-picture"></span>
 						</label>
-							<input type="file" accept="image/gif, image/jpeg, image/png" id="upload-file" name="file">
+						<input type="file" accept="image/gif, image/jpeg, image/png" id="upload-file" name="file">
 					</div>
 					<div id="upload-photo-box"></div>
 					<div>
 						<div id="upload-name">
 						</div>
 						<div id="submit-box">
-							<input type="text" name="ddate" value="${date}" hidden="true">
 							<button type="submit" class="btn btn-success btn-sm" id="write-button">작성 완료</button>
 						</div>
 					</div>
