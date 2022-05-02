@@ -23,5 +23,23 @@ public class MyPlantController {
 		return "/myplant/list";
 		
 	}
+	
+	@RequestMapping(value = "/write", method = RequestMethod.GET)
+	public String write(HttpSession session, Model model) {
+		
+		logger.info("myplant/write [GET]");
+		
+		return "/myplant/write";
+		
+	}
+	
+	@RequestMapping(value = "/delete", method = RequestMethod.GET)
+	public String delete(HttpSession session, Model model) {
+		
+		logger.info("myplant/delete [GET]");
+		
+		return "redirect:/myplant/list";
+		
+	}
 
 }
