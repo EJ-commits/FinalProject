@@ -64,7 +64,7 @@
 </style>
 
 <div id="wrap-box-top">
-	<div><a href="/diary/list"><span class="glyphicon glyphicon-arrow-left"></span>&nbsp;식물 목록</a></div>
+	<div><a href="/myplant/list"><span class="glyphicon glyphicon-arrow-left"></span>&nbsp;식물 목록</a></div>
 	<div id="title-box">일기 달력</div>
 	<div></div>
 </div>

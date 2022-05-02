@@ -45,32 +45,32 @@
 					</c:if>
 					<c:if test="${not empty diary.temp}">
 						<fmt:parseNumber var="t" value="${diary.temp}" />
-							<c:choose>
-								<c:when test="${code.temp eq '082001' and (t < 10 or t > 15)}">
-									<p class='text-danger'>
-									<span class='glyphicon glyphicon-exclamation-sign'></span>&nbsp;감자 온도 TIP
-									</p>
-									<p class='text-muted'>${tip.get('temp')}</p>
+						<c:choose>
+							<c:when test="${code.temp eq '082001' and (t < 10 or t > 15)}">
+								<p class='text-danger'>
+								<span class='glyphicon glyphicon-exclamation-sign'></span>&nbsp;감자 온도 TIP
+								</p>
+								<p class='text-muted'>${tip.get('temp')}</p>
+							</c:when>
+							<c:when test="${code.temp eq '082002' and (t < 16 or t > 20)}">
+								<p class='text-danger'>
+								<span class='glyphicon glyphicon-exclamation-sign'></span>&nbsp;감자 온도 TIP
+								</p>
+								<p class='text-muted'>${tip.get('temp')}</p>
 								</c:when>
-								<c:when test="${code.temp eq '082002' and (t < 16 or t > 20)}">
-									<p class='text-danger'>
-									<span class='glyphicon glyphicon-exclamation-sign'></span>&nbsp;감자 온도 TIP
-									</p>
-									<p class='text-muted'>${tip.get('temp')}</p>
-									</c:when>
-								<c:when test="${code.temp eq '082003' and (t < 21 or t > 25)}">
-									<p class='text-danger'>
-									<span class='glyphicon glyphicon-exclamation-sign'></span>&nbsp;감자 온도 TIP
-									</p>
-									<p class='text-muted'>${tip.get('temp')}</p>
+							<c:when test="${code.temp eq '082003' and (t < 21 or t > 25)}">
+								<p class='text-danger'>
+								<span class='glyphicon glyphicon-exclamation-sign'></span>&nbsp;감자 온도 TIP
+								</p>
+								<p class='text-muted'>${tip.get('temp')}</p>
 								</c:when>
-								<c:when test="${code.temp eq '082004' and (t < 26 or t > 30)}">
-									<p class='text-danger'>
-									<span class='glyphicon glyphicon-exclamation-sign'></span>&nbsp;감자 온도 TIP
-									</p>
-									<p class='text-muted'>${tip.get('temp')}</p>
-								</c:when>
-							</c:choose>
+							<c:when test="${code.temp eq '082004' and (t < 26 or t > 30)}">
+								<p class='text-danger'>
+								<span class='glyphicon glyphicon-exclamation-sign'></span>&nbsp;감자 온도 TIP
+								</p>
+								<p class='text-muted'>${tip.get('temp')}</p>
+							</c:when>
+						</c:choose>
 					</c:if>
 				</div>
 				<div class="write-box">
