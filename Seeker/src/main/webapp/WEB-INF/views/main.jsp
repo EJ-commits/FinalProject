@@ -5,9 +5,29 @@
 
 <c:import url="/WEB-INF/views/layout/header.jsp" />
 
+<div id="wrap-box-top">
+</div>
+<div id="wrap-box" style="margin:0px;padding:0px;">
+
 <link rel="stylesheet" type="text/css" href="../../resources/css/weather-icons.min.css">
+
 <script type="text/javascript">
 $(document).ready(function(){
+	
+// 	$.ajax({
+// 		type:"get",			//요청 메소드
+// 		url:"/main/address",				//요청 URL
+// 		data:{address:$('#address').val()},			//요청 파라미터, 전달 데이터
+// 		dataType:"json",		//응답받을 데이터 형식
+// 		success:function(res){	//AJAX응답 성공 시 콜백
+// 			console.log("AJAX성공")
+// 			console.log(res)
+			
+// 		},
+// 		error:function(){	//AJAX응답 실패 시 콜백
+// 			console.log("AJAX실패")
+// 		}
+// 	})
 	
 	//window.navigator.geolocation.getCurrentPosition() API를 사용
 	//성공 시 showLocation함수 호출, 실패 시 showError함수 호출
@@ -267,22 +287,19 @@ function showError(event) {
 ul{
 	text-decoration: none;
 	list-style:none;
-	font-size:20px;
 }
-li{
-	margin-top:10px;
-}
-li:hover{
-	font-size:40px;
-	background:#white;
-}
+/* li:hover{ */
+/* 	font-size:40px; */
+/* 	background:#white; */
+/* } */
 .nav>li>a:hover{
 	background:#white;
 }
-#search{
+#search div{
 	font-size:35px;
+	text-align:left;
 }
-#searchPlant{
+#searchPlant div{
 	border-bottom:1px solid #ccc;
 }
 #searchPlant:focus{ 
@@ -293,23 +310,32 @@ li:hover{
    height:620px;
    text-align:center;
 }
-.nav:after {
-    content : "";
-    display: block;
-    position: absolute;
-    top: 0;
-    left: 0;
-    background-image: url('../../resources/img/mainNav.jpg'); 
-    width: 100%;
-    height: 100%;
-    opacity : 0.2;
-    z-index: -1;
+
+/* 메인메뉴 백그라운드 이미지 */
+/* .nav:after { */
+/*     content : ""; */
+/*     display: block; */
+/*     position: absolute; */
+/*     top: 0; */
+/*     left: 0; */
+/*     background-image: url('../../resources/img/mainNav.jpg');  */
+/*     width: 100%; */
+/*     height: 100%; */
+/*     opacity : 0.2; */
+/*     z-index: -1; */
+/* } */
+.nav ul li{
+	width:230px;
+	height:80px;
 }
 .nav ul li a{
 	color:#688331;
+	font-size:35px;
 }
 .nav ul li a:hover{
 	color:black;
+	font-size:45px;
+	text-decoration: none;
 }
 #my_modal {
     display: none;
@@ -329,6 +355,12 @@ li:hover{
 #address:focus{
 	outline: none;
 }
+#myplant{
+	overflow:auto;
+	border:1px solid #ccc;
+	width:397px;
+	height:150px;
+}
 </style>
 
 <div class="col-xs-3 nav">
@@ -340,13 +372,13 @@ li:hover{
 </div>
 
 <div>
-	<div class="row text-center"style="margin-bottom:30px;height:400px;">
+	<div class="col-xs-9 text-center"style="margin-bottom:30px;height:350px;">
 	
 		<div class="weather" style="margin-top:50px;">
 		
 			<div id="wicon" class="col-xs-offset-2 col-xs-3"style="margin-top:30px;margin-right:30px;"></div>
 			
-			<div class="col-xs-3" style="margin-left:-160px;font-size:21px;">
+			<div class="col-xs-5" style="margin-left:0px;font-size:21px;">
 				<span id="city"></span><br>
 				<span id="condition"></span><br>
 				<span id="temp"></span><br>
@@ -362,15 +394,24 @@ li:hover{
 		
 	</div>
 	
-	<div class="row">
-		<div></div>
+	<div class="col-xs-9">
+		<div id="myplant" class="col-xs-6">
+			<table class="table table-striped">
+			<tr>
+				<td>감돌이</td>
+				<td>물을 주세요</td>
+			</tr>
+			</table>
+		</div>
 		
-		<div id="search" class="col-xs-offset-8">
-				나는 <span contenteditable="true" id="searchPlant" style="width:200px;display:inline-block;color:#688331;"></span>&nbsp를<br>
+		<div id="search" class="col-xs-6">
+			<div style="margin-left:62px;">
+				나는 <span contenteditable="true" id="searchPlant" style="width:200px;display:inline-block;color:#688331;font-size:30px;text-align:center;"></span>&nbsp를<br>
 				잘 키우는 방법이<br>
 				궁금하다. <span id="searchIcon"><svg id="btnPlant" xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-arrow-up-right" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M14 2.5a.5.5 0 0 0-.5-.5h-6a.5.5 0 0 0 0 1h4.793L2.146 13.146a.5.5 0 0 0 .708.708L13 3.707V8.5a.5.5 0 0 0 1 0v-6z"/></svg></span>
+			</div>
 		</div>
-		<div><a class="naverSearch" style="margin-left:709px;cursor:pointer;">네이버 백과로 검색하기</a></div>
+		<div><a class="naverSearch" style="margin-left:532px;cursor:pointer;">네이버 백과로 검색하기</a></div>
 	</div>
 </div>
 
@@ -430,7 +471,7 @@ li:hover{
 	};
 </script>
 
-
+</div>
 
 
 <c:import url="/WEB-INF/views/layout/footer.jsp" />
