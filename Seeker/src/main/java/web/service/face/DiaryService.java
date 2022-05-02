@@ -8,13 +8,13 @@ import web.dto.Diary;
 
 public interface DiaryService {
 	
-	public List<Diary> list(String week);
+	public List<Diary> list(int myPlantNO, String week);
 	
-	public Diary diary(String date);
+	public Diary diary(int myPlantNo, String date);
 	
 	public void write(Diary diary, MultipartFile file);
 	
 	public void alter(Diary diary, MultipartFile file);
 	
-	public void drop(String date);
+	public void drop(int myPlantNo, String date);
 }

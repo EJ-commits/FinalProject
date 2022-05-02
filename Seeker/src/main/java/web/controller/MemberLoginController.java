@@ -33,7 +33,6 @@ public class MemberLoginController {
 			logger.info("로그인 성공");
 			
 			session.setAttribute("login", loginResult);
-			session.setAttribute("memberNo", member.getUserNo());
 			session.setAttribute("id", member.getUserId());
 			
 			return "redirect:/main";

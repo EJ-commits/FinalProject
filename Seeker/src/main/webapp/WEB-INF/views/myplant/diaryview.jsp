@@ -9,20 +9,24 @@
 <script type="text/javascript" src="/resources/js/diaryview.js"></script>
 
 <div id="wrap-box-top">
-	<div><a href="/diary/calendar"><span class="glyphicon glyphicon-arrow-left"></span>&nbsp;일기 달력</a></div>
+	<div>
+		<a href="/diary/calendar?no=${myPlant.myPlantNo}">
+			<span class="glyphicon glyphicon-arrow-left"></span>&nbsp;일기 달력
+		</a>
+	</div>
 	<div id="title-box">일기 보기</div>
 	<div></div>
 </div>
 <div id="wrap-box">
 	<div id="profile-box">
 		<div>
-			<img src="/resources/photato.jpeg" class="img-thumbnail" id="plant-photo">
+			<img src="/upload/${myPlant.stored}" class="img-thumbnail" id="plant-photo">
 		</div>
 		<div id="info-box">
 			<table class="table" id="profile-table">
-				<tr><td>학명 : </td><td>감자</td></tr>
-				<tr><td>이름 : </td><td>감돌이</td></tr>
-				<tr><td>심은날 : </td><td>2022년 04월 01일</td></tr>
+				<tr><td>학명 : </td><td>${myPlant.bname}</td></tr>
+				<tr><td>이름 : </td><td>${myPlant.nick}</td></tr>
+				<tr><td>심은날 : </td><td>${myPlant.birth}(${gapDays}일째)</td></tr>
 			</table>	
 		</div>
 	</div>
@@ -46,29 +50,61 @@
 					<c:if test="${not empty diary.temp}">
 						<fmt:parseNumber var="t" value="${diary.temp}" />
 						<c:choose>
-							<c:when test="${code.temp eq '082001' and (t < 10 or t > 15)}">
-								<p class='text-danger'>
-								<span class='glyphicon glyphicon-exclamation-sign'></span>&nbsp;감자 온도 TIP
-								</p>
-								<p class='text-muted'>${tip.get('temp')}</p>
+							<c:when test="${code.temp eq '082001'}">
+								<c:if test="${t >= 10 and t <= 15}">
+									<p class='text-danger'>
+									<span class='glyphicon glyphicon-exclamation-sign'></span>&nbsp;감자 온도 TIP
+									</p>
+									<p class='text-success'>적정 온도 입니다!</p>
+								</c:if>
+								<c:if test="${t < 10 or t > 15}">
+									<p class='text-danger'>
+									<span class='glyphicon glyphicon-exclamation-sign'></span>&nbsp;감자 온도 TIP
+									</p>
+									<p class='text-muted'>${tip.get('temp')}</p>
+								</c:if>
 							</c:when>
-							<c:when test="${code.temp eq '082002' and (t < 16 or t > 20)}">
-								<p class='text-danger'>
-								<span class='glyphicon glyphicon-exclamation-sign'></span>&nbsp;감자 온도 TIP
-								</p>
-								<p class='text-muted'>${tip.get('temp')}</p>
-								</c:when>
-							<c:when test="${code.temp eq '082003' and (t < 21 or t > 25)}">
-								<p class='text-danger'>
-								<span class='glyphicon glyphicon-exclamation-sign'></span>&nbsp;감자 온도 TIP
-								</p>
-								<p class='text-muted'>${tip.get('temp')}</p>
-								</c:when>
-							<c:when test="${code.temp eq '082004' and (t < 26 or t > 30)}">
-								<p class='text-danger'>
-								<span class='glyphicon glyphicon-exclamation-sign'></span>&nbsp;감자 온도 TIP
-								</p>
-								<p class='text-muted'>${tip.get('temp')}</p>
+							<c:when test="${code.temp eq '082002'}">
+								<c:if test="${t >= 16 and t <= 20}">
+									<p class='text-danger'>
+									<span class='glyphicon glyphicon-exclamation-sign'></span>&nbsp;감자 온도 TIP
+									</p>
+									<p class='text-success'>적정 온도 입니다!</p>
+								</c:if>
+								<c:if test="${t < 16 or t > 20}">
+									<p class='text-danger'>
+									<span class='glyphicon glyphicon-exclamation-sign'></span>&nbsp;감자 온도 TIP
+									</p>
+									<p class='text-muted'>${tip.get('temp')}</p>
+								</c:if>
+							</c:when>
+							<c:when test="${code.temp eq '082003'}">
+								<c:if test="${t >= 21 and t <= 25}">
+									<p class='text-danger'>
+									<span class='glyphicon glyphicon-exclamation-sign'></span>&nbsp;감자 온도 TIP
+									</p>
+									<p class='text-success'>적정 온도 입니다!</p>
+								</c:if>
+								<c:if test="${t < 21 or t > 25}">
+									<p class='text-danger'>
+									<span class='glyphicon glyphicon-exclamation-sign'></span>&nbsp;감자 온도 TIP
+									</p>
+									<p class='text-muted'>${tip.get('temp')}</p>
+								</c:if>
+							</c:when>
+							<c:when test="${code.temp eq '082004'}">
+								<c:if test="${t >= 26 and t <= 30}">
+									<p class='text-danger'>
+									<span class='glyphicon glyphicon-exclamation-sign'></span>&nbsp;감자 온도 TIP
+									</p>
+									<p class='text-success'>적정 온도 입니다!</p>
+								</c:if>
+								<c:if test="${t < 26 or t > 30}">
+									<p class='text-danger'>
+									<span class='glyphicon glyphicon-exclamation-sign'></span>&nbsp;감자 온도 TIP
+									</p>
+									<p class='text-muted'>${tip.get('temp')}</p>
+								</c:if>
 							</c:when>
 						</c:choose>
 					</c:if>
@@ -87,23 +123,47 @@
 					<c:if test="${not empty diary.humid}">
 						<fmt:parseNumber var="h" value="${diary.humid}" />
 							<c:choose>
-								<c:when test="${code.humid eq '083001' and h >= 40}">
-									<p class='text-info'>
-									<span class='glyphicon glyphicon-exclamation-sign'></span>&nbsp;감자 습도 TIP
-									</p>
-									<p class='text-muted'>${tip.get('humid')}</p>
+								<c:when test="${code.humid eq '083001'}">
+									<c:if test="${h >= 40}">
+										<p class='text-info'>
+										<span class='glyphicon glyphicon-exclamation-sign'></span>&nbsp;감자 습도 TIP
+										</p>
+										<p class='text-muted'>${tip.get('humid')}</p>
+									</c:if>
+									<c:if test="${h < 40}">
+										<p class='text-info'>
+										<span class='glyphicon glyphicon-exclamation-sign'></span>&nbsp;감자 습도 TIP
+										</p>
+										<p class='text-success'>적정 습도 입니다!</p>
+									</c:if>
 								</c:when>
-								<c:when test="${code.humid eq '083002' and (h < 40 or h > 70)}">
-									<p class='text-info'>
-									<span class='glyphicon glyphicon-exclamation-sign'></span>&nbsp;감자 습도 TIP
-									</p>
-									<p class='text-muted'>${tip.get('humid')}</p>
-									</c:when>
-								<c:when test="${code.humid eq '083003' and h <= 70}">
-									<p class='text-info'>
-									<span class='glyphicon glyphicon-exclamation-sign'></span>&nbsp;감자 습도 TIP
-									</p>
-									<p class='text-muted'>${tip.get('humid')}</p>
+								<c:when test="${code.humid eq '083002'}">
+									<c:if test="${h < 40 or h > 70}">
+										<p class='text-info'>
+										<span class='glyphicon glyphicon-exclamation-sign'></span>&nbsp;감자 습도 TIP
+										</p>
+										<p class='text-muted'>${tip.get('humid')}</p>
+									</c:if>
+									<c:if test="${h >= 40 and h <= 70}">
+										<p class='text-info'>
+										<span class='glyphicon glyphicon-exclamation-sign'></span>&nbsp;감자 습도 TIP
+										</p>
+										<p class='text-success'>적정 습도 입니다!</p>
+									</c:if>
+								</c:when>
+								<c:when test="${code.humid eq '083003'}">
+									<c:if test="${h <= 70}">
+										<p class='text-info'>
+										<span class='glyphicon glyphicon-exclamation-sign'></span>&nbsp;감자 습도 TIP
+										</p>
+										<p class='text-muted'>${tip.get('humid')}</p>
+									</c:if>
+									<c:if test="${h > 70}">
+										<p class='text-info'>
+										<span class='glyphicon glyphicon-exclamation-sign'></span>&nbsp;감자 습도 TIP
+										</p>
+										<p class='text-success'>적정 습도 입니다!</p>
+									</c:if>
 								</c:when>
 							</c:choose>
 					</c:if>
@@ -118,7 +178,7 @@
 							<c:choose>
 								<c:when test="${diary.dirt eq '과습'}">
   								<label class="btn btn-xs btn-info active">
-   									<input type="radio" name="dirt" value="과습" checked>과습
+   								<input type="radio" name="dirt" value="과습" checked>과습
 	  							</label>
 	  							</c:when>
 	  							<c:otherwise>
@@ -151,29 +211,61 @@
 					</c:if>
 					<c:if test="${not empty diary.dirt}">
 						<c:choose>
-							<c:when test="${code.dirt eq '053001' and diary.dirt eq '건조'}">
-								<p class='text-warning'>
-								<span class='glyphicon glyphicon-exclamation-sign'></span>&nbsp;감자 흙 TIP
-								</p>
-								<p class='text-muted'>${tip.get('dirt')}</p>
+							<c:when test="${code.dirt eq '053001'}">
+								<c:if test="${diary.dirt eq '건조'}">
+									<p class='text-warning'>
+									<span class='glyphicon glyphicon-exclamation-sign'></span>&nbsp;감자 흙 TIP
+									</p>
+									<p class='text-muted'>${tip.get('dirt')}</p>
+								</c:if>
+								<c:if test="${diary.dirt eq '과습'}">
+									<p class='text-warning'>
+									<span class='glyphicon glyphicon-exclamation-sign'></span>&nbsp;감자 흙 TIP
+									</p>
+									<p class='text-success'>${tip.get('dirt')}</p>
+								</c:if>
 							</c:when>
-							<c:when test="${code.dirt eq '053002' and diary.dirt eq '건조'}">
-								<p class='text-warning'>
-								<span class='glyphicon glyphicon-exclamation-sign'></span>&nbsp;감자 흙 TIP
-								</p>
-								<p class='text-muted'>${tip.get('dirt')}</p>
+							<c:when test="${code.dirt eq '053002'}">
+								<c:if test="${diary.dirt eq '건조'}">
+									<p class='text-warning'>
+									<span class='glyphicon glyphicon-exclamation-sign'></span>&nbsp;감자 흙 TIP
+									</p>
+									<p class='text-muted'>${tip.get('dirt')}</p>
+								</c:if>
+								<c:if test="${diary.dirt eq '과습'}">
+									<p class='text-warning'>
+									<span class='glyphicon glyphicon-exclamation-sign'></span>&nbsp;감자 흙 TIP
+									</p>
+									<p class='text-success'>${tip.get('dirt')}</p>
+								</c:if>
 								</c:when>
-							<c:when test="${code.dirt eq '053003' and diary.dirt eq '과습'}">
-								<p class='text-warning'>
-								<span class='glyphicon glyphicon-exclamation-sign'></span>&nbsp;감자 흙 TIP
-								</p>
-								<p class='text-muted'>${tip.get('dirt')}</p>
+							<c:when test="${code.dirt eq '053003'}">
+								<c:if test="${diary.dirt eq '과습'}">
+									<p class='text-warning'>
+									<span class='glyphicon glyphicon-exclamation-sign'></span>&nbsp;감자 흙 TIP
+									</p>
+									<p class='text-muted'>${tip.get('dirt')}</p>
+								</c:if>
+								<c:if test="${diary.dirt eq '건조'}">
+									<p class='text-warning'>
+									<span class='glyphicon glyphicon-exclamation-sign'></span>&nbsp;감자 흙 TIP
+									</p>
+									<p class='text-success'>${tip.get('dirt')}</p>
+								</c:if>
 							</c:when>
-							<c:when test="${code.dirt eq '053004' and diary.dirt eq '과습'}">
-								<p class='text-warning'>
-								<span class='glyphicon glyphicon-exclamation-sign'></span>&nbsp;감자 흙 TIP
-								</p>
-								<p class='text-muted'>${tip.get('dirt')}</p>
+							<c:when test="${code.dirt eq '053004'}">
+								<c:if test="${diary.dirt eq '과습'}">
+									<p class='text-warning'>
+									<span class='glyphicon glyphicon-exclamation-sign'></span>&nbsp;감자 흙 TIP
+									</p>
+									<p class='text-muted'>${tip.get('dirt')}</p>
+								</c:if>
+								<c:if test="${diary.dirt eq '건조'}">
+									<p class='text-warning'>
+									<span class='glyphicon glyphicon-exclamation-sign'></span>&nbsp;감자 흙 TIP
+									</p>
+									<p class='text-success'>${tip.get('dirt')}</p>
+								</c:if>
 							</c:when>
 						</c:choose>
 					</c:if>
@@ -264,8 +356,11 @@
 						</div>
 						<div id="submit-box">
 							<button type="button" class="btn btn-success btn-sm" id="alter-button">수정 하기</button>
+							<a href="/diary/delete?date=${diary.ddate}">
 							<button type="button" class="btn btn-warning btn-sm" id="drop-button">삭제 하기</button>
+							</a>
 							<div class="hidden-box" hidden="true">
+								<input type="hidden" name="ddate" value="${diary.ddate}">
 								<button type="submit" class="btn btn-success btn-sm" id="write-button">작성 완료</button>
 							</div>
 						</div>

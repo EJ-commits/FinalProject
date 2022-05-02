@@ -46,6 +46,24 @@ public class TransDate {
 		return tempDate;
 
 	}
+	
+	public int interval(String str0, String str1) {
+		
+		Date format0 = null;
+		Date format1 = null;
+		try {
+			format0 = new SimpleDateFormat("yyyyMMdd").parse(str0);
+			format1 = new SimpleDateFormat("yyyyMMdd").parse(str1);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+        long sec = (format1.getTime() - format0.getTime()) / 1000;
+        long days = sec / (24*60*60);
+        
+        
+        return Math.round(days);
+        
+	}
 		
 }
 

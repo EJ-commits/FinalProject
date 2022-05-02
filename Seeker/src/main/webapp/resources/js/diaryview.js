@@ -170,10 +170,4 @@ window.onload = function() {
 		return false;
 	};
 	
-	drop.onclick = function() {
-		
-		location.href= '/diary/delete';
-		
-	};
-
 };

@@ -72,7 +72,7 @@
 	<div id="cal-header">
 		<div>
 		<div id="plant-box">
-			감돌이의 일기
+			<c:out value="${nick}" />의 일기
 		</div>
 		</div>
 		<div>

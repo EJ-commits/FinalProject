@@ -11,19 +11,17 @@
 	text-align : right;
 }
 
-.btn {
-	border-radius : 10px;
-}
-
-#list-box {
-	display : inline-flex;
+.calendar-box {
+	width : 1000px;
+	height : 25px;
+	padding : 0px 700px 0px 100px;
 }
 
 .profile-box {
 	display : inline-flex;
 	width : 800px;
 	height : 150px;
-	margin : 20px 0px 20px 100px;
+	margin : 0px 100px 5px 100px;
 	padding : 10px 5px 10px 5px;
 	border : 1px solid black;
 }
@@ -31,13 +29,6 @@
 .profile-box:hover {
 	border : 3px solid green;
 	cursor : pointer;
-}
-
-.button-box {
-	width : 90px;
-	height : 140px;
-	margin : 20px 0px 10px 20px;
-	text-align : left;
 }
 
 .img-box {
@@ -52,10 +43,40 @@
 }
 
 .profile {
-	width : 650px;
+	width : 580px;
 	height : 130px;
 }
+
+.button-box {
+	width : 90px;
+	height : 130px;
+	text-align : right;
+}
+
 </style>
+
+<script type="text/javascript">
+window.onload = function() {
+	
+	const profile = document.getElementsByClassName('profile-box');
+	const calendar = document.getElementsByClassName('calendar');
+	const number = document.getElementsByClassName('number');
+	
+	for(let i = 0; i < profile.length; ++i){
+		profile[i].onmouseover = function(){
+			calendar[i].hidden = false;
+		}
+		profile[i].onmouseout = function(){
+			calendar[i].hidden = true;
+		}
+		profile[i].onclick = function(){
+			location.href = '/diary/calendar?no=' + number[i].textContent;
+		}
+	}
+	
+	
+};
+</script>
 
 <div id="wrap-box-top">
 	<div></div>
@@ -64,26 +85,39 @@
 </div>
 <div id="wrap-box">
 	<div id="post-box">
-	<button type="button" class="btn btn-success btn-sm">등록 하기</button>
+	<span class="text-muted">식물은 3개까지 등록할 수 있어요!&nbsp;</span>
+	<a href=""><button type="button" class="btn btn-success btn-sm">식물 등록 하기</button></a>
 	</div>
+	<c:forEach items="${list}" var="MyPlant">
 	<div id="list-box">
+		<div class="calendar-box">
+			<div class="calendar bg-success" hidden="true">
+				<span>캘린더 보기</span>
+			</div>
+		</div>
 		<div class="profile-box">
 			<div class="img-box">
-				<img src="/resources/photato.jpeg" class="img-thumbnail">
+				<img src="/upload/${MyPlant.stored}" class="img-thumbnail">
 			</div>
 			<div class="profile">
 				<table class="table">
-					<tr><td>학명 : </td><td>감자</td></tr>
-					<tr><td>이름 : </td><td>감돌이</td></tr>
-					<tr><td>심은날 : </td><td>2022년 04월 01일</td></tr>
+					<tr><td>학명 : </td><td>${MyPlant.bname}</td></tr>
+					<tr><td>이름 : </td><td>${MyPlant.nick}</td></tr>
+					<tr><td>심은날 : </td><td>${MyPlant.birth}</td></tr>
 				</table>	
 			</div>
+			<div class="button-box">
+				<a href="/myplant/alter?no=${MyPlant.myPlantNo}">
+				<button type="button" class="btn btn-info btn-sm">변경</button>
+				</a>
+				<a href="/myplant/delete?no=${MyPlant.myPlantNo}">
+				<button type="button" class="btn btn-warning btn-sm">삭제</button>
+				</a>
+			</div>
 		</div>
-		<div class="button-box">
-		<a href=""><button type="button" class="btn btn-default btn-sm">변경</button></a>
-		<a href=""><button type="button" class="btn btn-default btn-sm">삭제</button></a>
-		</div>
+		<span class="number" hidden="true">${MyPlant.myPlantNo}</span>
 	</div>
+	</c:forEach>
 </div>
 
 <c:import url="/WEB-INF/views/layout/footer.jsp" />
