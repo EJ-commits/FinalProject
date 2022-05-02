@@ -23,8 +23,10 @@ public class WebSocketConfig implements WebSocketConfigurer{
 		//오리진이란 스키마(프로토콜), 호스트(도메인), 포트를 뜻한다. 이 3가지가 같으면 출처가 같다.
 		//교차출처COR 를 막아놓으므로 필요한 CROS - * 이므로 어떤 오리진이든 허용한다. 
 		System.out.println("registerWebSocketHandlers");
-		registry.addHandler(chatHandler, "/ws/chat").setAllowedOrigins("*");
-		
+		registry.addHandler(chatHandler, "/ws/chat")
+		.setAllowedOrigins("*")
+		.withSockJS();
+//		.setClientLibraryUrl("https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.6.0/sockjs.min.js");
 	}
 	
 

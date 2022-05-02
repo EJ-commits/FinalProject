@@ -7,6 +7,7 @@ public class ChatDto {
 	private String userid;
 	private String chatLog;
 	private String chatDate;
+	
 	public int getIsStart() {
 		return isStart;
 	}

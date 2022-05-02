@@ -11,9 +11,11 @@ public interface ChatService {
 
 	/**
 	 * 채팅 로그를 txt 파일로 만들어서 불러온다. 
+	 * @param 유저 아이디
+	 * @return 생성된 파일의 전체 경로 
 	 * */
 	
-	public File getLog(String userid);
+	public String getLog(String userid);
 	
 	
 }

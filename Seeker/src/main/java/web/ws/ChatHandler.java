@@ -2,7 +2,9 @@ package web.ws;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -86,7 +88,7 @@ public class ChatHandler extends TextWebSocketHandler{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		System.out.println("session closeStatus "+session.isOpen());
+		logger.info("session closeStatus {} ", session.isOpen());
 	}
 	
 	public void handleTransportError(WebSocketSession session) {
@@ -102,9 +104,6 @@ public class ChatHandler extends TextWebSocketHandler{
 	}
 	
 	//채팅 로그 다운로드
-	public File getChatLog() {
-		return null;
-	}
-	
+	//view 빈을 따로 만들어서, 그 빈에서 리턴값으로 저장된 파일 전송
 	
 }//class end 
