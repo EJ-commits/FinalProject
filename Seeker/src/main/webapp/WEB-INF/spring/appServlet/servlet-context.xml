@@ -25,15 +25,14 @@
 	<tx:annotation-driven/>
 	
 	<!-- 웹소켓 인터셉터 설정 -->
-	<websocket:handlers>
+	<!-- <websocket:handlers>
 		<websocket:mapping path="/ws/chat" handler="chatHandler"/>
 			<websocket:handshake-interceptors>
-			<!--  <beans:bean class="org.springframework.web.socket.server.support.HttpSessionHandshakeInterceptor"/>  -->
+				!-   <beans:bean class="org.springframework.web.socket.server.support.HttpSessionHandshakeInterceptor"/> 
 				<beans:bean class="web.interceptor.ChatHsIntcp"/>
 			</websocket:handshake-interceptors>
 	</websocket:handlers>
-	<beans:bean id="chatHandler" class="web.ws.ChatHandler"></beans:bean>
-	
+	<beans:bean id="chatHandler" class="web.ws.ChatHandler"></beans:bean> -->
 
 	<!-- Handles HTTP GET requests for /resources/** by efficiently serving up static resources in the ${webappRoot}/resources directory -->
 	<resources mapping="/resources/**" location="/resources/" />

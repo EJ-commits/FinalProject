@@ -1,9 +1,11 @@
 package web.controller;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
@@ -16,12 +18,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.socket.WebSocketSession;
 
-import web.ws.ChatHandler;
+import web.service.face.ChatService;
 
 @Controller
 public class WebsocketChat {
 	
-	private static final Logger logger = LoggerFactory.getLogger(ChatHandler.class);	
+	private static final Logger logger = LoggerFactory.getLogger(WebsocketChat.class);	
 	
 /*	
 	public void WebsocketChat() { //생성자
@@ -83,7 +85,8 @@ public class WebsocketChat {
 */
 	 ///	---------- 상단 사용 안함 ------------
 	
-	@Autowired ChatHandler chatHandler;
+//	@Autowired ChatHandler chatHandler;
+	@Autowired ChatService chatService;
 	
 	@RequestMapping("/chat/chat")
 	public void getChat(HttpSession session, Model model) {
@@ -96,7 +99,7 @@ public class WebsocketChat {
 	
 
 	//접속자 리스트 가져오기 
-	@RequestMapping("/chat/participant")	
+/*	@RequestMapping("/chat/participant")	
 	public @ResponseBody Map<String, Object> participant(HttpServletResponse res) {
 //	public @ResponseBody List<String> participant(HttpServletResponse res) {
 	
@@ -120,9 +123,19 @@ public class WebsocketChat {
 	return map;
 //	return participant;
 	
-
 	}
-		
+*/	
+	
+//	다운로드는 chat.jsp 내에서 비동기적으로 처리되므로
+//  따로 뷰를 지정한다.
+// 	jsp 대신 파일 객체를 반환하므로, resolver 설정 + view 생성 클래스 필요
+	@RequestMapping("/chat/logdown")
+	public String chatLogDown(String userid,  HttpServletRequest request, Model model) {
+		String filepath = chatService.getLog(userid); // ajax json값이 넘어옴 
+		request.setAttribute("userid", userid);
+		request.setAttribute("filepath",filepath);
+		return "down";
+	}
 	
 	
 }

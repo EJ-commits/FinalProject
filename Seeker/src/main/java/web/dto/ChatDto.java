@@ -2,11 +2,19 @@ package web.dto;
 
 public class ChatDto {
 
+	private String roomId;
 	private int isStart;
 	private int isEnd;
 	private String userid;
 	private String chatLog;
 	private String chatDate;
+	
+	public String getRoomId() {
+		return roomId;
+	}
+	public void setRoomId(String roomId) {
+		this.roomId = roomId;
+	}
 	public int getIsStart() {
 		return isStart;
 	}
@@ -39,7 +47,7 @@ public class ChatDto {
 	}
 	@Override
 	public String toString() {
-		return "ChatDto [isStart=" + isStart + ", isEnd=" + isEnd + ", userid=" + userid + ", chatLog=" + chatLog
+		return "ChatDto ["+ "roomId=" + roomId + "isStart=" + isStart + ", isEnd=" + isEnd + ", userid=" + userid + ", chatLog=" + chatLog
 				+ ", chatDate=" + chatDate + "]";
 	}
 

@@ -5,10 +5,52 @@
   
 <mapper namespace="web.dao.face.ChatDao">
 	
+	<insert id="setChatRoom" parameterType="web.dto.ChatDto">
+		insert into chatroom (room_id, room_name)
+		values (#{roomId},#{roomName})
+	</insert>
+	
 	<insert id="saveMsg" parameterType="web.dto.ChatDto">
 		insert into chatlog (isstart, isend , userid, chat_log)
 		values (#{isStart},#{isEnd}, #{userid}, #{chatLog})
 	</insert>
 	
+	<select id="getMsg" parameterType="web.dto.ChatDto">
+		select * from chatlog
+		where userid = #{userid}
+	</select>
 	
+	<select id="getChatRooms" resultType="web.dto.ChatRoomDto">
+		select room_id, room_name from chatRoom
+	</select>
+	
+	<select id="getRoomToGo" resultType="web.dto.ChatRoomDto">
+		select * from chatRoom
+		where room_id = #{roomId}
+		
+	</select>
+	
+	<select id="getChatLog" resultType="web.dto.ChatDto">
+	select * from chatlog
+		where chat_date >=
+		   ( select chat_date from (
+		    (select rownum, E.* from
+		        (select chat_date, userid, chat_log 
+		        from chatlog
+		        where userid = 'testuser'
+		            and isstart = 1
+		        order by chat_date desc) E
+		    where rownum = 1))) 
+		and 
+		    chat_date <![CDATA[<=]]>
+		    ( select chat_date from (
+		    (select rownum, E.* from
+		        (select chat_date, userid, chat_log 
+		        from chatlog
+		        where userid = 'testuser'
+		            and isend = 1
+		        order by chat_date desc) E  
+		    where rownum = 1)))
+		order by chat_date
+	</select>
 </mapper>

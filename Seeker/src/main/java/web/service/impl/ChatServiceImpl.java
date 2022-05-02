@@ -2,61 +2,144 @@ package web.service.impl;
 
 import java.io.File;
 import java.io.FileWriter;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
+import java.util.List;
 
 import javax.servlet.ServletContext;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import web.dao.face.ChatDao;
 import web.dto.ChatDto;
+import web.dto.ChatRoomDto;
 import web.service.face.ChatService;
 
 @Service
 public class ChatServiceImpl implements ChatService{
 
+	private static final Logger logger = LoggerFactory.getLogger(ChatServiceImpl.class);	
+	
 	@Autowired private ChatDao chatDao;
 	private ChatDto chatDto = new ChatDto();
 	
 	@Autowired ServletContext context; // 파일저장용
 	
+	//채팅방 생성
+	public ChatRoomDto createRoom(String roomName) {
+		
+		ChatRoomDto chatRoom = new ChatRoomDto(roomName);
+		logger.info("chatRoom {}",chatRoom.toString());
+		
+		chatDao.setChatRoom(chatRoom);
+		
+		return chatRoom;
+	}
 	
+	//메시지 DB에 저장하는 메서드
 	@Override
-	public void saveMsg(int start, int end, String userid, String chatLog) {
+	public void saveMsg(ChatDto chatDto) {
 	
-	chatDto.setIsStart(start);
-	chatDto.setIsEnd(end);	
-	chatDto.setUserid(userid);
-	chatDto.setChatLog(chatLog);
-	System.out.println(chatDto.toString());
 	chatDao.saveMsg(chatDto);
 		
 	}
 
+	//저장된 메시지 클라이언트 쪽에서 다운로드하는 메서드
 	@Override
-	public File getLog(String userid) {
+	public String getLog(String userid) {
 
-		String today = new SimpleDateFormat("yyyyMMdd_ss").format(new Date());
-		String fileName = userid + "_CHATLOG_"+ today + ".txt";
-
-		File log = new File(fileName); //파일 생성 
-		
-
-				
-				
-				
-				
-				
-				//서버내 저장경로설정 
-		String storedPath = context.getRealPath("upload"); // 서블릿컨텍스트의 실제경로
+		//서버내 저장경로설정 
+		String storedPath = context.getRealPath("chatlog"); // 서블릿컨텍스트의 실제경로
 		File storedFolder = new File(storedPath); 
-			if(!storedFolder.exists()) storedFolder.mkdir();
+		if(!storedFolder.exists()) storedFolder.mkdir();
 		
+		//파일생성 준비
+		String today = new SimpleDateFormat("yyyyMMdd_mmss").format(new Date());
+		String fileName = userid + "_CHATLOG_"+ today + ".txt";
 		
+		String filepath = storedPath+ File.separator+fileName;
 		
-		return null;
+		//파일 생성 (txt 확장자를 위에서 부여했으므로 텍스트 파일 생성)
+		File log = new File(filepath); 
+		logger.info("will stored at {}",storedPath+ File.separator+fileName);
+		try {
+			log.createNewFile();
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
+		//파일 내용 쓰기
+		FileWriter filewriter = null;
+		try {
+			filewriter = new FileWriter(log, true); // 로그 txt 파일에 filewriter 얹음
+			
+			//DB조회
+			List<ChatDto> chatLog = chatDao.getChatLog(userid); 
+			logger.info("chatLog isEmpty ? {}",chatLog.isEmpty());
+			
+			//DB 조회내용 텍스트파일에 쓰기
+			Iterator<ChatDto> iter = chatLog.iterator();
+			
+			while(iter.hasNext()) {
+				
+				ChatDto chatDto = iter.next();
+				int target2 = chatDto.getChatDate().indexOf(".");
+				String date = chatDto.getChatDate().substring(5, target2);
+				System.out.println(date);
+				
+				String str = "["+date+"] "+
+								chatDto.getUserid()+" : "+
+								chatDto.getChatLog() + "\n" ;	
+				logger.info("chatlog {}" , str);
+				
+				filewriter.write(str);
+			}
+			
+			//filewriter.flush();
+			
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				filewriter.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		// 컨텍스트 패스 내 chatlog 폴더에 채팅 대화내용이 저장됨.
+		
+//	다운로드는 chat.jsp 내에서 비동기적으로 처리되므로
+//  따로 뷰를 지정한다.
+		
+		return fileName; 
+	}
+
+	//채팅방 목록 
+	List<ChatRoomDto> list = new ArrayList<ChatRoomDto>();
+
+	@Override
+	public List<ChatRoomDto> findAllRooms() {
+		list = chatDao.getChatRooms();
+		return list;
+	}
+
+	@Override
+	public ChatRoomDto findRoomById(String roomId) {
+		ChatRoomDto room = chatDao.getRoomToGo(roomId);
+		return room;
+	}
+
+	@Override
+	public void saveMsg(int start, int end, String userid, String chatLog) {
+		// TODO Auto-generated method stub
+		
 	}
 
 
