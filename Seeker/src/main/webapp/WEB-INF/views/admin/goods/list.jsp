@@ -13,10 +13,13 @@
 #container_box table td { padding: 10px; text-align: center; }
 #container_box table img {width: 150px; height: auto;}
 
+ body { font-family:'맑은 고딕', verdana; padding:0; margin:0; }
  ul { padding:0; margin:0; list-style:none;  }
 
  div#root { width:90%; margin:0 auto; }
  
+ header#header { font-size:60px; padding:20px 0; }
+ header#header h1 a { color:#000; font-weight:bold; }
  
  nav#nav { padding:10px; text-align:right; }
  nav#nav ul li { display:inline-block; margin-left:10px; }
@@ -30,16 +33,13 @@
  aside ul li a { display:block; width:100%; padding:10px 0;}
  aside ul li a:hover { background:#eee; }
  
+ footer#footer { background:#f9f9f9; padding:20px; }
+ footer#footer ul li { display:inline-block; margin-right:10px; }
 
 </style>
 
 
-<div id="wrap-box-top">
-	<div><a href="/diary/list"><span class="glyphicon glyphicon-arrow-left"></span>&nbsp;이전 페이지</a></div>
-	<div id="title-box">제목</div>
-	<div></div>
-</div>
-<div id="wrap-box">
+
 <section id="container">
 
 	<aside>
@@ -97,6 +97,6 @@
 
 
 </section>
-</div>
 
-<%-- <c:import url ="../../layout/footer.jsp" ></c:import> --%>
+
+<c:import url ="../../layout/footer.jsp" ></c:import>
