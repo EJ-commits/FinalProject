@@ -33,16 +33,11 @@
 	cursor : pointer;
 }
 
-.remove-box {
-	width : 80px;
+.button-box {
+	width : 90px;
 	height : 140px;
-	margin : 20px 0px 20px 20px;
+	margin : 20px 0px 10px 20px;
 	text-align : left;
-}
-
-.remove-box > a > span {
-	margin :0px 6px 0px 6px;
-	color : black;
 }
 
 .img-box {
@@ -84,8 +79,9 @@
 				</table>	
 			</div>
 		</div>
-		<div class="remove-box">
-		<a href=""><span>변경</span></a><a href=""><span>삭제</span></a>
+		<div class="button-box">
+		<a href=""><button type="button" class="btn btn-default btn-sm">변경</button></a>
+		<a href=""><button type="button" class="btn btn-default btn-sm">삭제</button></a>
 		</div>
 	</div>
 </div>

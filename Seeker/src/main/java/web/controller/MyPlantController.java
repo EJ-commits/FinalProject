@@ -1,7 +1,5 @@
 package web.controller;
 
-import javax.servlet.http.HttpSession;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -16,7 +14,7 @@ public class MyPlantController {
 	private static final Logger logger = LoggerFactory.getLogger(MyPlantController.class);
 	
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
-	public String list(HttpSession session, Model model) {
+	public String list(Model model) {
 		
 		logger.info("myplant/list [GET]");
 		
@@ -25,7 +23,7 @@ public class MyPlantController {
 	}
 	
 	@RequestMapping(value = "/write", method = RequestMethod.GET)
-	public String write(HttpSession session, Model model) {
+	public String write(Model model) {
 		
 		logger.info("myplant/write [GET]");
 		
@@ -34,7 +32,7 @@ public class MyPlantController {
 	}
 	
 	@RequestMapping(value = "/delete", method = RequestMethod.GET)
-	public String delete(HttpSession session, Model model) {
+	public String delete(Model model) {
 		
 		logger.info("myplant/delete [GET]");
 		
