@@ -31,7 +31,11 @@ public class AdminServiceImpl implements AdminService {
 
 	//상품목록
 	@Override
+<<<<<<< HEAD
 	public List<GoodsView> goodsList() {
+=======
+	public List<Goods> goodsList() {
+>>>>>>> parent of f8deb93 (상품 등록 + 이미지 구현 , 스마트에디터 파일 resources에 넣음)
 		
 		return adminDao.goodsList();
 	}
@@ -45,6 +49,7 @@ public class AdminServiceImpl implements AdminService {
 
 	//상품 수정
 	@Override
+<<<<<<< HEAD
 	public void goodsUpdate(GoodsView goods, MultipartFile file) {
 		
 		logger.info("update() - File");
@@ -83,6 +88,9 @@ public class AdminServiceImpl implements AdminService {
 		goods.setImgOriginName(file.getOriginalFilename());
 		goods.setImgStoredName(filename);
 		
+=======
+	public void goodsUpdate(GoodsView goods) {
+>>>>>>> parent of f8deb93 (상품 등록 + 이미지 구현 , 스마트에디터 파일 resources에 넣음)
 		adminDao.goodsUpdate(goods);	
 	}
 
