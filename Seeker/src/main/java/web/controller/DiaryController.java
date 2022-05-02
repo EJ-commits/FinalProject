@@ -26,7 +26,7 @@ import web.service.face.PlantService;
 import web.util.TransDate;
 
 @Controller
-@RequestMapping( value = "/diary")
+@RequestMapping(value = "/diary")
 public class DiaryController {
 
 	private static final Logger logger = LoggerFactory.getLogger(DiaryController.class);
