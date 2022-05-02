@@ -9,17 +9,14 @@ import javax.servlet.ServletContext;
 
 import org.springframework.web.multipart.MultipartFile;
 
-public class FileUpload {
+public class StoreImg {
 	
 	public String on(MultipartFile file, ServletContext context) {
-		
-		if(file.getSize() <= 0) return null;
 		
 		String storedPath = context.getRealPath("upload");
 		
 		File storedFolder = new File( storedPath );
-		
-		if( !storedFolder.exists() ) {
+		if(!storedFolder.exists()) {
 			storedFolder.mkdir();
 		}
 		

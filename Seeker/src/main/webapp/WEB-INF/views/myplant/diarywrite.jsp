@@ -5,48 +5,7 @@
 <c:import url="/WEB-INF/views/layout/header.jsp" />
 
 <link rel="stylesheet" href="/resources/css/diaryform.css">
-
-<script type="text/javascript">
-window.onload = function() {
-	
-	const upload = document.getElementById('upload-file');
-	
-	upload.onchange = function() {
-		
-		const file = upload.files[0];
-		const name = file.name;
-		const url = URL.createObjectURL(file);
-		
-		const pbox = document.getElementById('upload-photo-box');
-		const img = document.createElement('img');
-		const nbox = document.getElementById('upload-name');
-		
-		img.src = url;
-		img.style.width = '130px';
-		img.style.height = '130px';
-		
-		while (pbox.firstChild) {
-			pbox.removeChild( pbox.firstChild);
-		}
-		
-		pbox.appendChild(img);
-		nbox.innerHTML = name + '&nbsp;<span class="glyphicon glyphicon-remove-circle" id="remove"></span>';
-		
-		const remove = document.getElementById('remove');
-		
-		remove.onclick = function() {
-			
-			upload.value = '';
-			pbox.removeChild( pbox.firstChild);
-			nbox.textContent = '';
-			
-		}
-		
-	}
-	
-	
-};
-</script>
+<script type="text/javascript" src="/resources/js/diarywrite.js"></script>
 
 <div id="wrap-box-top">
 	<div><a href="/diary/calendar"><span class="glyphicon glyphicon-arrow-left"></span>&nbsp;일기 달력</a></div>
@@ -62,24 +21,24 @@ window.onload = function() {
 			<table class="table" id="profile-table">
 				<tr><td>학명 : </td><td>감자</td></tr>
 				<tr><td>이름 : </td><td>감돌이</td></tr>
-				<tr><td>심은날 : </td><td>2022년 04월 01일 (${date - 20220401}일째 되는 날)</td></tr>
+				<tr><td>심은날 : </td><td>2022년 04월 01일</td></tr>
 			</table>	
 		</div>
 	</div>
 		<div id="date-box">
 			<span>${newDate}</span>
 		</div>
-		<form action="/diary/write" method="post" enctype="multipart/form-data">
+		<form action="/diary/write" method="post" enctype="multipart/form-data" id="form">
 			<div class="diary-box">
 				<div class="write-box">
 					<p>온도</p>
-					<input type="text" class="form-control" name="temp">
+					<input type="text" class="form-control" name="temp" placeholder="&#x2103;">
 				</div>
 				<div class="tip-box">
 				</div>
 				<div class="write-box">
 					<p>습도</p>
-					<input type="text" class="form-control" name="humid">
+					<input type="text" class="form-control" name="humid" placeholder="%">
 				</div>
 				<div class="tip-box">
 				</div>
@@ -125,14 +84,13 @@ window.onload = function() {
 						<label for="upload-file">
 							사진 첨부&nbsp;<span class="glyphicon glyphicon-picture"></span>
 						</label>
-							<input type="file" accept="image/gif, image/jpeg, image/png" id="upload-file" name="file">
+						<input type="file" accept="image/gif, image/jpeg, image/png" id="upload-file" name="file">
 					</div>
 					<div id="upload-photo-box"></div>
 					<div>
 						<div id="upload-name">
 						</div>
 						<div id="submit-box">
-							<input type="text" name="ddate" value="${date}" hidden="true">
 							<button type="submit" class="btn btn-success btn-sm" id="write-button">작성 완료</button>
 						</div>
 					</div>

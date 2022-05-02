@@ -1,9 +1,13 @@
 package web.service.face;
 
-import web.dto.Plant;
+import java.util.HashMap;
+
+import web.dto.PlantCode;
 
 public interface PlantService {
 	
-	public Plant getTip(String cnum);
+	public PlantCode getCode(String cnum);
+	
+	public HashMap<String, String> getTip(PlantCode Code);
 	
 }

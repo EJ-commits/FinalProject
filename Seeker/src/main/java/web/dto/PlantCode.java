@@ -1,21 +1,17 @@
 package web.dto;
 
-public class Plant {
+public class PlantCode {
 	
 	private String temp;
-	
 	private String tempW;
-	
 	private String humid;
-	
 	private String dirt;
-	
 	private String dirtW;
-
+	
 	@Override
 	public String toString() {
-		return "Plant [temp=" + temp + ", tempW=" + tempW + ", humid=" + humid + ", dirt=" + dirt + ", dirtW=" + dirtW
-				+ "]";
+		return "PlantTip [temp=" + temp + ", tempW=" + tempW + ", humid=" + humid + ", dirt=" + dirt + ", dirtW="
+				+ dirtW + "]";
 	}
 
 	public String getTemp() {
@@ -57,5 +53,5 @@ public class Plant {
 	public void setDirtW(String dirtW) {
 		this.dirtW = dirtW;
 	}
-
+	
 }

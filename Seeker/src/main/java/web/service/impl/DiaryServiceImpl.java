@@ -12,7 +12,7 @@ import org.springframework.web.multipart.MultipartFile;
 import web.dao.face.DiaryDao;
 import web.dto.Diary;
 import web.service.face.DiaryService;
-import web.util.FileUpload;
+import web.util.StoreImg;
 
 @Service
 public class DiaryServiceImpl implements DiaryService {
@@ -66,15 +66,12 @@ public class DiaryServiceImpl implements DiaryService {
 			
 		}
 		
-		FileUpload fileUpload = new FileUpload();
+		if(file.getSize() > 0) {
+			StoreImg fileUpload = new StoreImg();
+			String stored = fileUpload.on(file, context);
 		
-		String stored = fileUpload.on(file, context);
-		
-		if(stored != null) {
-		
-		diary.setOrigin(file.getOriginalFilename());
-		diary.setStored(stored);
-		
+			diary.setOrigin(file.getOriginalFilename());
+			diary.setStored(stored);
 		}
 		
 		diaryDao.insert(diary);
@@ -100,15 +97,12 @@ public class DiaryServiceImpl implements DiaryService {
 			diary.setRepot("0");
 		}
 		
-		FileUpload fileUpload = new FileUpload();
+		if(file.getSize() > 0) {
+			StoreImg fileUpload = new StoreImg();
+			String stored = fileUpload.on(file, context);
 		
-		String stored = fileUpload.on(file, context);
-		
-		if(stored != null) {
-		
-		diary.setOrigin(file.getOriginalFilename());
-		diary.setStored(stored);
-		
+			diary.setOrigin(file.getOriginalFilename());
+			diary.setStored(stored);
 		}
 		
 		diaryDao.update(diary);

@@ -1,85 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <c:import url="/WEB-INF/views/layout/header.jsp" />
 
 <link rel="stylesheet" href="/resources/css/diaryform.css">
-
-<script type="text/javascript">
-window.onload = function() {
-	
-	const alter = document.getElementById('alter-button');
-	const upload = document.getElementById('upload-file');
-	const drop = document.getElementById('drop-button');
-	
-	alter.onclick = function() {
-		
-		const input = document.getElementsByClassName('form-control');
-		const check = document.getElementById('check-table');
-		const hidden = document.getElementsByClassName('hidden-box');
-
-		input[2].parentNode.removeChild(input[2]);
-		alter.parentNode.removeChild(alter);
-		drop.parentNode.removeChild(drop);
-		check.hidden = true;
-		
-		for( let i = 0; i < input.length; ++i) {
-			
-			input[i].disabled = false;
-			
-		}
-		
-		for( let i = 0; i < hidden.length; ++i) {
-			
-			hidden[i].hidden = false;
-			
-		}
-		
-	}
-	
-	upload.onchange = function() {
-		
-		const file = upload.files[0];
-		const name = file.name;
-		const url = URL.createObjectURL(file);
-		
-		const pbox = document.getElementById('upload-photo-box');
-		const img = document.createElement('img');
-		const nbox = document.getElementById('upload-name');
-		
-		img.src = url;
-		img.style.width = '130px';
-		img.style.height = '130px';
-		
-		while (pbox.firstChild) {
-			pbox.removeChild( pbox.firstChild);
-		}
-
-		pbox.appendChild(img);
-		nbox.innerHTML = name + '&nbsp;<span class="glyphicon glyphicon-remove-circle" id="remove"></span>';
-		
-		const remove = document.getElementById('remove');
-		
-		remove.onclick = function() {
-			
-			upload.value = '';
-			pbox.removeChild( pbox.firstChild);
-			nbox.textContent = '';
-			
-		}
-		
-	}
-	
-	drop.onclick = function() {
-		
-		const date = document.getElementById('diary-date').value;
-		location.href= '/diary/delete?date=' + date;
-		
-	}
-	
-}
-</script>
+<script type="text/javascript" src="/resources/js/diaryview.js"></script>
 
 <div id="wrap-box-top">
 	<div><a href="/diary/calendar"><span class="glyphicon glyphicon-arrow-left"></span>&nbsp;일기 달력</a></div>
@@ -95,31 +22,96 @@ window.onload = function() {
 			<table class="table" id="profile-table">
 				<tr><td>학명 : </td><td>감자</td></tr>
 				<tr><td>이름 : </td><td>감돌이</td></tr>
-				<tr><td>심은날 : </td><td>2022년 04월 01일 (${diary.ddate - 20220401}일째 되는 날)</td></tr>
+				<tr><td>심은날 : </td><td>2022년 04월 01일</td></tr>
 			</table>	
 		</div>
 	</div>
 		<div id="date-box">
+			<span hidden="true">${diary.ddate}</span>
 			<span>${newDate}</span>
 		</div>
-		<form action="/diary/alter" method="post" enctype="multipart/form-data">
+		<form action="/diary/alter" method="post" enctype="multipart/form-data" id="form">
 			<div class="diary-box">
 				<div class="write-box">
-					<p class="text-danger">온도</p>
-					<input type="text" class="form-control" name="temp" value="${diary.temp}" disabled>
+					<p>온도</p>
+					<input type="text" class="form-control" name="temp" placeholder="&#x2103;" value="${diary.temp}" disabled>
 				</div>
 				<div class="tip-box">
+					<c:if test="${empty diary.temp}">
+						<p class='text-danger'>
+						<span class='glyphicon glyphicon-exclamation-sign'></span>&nbsp;감자 온도 TIP
+						</p>
+						<p class='text-muted'>${tip.get('temp')}</p>
+					</c:if>
+					<c:if test="${not empty diary.temp}">
+						<fmt:parseNumber var="t" value="${diary.temp}" />
+							<c:choose>
+								<c:when test="${code.temp eq '082001' and (t < 10 or t > 15)}">
+									<p class='text-danger'>
+									<span class='glyphicon glyphicon-exclamation-sign'></span>&nbsp;감자 온도 TIP
+									</p>
+									<p class='text-muted'>${tip.get('temp')}</p>
+								</c:when>
+								<c:when test="${code.temp eq '082002' and (t < 16 or t > 20)}">
+									<p class='text-danger'>
+									<span class='glyphicon glyphicon-exclamation-sign'></span>&nbsp;감자 온도 TIP
+									</p>
+									<p class='text-muted'>${tip.get('temp')}</p>
+									</c:when>
+								<c:when test="${code.temp eq '082003' and (t < 21 or t > 25)}">
+									<p class='text-danger'>
+									<span class='glyphicon glyphicon-exclamation-sign'></span>&nbsp;감자 온도 TIP
+									</p>
+									<p class='text-muted'>${tip.get('temp')}</p>
+								</c:when>
+								<c:when test="${code.temp eq '082004' and (t < 26 or t > 30)}">
+									<p class='text-danger'>
+									<span class='glyphicon glyphicon-exclamation-sign'></span>&nbsp;감자 온도 TIP
+									</p>
+									<p class='text-muted'>${tip.get('temp')}</p>
+								</c:when>
+							</c:choose>
+					</c:if>
 				</div>
 				<div class="write-box">
-					<p class="text-primary">습도</p>
-					<input type="text" class="form-control" name="humid" value="${diary.humid}" disabled>
+					<p>습도</p>
+					<input type="text" class="form-control" name="humid" placeholder="%" value="${diary.humid}" disabled>
 				</div>
 				<div class="tip-box">
+					<c:if test="${empty diary.humid}">
+						<p class='text-info'>
+						<span class='glyphicon glyphicon-exclamation-sign'></span>&nbsp;감자 습도 TIP
+						</p>
+						<p class='text-muted'>${tip.get('humid')}</p>
+					</c:if>
+					<c:if test="${not empty diary.humid}">
+						<fmt:parseNumber var="h" value="${diary.humid}" />
+							<c:choose>
+								<c:when test="${code.humid eq '083001' and h >= 40}">
+									<p class='text-info'>
+									<span class='glyphicon glyphicon-exclamation-sign'></span>&nbsp;감자 습도 TIP
+									</p>
+									<p class='text-muted'>${tip.get('humid')}</p>
+								</c:when>
+								<c:when test="${code.humid eq '083002' and (h < 40 or h > 70)}">
+									<p class='text-info'>
+									<span class='glyphicon glyphicon-exclamation-sign'></span>&nbsp;감자 습도 TIP
+									</p>
+									<p class='text-muted'>${tip.get('humid')}</p>
+									</c:when>
+								<c:when test="${code.humid eq '083003' and h <= 70}">
+									<p class='text-info'>
+									<span class='glyphicon glyphicon-exclamation-sign'></span>&nbsp;감자 습도 TIP
+									</p>
+									<p class='text-muted'>${tip.get('humid')}</p>
+								</c:when>
+							</c:choose>
+					</c:if>
 				</div>
 			</div>
 			<div class="diary-box">
 				<div class="write-box">
-					<p class="text-warning">흙</p>
+					<p>흙</p>
 					<input type="text" class="form-control" name="dirt" value="${diary.dirt}" disabled>
 					<div class="hidden-box" hidden="true">
 						<div class="btn-group" data-toggle="buttons">
@@ -151,6 +143,40 @@ window.onload = function() {
 					</div>
 				</div>
 				<div class="tip-box">
+					<c:if test="${empty diary.dirt}">
+						<p class='text-warning'>
+						<span class='glyphicon glyphicon-exclamation-sign'></span>&nbsp;감자 흙 TIP
+						</p>
+						<p class='text-muted'>${tip.get('dirt')}</p>
+					</c:if>
+					<c:if test="${not empty diary.dirt}">
+						<c:choose>
+							<c:when test="${code.dirt eq '053001' and diary.dirt eq '건조'}">
+								<p class='text-warning'>
+								<span class='glyphicon glyphicon-exclamation-sign'></span>&nbsp;감자 흙 TIP
+								</p>
+								<p class='text-muted'>${tip.get('dirt')}</p>
+							</c:when>
+							<c:when test="${code.dirt eq '053002' and diary.dirt eq '건조'}">
+								<p class='text-warning'>
+								<span class='glyphicon glyphicon-exclamation-sign'></span>&nbsp;감자 흙 TIP
+								</p>
+								<p class='text-muted'>${tip.get('dirt')}</p>
+								</c:when>
+							<c:when test="${code.dirt eq '053003' and diary.dirt eq '과습'}">
+								<p class='text-warning'>
+								<span class='glyphicon glyphicon-exclamation-sign'></span>&nbsp;감자 흙 TIP
+								</p>
+								<p class='text-muted'>${tip.get('dirt')}</p>
+							</c:when>
+							<c:when test="${code.dirt eq '053004' and diary.dirt eq '과습'}">
+								<p class='text-warning'>
+								<span class='glyphicon glyphicon-exclamation-sign'></span>&nbsp;감자 흙 TIP
+								</p>
+								<p class='text-muted'>${tip.get('dirt')}</p>
+							</c:when>
+						</c:choose>
+					</c:if>
 				</div>
 				<div class="write-box" id="check-box">
 					<table class="table" id="check-table">
@@ -217,19 +243,26 @@ window.onload = function() {
 						<label for="upload-file">
 							사진 첨부&nbsp;<span class="glyphicon glyphicon-picture"></span>
 						</label>
-							<input type="file" accept="image" class="form-control" id="upload-file" name="file" disabled>
+						<input type="file" accept="image/gif, image/jpeg, image/png" 
+						 class="form-control" id="upload-file" name="file" disabled>
+						<input type="hidden" id="origin" name="origin" value="${diary.origin}">
+						<input type="hidden" id="stored" name="stored" value="${diary.stored}">
 					</div>
 					<div id="upload-photo-box">
-						<c:if test="${!empty diary.origin}">
+						<c:if test="${not empty diary.stored}">
 							<img src="/upload/${diary.stored}" style="width:130px; height:130px;">
 						</c:if>
 					</div>
 					<div>
 						<div id="upload-name">
-							${diary.origin}
+							<c:if test="${not empty diary.origin}">
+								${diary.origin}&nbsp;
+								<span id="remove-button" hidden="true">
+								<span class="glyphicon glyphicon-remove-circle"></span>
+								</span>
+							</c:if>
 						</div>
 						<div id="submit-box">
-							<input type="text" name="ddate" id="diary-date" value="${diary.ddate}" hidden="true">
 							<button type="button" class="btn btn-success btn-sm" id="alter-button">수정 하기</button>
 							<button type="button" class="btn btn-warning btn-sm" id="drop-button">삭제 하기</button>
 							<div class="hidden-box" hidden="true">
