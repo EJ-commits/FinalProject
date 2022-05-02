@@ -221,7 +221,7 @@ body {
 		</div>
 		<div id="header-center"></div>
 		<div class="header-menu-box">
-			<a href="">나의 식물</a>
+			<a href="/myplant/list">나의 식물</a>
 		</div>
 		<div class="header-menu-box" id="menu-box-board">
 			<a id="menu-board">게시판</a>
