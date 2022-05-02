@@ -22,4 +22,12 @@ public interface ShopDao {
 	 * @return 상품 리스트
 	 */
 	public List<GoodsView> list_2(int cateCode);
+	
+	/**
+	 * 상품 상세조회 + 카테고리 조인
+	 * 
+	 * @param gdsNum - 상세보기 하려는 상품 번호
+	 * @return - 상품 정보
+	 */
+	public GoodsView goodsView(int gdsNum);
 }

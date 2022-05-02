@@ -25,6 +25,7 @@ public class ShopController {
 	@RequestMapping(value = "/home")
 	public void home() {}
 	
+	//(사용자)상품 목록 조회
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
 	public void getList(@RequestParam("c") int cateCode,
 						@RequestParam("L") int level, Model model) {
@@ -35,4 +36,14 @@ public class ShopController {
 		model.addAttribute("list", list);
 		
 	}
+	
+	//(사용자)상품 상세 조회
+	@RequestMapping(value = "/view", method = RequestMethod.GET)
+	public void getView(@RequestParam("n") int gdsNum, Model model) {
+		logger.info("get view");
+		
+		GoodsView view = shopService.goodsView(gdsNum);
+		model.addAttribute("view", view);
+	}
+	
 }

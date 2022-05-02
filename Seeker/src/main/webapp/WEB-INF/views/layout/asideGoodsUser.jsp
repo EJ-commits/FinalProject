@@ -21,7 +21,7 @@ aside#aside li > ul.low li { width:180px; }
 
 <aside>
  <ul>
-  	<li><a href="/shop/list?c=100&L=1">식물</a>
+  	<li><a href="">식물</a>
  		<ul class="low">
   			<li><a href="/shop/list?c=101&L=2">공기정화식물</a></li>
   			<li><a href="/shop/list?c=102&L=2">관엽식물</a></li>

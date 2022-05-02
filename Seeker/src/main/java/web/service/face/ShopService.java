@@ -15,4 +15,12 @@ public interface ShopService {
 	 */
 	public List<GoodsView> list(int cateCode, int level);
 	
+	/**
+	 * 상품 상세조회 + 카테고리 조인
+	 * 
+	 * @param gdsNum - 상세보기 하려는 상품 번호
+	 * @return - 상품 정보
+	 */
+	public GoodsView goodsView(int gdsNum);
+	
 }
