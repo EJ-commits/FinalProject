@@ -36,9 +36,6 @@
  input { width:150px; }
  textarea#gdsDes { width:400px; height:180px; }
  
- .oriImg { width: 500px; height: auto;}
- .thumbImg{}
- 
 </style>
 
 
@@ -76,26 +73,6 @@
 		<div class="inputArea">
  			<label for="gdsDes">상품소개</label>
  			<span>${goods.gdsDes}</span>
-		</div>
-		
-		<div class="inputArea">
- 			<label for="gdsImg">이미지</label>
- 			<p>원본 이미지</p>
- 			
- 			<!-- 첨부파일 -->
-			<div>
-
-
-		<c:if test="${not empty goods }">
-		<img src="<%=request.getContextPath() %>/upload/${goods.ImgStoredName }" 
-			 alt="그림을 불러오지못함" width="50%" height="50%" class="oriImg"><br>
-		<a href="<%=request.getContextPath() %>/upload/${goods.ImgStoredName }"
-			download="${goods.ImgOriginName }">
-			${ goods.ImgOriginName }
-		</a>
-		</c:if>
-		</div>
- 
 		</div>
 
 		<div class="inputArea">
