@@ -71,9 +71,4 @@ public class MainController {
 		return plantInfo;
 	}
 	
-//	@GetMapping(value="/main/myPlant")
-//	public String getMyPlant() {
-//		
-//		return null;
-//	}
 }
