@@ -6,7 +6,12 @@
 <c:import url ="../../layout/header.jsp" ></c:import>
 
 <style>
-#container_box table td { width:100px; }
+#container_box table {width: 900px;}
+#container_box table th {font-size: 20px; font-weight: bold;
+							text-align: center; padding: 10px; border-bottom: 2px solid #666;}
+#container_box table tr:hover {background: #eee;}
+#container_box table td { padding: 10px; text-align: center; }
+#container_box table img {width: 150px; height: auto;}
 
  body { font-family:'맑은 고딕', verdana; padding:0; margin:0; }
  ul { padding:0; margin:0; list-style:none;  }
@@ -19,10 +24,10 @@
  nav#nav { padding:10px; text-align:right; }
  nav#nav ul li { display:inline-block; margin-left:10px; }
 
- section#container { padding:20px 0; border-top:2px solid #eee; border-bottom:2px solid #eee; }
- section#container::after { content:""; display:block; clear:both; }
+/*  section#container { padding:20px 0; border-top:2px solid #eee; border-bottom:2px solid #eee; }
+ section#container::after { content:""; display:block; clear:both; } */
  aside { float:left; width:200px; }
- div#container_box { float:right; width:calc(100% - 200px - 20px); }
+/*  div#container_box { float:right; width:calc(100% - 200px - 20px); } */
  
  aside ul li { text-align:center; margin-bottom:10px; }
  aside ul li a { display:block; width:100%; padding:10px 0;}
@@ -46,6 +51,7 @@
 		
  			<thead>
   				<tr>
+   				<th>썸네일</th>
    				<th>번호</th>
    				<th>이름</th>
    				<th>카테고리</th>
@@ -59,14 +65,24 @@
   			<c:forEach items="${list}" var="list">
   			
   				<tr>
-   				<td>${list.gdsNum}</td>
+   				<td>
+   					<c:if test="${not empty list }">
+					<img src="<%=request.getContextPath() %>/upload/${list.imgStoredName }" 
+			 			alt="그림을 불러오지못함" ><br>
+					<a href="<%=request.getContextPath() %>/upload/${list.imgStoredName }"
+			 			download="${list.imgOriginName }" >
+					<%-- ${list.imgOriginName } --%>
+					</a>
+					</c:if>
+   				</td>
+   				<td>${list.gdsNum }</td>
    				<td>
    					<a href="/admin/goods/view?n=${list.gdsNum}">${list.gdsName}</a>
    				</td>
+   				<td>${list.cateName}</td>
    				<td>
-   					<fmt:formatNumber value="${list.cateCode}" pattern="###,###,###"/>
+   					<fmt:formatNumber value="${list.gdsPrice}" pattern="###,###,###"/>
    				</td>
-   				<td>${list.gdsPrice}</td>
    				<td>${list.gdsStock}</td>
    				<td>
    					<fmt:formatDate value="${list.gdsDate}" pattern="yyyy-MM-dd" />

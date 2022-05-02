@@ -23,11 +23,11 @@ public interface AdminService {
 	public void register(Goods goods);
 	
 	/**
-	 * 상품 목록 조회
+	 * 상품 목록 조회 
 	 * 
 	 * @return - 상품 목록 List
 	 */
-	public List<Goods> goodsList();
+	public List<GoodsView> goodsList();
 	
 	/**
 	 * 상품 상세조회 + 카테고리 조인
@@ -41,8 +41,9 @@ public interface AdminService {
 	 * 상품 수정
 	 * 
 	 * @param goods - 새로 수정한 상품 정보
+	 * @param file - 새로 수정한 상품 썸네일이미지
 	 */
-	public void goodsUpdate(GoodsView goods);
+	public void goodsUpdate(GoodsView goods, MultipartFile file);
 	
 	/**
 	 * 상품 삭제
