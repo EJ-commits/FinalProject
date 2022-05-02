@@ -33,13 +33,6 @@ public class ShopServiceImpl implements ShopService {
 		}
 		
 	}
-	
-	// 상품조회 + 카테고리 조인
-	@Override
-	public GoodsView goodsView(int gdsNum) {
-
-		return shopDao.goodsView(gdsNum);
-	}
 
 	
 	

@@ -27,7 +27,6 @@
   section#content { float:right; width:700px; }
   aside#aside { float:left; width:180px; }
   section#container::after { content:""; display:block; clear:both; } 
- footer#footer { background:#eee; padding:20px; }
  
  /* ---------- */
  
@@ -52,40 +51,13 @@ aside#aside li > ul.low { display:none; position:absolute; top:0; left:180px;  }
 aside#aside li:hover > ul.low { display:block; }
 aside#aside li:hover > ul.low li a { background:#eee; border:1px solid #eee; }
 aside#aside li:hover > ul.low li a:hover { background:#fff;}
-aside#aside li > ul.low li { width:180px; }
+aside#aside li > ul.low li { width:180px; } 
  
- footer#footer { margin-top:100px; border-radius:50px 50px 0 0; }
- footer#footer div#footer_box { padding:0 20px; }
- 
-</style>
 
-<style>
- section#content ul li { display:inline-block; margin:10px; }
- section#content div.goodsThumb img { width:200px; height:200px; }
- section#content div.goodsName { padding:10px 0; text-align:center; }
- section#content div.goodsName a { color:#000; }
+ 
 </style>
 
 <section id="container">
-	<div id="container_box">
-	
-		<section id="content">
-			
-			<ul>
- 			<c:forEach items="${list}" var="list">
- 			<li>
-  			<div class="goodsThumb">
-   				<img src="<%=request.getContextPath() %>/upload/${list.imgStoredName }" 
-			 alt="그림을 불러오지못함" width="50%" height="50%"><br>
-  			</div> 
-  			<div class="goodsName">
-   				<a href="/shop/view?n=${list.gdsNum}">${list.gdsName}</a>
-  			</div>
- 			</li>
- 			</c:forEach>
-			</ul>
-		
-		</section>
 
 	<aside id="aside">
  		<ul>
@@ -93,7 +65,8 @@ aside#aside li > ul.low li { width:180px; }
  		</ul>
 	</aside>
 	
-	
+	<div id="container_box">
+		<!-- 본문영역 -->
 	</div>
 
 </section>
