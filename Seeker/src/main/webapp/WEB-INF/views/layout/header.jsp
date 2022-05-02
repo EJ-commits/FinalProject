@@ -245,7 +245,7 @@ body {
 			</a>
 		</div>
 		<div id="header-login-box">
-			<a href="/login"><span class="header-menu-text-xs">로그인</span></a>
+			<a href=""><span class="header-menu-text-xs">로그인</span></a>
 		</div>
 		<div id="header-login-box">
 			<a href=""><span class="header-menu-text-xs">회원가입</span></a>
