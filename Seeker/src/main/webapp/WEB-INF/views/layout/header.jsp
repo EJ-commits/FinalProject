@@ -227,7 +227,7 @@ body {
 			<a id="menu-board">게시판</a>
 		</div>	
 		<div class="header-menu-box">
-			<a href="">식물원</a>
+			<a href="/garden/gardenMap">수목원</a>
 		</div>
 		<div class="header-menu-box">
 			<a href="">스토어</a>

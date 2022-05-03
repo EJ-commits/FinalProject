@@ -93,11 +93,17 @@
 <!-- </div> -->
 <!-- <div id="wrap-box"> -->
 
+<div id="wrap-box-top">
+	<div><a href="/diary/list"><span class="glyphicon glyphicon-arrow-left"></span>&nbsp;이전 페이지</a></div>
+	<div id="title-box">수목원</div>
+	<div></div>
+</div>
+<div id="wrap-box">
 <!-- 본문 -->
 <!-- 지도 -->
 <div class="garden_wrap" style="height:1500px;"><!-- garden 전체 div -->
 
-<div class="map_wrap" style="width:70%;height:600px;margin:20px auto;">
+<div class="map_wrap" style="width:100%;height:600px;margin:20px auto;">
 
     <div id="map" style="width:100%;height:100%;position:relative;overflow:hidden;">
     	<div id="iconShortcut" style="position:absolute;right:10px;bottom:100px;z-index:20;width:48px;margin-bottom: 10px;">
@@ -163,6 +169,7 @@
 	</div>
 </div>
 </div><!-- garden 전체 div -->
+</div>
 
 <!-- </div> -->
 <!-- 푸터 -->

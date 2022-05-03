@@ -48,17 +48,6 @@ body {
 	display : inline-flex;
 }
 
-.header-lmg-box {
-	width : 70px;
-	height : 90px;
-	padding : 40px 0px 10px 0px;
-}
-
-.header-img {
-	width : 70px;
-	height : 40px;
-}
-
 #header-logo {
 	width : 150px;
 	height : 90px;
@@ -72,19 +61,17 @@ body {
 }
 
 #header-logo-black{
-	width : 290px;
+	width : 200px;
 	height : 9px;
 	background-color : black;
 }
 
-#header-center {
-	width : 90px;
-}
-
 .header-menu-box {
-	width : 120px;
+	width : 225px;
 	padding : 53px 0px 0px 0px;
-	text-align : right;
+	text-align : center;
+	font-size : 30px;
+	color : black;
 }
 
 .header-menu-box > a:hover{
@@ -98,7 +85,7 @@ body {
 }
 
 #header-login-box {
-	width : 75px;
+	width : 100px;
 	padding : 20px 0px 0px 0px;
 	text-align : right;
 }
@@ -117,30 +104,34 @@ body {
 }
 
 #hidden-menu-box {
+	display : inline-flex;
 	width : 1200px;
 	height : 25px;
 	margin : 0px 0px 5px 0px;
 }
 
-#hidden-menu-board {
-	display : none;
-	margin: 0px 0px 0px 480px;
-}
-
-#hidden-menu-board > a:hover {
+#hidden-menu-box > div > a:hover {
 	text-decoration-line : none;
 }
 
-#hidden-menu-board > a > span:hover {
+#hidden-menu-box > div > a > span:hover {
 	text-decoration-line : none;
 	color : black;
 }
 
-#hidden-menu-board > a > span {
+#hidden-menu-box > div > a > span {
 	margin : 0px 10px 0px 0px;
 	padding : 5px 0px 0px 0px;
 	color : #688331;
 	font-size : 20px;
+}
+
+#hidden-menu-board {
+	margin : 0px 0px 0px 440px;
+}
+
+#hidden-menu-store {
+	margin : 0px 0px 0px 22px;
 }
 
 #wrap-con {
@@ -206,55 +197,38 @@ body {
 	<div id="header-box">
 		<div id="header-logo-con">
 			<div id="header-logo-box">
-				<div class="header-lmg-box">
-					<img class="header-img" src="/resources/img/headerleft.png">
-				</div>
 				<div id="header-logo">
-					<h2>Seeker</h2>
-				</div>
-				<div class="header-lmg-box">
-					<img class="header-img" src="/resources/img/headerright.png">
+					<h2>Manager</h2>
 				</div>
 			</div>
 			<div id="header-logo-black">
 			</div>
 		</div>
-		<div id="header-center"></div>
 		<div class="header-menu-box">
-			<a href="/myplant/list">나의 식물</a>
+			<a href="">회원 관리</a>
 		</div>
 		<div class="header-menu-box" id="menu-box-board">
-			<a id="menu-board">게시판</a>
+			게시판 관리
 		</div>	
-		<div class="header-menu-box">
-			<a href="/garden/gardenMap">수목원</a>
+		<div class="header-menu-box" id="menu-box-store">
+			상품 관리
 		</div>
 		<div class="header-menu-box">
-			<a href="">스토어</a>
-		</div>
-		<div class="header-menu-box">
-			<a href="" >
-				<span class="material-icons">alarm_on</span>
-				<span class="header-menu-text-sm">알람</span>
-			</a>
-		</div>
-		<div class="header-menu-box">
-			<a href="" >
-			<span class="material-icons">chat_bubble_outline</span>
-			<span class="header-menu-text-sm">오픈채팅</span>
-			</a>
+			<a href="">1:1 문의 채팅</a>
 		</div>
 		<div id="header-login-box">
-			<a href="/login"><span class="header-menu-text-xs">로그인</span></a>
-		</div>
-		<div id="header-login-box">
-			<a href=""><span class="header-menu-text-xs">회원가입</span></a>
+			<a href="/login"><span class="header-menu-text-xs">로그아웃</span></a>
 		</div>
 	</div>
 	<div id="hidden-menu-box">
 		<div id="hidden-menu-board">
 			<a href=""><span>자유 게시판</span></a>
 			<a href=""><span>사진 게시판</span></a>
+		</div>
+		<div id="hidden-menu-store">
+			<a href=""><span>상품 등록</span></a>
+			<a href=""><span>상품 목록</span></a>
+			<a href=""><span>상품 소감</span></a>
 		</div>
 	</div>
 </header>
