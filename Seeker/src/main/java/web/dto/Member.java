@@ -12,7 +12,6 @@ public class Member {
 	
 	
 	
-	
 	public int getUserNo() {
 		return userNo;
 	}
