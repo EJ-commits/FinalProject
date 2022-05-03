@@ -3,12 +3,11 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
-<header id="header">  
+
 <c:import url ="../layout/header.jsp" ></c:import>
-</header>
+
 
 <style>
- body { font-family:'맑은 고딕', verdana; padding:0; margin:0; }
  ul { padding:0; margin:0; list-style:none;  }
 
  div#root { width:90%; margin:0 auto; }
@@ -48,6 +47,5 @@
 </section>
 
 
-<footer id="footer"> 
+
 <c:import url ="../layout/footer.jsp" ></c:import>
-</footer>

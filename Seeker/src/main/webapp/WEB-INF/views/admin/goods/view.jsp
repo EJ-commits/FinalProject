@@ -74,6 +74,15 @@
  			<label for="gdsDes">상품소개</label>
  			<span>${goods.gdsDes}</span>
 		</div>
+		
+		<div>
+			<c:if test="${not empty goods }">
+			<img src="<%=request.getContextPath() %>/upload/${goods.imgStoredName }" 
+			 	alt="그림을 불러오지못함" width="50%" height="50%" class="oriImg"><br>
+			<a href="<%=request.getContextPath() %>/upload/${goods.imgStoredName }">
+			</a>
+			</c:if>
+		</div>
 
 		<div class="inputArea">
 		 	<button type="button" id="list_Btn" class="btn btn-warning">목록</button>
