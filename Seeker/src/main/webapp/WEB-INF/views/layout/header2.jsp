@@ -24,7 +24,7 @@
 
 body {
 	width : 1200px;
-	height : 900px;
+	height : 1800px;
 	margin : auto;
 }
 
@@ -145,7 +145,7 @@ body {
 
 #wrap-con {
 	width : 1200px;
-	height : 680px;
+	height : 1580px;
 	margin : auto;
 }
 
@@ -155,7 +155,7 @@ body {
 	left : 0;
 	top : 0;
 	width : 100%;
-	height : 680px;
+	height : 1580px;
 	margin : 130px 0px 0px 0px;
 	background : url('/resources/img/background.jpg') center no-repeat;
 	background-size : cover; z-index : -1;
@@ -192,7 +192,7 @@ body {
 
 #wrap-box {
 	width :1100px;
-	height : 600px;
+	height : 1500px;
 	margin : auto;
 	padding : 0px 50px 0px 50px;
 	text-align : center;

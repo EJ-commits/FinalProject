@@ -8,20 +8,24 @@
 <script type="text/javascript" src="/resources/js/diarywrite.js"></script>
 
 <div id="wrap-box-top">
-	<div><a href="/diary/calendar"><span class="glyphicon glyphicon-arrow-left"></span>&nbsp;일기 달력</a></div>
+	<div>
+		<a href="/diary/calendar?no=${myPlant.myPlantNo}">
+			<span class="glyphicon glyphicon-arrow-left"></span>&nbsp;일기 달력
+		</a>
+	</div>
 	<div id="title-box">일기 쓰기</div>
 	<div></div>
 </div>
 <div id="wrap-box">
 	<div id="profile-box">
 		<div>
-			<img src="/resources/photato.jpeg" class="img-thumbnail" id="plant-photo">
+			<img src="/upload/${myPlant.stored}" class="img-thumbnail" id="plant-photo">
 		</div>
 		<div id="info-box">
 			<table class="table" id="profile-table">
-				<tr><td>학명 : </td><td>감자</td></tr>
-				<tr><td>이름 : </td><td>감돌이</td></tr>
-				<tr><td>심은날 : </td><td>2022년 04월 01일</td></tr>
+				<tr><td>학명 : </td><td>${myPlant.bname}</td></tr>
+				<tr><td>이름 : </td><td>${myPlant.nick}</td></tr>
+				<tr><td>심은날 : </td><td>${myPlant.birth}(${gapDays}일째)</td></tr>
 			</table>	
 		</div>
 	</div>
@@ -91,6 +95,7 @@
 						<div id="upload-name">
 						</div>
 						<div id="submit-box">
+							<input type="hidden" name="ddate" value="${ddate}">
 							<button type="submit" class="btn btn-success btn-sm" id="write-button">작성 완료</button>
 						</div>
 					</div>

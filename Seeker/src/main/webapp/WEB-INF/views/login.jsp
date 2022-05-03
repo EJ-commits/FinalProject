@@ -14,12 +14,13 @@ $(document).ready(function() {
 	$("#id").focus();
 })
 </script>
-
+<div id="wrap-box-top">
+	<div></div>
+	<div id="title-box">로그인</div>
+	<div></div>
+</div>
+<div id="wrap-box">
 <div class="container">
-
-<h1>로그인</h1>
-<hr>
-
 <div>
 <form action="/member/login" method="post" class="form-horizontal">
 <div class="form-group">
@@ -43,9 +44,8 @@ $(document).ready(function() {
 </div>
 </form>
 </div>
-
 </div><!-- .container end -->
-
+</div>
 <c:import url="/WEB-INF/views/layout/footer.jsp" />
 
 

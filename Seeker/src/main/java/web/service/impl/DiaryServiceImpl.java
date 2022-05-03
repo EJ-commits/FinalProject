@@ -1,7 +1,9 @@
 package web.service.impl;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.ServletContext;
 
@@ -21,18 +23,17 @@ public class DiaryServiceImpl implements DiaryService {
 	@Autowired ServletContext context;
 
 	@Override
-	public List<Diary> list(String week) {
+	public List<Diary> list(int myPlantNo, String week) {
 		
 		String[] days = week.split(",");
 		
+		Map<String, Object> map = new HashMap<String, Object>();
 		List<Diary> diary = new ArrayList<Diary>();
 		
+		map.put("myPlantNo", myPlantNo);
 		for(int i =0; i < 7; ++i) {
-			
-			String date= days[i];
-			
-			diary.add(diaryDao.select(date));
-			
+			map.put("date", days[i]);
+			diary.add(diaryDao.selectSum(map));
 		}
 		
 		return diary;
@@ -40,9 +41,14 @@ public class DiaryServiceImpl implements DiaryService {
 	}
 	
 	@Override
-	public Diary diary(String date) {
+	public Diary diary(int myPlantNo, String date) {
 		
-		return diaryDao.select(date);
+		Map<String, Object> map = new HashMap<String, Object>();
+		
+		map.put("myPlantNo", myPlantNo);
+		map.put("ddate", date);
+		
+		return diaryDao.select(map);
 		
 	}
 
@@ -63,15 +69,16 @@ public class DiaryServiceImpl implements DiaryService {
 			diary.setRepot("1");
 		} else {
 			diary.setRepot("0");
-			
 		}
 		
 		if(file.getSize() > 0) {
+			
 			StoreImg fileUpload = new StoreImg();
 			String stored = fileUpload.on(file, context);
 		
 			diary.setOrigin(file.getOriginalFilename());
 			diary.setStored(stored);
+			
 		}
 		
 		diaryDao.insert(diary);
@@ -98,11 +105,13 @@ public class DiaryServiceImpl implements DiaryService {
 		}
 		
 		if(file.getSize() > 0) {
+			
 			StoreImg fileUpload = new StoreImg();
 			String stored = fileUpload.on(file, context);
 		
 			diary.setOrigin(file.getOriginalFilename());
 			diary.setStored(stored);
+			
 		}
 		
 		diaryDao.update(diary);
@@ -110,9 +119,14 @@ public class DiaryServiceImpl implements DiaryService {
 	}
 
 	@Override
-	public void drop(String date) {
+	public void drop(int myPlantNo, String date) {
 		
-		diaryDao.delete(date);
+		Map<String, Object> map = new HashMap<String, Object>();
+		
+		map.put("myPlantNo", myPlantNo);
+		map.put("ddate", date);
+		
+		diaryDao.delete(map);
 		
 	}
 

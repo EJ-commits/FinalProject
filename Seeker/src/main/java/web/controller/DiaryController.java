@@ -20,8 +20,10 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import web.dto.Diary;
+import web.dto.MyPlant;
 import web.dto.PlantCode;
 import web.service.face.DiaryService;
+import web.service.face.MyPlantService;
 import web.service.face.PlantService;
 import web.util.TransDate;
 
@@ -33,59 +35,64 @@ public class DiaryController {
 	
 	@Autowired private DiaryService diaryService;
 	@Autowired private PlantService plantService;
+	@Autowired private MyPlantService myPlantService;
 	
 	@RequestMapping(value = "/calendar", method = RequestMethod.GET)
-	public String calendar() {
+	public String calendar(String no, HttpSession session, Model model) {
 		
 		logger.info("diary/calendar [GET]");
+		
+		session.setAttribute("myPlantNo", no);
+		
+		int myPlantNo = Integer.parseInt((String) session.getAttribute("myPlantNo"));
+		model.addAttribute("nick", myPlantService.nick(myPlantNo));
 		
 		return "/myplant/calendar";
 		
 	}
 	
 	@RequestMapping(value = "/list", method = RequestMethod.GET, produces = "application/text; charset=utf8")
-	public @ResponseBody String week(
-			
-			@RequestParam(value="param") String week
-			
-			) throws JsonProcessingException {
+	public @ResponseBody String week(HttpSession session, @RequestParam(value="param") String week) {
 	
 		logger.info("diary/list [GET]");
-		logger.info("{}", week);
 		
+		int myPlantNo = Integer.parseInt((String) session.getAttribute("myPlantNo"));
 		ObjectMapper objectMapper = new ObjectMapper();
-		String result = objectMapper.writeValueAsString(diaryService.list(week));
+		String result = null;
+		try {
+			result = objectMapper.writeValueAsString(diaryService.list(myPlantNo, week));
+		} catch (JsonProcessingException e) {
+			e.printStackTrace();
+		}
 		
 		return result;
-		
 		
 	}
 	
 	@RequestMapping(value = "/view", method = {RequestMethod.GET, RequestMethod.POST})
-	public String getView(HttpSession session, String date, Model model) throws IOException {
+	public String getView(String date, HttpSession session, Diary diary, Model model) throws IOException {
 		
-		logger.info("/diary/view [GET, POST]");
-		
-		if(date != null) {
-			session.setAttribute("date", date);
-		} else {
-			date = (String) session.getAttribute("date");
+		int myPlantNo = Integer.parseInt((String) session.getAttribute("myPlantNo"));
+		if(date == null) {
+			date = diary.getDdate();
 		}
 		
+		logger.info("/diary/view [GET, POST]");
 		logger.info("{}", date);
 		
-		Diary diary = diaryService.diary(date);
-		
-		PlantCode code = plantService.getCode("13242");
-		
+		MyPlant myPlant = myPlantService.profile(myPlantNo);
+		Diary newDiary = diaryService.diary(myPlantNo, date);
+		PlantCode code = plantService.getCode(myPlant.getCnum());
 		HashMap<String, String> tip = plantService.getTip(code);
+		TransDate transDate = new TransDate();
 		
-		model.addAttribute("diary", diary);
+		model.addAttribute("diary", newDiary);
 		model.addAttribute("code", code);
 		model.addAttribute("tip", tip);
-		
-		TransDate transDate = new TransDate();
 		model.addAttribute("newDate", transDate.toString(date));
+		model.addAttribute("gapDays", transDate.interval(myPlant.getBirth(), newDiary.getDdate()));
+		myPlant.setBirth(transDate.toString(myPlant.getBirth()));
+		model.addAttribute("myPlant", myPlant);
 		
 		return "/myplant/diaryview";
 		
@@ -97,10 +104,15 @@ public class DiaryController {
 		logger.info("diary/write [GET]");
 		logger.info("{}", date);
 		
-		session.setAttribute("date", date);
-		
+		int myPlantNo = Integer.parseInt((String) session.getAttribute("myPlantNo"));
+		MyPlant myPlant = myPlantService.profile(myPlantNo);
 		TransDate transDate = new TransDate();
+		
+		model.addAttribute("ddate", date);
 		model.addAttribute("newDate", transDate.toString(date));
+		model.addAttribute("gapDays", transDate.interval(myPlant.getBirth(), date));
+		myPlant.setBirth(transDate.toString(myPlant.getBirth()));
+		model.addAttribute("myPlant", myPlant);
 		
 		return "/myplant/diarywrite";
 		
@@ -111,8 +123,7 @@ public class DiaryController {
 		
 		logger.info("diary/write [POST]");
 		
-		diary.setDdate((String) session.getAttribute("date"));
-		
+		diary.setMyPlantNo(Integer.parseInt((String) session.getAttribute("myPlantNo")));
 		diaryService.write(diary, file);
 		
 		return "forward:/diary/view";
@@ -124,8 +135,7 @@ public class DiaryController {
 		
 		logger.info("diary/alter [POST]");
 		
-		diary.setDdate((String) session.getAttribute("date"));
-
+		diary.setMyPlantNo(Integer.parseInt((String) session.getAttribute("myPlantNo")));
 		diaryService.alter(diary, file);
 		
 		return "forward:/diary/view";
@@ -134,17 +144,15 @@ public class DiaryController {
 	
 	
 	@RequestMapping(value="/delete", method = RequestMethod.GET)
-	public String drop(HttpSession session) {
+	public String drop(HttpSession session, String date) {
 		
 		logger.info("diary/delete [GET]");
-		
-		String date = (String) session.getAttribute("date");
 		logger.info("{}", date);
 		
-		diaryService.drop(date);
-		session.removeAttribute("date");
+		int myPlantNo = Integer.parseInt((String) session.getAttribute("myPlantNo"));
+		diaryService.drop(myPlantNo, date);
 		
-		return "redirect:/diary/calendar";
+		return "redirect:/diary/calendar?no=" + myPlantNo;
 		
 	}
 

@@ -20,14 +20,19 @@
  		<result column="stored" property="stored"/>
  	</resultMap>
  	
- 	<select id="select" resultMap="Diary" parameterType="String">
+ 	<select id="selectSum" resultMap="Diary" parameterType="Map">
+ 		SELECT temp, humid, dirt, water, repot FROM diary
+ 		WHERE myplant_no = #{myPlantNo} and ddate = #{date}
+ 	</select>
+ 	
+ 	<select id="select" resultMap="Diary" parameterType="Map">
  		SELECT * FROM diary
- 		WHERE ddate = #{date}
+ 		WHERE myplant_no = #{myPlantNo} and ddate = #{ddate}
  	</select>
  	
  	<insert id="insert" parameterType="web.dto.Diary">
 		INSERT INTO diary ( diary_no ,myplant_no, temp, humid, dirt, water, repot, cmt, ddate, origin, stored )
-		VALUES ( diary_seq.NEXTVAL, 20000000, #{temp}, #{humid}, #{dirt}, #{water}, #{repot}, #{cmt}, #{ddate}, #{origin}, #{stored} )
+		VALUES ( diary_seq.NEXTVAL, #{myPlantNo}, #{temp}, #{humid}, #{dirt}, #{water}, #{repot}, #{cmt}, #{ddate}, #{origin}, #{stored} )
 	</insert>
 	
 	<update id="update" parameterType="web.dto.Diary">
@@ -40,12 +45,12 @@
 			cmt = #{cmt},
 			origin = #{origin},
 			stored = #{stored}
-		WHERE ddate = #{ddate}
+		WHERE myplant_no = #{myPlantNo} and ddate = #{ddate}
 	</update>
 	
-	<delete id="delete" parameterType="String">
+	<delete id="delete" parameterType="Map">
  		DELETE diary
- 		WHERE ddate = #{date}
+ 		WHERE myplant_no = #{myPlantNo} and ddate = #{ddate}
  	</delete>
  
  </mapper>
