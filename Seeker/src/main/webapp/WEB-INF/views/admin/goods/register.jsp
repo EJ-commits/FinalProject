@@ -5,6 +5,7 @@
     
 <c:import url ="../../layout/header.jsp" ></c:import>
 
+
 <!-- 스마트 에디터 2 로드 -->
 <script type="text/javascript" src="/resources/se2/js/service/HuskyEZCreator.js"></script>
 
@@ -26,7 +27,9 @@ $(document).ready(function() {
 	$("#btnWrite").click(function() {
 		
 		//submit전에 스마트에디터에 작성된 내용을 <textarea>로 반영한다
-		 submitContents( $("#btnWrite") );  
+		submitContents( $("#btnWrite") );  
+		
+		console.log("#btnWrite")
 		
 		$("form").submit();
 	}); 
@@ -84,7 +87,7 @@ $(document).ready(function() {
 	<div id="container_box">
 		<h2>상품 등록</h2>
 		
-		<form role="form" method="post" enctype="multipart/form-data">
+		<form role="form" action="/admin/goods/register" method="post" enctype="multipart/form-data">
  
  			<div class="inputArea"> 
  				<label>1차 분류</label>

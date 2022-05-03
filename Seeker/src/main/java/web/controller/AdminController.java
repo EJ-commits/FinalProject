@@ -11,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import net.sf.json.JSONArray;
 import web.dto.Category;
@@ -46,8 +47,10 @@ public class AdminController {
 	//상품등록
 	@Transactional
 	@RequestMapping(value = "/goods/register", method = RequestMethod.POST)
-	public String goodsRegisterProc(Goods goods) {
-		adminService.register(goods);
+	public String goodsRegisterProc(Goods goods, MultipartFile file) {
+		adminService.register(goods, file);
+		
+		logger.info("goods : {}", goods);
 		
 		return "redirect:/admin/index";
 	}
@@ -61,7 +64,7 @@ public class AdminController {
 		model.addAttribute("list", list);
 	}
 	
-	//상품 상세보기
+	//상품 상세조회
 	@RequestMapping(value = "/goods/view", method = RequestMethod.GET)
 	public void goodsView(@RequestParam("n") int gdsNum, Model model) {
 		
@@ -107,3 +110,4 @@ public class AdminController {
 		return "redirect:/admin/goods/list";
 	}
 }
+
