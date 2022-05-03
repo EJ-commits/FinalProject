@@ -6,9 +6,12 @@ import web.dto.MyPlant;
 
 public interface MyPlantDao {
 	
-	public List<MyPlant> selectList();
+	public List<MyPlant> selectList(int memberNo);
 	
 	public MyPlant select(int myPlantNo);
 
 	public String selectNick(int myPlantNo);
+	
+	public void delete(int myPlantNo);
+
 }

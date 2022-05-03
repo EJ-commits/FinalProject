@@ -19,8 +19,9 @@
  		<result column="stored" property="stored"/>
  	</resultMap>
  
- 	<select id="selectList" resultMap="myPlant">
- 		SELECT myplant_no, bname, nick, birth, origin, stored FROM myplant
+ 	<select id="selectList" resultMap="myPlant" parameterType="int">
+ 		SELECT myplant_no, bname, nick, birth, origin, stored FROM myplant 
+ 		WHERE member_no = ${memberNo}
  	</select>
  	
  	<select id="select" resultMap="myPlant" parameterType="int">
@@ -31,5 +32,10 @@
  	<select id="selectNick" resultType="String" parameterType="int">
  		SELECT nick FROM myplant WHERE myplant_no = ${myPlantNo}
  	</select>
+ 	
+ 	<delete id="delete" parameterType="int">
+ 		DELETE myplant
+ 		WHERE myplant_no = #{myPlantNo}
+ 	</delete>
  	
 </mapper>

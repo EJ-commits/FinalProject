@@ -16,9 +16,9 @@ public class MyPlantServiceImpl implements MyPlantService {
 	@Autowired MyPlantDao myPlantDao;
 	
 	@Override
-	public List<MyPlant> list() {
+	public List<MyPlant> list(int memberNo) {
 		
-		List<MyPlant> list = myPlantDao.selectList();
+		List<MyPlant> list = myPlantDao.selectList(memberNo);
 		
 		TransDate transDate = new TransDate();
 		for(int i = 0; i < list.size(); ++i) {
@@ -40,6 +40,13 @@ public class MyPlantServiceImpl implements MyPlantService {
 	public MyPlant profile(int myPlantNo) {
 		
 		return myPlantDao.select(myPlantNo);
+		
+	}
+
+	@Override
+	public void drop(int myPlantNo) {
+		
+		myPlantDao.delete(myPlantNo);
 		
 	}
 

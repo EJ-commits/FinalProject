@@ -1,5 +1,7 @@
 package web.controller;
 
+import javax.servlet.http.HttpSession;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,11 +21,14 @@ public class MyPlantController {
 	@Autowired private MyPlantService myPlantService;
 	
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
-	public String getList(Model model) {
+	public String getList(HttpSession session, Model model) {
 		
 		logger.info("myplant/list [GET]");
-
-		model.addAttribute("list", myPlantService.list());
+		
+		session.setAttribute("memberNo", 10000000);
+		
+		int memberNo =  (int) session.getAttribute("memberNo");
+		model.addAttribute("list", myPlantService.list(memberNo));
 		
 		return "/myplant/list";
 		
@@ -48,9 +53,12 @@ public class MyPlantController {
 	}
 	
 	@RequestMapping(value = "/delete", method = RequestMethod.GET)
-	public String delete(Model model) {
+	public String drop(String no, Model model) {
 		
 		logger.info("myplant/delete [GET]");
+		
+		int myPlantNo = Integer.parseInt(no);
+		myPlantService.drop(myPlantNo);
 		
 		return "redirect:/myplant/list";
 		

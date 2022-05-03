@@ -36,7 +36,7 @@
 	height : 130px;
 }
 
-.img-box> img {
+.img-box > img {
 	width : 130px;
 	height : 130px;
 	padding : 0px;
@@ -86,7 +86,7 @@ window.onload = function() {
 <div id="wrap-box">
 	<div id="post-box">
 	<span class="text-muted">식물은 3개까지 등록할 수 있어요!&nbsp;</span>
-	<a href=""><button type="button" class="btn btn-success btn-sm">식물 등록 하기</button></a>
+	<a href="/myplant/write"><button type="button" class="btn btn-success btn-sm">식물 등록 하기</button></a>
 	</div>
 	<c:forEach items="${list}" var="MyPlant">
 	<div id="list-box">
