@@ -1,8 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <style>
+	a{cursor:pointer;}
 	.map_wrap, .map_wrap *, #gardenReview * {margin:0;padding:0;
  	font-family:'Malgun Gothic',dotum,'돋움',sans-serif; 
 	font-size:13px;}
@@ -79,12 +81,21 @@
 	
 	
 </style>
+
+
 <!-- 헤더 -->
-<c:import url="/WEB-INF/views/layout/header.jsp"></c:import>
+<c:import url="/WEB-INF/views/layout/header2.jsp" />
+
+<!-- <div id="wrap-box-top"> -->
+<!-- 	<div><a href="/diary/list"><span class="glyphicon glyphicon-arrow-left"></span>&nbsp;이전 페이지</a></div> -->
+<!-- 	<div id="title-box">제목</div> -->
+<!-- 	<div></div> -->
+<!-- </div> -->
+<!-- <div id="wrap-box"> -->
 
 <!-- 본문 -->
 <!-- 지도 -->
-<div class="garden_wrap" style="height:1000px;"><!-- garden 전체 div -->
+<div class="garden_wrap" style="height:1500px;"><!-- garden 전체 div -->
 
 <div class="map_wrap" style="width:70%;height:600px;margin:20px auto;">
 
@@ -134,26 +145,29 @@
 
 <!-- 리뷰 -->
 <div id="gardenReview" class="form-horizontal" style="width:800px;margin:0 auto;">
-	<p id="gName" style="font-size:16px;font-weight:bold;margin-bottom: 10px;">리뷰를 보고싶은 수목원 또는 공원을 클릭해주세요</p>
- <c:if test="${not empty id }"> 
-<!-- id가 있을 때 리뷰를 작성할 수 있게 할 예정 -->
-	<form name="f">
-	<div class="col-sm-10">
-	<input type="hidden" name="gardenName" id="gardenName">
-	<input type="text" placeholder="리뷰를 작성해주세요." class="form-control" name="grContent" id="grContent" style="height:60px;padding-left:5px;">
-	</div>
-	<button class="btn btn-info" type="button" id="reviewWrite" style="height:60px;width:120px;font-size: 16px;">등록</button>
-	</form>
- </c:if> 
-	<div id="allReview"></div>
-</div>
-<%-- <c:import url="/WEB-INF/views/garden/gardenReview.jsp"></c:import> --%>
+	<p id="gName" style="font-size:16px;font-weight:bold;margin-bottom: 10px;">수목원 또는 공원을 클릭후, 마커를 클릭하면 해당 리뷰를 볼 수 있습니다.</p>
 
+<c:if test="${empty id }">
+	<p>로그인 후 리뷰를 작성할 수 있습니다.</p>
+</c:if>
+ <c:if test="${not empty id }"> 
+	<div id="reviewWriteForm" style="display:none;" class="clearfix">
+	<input type="hidden" name="gardenName" id="gardenName">
+	<input type="text" placeholder="리뷰를 작성해주세요." class="form-control pull-left" name="grContent" id="grContent" style="width:670px;height:60px;padding-left:5px;margin-right:10px;">
+	<button class="btn btn-info pull-left" type="button" id="reviewSubmit" style="height:60px;width:120px;font-size: 16px;">등록</button>
+	</div>
+ </c:if> 
+	<div>
+	<div id="allReview"></div>
+	<div class='pagingReview'></div>
+	</div>
+</div>
 </div><!-- garden 전체 div -->
 
-
+<!-- </div> -->
 <!-- 푸터 -->
-<c:import url="/WEB-INF/views/layout/footer.jsp"></c:import>
+
+<c:import url="/WEB-INF/views/layout/footer.jsp" />
 
 <!-- 카카오지도 시작 -->
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=1f447360a4d3b43321309eb9e4c01460&libraries=services"></script>
@@ -555,26 +569,137 @@ function addVar(place){
 	var garden = document.getElementById("gardenName");
 	var gname = document.getElementById("gName");
 	gname.innerText = place.place_name+" 리뷰";
-	garden.innerText = place.place_name;
+	garden.value=place.place_name;
+	document.getElementById("reviewWriteForm").style.display = "block";
 	callList(place.place_name);
 }
 
 $(document).ready(function(){
-	callList = function(gardenName){
+	callList = function(gardenName, curPage){
 		$.ajax({
 			type:"get"
 			,url:"/garden/list"
-			,data:{"gardenName":gardenName}
-			,dataType:"html"
-			,success:function(){
+			,data:{"gardenName":gardenName, "curPage":curPage}
+			,dataType:"json"
+			,success:function(reviewList){
 				console.log("성공");
+				
+				textArrange(reviewList);
+				
 			}
 			,error:function(){
 				console.log("실패");
-				alert("리뷰 불러오기를 실패했습니다. 다시 시도해주세요");
+				var result="<p style='margin-top:10px;font-size:13px;'>처음으로 댓글을 달아주세요!</p>";
+				$("#allReview").html(result);
 			}
 		})
 	}
+	
+	//댓글 처리
+	function textArrange(reviewList){
+		
+		var result = "<div style='margin-top:10px;'>";
+		$.each(reviewList.list ,function(index, obj){
+		var reviewDate = new Date(obj.GRDATE);
+		result += "<div>";
+		result += "<span style='font-weight:bold;'>"+obj.NICK+"("+obj.ID+")</span>";
+		//아이디가 같을 때만 수정삭제 보이도록 할 예정
+		if("${id}"==obj.ID.toString()){
+			result += "<span class='pull-right' style='margin-right:5px;cursor:pointer;' onclick='reviewDelete("+obj.GRNO+",\""+obj.GARDENNAME+"\")'>삭제</span>"; 
+			result += "<span class='pull-right cancel"+obj.GRNO+"' style='display:none;margin-right:5px;cursor:pointer;' onclick='cancelUp("+obj.GRNO+",\""+obj.GARDENNAME+"\",\""+obj.GRCONTENT+"\")'>취소</span>"; 
+			result += "<span class='pull-right update"+obj.GRNO+"' style='margin-right:5px;cursor:pointer;' onclick='reviewUpdateForm("+obj.GRNO+",\""+obj.GARDENNAME+"\",\""+obj.GRCONTENT+"\")'>수정</span>"; 
+		}
+		result += "</div>";
+		result += "<div class='clearfix'>";
+		result += "<span class='display"+obj.GRNO+"'>"+obj.GRCONTENT+"</span>";
+		result += "</div>";
+		result += "<div>";
+		result += "<span>"
+			   + reviewDate.getFullYear()
+			   +"-"
+			   + (reviewDate.getMonth()+1)
+			   +"-"
+			   +reviewDate.getDate()
+			   +" "
+			   +reviewDate.getHours()
+			   +":"
+			   +reviewDate.getMinutes()
+			   +"</span>";
+		result += "</div>";
+		result += "<hr>";
+		
+		if(reviewList.paging!=null){
+		reviewPaging(reviewList,obj.GARDENNAME);
+		}
+		
+		});//each
+
+		result += "</div>";
+		$("#allReview").html(result);
+	}
+	
+	function reviewPaging(reviewList, gardenName){
+		var res='<div class="text-center">';
+		
+		res+='<ul class="pagination pagination-sm">';
+		
+		//첫 페이지로 이동 
+		if(reviewList.paging.curPage != 1){
+			res+="<li><a onclick='callList(\""+gardenName+"\","+1+")'>&larr; 처음</a></li>"
+		}
+		
+		//이전 페이징 리스트로 이동
+		if(reviewList.paging.startPage != 1){
+			res+="<li><a onclick='callList(\""+gardenName+"\","+reviewList.paging.startPage-reviewList.paging.pageCount+")'>&laquo;</a></li>"
+		}
+		if(reviewList.paging.startPage == 1){
+			res+="<li class='disabled'><a>&laquo;</a></li>"
+		}
+		
+		//이전 페이지로 가기
+		
+		if(reviewList.paging.curPage>1){
+			res+="<li><a onclick='callList(\""+gardenName+"\","+(reviewList.paging.curPage-1)+")'>&lt;</a></li>"
+		}
+		
+		
+		//페이징 리스트
+		for(var i=reviewList.paging.startPage;i<=reviewList.paging.endPage;i++){
+			if(reviewList.paging.curPage==i){
+				res+="<li class='active'><a onclick='callList(\""+gardenName+"\","+i+")'>"+i+"</a></li>"
+			}
+			
+			if(reviewList.paging.curPage!=i){
+				res+="<li><a onclick='callList(\""+gardenName+"\","+i+")'>"+i+"</a></li>"
+			}
+		}
+		
+		//다음 페이지로 가기
+		if(reviewList.paging.curPage<reviewList.paging.totalPage){
+			res+="<li><a onclick='callList(\""+gardenName+"\","+(reviewList.paging.curPage+1)+")'>&gt;</a></li>"
+		}
+		
+		
+		//다음 페이징 리스트로 이동
+		if(reviewList.paging.endPage!=reviewList.paging.totalPage){
+			res+="<li><a onclick='callList(\""+gardenName+"\","+reviewList.paging.startPage+reviewList.paging.pageCount+")'>&raquo;</a></li>"
+		}
+		
+		if(reviewList.paging.endPage==reviewList.paging.totalPage){
+			res+="<li class='disabled'><a>&raquo;</a></li>"
+		}
+
+		//끝 페이지로 이동
+		if(reviewList.paging.curPage != reviewList.paging.totalPage){
+			res+="<li><a onclick='callList(\""+gardenName+"\","+reviewList.paging.totalPage+")'>끝 &rarr;</a></li>"
+		}
+		
+		res+="</ul>";
+		res+="</div>";
+		
+		$(".pagingReview").html(res);
+	}
+	
 })//document.ready
 
 // 각 카테고리에 클릭 이벤트를 등록합니다
@@ -802,4 +927,98 @@ function iconkeywordsearch2(iconkey) {
 //  카카오지도 끝 
 </script>
 
+<script type="text/javascript">
 
+$(document).ready(function() {
+	$("#reviewSubmit").click(function() {
+		insertReview();
+	})
+	
+	$("#grContent").keydown(function(e){
+		if(e.keyCode == 13){//엔터키
+			insertReview();
+		}
+	})
+	
+	function insertReview(){
+		$.ajax({
+			type:"post"
+			,url:"/garden/write"
+			,data:{grContent:$("#grContent").val(),gardenName:$("#gardenName").val()}
+			,dataType:"json"
+			,success:function(res){
+				console.log("성공");
+				if(res){
+					callList($("#gardenName").val());
+					$("#grContent").val("");
+					
+				}else{
+					alert("리뷰 등록을 실패했습니다ㅜㅜ다시 등록해주세요!")
+				}
+			}
+			,error:function(){
+				console.log("실패");
+				alert("리뷰 등록을 실패했습니다ㅜㅜ다시 등록해주세요!")
+			}
+		})
+	}
+	
+	reviewDelete = function(grno, gardenname){
+		console.log("리뷰 삭제 함수 실행")
+		$.ajax({
+			type:"post"
+			,url:"/garden/delete"
+			,data:{grNo:grno}
+			,dataType:"json"
+			,success:function(res){
+				console.log("성공");
+				alert("해당 리뷰가 삭제되었습니다")
+				callList(gardenname);
+			}
+			,error:function(){
+				console.log("실패");
+				alert("리뷰 삭제을 실패했습니다ㅜㅜ다시 시도해주세요!")
+			}
+		})
+	}
+	
+	reviewUpdateForm = function(grNo,gardenName,grContent){
+		console.log("리뷰 수정폼 함수 실행")
+		var result="<input type='hidden' val='"+grNo+"' name='grUNo' id='grUNo'>";
+		result += "<input type='text' class='form-control pull-left' value='"+grContent+"' name='grUContent' id='grUContent"+grNo+"' style='width:600px;'>";
+		result+="<button class='btn btn-default pull-left' style='width:80px;height:33px;' onclick='reviewUpdate("+grNo+",\""+gardenName+"\")'>수정</button>"
+		$(".display"+grNo+"").html(result);
+		$(".update"+grNo+"").css("display","none");
+		$(".cancel"+grNo+"").css("display","block");
+		
+	}
+	
+	cancelUp = function(grNo,gardenName,grContent){
+		console.log("리뷰 취소 함수 실행")
+		var result="<span class='display"+grNo+"'>"+grContent+"</span>";
+		$(".display"+grNo+"").html(result);
+		$(".update"+grNo+"").css("display","block");
+		$(".cancel"+grNo+"").css("display","none");
+	}
+	
+	reviewUpdate = function(grNo, gardenName){
+		console.log("리뷰 수정 함수 실행")
+		$.ajax({
+			type:"post"
+			,url:"/garden/update"
+			,data:{"grContent":$("#grUContent"+grNo+"").val(),"grNo":grNo}
+			,dataType:"json"
+			,success:function(res){
+				console.log("성공");
+				alert("해당 리뷰가 수정되었습니다")
+				callList(gardenName);
+			}
+			,error:function(){
+				console.log("실패");
+				alert("리뷰 수정을 실패했습니다ㅜㅜ다시 시도해주세요!")
+			}
+		})
+	}
+	
+})
+</script>
