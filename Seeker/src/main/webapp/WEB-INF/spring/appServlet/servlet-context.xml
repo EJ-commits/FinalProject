@@ -24,28 +24,18 @@
 	<!-- @Transactional어노테이션을 이용한 트랜잭션관리 활성화 -->
 	<tx:annotation-driven/>
 	
-<<<<<<< HEAD
 	<!-- 웹소켓 인터셉터 설정 -->
 	<!-- <websocket:handlers>
 		<websocket:mapping path="/ws/chat" handler="chatHandler"/>
-			<websocket:handshake-interceptors>
-				!-   <beans:bean class="org.springframework.web.socket.server.support.HttpSessionHandshakeInterceptor"/> 
-				<beans:bean class="web.interceptor.ChatHsIntcp"/>
+		<websocket:mapping path="/ws/chat" handler="chatHandler"/> 
+			<websocket:handshake-interceptors>-->
+			<!--  <beans:bean class="org.springframework.web.socket.server.support.HttpSessionHandshakeInterceptor"/>  -->
+					<!-- <beans:bean class="web.interceptor.ChatHsIntcp"/>
 			</websocket:handshake-interceptors>
 	</websocket:handlers>
-	<beans:bean id="chatHandler" class="web.ws.ChatHandler"></beans:bean> -->
-=======
-	<!-- 웹소켓 인터셉터 설정 
-	<websocket:handlers>
-		<websocket:mapping path="/ws/chat" handler="chatHandler"/>
-			<websocket:handshake-interceptors>
-			  <beans:bean class="org.springframework.web.socket.server.support.HttpSessionHandshakeInterceptor"/>  : chatintcpt대용
-				<beans:bean class="web.interceptor.ChatHsIntcp"/>
-			</websocket:handshake-interceptors>
-	</websocket:handlers>
-	<beans:bean id="chatHandler" class="web.ws.ChatHandler"></beans:bean>
-	-->
->>>>>>> chat
+ 	<beans:bean id="chatHandler" class="web.ws.ChatHandler"></beans:bean> -->
+
+	
 
 	<!-- Handles HTTP GET requests for /resources/** by efficiently serving up static resources in the ${webappRoot}/resources directory -->
 	<resources mapping="/resources/**" location="/resources/" />
@@ -89,6 +79,14 @@
 	
 	
 	<context:component-scan base-package="com.seeker.www, web.controller, web.service, web.advice, web.ws" />
+	
+		
+	<beans:bean class="org.springframework.web.servlet.view.BeanNameViewResolver">
+		<beans:property name="order" value="0"></beans:property>
+	</beans:bean>
+	<beans:bean id="down" class="web.view.ChatLogdown"></beans:bean>
+	
+	<context:component-scan base-package="a.b.c, web.controller, web.service, web.ws" />
 	
 	
 	

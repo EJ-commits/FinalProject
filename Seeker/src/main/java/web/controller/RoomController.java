@@ -1,16 +1,11 @@
 package web.controller;
 
 import java.util.List;
-<<<<<<< HEAD
-
-import org.apache.ibatis.logging.log4j2.Log4j2AbstractLoggerImpl;
-=======
 import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
->>>>>>> chat
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,15 +13,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-<<<<<<< HEAD
-import org.springframework.web.servlet.ModelAndView;
-
-=======
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import web.dto.ChatDto;
->>>>>>> chat
 import web.dto.ChatRoomDto;
 import web.service.face.ChatService;
 
@@ -44,24 +34,6 @@ public class RoomController {
 	}
 	
 	@PostMapping(value = "/chat/room")
-<<<<<<< HEAD
-	public String create(String roomName) {
-		logger.info(roomName);
-		chatService.createRoom(roomName);
-	
-		return "redirect: /chat/rooms";
-		
-	}
-	
-	@GetMapping("/chat/room")
-	public String getRoom(String roomId, Model model) {
-		ChatRoomDto room = chatService.findRoomById(roomId);
-		model.addAttribute("room",room);
-//		logger.info("getRoom() {}" , room.toString());
-		return "chat/room";
-	}
-
-=======
 	public String create(String roomName, HttpSession session) {
 		
 		logger.info(roomName);
@@ -118,12 +90,10 @@ public class RoomController {
 // 	jsp 대신 파일 객체를 반환하므로, resolver 설정 + view 생성 클래스 필요
 	@RequestMapping("/chat/logdown")
 	public String chatLogDown(String userid,  HttpServletRequest request, Model model) {
-		logger.info("logdown");
 		String filepath = chatService.getLog(userid); // ajax json값이 넘어옴 
 		request.setAttribute("userid", userid);
 		request.setAttribute("filepath",filepath);
 		return "down";
 	}
 	
->>>>>>> chat
 }

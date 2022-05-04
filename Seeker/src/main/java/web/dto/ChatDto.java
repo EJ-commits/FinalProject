@@ -47,13 +47,8 @@ public class ChatDto {
 	}
 	@Override
 	public String toString() {
-<<<<<<< HEAD
-		return "ChatDto ["+ "roomId=" + roomId + "isStart=" + isStart + ", isEnd=" + isEnd + ", userid=" + userid + ", chatLog=" + chatLog
-				+ ", chatDate=" + chatDate + "]";
-=======
 		return "ChatDto [roomId=" + roomId + ", isStart=" + isStart + ", isEnd=" + isEnd + ", userid=" + userid
 				+ ", chatLog=" + chatLog + ", chatDate=" + chatDate + "]";
->>>>>>> chat
 	}
 
 }

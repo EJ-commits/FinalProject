@@ -15,12 +15,8 @@ public interface ChatDao {
 
 	public List<ChatRoomDto> getChatRooms();
 
-<<<<<<< HEAD
-	public ChatRoomDto getRoomToGo(String roomId); 
-=======
 	public ChatRoomDto getRoomToGo(String roomId);
 
 	public void deleteRoom(ChatRoomDto room); 
->>>>>>> chat
 
 }

@@ -30,6 +30,11 @@
 		
 	</select>
 	
+	<delete id="deleteRoom" parameterType="web.dto.ChatRoomDto">
+		delete from chatRoom 
+		where room_id = #{roomId}
+	</delete>
+	
 	<select id="getChatLog" resultType="web.dto.ChatDto">
 	select * from chatlog
 		where chat_date >=
