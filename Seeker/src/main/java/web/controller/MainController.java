@@ -16,7 +16,7 @@ import web.dto.PlantInfo;
 import web.dto.WeatherInfo;
 import web.service.face.MainService;
 
-
+//ss
 @Controller
 public class MainController {
 	
