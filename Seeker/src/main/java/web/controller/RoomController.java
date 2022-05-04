@@ -79,12 +79,11 @@ public class RoomController {
 //	-------------- 일대일 채팅 로직 ---------------
 	
 
-	@PostMapping("/chat/room11")
+	@GetMapping("/chat/room11")
 	public String get11Room(HttpSession session, Model model) {
 		// String roomId = (String) session.getAttribute("testuser") ;
 		String roomId = "testuser"	;	
 		logger.info("11chat", roomId);
-		
 		model.addAttribute("roomId", roomId);
 		
 		 return "chat/room11";
@@ -133,8 +132,10 @@ public class RoomController {
 // 	jsp 대신 파일 객체를 반환하므로, resolver 설정 + view 생성 클래스 필요
 	@RequestMapping("/chat/logdown")
 	public String chatLogDown(ChatDto chatDto, HttpServletRequest request, Model model) {
+
 		String filepath = chatService.getLog(chatDto); // ajax json값이 넘어옴 
 		request.setAttribute("filepath",filepath);
+		logger.info("logdown() {}" , chatDto.toString());
 		return "down";
 	}
 	

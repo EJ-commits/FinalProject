@@ -239,7 +239,7 @@ body {
 			</a>
 		</div>
 		<div class="header-menu-box">
-			<a href="" >
+			<a href="/chat/rooms" >
 			<span class="material-icons">chat_bubble_outline</span>
 			<span class="header-menu-text-sm">오픈채팅</span>
 			</a>

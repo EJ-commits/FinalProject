@@ -19,7 +19,8 @@ var testuser = 'testuser' // ${ session.userid }
 <button>입장</button>
 </form>
 
-<form action="/chat/room11" method="post">
+<!-- <form action="/chat/room11" method="post"> -->
+<form action="/chat/room11" method="get">
 <button>입장</button>
 </form>
 </body>

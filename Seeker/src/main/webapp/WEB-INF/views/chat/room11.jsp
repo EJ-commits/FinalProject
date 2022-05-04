@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+    
+<c:import url="/WEB-INF/views/layout/header.jsp" />
 <!DOCTYPE html>
 <html>
 
@@ -44,6 +46,10 @@
 		  border: 0;
 		 
 		   }
+		   
+     .modal-backdrop {
+       z-index: -1;
+ 	  }   
   
     </style>
 
@@ -136,7 +142,7 @@ $(document).ready(function(){
 			error:	console.log("session delete error")
 		})
 		console.log("onClose()")
-		window.location.replace("/chat/enter")
+		window.location.replace("/main")
 	}
 	
 	 function onError(e){
@@ -178,7 +184,7 @@ $(document).ready(function(){
 					url: "/chat/logdown",
 					type: "post",
 					async: false,
-					data: {userid:username}, //username은 위에서 선언한 var 
+					data:{userid:username, roomId:roomId}, //username은 위에서 선언한 var 
 // 					dataType: "json",
 	                success: function (data) {
 	                    var blob = new Blob([data], { type: "application/octet-stream" });

@@ -48,17 +48,19 @@ public class StompChatController {
 	
 	@MessageMapping(value = "/chat/enter11")
 	public void enter11(ChatDto chatDto) {
-	
+		chatDto.setIsStart(1); 
+		chatService.saveMsg(chatDto);
 	//	chatService.saveMsg(chatDto);
 		logger.info("chatDto {}",chatDto.toString());
+		
 		//채팅방의 주소는 각자의 아이디로 한다. 
 		template.convertAndSend("/sub/chat/room11" + chatDto.getUserid(), chatDto);
 	}
 	
 	@MessageMapping(value = "/chat/message11")
 	public void message11(ChatDto chatDto) {
+		chatService.saveMsg(chatDto);
 		template.convertAndSend("/sub/chat/room11" + chatDto.getRoomId(), chatDto);
-		//chatService.saveMsg(chatDto);
 		logger.info("chatLog {}",chatDto.toString());
 	}
 	

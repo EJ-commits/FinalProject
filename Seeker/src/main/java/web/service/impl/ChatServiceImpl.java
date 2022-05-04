@@ -82,7 +82,6 @@ public class ChatServiceImpl implements ChatService{
 			
 			//DB조회
 			List<ChatDto> chatLog = chatDao.getChatLog(chatDto); 
-			
 			logger.info("chatLog isEmpty ? {}",chatLog.isEmpty());
 			logger.info("chatLog size ? {}",chatLog.size());
 			
