@@ -73,7 +73,7 @@ $(document).ready(function(){
 	stomp.connect({},function(){
 		console.log("stomp 호출" + roomId)
 		//subscribe(path, callback)
-		stomp.subscribe("/sub/chat/room"+roomId, function(chat){
+		stomp.subscribe("/sub/chat/room11"+roomId, function(chat){
   		   var content = JSON.parse(chat.body)
 			var chatLog = content.chatLog
 			var writer = content.userid;
