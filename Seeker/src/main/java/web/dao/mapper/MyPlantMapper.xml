@@ -14,24 +14,28 @@
  		<result column="nick" property="nick"/>
  		<result column="birth" property="birth"/>
  		<result column="water" property="water"/>
- 		<result column="cmt" property="cmt"/>
  		<result column="origin" property="origin"/>
  		<result column="stored" property="stored"/>
  	</resultMap>
  
  	<select id="selectList" resultMap="myPlant" parameterType="int">
  		SELECT myplant_no, bname, nick, birth, origin, stored FROM myplant 
- 		WHERE member_no = ${memberNo}
+ 		WHERE member_no = #{memberNo}
  	</select>
  	
  	<select id="select" resultMap="myPlant" parameterType="int">
  		SELECT myplant_no, bname, cnum, nick, birth, origin, stored FROM myplant
- 		WHERE myplant_no = ${myPlantNo}
+ 		WHERE myplant_no = #{myPlantNo}
  	</select>
  	
  	<select id="selectNick" resultType="String" parameterType="int">
- 		SELECT nick FROM myplant WHERE myplant_no = ${myPlantNo}
+ 		SELECT nick FROM myplant WHERE myplant_no = #{myPlantNo}
  	</select>
+ 	
+ 	<insert id="insert" parameterType="web.dto.MyPlant">
+ 		INSERT INTO myplant
+ 		VALUES (myplant_seq.NEXTVAL, #{memberNo}, #{cnum}, #{bname}, #{nick}, #{birth}, #{water}, #{origin}, #{stored})
+ 	</insert>
  	
  	<delete id="delete" parameterType="int">
  		DELETE myplant

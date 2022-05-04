@@ -10,7 +10,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import web.dto.MyPlant;
 import web.service.face.MyPlantService;
+import web.util.TransDate;
 
 @Controller
 @RequestMapping(value = "/myplant")
@@ -35,11 +37,26 @@ public class MyPlantController {
 	}
 	
 	@RequestMapping(value = "/write", method = RequestMethod.GET)
-	public String getWrite(Model model) {
+	public String getWrite() {
 		
 		logger.info("myplant/write [GET]");
 		
 		return "/myplant/write";
+		
+	}
+	
+	@RequestMapping(value = "/write", method = RequestMethod.POST)
+	public String write(HttpSession session, MyPlant myPlant, Model model) {
+		
+		logger.info("myplant/write [GET]");
+
+		myPlant.setMemberNo((int) session.getAttribute("memberNo"));
+		TransDate transDate = new TransDate();
+		myPlant.setBirth(transDate.toString2(myPlant.getBirth()));
+		
+		
+		
+		return "/myplant/list";
 		
 	}
 	
@@ -48,7 +65,7 @@ public class MyPlantController {
 		
 		logger.info("myplant/alter [GET]");
 		
-		return "/myplant/alter";
+		return "/myplant/change";
 		
 	}
 	
