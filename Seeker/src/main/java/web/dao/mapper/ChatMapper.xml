@@ -11,8 +11,8 @@
 	</insert>
 	
 	<insert id="saveMsg" parameterType="web.dto.ChatDto">
-		insert into chatlog (isstart, isend , userid, chat_log)
-		values (#{isStart},#{isEnd}, #{userid}, #{chatLog})
+		insert into chatlog (room_id, isstart, isend , userid, chat_log)
+		values (#{roomId}, #{isStart},#{isEnd}, #{userid}, #{chatLog})
 	</insert>
 	
 	<select id="getMsg" parameterType="web.dto.ChatDto">
@@ -35,14 +35,14 @@
 		where room_id = #{roomId}
 	</delete>
 	
-	<select id="getChatLog" resultType="web.dto.ChatDto">
+	<select id="getChatLog" parameterType="String" resultType="web.dto.ChatDto">
 	select * from chatlog
 		where chat_date >=
 		   ( select chat_date from (
 		    (select rownum, E.* from
 		        (select chat_date, userid, chat_log 
 		        from chatlog
-		        where userid = 'testuser'
+		        where userid = #{userid} and room_id = #{roomId}
 		            and isstart = 1
 		        order by chat_date desc) E
 		    where rownum = 1))) 
@@ -52,7 +52,7 @@
 		    (select rownum, E.* from
 		        (select chat_date, userid, chat_log 
 		        from chatlog
-		        where userid = 'testuser'
+		        where userid = #{userid}  and room_id = #{roomId}
 		            and isend = 1
 		        order by chat_date desc) E  
 		    where rownum = 1)))

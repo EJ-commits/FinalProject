@@ -21,7 +21,7 @@ public interface ChatService {
 	 * @param 유저 아이디
 	 * @return 생성된 파일의 전체 경로 
 	 * */
-	public String getLog(String userid);
+	String getLog(ChatDto chatDto);
 	
 	
 	/**
@@ -63,6 +63,9 @@ public interface ChatService {
 	 * @param session , 채팅방 DTO
 	 * */
 	public void deleteRoom(ChatRoomDto room);
+
+
+	
 
 	
 }
