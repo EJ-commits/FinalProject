@@ -9,7 +9,7 @@
 </head>
 <body>
 
-<form action="/chat/chat" method="get">
+<form action="/chat/rooms" method="get">
 
 <button>입장</button>
 </form>

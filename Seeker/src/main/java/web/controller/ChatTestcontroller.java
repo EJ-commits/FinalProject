@@ -1,4 +1,4 @@
-package web.ws;
+package web.controller;
 
 import javax.servlet.http.HttpSession;
 

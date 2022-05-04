@@ -4,45 +4,53 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
 import javax.servlet.ServletContext;
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.socket.WebSocketSession;
 
 import web.dao.face.ChatDao;
 import web.dto.ChatDto;
+import web.dto.ChatRoomDto;
 import web.service.face.ChatService;
-import web.ws.ChatHandler;
 
 @Service
 public class ChatServiceImpl implements ChatService{
 
-	private static final Logger logger = LoggerFactory.getLogger(ChatHandler.class);	
+	private static final Logger logger = LoggerFactory.getLogger(ChatServiceImpl.class);	
 	
 	@Autowired private ChatDao chatDao;
 	private ChatDto chatDto = new ChatDto();
 	
 	@Autowired ServletContext context; // 파일저장용
 	
+	//채팅방 생성
+	public ChatRoomDto createRoom(String roomName) {
+		ChatRoomDto chatRoom = new ChatRoomDto(roomName);
+		logger.info("chatRoom {}",chatRoom.toString());
+		chatDao.setChatRoom(chatRoom);
+		
+		return chatRoom;
+	}
 	
+	//메시지 DB에 저장하는 메서드
 	@Override
-	public void saveMsg(int start, int end, String userid, String chatLog) {
+	public void saveMsg(ChatDto chatDto) {
 	
-	chatDto.setIsStart(start);
-	chatDto.setIsEnd(end);	
-	chatDto.setUserid(userid);
-	chatDto.setChatLog(chatLog);
-//	System.out.println(chatDto.toString());
 	chatDao.saveMsg(chatDto);
 		
 	}
 
+	//저장된 메시지 클라이언트 쪽에서 다운로드하는 메서드
 	@Override
 	public String getLog(String userid) {
 
@@ -107,11 +115,48 @@ public class ChatServiceImpl implements ChatService{
 		}
 		// 컨텍스트 패스 내 chatlog 폴더에 채팅 대화내용이 저장됨.
 		
-//	다운로드는 chat.jsp 내에서 비동기적으로 처리되므로
-//  따로 뷰를 지정한다.
+//	다운로드는 chat.jsp 내에서 비동기적으로 처리되므로 별도의 뷰로 처리.
 		
 		return fileName; 
 	}
+
+	//채팅방 목록 
+	List<ChatRoomDto> list = new ArrayList<ChatRoomDto>();
+
+	@Override
+	public List<ChatRoomDto> findAllRooms() {
+		logger.info("findAllRooms() ");
+		list = chatDao.getChatRooms();
+		return list;
+	}
+
+	@Override
+	public ChatRoomDto findRoomById(String roomId) {
+		logger.info("findRoomById() {}", roomId);
+		ChatRoomDto room = chatDao.getRoomToGo(roomId);
+		return room;
+	}
+
+	@Override
+	public void addSession(ChatRoomDto room, String userid) {
+		logger.info("addSession() {}", userid);
+		room.nameList.add(userid);
+	}
+
+	@Override
+	public void deleteSession(ChatRoomDto room, String userid) {
+		logger.info("deleteSession() {}", userid);
+		room.nameList.remove(userid);
+	}
+
+	@Override
+	public void deleteRoom(ChatRoomDto room) {
+		logger.info("deleteRoom() {}" , room.getRoomId());
+		chatDao.deleteRoom(room);
+	}
+
+
+
 
 
 
