@@ -21,9 +21,9 @@ import web.dto.ChatRoomDto;
 import web.service.face.ChatService;
 
 @Controller
-public class RoomController {
+public class ChatRoomController {
 
-	private static final Logger logger = LoggerFactory.getLogger(RoomController.class);
+	private static final Logger logger = LoggerFactory.getLogger(ChatRoomController.class);
 	
 	@Autowired ChatService chatService;
 	
