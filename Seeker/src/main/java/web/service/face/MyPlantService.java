@@ -12,6 +12,8 @@ public interface MyPlantService {
 	
 	public MyPlant profile(int myPlantNo);
 	
+	public void write(MyPlant myPlant);
+	
 	public void drop(int myPlantNo);
 	
 }

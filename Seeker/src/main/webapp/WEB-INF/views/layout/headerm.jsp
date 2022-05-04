@@ -148,7 +148,7 @@ body {
 	width : 100%;
 	height : 1580px;
 	margin : 130px 0px 0px 0px;
-	background : url('/resources/img/background.jpg') center no-repeat;
+	background-color: #ECF8E0;
 	background-size : cover; z-index : -1;
 	opacity : 0.2;
 }
