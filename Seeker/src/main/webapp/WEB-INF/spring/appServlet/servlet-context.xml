@@ -24,6 +24,7 @@
 	<!-- @Transactional어노테이션을 이용한 트랜잭션관리 활성화 -->
 	<tx:annotation-driven/>
 	
+<<<<<<< HEAD
 	<!-- 웹소켓 인터셉터 설정 -->
 	<!-- <websocket:handlers>
 		<websocket:mapping path="/ws/chat" handler="chatHandler"/>
@@ -33,6 +34,18 @@
 			</websocket:handshake-interceptors>
 	</websocket:handlers>
 	<beans:bean id="chatHandler" class="web.ws.ChatHandler"></beans:bean> -->
+=======
+	<!-- 웹소켓 인터셉터 설정 
+	<websocket:handlers>
+		<websocket:mapping path="/ws/chat" handler="chatHandler"/>
+			<websocket:handshake-interceptors>
+			  <beans:bean class="org.springframework.web.socket.server.support.HttpSessionHandshakeInterceptor"/>  : chatintcpt대용
+				<beans:bean class="web.interceptor.ChatHsIntcp"/>
+			</websocket:handshake-interceptors>
+	</websocket:handlers>
+	<beans:bean id="chatHandler" class="web.ws.ChatHandler"></beans:bean>
+	-->
+>>>>>>> chat
 
 	<!-- Handles HTTP GET requests for /resources/** by efficiently serving up static resources in the ${webappRoot}/resources directory -->
 	<resources mapping="/resources/**" location="/resources/" />

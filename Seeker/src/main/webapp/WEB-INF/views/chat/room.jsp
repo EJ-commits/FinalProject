@@ -6,8 +6,51 @@
 
 <!-- jQuery 2.2.4 -->
 <script type="text/javascript" src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+<<<<<<< HEAD
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.6.0/sockjs.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+=======
+<!-- SOCKJS -->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.6.0/sockjs.min.js"></script>
+<!-- STOMP -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+<!-- BOOTSTRAP -->
+ <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+ <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+ <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+ 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css"/>
+
+    <style>
+        .chat_wrap { border:1px solid #999; padding:5px; font-size:13px; color:#333}
+        .chat_wrap .inner{background-color:#acc2d2; border-radius:5px; padding:10px; overflow-y:scroll;height: 400px;}
+        .chat_wrap .item{margin-top:15px}
+        .chat_wrap .item:first-child{margin-top:0px}
+        .chat_wrap .item .box{ max-width:none; position:initial}
+        .chat_wrap .item .box::before{content:""; position:absolute; left:-8px; top:9px; border-top:0px solid transparent; border-bottom:8px solid transparent;border-right:8px solid #fff;}
+        .chat_wrap .item .box .msg {background:#fff; border-radius:10px; padding:8px; text-align:left}
+        .chat_wrap .item .box .time {font-size:11px; color:#999; position:inherit; padding-left:5px; right: -75px; bottom:5px; width:70px}
+        .chat_wrap .item .mymsg{text-align:right}
+        .chat_wrap .item .mymsg .box::before{left:auto; right:-8px; border-left:8px solid #fee600; border-right:0;}
+        .chat_wrap .item .mymsg .box .msg{background:#fee600}
+        .chat_wrap .item .mymsg .box .time{right:auto; left:-75px}
+        .chat_wrap .item .box{transition:all .3s ease-out; margin:0 0 0 20px;opacity: 7}
+        .chat_wrap .item .mymsg .box{transition:all .3s ease-out; margin:0 20px 0 0;}
+        .chat_wrap .item.on .box{margin:0; opacity: 1;}
+
+        input[type="text"]{border:0; width:85%;background:#ddd; border-radius:5px; height:30px; padding-left:5px; box-sizing:border-box; margin-top:5px}
+        input[type="text"]::placeholder{color:#999}
+  
+		.btn-primary { 
+		  background-color: #99CC66;
+		  display: inline-block;
+		  margin: auto 0;
+		  border: 0;
+		 
+		   }
+  
+    </style>
+>>>>>>> chat
 
 <script type="text/javascript">
 
@@ -26,8 +69,11 @@ $(document).ready(function(){
 	
 	//-----------------------------------------
 	// 클라이언트 소켓 만들기
+<<<<<<< HEAD
 // 	const websocket = new WebSocket("ws://localhost:8088/ws/chat ", null, {transports: ["websocket", "xhr-streaming", "xhr-polling"]}); 	
 // 	const websocket = new WebSocket("ws://localhost:8088/chat");
+=======
+>>>>>>> chat
 	var sockJS = new SockJS("/chat")
 	var stomp = Stomp.over(sockJS);
 	
@@ -45,9 +91,34 @@ $(document).ready(function(){
 			var writer = content.userid;
 	 		var message = content.chatLog
 			var str = writer + ":" + message 
+<<<<<<< HEAD
 			
 			$("#msgArea").append(str);
 			$("#msgArea").append("<br>");
+=======
+
+            if(writer === username){
+                str = "<div class=' item box msg'>";
+                str += "<div class='mymsg box'>";
+                str +=  writer + " : " + message 
+                str += "<span class='time'>"
+                str += currentTime()
+                str += "</span>";
+                str += "</div></div></div></div>";
+                $("#inner").append(str);
+            }
+            else{
+            	   str = "<div class=' item box '>";
+                   str += "<div class='msg box'>";
+                   str +=  writer + " : " + message 
+                   str += "<span class='time'>"
+                   str += currentTime()
+                   str += "</span>";
+                   str += "</div></div></div></div>";
+                   $("#inner").append(str);
+            }
+
+>>>>>>> chat
 			console.log("chat"+str)
 		})//subscribe end
 		
@@ -60,6 +131,7 @@ $(document).ready(function(){
 		
 	})//connect end
 	
+<<<<<<< HEAD
 // 	console.log("웹소켓 호출")
 	//소켓 동작별로 호출되는 함수들 정의
 // 	websocket.onmessage  = onMessage;
@@ -86,6 +158,29 @@ $(document).ready(function(){
 		//퇴장
 	function onClose(e){
 //		clearInterval(websocket.interval);
+=======
+    
+    var currentTime = function(){
+        var date = new Date();
+        var hh = date.getHours();
+        var mm = date.getMinutes();
+        var apm = hh >12 ? "오후":"오전";
+        var ct = apm + " "+hh+":"+mm+"";
+        return ct;
+    }
+	
+
+	//퇴장
+	function onClose(e){
+//		clearInterval(websocket.interval);
+		$.ajax({
+			url: "/chat/exit",
+			type: "get",
+			data: {roomId: roomId, username:username},
+			success: console.log("session deleted") ,
+			error:	console.log("session delete error")
+		})
+>>>>>>> chat
 		console.log("onClose()")
 		window.location.replace("/chat/rooms")
 	}
@@ -95,6 +190,7 @@ $(document).ready(function(){
 		alart('에러가 발생하였습니다')
 		history.go(-1)
 	} 
+<<<<<<< HEAD
 	
 	
 			//채팅창 줄 구분
@@ -128,6 +224,8 @@ $(document).ready(function(){
 	
  	
 	}
+=======
+>>>>>>> chat
 		
 // 		----------------------
 //DOM 요소들의 동작
@@ -142,7 +240,10 @@ $(document).ready(function(){
  					chatLog: msg.val()
  					}))
          msg.value = '';
+<<<<<<< HEAD
 	 
+=======
+>>>>>>> chat
 	 })
 	 
 	  $("#disconn").click(function(){
@@ -155,11 +256,14 @@ $(document).ready(function(){
 			console.log("here1")
 		}
 		
+<<<<<<< HEAD
 		function pro3() {
 						console.log("here3")
 						if (typeof window !== 'undefined') { alert('채팅을 종료합니다.') }
 						onClose();	// 개발 위해 잠시 주석 처리
 		}
+=======
+>>>>>>> chat
 		
 		function pro2(){
 			console.log("here2")
@@ -198,6 +302,16 @@ $(document).ready(function(){
 					 })
 		}
 			 
+<<<<<<< HEAD
+=======
+		function pro3() {
+			console.log("here3")
+			if (typeof window !== 'undefined') { alert('채팅을 종료합니다.') }
+			onClose();	// 개발 위해 잠시 주석 처리
+}
+
+		
+>>>>>>> chat
 		if(!confirm("저장?")){ // 저장안함
 			forcheckSaveDiv.click() 
 		} else { // 저장함 
@@ -214,6 +328,7 @@ $(document).ready(function(){
           		}
 	  })	
 	  
+<<<<<<< HEAD
 	$("#checkparts").click(function(){
 		$.ajax({
 			url:"/chat/participant",
@@ -231,6 +346,28 @@ $(document).ready(function(){
 			}
 		})
 	})
+=======
+	var ckpart = function(){
+					$.ajax({
+						url:"/chat/participant",
+						type:"post",
+						data:{roomId:roomId},
+						success:function(list){
+						console.log("성공");
+							for(var i=0; i<list.length; i++){
+								var participant = list[i]
+				 				console.log("참여자명 "+participant)
+								$("#participants").html(participant)
+							}
+						},
+						error:function(result){
+						console.log("에러");
+							$('#participants').val('error')
+						}
+					})
+				}
+	$("#checkparts").click(ckpart)
+>>>>>>> chat
 	
 	
 })
@@ -243,6 +380,7 @@ $(document).ready(function(){
 <title>Insert title here</title>
 </head>
 <body>
+<<<<<<< HEAD
 <button type="button" id="disconn" >대화방 나가기</button>
 <div class="container">
 
@@ -257,5 +395,58 @@ $(document).ready(function(){
 <button type="button" id="checkparts">참가자 확인</button>
 <div id="participants">참여자 목록</div>
 </div>
+=======
+
+<div style="text-align: center; padding: 0.5em; background-color:#99CC66; font-size: 1.5em; font: bolder;">
+<label>[OnLine] ${room.roomName}</label>
+</div>
+
+<div class="chat_wrap">
+	<div id="inner" class="inner">
+	</div>
+</div>
+<div>
+		<input type="text" id="messages" placeholder="메시지를 입력하세요.">
+		<button type="button" id="sendButton" style="width: 10%; padding: 0 0" >전송</button>
+</div>
+
+<div style="height: 1.3em">
+</div>
+<div style="text-align: center">
+	<button type="button"  class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">참가자 확인</button>
+	<button type="button" class="btn btn-primary" id="disconn" >대화방 나가기</button>
+	<div id="participants"></div>
+</div>		
+<div style="height: 2em">
+</div>
+		
+		
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">참여자 목록</h5>
+        <button type="btn btn-secondary" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body" >
+        <div style="text-align: center">
+        	<div id="participants"></div>
+        	<div style="padding: 0.3em 0"></div>
+			<div style="padding: 0.7em 0"></div>
+			<button name="createBtn" class="btn-create" style="border:0; padding: 8px 14px; border-radius: 4px;", id="checkparts">새로고침</button>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+      </div>
+    </div>
+  </div>
+</div>		
+
+>>>>>>> chat
 </body>
 </html>

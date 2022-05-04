@@ -14,6 +14,7 @@ import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerCo
 @EnableWebSocketMessageBroker
 public class StompWebSocketConfig implements WebSocketMessageBrokerConfigurer{
 
+<<<<<<< HEAD
 //	@Autowired ChatHandler chatHandler;
 	private final Logger logger = LoggerFactory.getLogger(StompWebSocketConfig.class);
 	
@@ -28,6 +29,10 @@ public class StompWebSocketConfig implements WebSocketMessageBrokerConfigurer{
 ////		.setClientLibraryUrl("https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.6.0/sockjs.min.js");
 //	}
 	
+=======
+	private final Logger logger = LoggerFactory.getLogger(StompWebSocketConfig.class);
+	
+>>>>>>> chat
 	public void registerStompEndpoints(StompEndpointRegistry registry) {
 		registry.addEndpoint("/chat")
 //				.setAllowedOriginPatterns("*")
@@ -39,4 +44,8 @@ public class StompWebSocketConfig implements WebSocketMessageBrokerConfigurer{
 		registry.setApplicationDestinationPrefixes("/pub"); // destination 설정용 prefux
 	}
 	
+<<<<<<< HEAD
 } //config end
+=======
+} 
+>>>>>>> chat

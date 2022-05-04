@@ -40,5 +40,10 @@ public class StompChatController {
 		chatDto.setIsEnd(1); // 채팅종료
 		chatService.saveMsg(chatDto);
 		logger.info("chatLog {}",chatDto.toString());
+<<<<<<< HEAD
+=======
+		
+		//남은 인원이 0명이면 채팅방을 삭제하는 기능 (미구현)
+>>>>>>> chat
 	}
 }

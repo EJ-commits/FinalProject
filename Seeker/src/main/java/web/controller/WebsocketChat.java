@@ -19,6 +19,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.socket.WebSocketSession;
 
 import web.service.face.ChatService;
+<<<<<<< HEAD
+=======
+import web.ws.ChatHandler;
+>>>>>>> chat
 
 @Controller
 public class WebsocketChat {
@@ -85,7 +89,11 @@ public class WebsocketChat {
 */
 	 ///	---------- 상단 사용 안함 ------------
 	
+<<<<<<< HEAD
 //	@Autowired ChatHandler chatHandler;
+=======
+	@Autowired ChatHandler chatHandler;
+>>>>>>> chat
 	@Autowired ChatService chatService;
 	
 	@RequestMapping("/chat/chat")
@@ -124,7 +132,11 @@ public class WebsocketChat {
 //	return participant;
 	
 	}
+<<<<<<< HEAD
 */	
+=======
+	
+>>>>>>> chat
 	
 //	다운로드는 chat.jsp 내에서 비동기적으로 처리되므로
 //  따로 뷰를 지정한다.

@@ -10,11 +10,13 @@ import java.util.Iterator;
 import java.util.List;
 
 import javax.servlet.ServletContext;
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.socket.WebSocketSession;
 
 import web.dao.face.ChatDao;
 import web.dto.ChatDto;
@@ -33,10 +35,15 @@ public class ChatServiceImpl implements ChatService{
 	
 	//채팅방 생성
 	public ChatRoomDto createRoom(String roomName) {
+<<<<<<< HEAD
 		
 		ChatRoomDto chatRoom = new ChatRoomDto(roomName);
 		logger.info("chatRoom {}",chatRoom.toString());
 		
+=======
+		ChatRoomDto chatRoom = new ChatRoomDto(roomName);
+		logger.info("chatRoom {}",chatRoom.toString());
+>>>>>>> chat
 		chatDao.setChatRoom(chatRoom);
 		
 		return chatRoom;
@@ -64,6 +71,7 @@ public class ChatServiceImpl implements ChatService{
 		String fileName = userid + "_CHATLOG_"+ today + ".txt";
 		
 		String filepath = storedPath+ File.separator+fileName;
+<<<<<<< HEAD
 		
 		//파일 생성 (txt 확장자를 위에서 부여했으므로 텍스트 파일 생성)
 		File log = new File(filepath); 
@@ -140,7 +148,101 @@ public class ChatServiceImpl implements ChatService{
 	public void saveMsg(int start, int end, String userid, String chatLog) {
 		// TODO Auto-generated method stub
 		
+=======
+		
+		//파일 생성 (txt 확장자를 위에서 부여했으므로 텍스트 파일 생성)
+		File log = new File(filepath); 
+		logger.info("will stored at {}",storedPath+ File.separator+fileName);
+		try {
+			log.createNewFile();
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
+		//파일 내용 쓰기
+		FileWriter filewriter = null;
+		try {
+			filewriter = new FileWriter(log, true); // 로그 txt 파일에 filewriter 얹음
+			
+			//DB조회
+			List<ChatDto> chatLog = chatDao.getChatLog(userid); 
+			logger.info("chatLog isEmpty ? {}",chatLog.isEmpty());
+			
+			//DB 조회내용 텍스트파일에 쓰기
+			Iterator<ChatDto> iter = chatLog.iterator();
+			
+			while(iter.hasNext()) {
+				
+				ChatDto chatDto = iter.next();
+				int target2 = chatDto.getChatDate().indexOf(".");
+				String date = chatDto.getChatDate().substring(5, target2);
+				System.out.println(date);
+				
+				String str = "["+date+"] "+
+								chatDto.getUserid()+" : "+
+								chatDto.getChatLog() + "\n" ;	
+				logger.info("chatlog {}" , str);
+				
+				filewriter.write(str);
+			}
+			
+			//filewriter.flush();
+			
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				filewriter.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		// 컨텍스트 패스 내 chatlog 폴더에 채팅 대화내용이 저장됨.
+		
+//	다운로드는 chat.jsp 내에서 비동기적으로 처리되므로 별도의 뷰로 처리.
+		
+		return fileName; 
+>>>>>>> chat
 	}
+
+	//채팅방 목록 
+	List<ChatRoomDto> list = new ArrayList<ChatRoomDto>();
+
+	@Override
+	public List<ChatRoomDto> findAllRooms() {
+		logger.info("findAllRooms() ");
+		list = chatDao.getChatRooms();
+		return list;
+	}
+
+	@Override
+	public ChatRoomDto findRoomById(String roomId) {
+		logger.info("findRoomById() {}", roomId);
+		ChatRoomDto room = chatDao.getRoomToGo(roomId);
+		return room;
+	}
+
+	@Override
+	public void addSession(ChatRoomDto room, String userid) {
+		logger.info("addSession() {}", userid);
+		room.nameList.add(userid);
+	}
+
+	@Override
+	public void deleteSession(ChatRoomDto room, String userid) {
+		logger.info("deleteSession() {}", userid);
+		room.nameList.remove(userid);
+	}
+
+	@Override
+	public void deleteRoom(ChatRoomDto room) {
+		logger.info("deleteRoom() {}" , room.getRoomId());
+		chatDao.deleteRoom(room);
+	}
+
+
+
 
 
 
