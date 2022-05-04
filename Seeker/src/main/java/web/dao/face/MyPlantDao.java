@@ -12,6 +12,8 @@ public interface MyPlantDao {
 
 	public String selectNick(int myPlantNo);
 	
+	public void insert(MyPlant myPlant);
+
 	public void delete(int myPlantNo);
 
 }

@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import web.dao.face.ShopDao;
+import web.dto.Cart;
+import web.dto.CartList;
 import web.dto.GoodsView;
 import web.service.face.ShopService;
 
@@ -33,6 +35,27 @@ public class ShopServiceImpl implements ShopService {
 		}
 		
 	}
+
+	//상품 상세조회
+	@Override
+	public GoodsView goodsView(int gdsNum) {
+		
+		return shopDao.goodsView(gdsNum);
+	}
+
+	//장바구니 담기
+	@Override
+	public void addCart(Cart cart) {
+		shopDao.addCart(cart);
+	}
+
+	//장바구니 목록
+	@Override
+	public List<CartList> cartList(int member_no) {		
+		return shopDao.cartList(member_no);
+	}
+	
+	
 
 	
 	

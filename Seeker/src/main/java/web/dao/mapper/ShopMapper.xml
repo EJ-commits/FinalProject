@@ -27,6 +27,32 @@
             WHERE g.cateCode = #{cateCode}
 	</select>
 	
+	<!-- 상품 조회 + 카테고리 조인-->
+	<select id="goodsView" resultType="web.dto.GoodsView">
+ 		SELECT
+     		g.gdsNum, g.gdsName, g.cateCode, c.cateCodeRef, c.cateName, gdsPrice, gdsStock, gdsDes, gdsDate,ImgOriginName, ImgStoredName
+        FROM tbl_goods g, goods_category c                        
+        WHERE g.cateCode = c.cateCode  
+        AND g.gdsNum = #{gdsNum}
+	</select>
+	
+	<!-- 카트 담기 -->
+	<insert id="addCart">
+ 		INSERT INTO tbl_cart (cartNum, member_no, gdsNum, cartStock)
+     	VALUES (tbl_cart_seq.nextval, #{member_no}, #{gdsNum}, #{cartStock})
+	</insert>
+	
+	<!-- 카트 리스트 -->
+	<select id="cartList" resultType="web.dto.CartList">
+		SELECT 
+			ROW_NUMBER() OVER(ORDER BY c.cartNum DESC) as num,
+			c.cartNum, c.member_no, c.gdsNum, c.cartStock, c.addDate,
+			g.gdsName, g.gdsPrice, g.ImgOriginName, g.ImgStoredName
+		FROM tbl_cart c
+			INNER JOIN tbl_goods g
+				ON c.gdsNum = g.gdsNum
+			WHERE c.member_no = #{member_no}
+	</select>
 	
 	
 

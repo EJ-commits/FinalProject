@@ -42,6 +42,13 @@ public class MyPlantServiceImpl implements MyPlantService {
 		return myPlantDao.select(myPlantNo);
 		
 	}
+	
+	@Override
+	public void write(MyPlant myPlant) {
+		
+		myPlantDao.insert(myPlant);
+		
+	}
 
 	@Override
 	public void drop(int myPlantNo) {

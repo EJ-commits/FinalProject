@@ -4,6 +4,8 @@ import java.util.Date;
 
 public class GoodsView {
 
+	//상품 + 카테고리 조인 DTO
+	
 	private int gdsNum;
 	private String gdsName;
 	private String cateCode;

@@ -52,14 +52,14 @@ public class ChatServiceImpl implements ChatService{
 
 	//저장된 메시지 클라이언트 쪽에서 다운로드하는 메서드
 	@Override
-	public String getLog(String userid) {
-
+	public String getLog(ChatDto chatDto) {
 		//서버내 저장경로설정 
 		String storedPath = context.getRealPath("chatlog"); // 서블릿컨텍스트의 실제경로
 		File storedFolder = new File(storedPath); 
 		if(!storedFolder.exists()) storedFolder.mkdir();
 		
 		//파일생성 준비
+		String userid = chatDto.getUserid();
 		String today = new SimpleDateFormat("yyyyMMdd_mmss").format(new Date());
 		String fileName = userid + "_CHATLOG_"+ today + ".txt";
 		
@@ -81,22 +81,25 @@ public class ChatServiceImpl implements ChatService{
 			filewriter = new FileWriter(log, true); // 로그 txt 파일에 filewriter 얹음
 			
 			//DB조회
-			List<ChatDto> chatLog = chatDao.getChatLog(userid); 
+			List<ChatDto> chatLog = chatDao.getChatLog(chatDto); 
+			
 			logger.info("chatLog isEmpty ? {}",chatLog.isEmpty());
+			logger.info("chatLog size ? {}",chatLog.size());
 			
 			//DB 조회내용 텍스트파일에 쓰기
 			Iterator<ChatDto> iter = chatLog.iterator();
 			
 			while(iter.hasNext()) {
 				
-				ChatDto chatDto = iter.next();
-				int target2 = chatDto.getChatDate().indexOf(".");
-				String date = chatDto.getChatDate().substring(5, target2);
+				ChatDto chatDtoLog = iter.next();
+				logger.info("chatDtoLog ? {}",chatDtoLog.toString());
+				int target2 = chatDtoLog.getChatDate().indexOf(".");
+				String date = chatDtoLog.getChatDate().substring(5, target2);
 				System.out.println(date);
 				
 				String str = "["+date+"] "+
-								chatDto.getUserid()+" : "+
-								chatDto.getChatLog() + "\n" ;	
+						chatDtoLog.getUserid()+" : "+
+						chatDtoLog.getChatLog() + "\n" ;	
 				logger.info("chatlog {}" , str);
 				
 				filewriter.write(str);

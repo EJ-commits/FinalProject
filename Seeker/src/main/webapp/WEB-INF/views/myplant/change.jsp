@@ -5,41 +5,39 @@
 <c:import url="/WEB-INF/views/layout/header.jsp" />
 
 <style type="text/css">
-#profile-box {
-	display : inline-flex;
-	width : 900px;
+#wrap-box > div {
+	width : 600px;
 	height : 600px;
 	margin : auto;
 	padding : 50px;
+	border :1px solid black;
 }
 
-#profile-box > div {
-	width : 400px;
-	height : 500px;
-	padding :50px 0px 0px 0px;
+#profile-box-top {
+	display : inline-flex;
+	width : 500px;
+	height : 250px;
 }
 
-.img-thumbnail {
-	width : 300px;
-	height : 300px;
+#profile-box-top > div {
+	width : 250px;
+	height : 250px;
+}
+
+#profile-box-bottom {
+	width : 500px;
+	height : 250px;
+}
+
+img {
+	width : 200px;
+	height : 200px;
 }
 
 #upload-box {
-	width : 400px;
+	width : 250px;
 	height :47px;
-	padding : 0px 50px 0px 50px;;
-}
-
-#upload {
-	visibility : hidden;
-}
-
-#img-name {
-	width : 300px;
-	height : 34px;
-	margin : 13px 0px 0px 0px;
-	padding : 6px 0px 6px 0px;
-	text-align :center;
+	padding : 10px;
 }
 
 label {
@@ -50,14 +48,45 @@ label:hover {
 	cursor : pointer;
 }
 
+#upload {
+	visibility : hidden;
+}
+
+#img-name {
+	width : 250px;
+	height : 34px;
+	padding : 0px 0px 0px 10px;
+}
+
 .table {
 	margin : 0px 0px 0px 0px;
-	text-align : center;
+	text-align : left;
 }
 
 .table div {
 	display: inline-block;
-	width : 200px;
+	width : 152px;
+}
+
+#empty {
+	width : 250px;
+	height : 60px;
+}
+
+#bottom-box {
+	display : inline-flex;
+}
+
+#bottom {
+	width : 400px;
+	padding : 10px 50px 10px 10px;
+}
+
+#submit-box {
+	width : 100px;
+	height : 216px;
+	padding : 142px 0px 0px 0px;
+	text-align : center;
 }
 
 input {
@@ -66,10 +95,6 @@ input {
 
 #date {
 	padding : 0px;
-}
-
-#search {
-	width : 150px;
 }
 
 </style>
@@ -82,7 +107,8 @@ input {
 
 <form action="/myplant/write" method="post" enctype="multipart/form-data">
 <div id="wrap-box">
-	<div id="profile-box">
+	<div>
+		<div id="profile-box-top">
 			<div>
 				<div id="img-box">
 					<img src="/resources/img/default.jpg" class="img-thumbnail">
@@ -93,34 +119,45 @@ input {
 							사진 첨부&nbsp;<span class="glyphicon glyphicon-picture"></span>
 						</label>
 					</div>
-					<div id="img-name">
-					</div>
 					<input type="file" accept="image/gif, image/jpeg, image/png" id="upload" name="file" hidden="true">
 				</div>
 			</div>
 			<div>
+				<div id="empty">
+				</div>
 				<table class="table">
-				<tr><td>학명</td></tr>
+				<tr><td>학명 : </td></tr>
 				<tr><td>
-				<div id="search"><input type="text" class="form-control" name="bname" readonly></div>
+				<div><input type="text" class="form-control" name="bname" readonly></div>
 				<button type="button" class="btn btn-default">검색</button>
 				</td></tr>
-				<tr><td>이름</td></tr>
+				<tr><td>이름 : </td></tr>
 				<tr><td><div><input type="text" name="nick" class="form-control"></div></td></tr>
-				<tr><td>심은날</td></tr>
-				<tr><td>
-					<div><input type="date" class="form-control" name="birth" id="date"></div>
-				</td></tr>
-				<tr><td>물주기 간격</td></tr>
-				<tr><td>
-					<div><input type="text" class="form-control" name="water" placeholder="일"></div>
-				</td></tr>
-				<tr><td>
-				<button type="submit" class="btn btn-success" id="submit">등록 완료</button>
-				</td></tr>
 				</table>	
 			</div>
 		</div>
+		<div id="profile-box-bottom">
+			<div id="img-name">
+			</div>
+			<div id="bottom-box">
+				<div id="bottom">
+					<table class="table">
+					<tr><td>심은날 : </td></tr>
+					<tr><td>
+						<div><input type="date" class="form-control" name="birth" id="date"></div>
+					</td></tr>
+					<tr><td>물주기 날 간격 : </td></tr>
+					<tr><td>
+						<div><input type="text" class="form-control" name="water" placeholder="일"></div>
+					</td></tr>
+					</table>				
+				</div>
+				<div id="submit-box">
+				<button type="submit" class="btn btn-success" id="submit">등록<br>완료</button>
+				</div>
+			</div>
+		</div>
+	</div>
 </div>
 </form>
 
@@ -141,9 +178,9 @@ upload.onchange = function() {
 	const url = URL.createObjectURL(file);
 	
 	img.src = url;
+	img.style.width = '200px';
+	img.style.height = '200px';
 	img.className='img-thumbnail';
-	img.style.width = '300px';
-	img.style.height = '300px';
 	
 	pbox.appendChild(img);
 	
