@@ -137,8 +137,6 @@ public class ChatServiceImpl implements ChatService{
 		return room;
 	}
 
-	
-	//세션정보 다루기
 	@Override
 	public void addSession(ChatRoomDto room, String userid) {
 		logger.info("addSession() {}", userid);
