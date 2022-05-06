@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import com.google.gson.Gson;
@@ -82,11 +83,14 @@ public class StompChatController {
 	
 //	---------------알람 보내기 --------------
 	
-	@PostMapping(value = "/notice")
+	@GetMapping(value = "/notice")
 //	@MessageMapping
 	public String messageAlart(String username, HttpSession session) throws IOException {
 		
-		String[] str = {"1","2","3"}; // 추후 물주기및 구매 업데이트반영
+		//테스트용 
+		username = "testuser";
+		
+		String[] str = {"물을 줄 시간이에요","상품이 출발했어요","좋은 하루 되세요"}; // 추후 물주기및 구매 업데이트반영
 		
 		Gson gson = new Gson();
 		

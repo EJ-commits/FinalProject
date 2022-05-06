@@ -16,6 +16,12 @@
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&display=swap" rel="stylesheet">
 
+<!-- SOCKJS -->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.6.0/sockjs.min.js"></script>
+<!-- STOMP -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+
+
 <style type="text/css">
 *{
  	font-family :'Do Hyeon', sans-serif; 
@@ -199,6 +205,46 @@ body {
 }
 </style>
 
+
+<script type="text/javascript">
+var testuser = 'testuser' // ${ session.userid }
+
+$(document).ready(function(){
+	var username = testuser
+	
+	//클라이언트 소켓 만들기 
+	var sockJS = new SockJS("/notice")
+	var stomp = Stomp.over(sockJS);
+	
+	stomp.connect({},function(){
+		stomp.subscribe("/sub/notice"+username, function(notice){
+		
+		var alArray = JSON.parse(notice.body)	
+		console.log(alArray[0])
+		console.log(alArray[1])
+		console.log(alArray[2])
+		
+		$(".dropdown").eq(0).find("#alarm1").html(alArray[0])
+		$(".dropdown").eq(0).find("#alarm2").html(alArray[1])
+		$(".dropdown").eq(0).find("#alarm3").html(alArray[2])
+		
+		})
+		
+	$.ajax({
+		url: "/notice",
+		type: "get",
+		asnyc: false,
+		data: {username:testuser},
+// 		dataType:"JSON"
+	})
+	
+  })
+})
+</script>
+
+
+
+
 </head>
 
 <body>
@@ -232,12 +278,22 @@ body {
 		<div class="header-menu-box">
 			<a href="">스토어</a>
 		</div>
-		<div class="header-menu-box">
-			<a href="" >
+		<div class="header-menu-box" >
+		<div style="height: 4px"></div>
+			<li class="dropdown" style="list-style: none;" > 
 				<span class="material-icons">alarm_on</span>
-				<span class="header-menu-text-sm">알람</span>
-			</a>
-		</div>
+				<span class="header-menu-text-sm" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" style="cursor:pointer;">알람
+				</span> 
+			<ul class="dropdown-menu" role="menu" >
+		    	<li class="dropdown-header">Nav header</li>
+			    <li><div class="dropdown-item" id="alarm1" ></div></li>
+			    <li><div class="dropdown-item" id="alarm2" ></div></li>
+			    <li><div class="dropdown-item" id="alarm3" ></div></li>
+		    	<li class="divider"></li>
+			  </ul>
+			</li>
+		</div>				
+			
 		<div class="header-menu-box">
 			<a href="/chat/rooms" >
 			<span class="material-icons">chat_bubble_outline</span>
@@ -257,5 +313,13 @@ body {
 			<a href=""><span>사진 게시판</span></a>
 		</div>
 	</div>
+	
+	
+	
+
+    
+
+
+	
 </header>
 <div id='wrap-con'>

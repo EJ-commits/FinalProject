@@ -286,39 +286,12 @@ $(document).ready(function(){
 <div style="height: 1.3em">
 </div>
 <div style="text-align: center">
-	<button type="button"  class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">참가자 확인</button>
 	<button type="button" class="btn btn-primary" id="disconn" >대화방 나가기</button>
 	<div id="participants"></div>
 </div>		
 <div style="height: 2em">
 </div>
 		
-		
-<!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel">참여자 목록</h5>
-        <button type="btn btn-secondary" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body" >
-        <div style="text-align: center">
-        	<div id="participants"></div>
-        	<div style="padding: 0.3em 0"></div>
-			<div style="padding: 0.7em 0"></div>
-			<button name="createBtn" class="btn-create" style="border:0; padding: 8px 14px; border-radius: 4px;", id="checkparts">새로고침</button>
-        </div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-      </div>
-      </div>
-    </div>
-  </div>
-</div>		
 
 </body>
 </html>

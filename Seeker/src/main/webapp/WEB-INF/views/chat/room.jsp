@@ -24,12 +24,12 @@
         input[type="text"]{border:0; width:85%;background:#ddd; border-radius:5px; height:30px; padding-left:5px; box-sizing:border-box; margin-top:5px}
         input[type="text"]::placeholder{color:#999}
 
-		.btn-primary { 
-		  background-color: #99CC66;
-		  display: inline-block;
-		  margin: auto 0;
-		  border: 0;
-		   }
+	.btn-primary { 
+	  background-color: #99CC66;
+	  display: inline-block;
+	  margin: auto 0;
+	  border: 0;
+	   }
 		   
      .modal-backdrop {
        z-index: -1;
