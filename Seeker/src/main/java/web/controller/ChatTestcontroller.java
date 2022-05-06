@@ -21,7 +21,8 @@ public class ChatTestcontroller {
 
 		//모델값으로 전달
 		session.setAttribute("testuser","testuser");
+		
+		
 	}
-	
 	
 }

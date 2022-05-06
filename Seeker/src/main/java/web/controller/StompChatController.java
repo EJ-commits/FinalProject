@@ -1,14 +1,20 @@
 package web.controller;
 
+import java.io.IOException;
+
+import javax.servlet.http.HttpSession;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PostMapping;
+
+import com.google.gson.Gson;
 
 import web.dto.ChatDto;
-import web.dto.ChatRoomDto;
 import web.service.face.ChatService;
 
 @Controller
@@ -74,6 +80,26 @@ public class StompChatController {
 		
 	}
 	
+//	---------------알람 보내기 --------------
+	
+	@PostMapping(value = "/notice")
+//	@MessageMapping
+	public String messageAlart(String username, HttpSession session) throws IOException {
+		
+		String[] str = {"1","2","3"}; // 추후 물주기및 구매 업데이트반영
+		
+		Gson gson = new Gson();
+		
+//		session.setAttribute("str",str);
+		
+		template.convertAndSend("/sub/notice"+username, gson.toJson(str));
+		logger.info("/notice [POST] {} ",username);
+//		PrintWriter out = null  ;
+//		out.write("{\"result\": true}");
+		
+		return "chat/empty";
+		
+	}
 	
 	
 }
