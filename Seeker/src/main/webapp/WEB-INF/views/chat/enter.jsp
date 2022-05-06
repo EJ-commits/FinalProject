@@ -45,7 +45,7 @@ $(document).ready(function(){
 		$(".dropdown").eq(0).find("#alarm2").html(alArray[1])
 		$(".dropdown").eq(0).find("#alarm3").html(alArray[2])
 		
-		}) // 유저네임으로 수용
+		})
 		
 	$.ajax({
 		url: "/notice",
@@ -80,33 +80,33 @@ $(document).ready(function(){
 <button>입장</button>
 
 
-<li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Dropdown <span class="caret"></span></a>
-  <ul class="dropdown-menu" role="menu">
-    <li class="dropdown-header">Nav header</li>
-
-   <c:forEach items="${str }" var="i" begin="0">
-    <li><div class="dropdown-item" id="alarm${i }" ></li>
-  </c:forEach>
-
-    <li class="divider"></li>
-  </ul>
-</li>
-
-
-
 <!-- <li class="dropdown"> -->
 <!--   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Dropdown <span class="caret"></span></a> -->
 <!--   <ul class="dropdown-menu" role="menu"> -->
 <!--     <li class="dropdown-header">Nav header</li> -->
-    
-<!--     <li><div class="dropdown-item" id="alarm1" ></div></li> -->
-<!--     <li><div class="dropdown-item" id="alarm2" ></div></li> -->
-<!--     <li><div class="dropdown-item" id="alarm3" ></div></li> -->
-    
+
+<%--    <c:forEach items="${str }" var="i" begin="0"> --%>
+<%--     <li><div class="dropdown-item" id="alarm${i }" ></li> --%>
+<%--   </c:forEach> --%>
+
 <!--     <li class="divider"></li> -->
 <!--   </ul> -->
 <!-- </li> -->
+
+
+
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Dropdown <span class="caret"></span></a>
+  <ul class="dropdown-menu" role="menu">
+    <li class="dropdown-header">Nav header</li>
+    
+    <li><div class="dropdown-item" id="alarm1" ></div></li>
+    <li><div class="dropdown-item" id="alarm2" ></div></li>
+    <li><div class="dropdown-item" id="alarm3" ></div></li>
+    
+    <li class="divider"></li>
+  </ul>
+</li>
 
 
 
