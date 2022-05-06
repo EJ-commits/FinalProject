@@ -54,6 +54,28 @@ public class ShopServiceImpl implements ShopService {
 	public List<CartList> cartList(int member_no) {		
 		return shopDao.cartList(member_no);
 	}
+
+	//장바구니 삭제
+	@Override
+	public void deleteCart(Cart cart) {
+		shopDao.deleteCart(cart);
+	}
+
+	//장바구니 수량 변경
+	@Override
+	public void updateCart(Cart cart) {
+		shopDao.updateCart(cart);
+	}
+
+	@Override
+	public int selectCart(Cart cart) {
+		
+		int result = shopDao.selectCart(cart);
+		
+		return result;
+	}
+	
+	
 	
 	
 

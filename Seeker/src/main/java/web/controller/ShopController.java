@@ -35,8 +35,11 @@ public class ShopController {
 	//상품 목록
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
 	public void getList(@RequestParam("c") int cateCode,
-						@RequestParam("L") int level, Model model) {
+						@RequestParam("L") int level, Model model,
+						HttpSession session) {
 		logger.info("/shop/list [GET]");
+		
+		session.setAttribute("memberNo", 1);
 		
 		List<GoodsView> list = shopService.list(cateCode, level);
 		
@@ -65,9 +68,15 @@ public class ShopController {
 		
 		if(memberNo != 0) {
 			
-			cart.setMember_no(memberNo);
-			shopService.addCart(cart);
-			result = 1;
+			if(shopService.selectCart(cart) >= 1) {
+				result = 2;
+				
+			} else {
+			
+				cart.setMember_no(memberNo);
+				shopService.addCart(cart);
+				result = 1;
+			}
 		}
 		
 		return result;
@@ -77,11 +86,70 @@ public class ShopController {
 	@RequestMapping(value = "/cartList", method = RequestMethod.GET)
 	public void getCartList(HttpSession session, Model model) {
 		
+		
 		int memberNo = (Integer)session.getAttribute("memberNo");
 		
 		List<CartList> cartList = shopService.cartList(memberNo);
 		
+		logger.info("cartList : {}", cartList );
+		
 		model.addAttribute("cartList", cartList);
 		
+	}
+	
+	//카트 삭제
+	@Transactional
+	@ResponseBody
+	@RequestMapping(value = "/deleteCart", method = RequestMethod.POST)
+	public int deleteCart(HttpSession session,
+							@RequestParam(value = "chbox[]") List<String> chArr, Cart cart) {
+		
+		int memberNo = (Integer)session.getAttribute("memberNo");
+		
+		int result = 0;
+		int cartNum = 0;
+		
+		if(memberNo != 0) {
+			cart.setMember_no(memberNo);
+			
+			for(String i : chArr) {
+				//jsp에서 String으로 넘어온 배열을 Integer(cartNum타입)로 형변환
+				cartNum = Integer.parseInt(i);
+				cart.setCartNum(cartNum);
+				shopService.deleteCart(cart);
+			}
+			result = 1;
+		}
+		
+		return result;
+	}
+	
+	//카트 수량 변경
+	@Transactional
+	@ResponseBody
+	@RequestMapping(value = "/updateCart", method = RequestMethod.POST)
+	public int updateCart(HttpSession session, 
+						@RequestParam(value = "cartStock") int cartStock, 
+						@RequestParam(value = "cartNum") int cartNum, Cart cart) {
+		
+		int memberNo = (Integer)session.getAttribute("memberNo");
+		
+		int result = 0;
+//		int cartNum = 0;
+//		int cartStock = 0;
+		
+		if(memberNo != 0) {
+			/* cart.setMember_no(memberNo); */
+			
+
+				cart.setCartNum(cartNum);
+				cart.setCartStock(cartStock);
+				shopService.updateCart(cart);	
+			
+
+			result = 1;
+		}
+		
+		return result;
 	}
 }

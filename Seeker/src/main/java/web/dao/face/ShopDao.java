@@ -47,4 +47,26 @@ public interface ShopDao {
 	 * @return 장바구니 목록
 	 */
 	public List<CartList> cartList(int member_no);
+	
+	/**
+	 * 장바구니 삭제
+	 * 
+	 * @param cart - 삭제할 장바구니
+	 */
+	public void deleteCart(Cart cart);
+
+	/**
+	 * 장바구니 수량 변경
+	 * 
+	 * @param cart - 수량 변경할 장바구니
+	 */
+	public void updateCart(Cart cart);
+	
+	/**
+	 * 장바구니에 담을 상품이 중복되어 담기는 지 체크
+	 * 
+	 * @param cart - 장바구니
+	 * @return 1 : 중복, 0 : 중복아님
+	 */
+	public int selectCart(Cart cart);
 }
