@@ -211,12 +211,11 @@ $(document).ready(function(){
 		$.ajax({
 			url:"/chat/participant",
 			type:"post",
-			data:{},
+			data:{roomId:roomId},
 			dataType:"json",
-			success:function(map){
-			var participant = map["participant"]
-			console.log("참여자명 "+participant);
-			$("#participants").html(participant)
+			success:function(list){
+			console.log("참여자명 "+list);
+			$("#participants").html(list)
 			},
 			error:function(result){
 			console.log("에러");
@@ -255,7 +254,7 @@ $(document).ready(function(){
 
 
 	<div style="text-align: center">
-	<button type="button"  class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">참가자 확인</button>
+	<button type="button"  class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" id="checkparts">참가자 확인</button>
 	<button type="button" class="btn btn-primary" id="disconn" >대화방 나가기</button>
 	</div>		
 	<div style="height: 2em"></div>

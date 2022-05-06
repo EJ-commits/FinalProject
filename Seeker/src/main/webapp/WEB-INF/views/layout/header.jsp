@@ -280,18 +280,18 @@ $(document).ready(function(){
 		</div>
 		<div class="header-menu-box" >
 		<div style="height: 4px"></div>
-			<li class="dropdown" style="list-style: none;" > 
+			<div class="dropdown" style="list-style: none;" > 
 				<span class="material-icons">alarm_on</span>
 				<span class="header-menu-text-sm" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" style="cursor:pointer;">알람
 				</span> 
-			<ul class="dropdown-menu" role="menu" >
-		    	<li class="dropdown-header">Nav header</li>
-			    <li><div class="dropdown-item" id="alarm1" ></div></li>
-			    <li><div class="dropdown-item" id="alarm2" ></div></li>
-			    <li><div class="dropdown-item" id="alarm3" ></div></li>
-		    	<li class="divider"></li>
-			  </ul>
-			</li>
+				<ul class="dropdown-menu" role="menu" >
+			    	<li class="dropdown-header">Nav header</li>
+				    <li><div class="dropdown-item" id="alarm1" ></div></li>
+				    <li><div class="dropdown-item" id="alarm2" ></div></li>
+				    <li><div class="dropdown-item" id="alarm3" ></div></li>
+			    	<li class="divider"></li>
+			 	</ul>
+			</div>
 		</div>				
 			
 		<div class="header-menu-box">
