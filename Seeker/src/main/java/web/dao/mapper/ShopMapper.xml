@@ -42,16 +42,37 @@
      	VALUES (tbl_cart_seq.nextval, #{member_no}, #{gdsNum}, #{cartStock})
 	</insert>
 	
-	<!-- 카트 리스트 -->
+	<!-- 카트 목록 -->
 	<select id="cartList" resultType="web.dto.CartList">
 		SELECT 
 			ROW_NUMBER() OVER(ORDER BY c.cartNum DESC) as num,
-			c.cartNum, c.member_no, c.gdsNum, c.cartStock, c.addDate,
-			g.gdsName, g.gdsPrice, g.ImgOriginName, g.ImgStoredName
+			c.cartNum, c.member_no, g.gdsNum, c.cartStock, c.addDate,
+			g.gdsName, g.gdsPrice, g.ImgOriginName, g.ImgStoredName, g.gdsStock
 		FROM tbl_cart c
 			INNER JOIN tbl_goods g
 				ON c.gdsNum = g.gdsNum
 			WHERE c.member_no = #{member_no}
+	</select>
+	
+	<!-- 카트 삭제 -->
+	<delete id="deleteCart">
+ 		DELETE tbl_cart
+     	WHERE cartNum = #{cartNum}
+         	AND member_no = #{member_no}
+	</delete>
+	
+	<!-- 카트 수량 변경 -->
+	<update id="updateCart">
+		UPDATE tbl_cart
+		SET cartStock = #{cartStock}
+		WHERE cartNum = #{cartNum}
+	</update>
+	
+	<!-- 카트 담기 전 목록에 이미 담겨있는 지 체크 -->
+	<select id="selectCart" resultType="int">
+		SELECT count(*) FROM tbl_cart
+		WHERE gdsNum = #{gdsNum}
+			AND member_no = #{member_no}
 	</select>
 	
 	

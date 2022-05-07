@@ -9,6 +9,7 @@ public class CartList {
 	private int cartNum;
 	private int member_no;
 	private int gdsNum;
+	private int gdsStock;
 	private int cartStock;
 	private Date addDate;
 	
@@ -19,9 +20,10 @@ public class CartList {
 	private String ImgStoredName;
 	@Override
 	public String toString() {
-		return "CartList [cartNum=" + cartNum + ", member_no=" + member_no + ", gdsNum=" + gdsNum + ", cartStock="
-				+ cartStock + ", addDate=" + addDate + ", num=" + num + ", gdsName=" + gdsName + ", gdsPrice="
-				+ gdsPrice + ", ImgOriginName=" + ImgOriginName + ", ImgStoredName=" + ImgStoredName + "]";
+		return "CartList [cartNum=" + cartNum + ", member_no=" + member_no + ", gdsNum=" + gdsNum + ", gdsStock="
+				+ gdsStock + ", cartStock=" + cartStock + ", addDate=" + addDate + ", num=" + num + ", gdsName="
+				+ gdsName + ", gdsPrice=" + gdsPrice + ", ImgOriginName=" + ImgOriginName + ", ImgStoredName="
+				+ ImgStoredName + "]";
 	}
 	public int getCartNum() {
 		return cartNum;
@@ -40,6 +42,12 @@ public class CartList {
 	}
 	public void setGdsNum(int gdsNum) {
 		this.gdsNum = gdsNum;
+	}
+	public int getGdsStock() {
+		return gdsStock;
+	}
+	public void setGdsStock(int gdsStock) {
+		this.gdsStock = gdsStock;
 	}
 	public int getCartStock() {
 		return cartStock;
@@ -83,6 +91,7 @@ public class CartList {
 	public void setImgStoredName(String imgStoredName) {
 		ImgStoredName = imgStoredName;
 	}
+	
 	
 	
 	
