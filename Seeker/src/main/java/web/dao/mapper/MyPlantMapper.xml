@@ -21,21 +21,34 @@
  	<select id="selectList" resultMap="myPlant" parameterType="int">
  		SELECT myplant_no, bname, nick, birth, origin, stored FROM myplant 
  		WHERE member_no = #{memberNo}
- 	</select>
- 	
- 	<select id="select" resultMap="myPlant" parameterType="int">
- 		SELECT myplant_no, bname, cnum, nick, birth, origin, stored FROM myplant
- 		WHERE myplant_no = #{myPlantNo}
+ 		ORDER BY myplant_no
  	</select>
  	
  	<select id="selectNick" resultType="String" parameterType="int">
  		SELECT nick FROM myplant WHERE myplant_no = #{myPlantNo}
  	</select>
  	
+ 	<select id="select" resultMap="myPlant" parameterType="int">
+ 		SELECT myplant_no, bname, cnum, nick, birth, water, origin, stored FROM myplant
+ 		WHERE myplant_no = #{myPlantNo}
+ 	</select>
+ 	
  	<insert id="insert" parameterType="web.dto.MyPlant">
  		INSERT INTO myplant
  		VALUES (myplant_seq.NEXTVAL, #{memberNo}, #{cnum}, #{bname}, #{nick}, #{birth}, #{water}, #{origin}, #{stored})
  	</insert>
+ 	
+ 	<update id="update" parameterType="web.dto.MyPlant">
+ 		UPDATE myplant SET
+ 			cnum =  #{cnum}, 
+ 			bname = #{bname}, 
+ 			nick = #{nick}, 
+ 			birth = #{birth}, 
+ 			water = #{water}, 
+ 			origin = #{origin}, 
+ 			stored = #{stored}
+ 		WHERE myplant_no = #{myPlantNo}
+ 	</update>
  	
  	<delete id="delete" parameterType="int">
  		DELETE myplant
