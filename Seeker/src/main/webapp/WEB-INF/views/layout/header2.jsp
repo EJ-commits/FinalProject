@@ -16,6 +16,8 @@
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&display=swap" rel="stylesheet">
 
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 <style type="text/css">
 *{
  	font-family :'Do Hyeon', sans-serif; 
@@ -244,11 +246,19 @@ body {
 			<span class="header-menu-text-sm">오픈채팅</span>
 			</a>
 		</div>
+		
 		<div id="header-login-box">
-			<a href="/login"><span class="header-menu-text-xs">로그인</span></a>
+		<c:choose>
+			<c:when test="${empty login }">
+				<a href="/member/login"><span class="header-menu-text-xs">로그인</span></a>
+			</c:when>
+			<c:when test="${login eq true }">
+				<a href="/member/logout"><span class="header-menu-text-xs">로그아웃</span></a>
+			</c:when>
+		</c:choose>
 		</div>
 		<div id="header-login-box">
-			<a href=""><span class="header-menu-text-xs">회원가입</span></a>
+			<a href="/member/join"><span class="header-menu-text-xs">회원가입</span></a>
 		</div>
 	</div>
 	<div id="hidden-menu-box">
