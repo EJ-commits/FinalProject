@@ -21,6 +21,7 @@
 <!-- STOMP -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
 
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <style type="text/css">
 *{
@@ -301,10 +302,17 @@ $(document).ready(function(){
 			</a>
 		</div>
 		<div id="header-login-box">
-			<a href="/login"><span class="header-menu-text-xs">로그인</span></a>
+		<c:choose>
+			<c:when test="${empty login }">
+				<a href="/member/login"><span class="header-menu-text-xs">로그인</span></a>
+			</c:when>
+			<c:when test="${login eq true }">
+				<a href="/member/logout"><span class="header-menu-text-xs">로그아웃</span></a>
+			</c:when>
+		</c:choose>
 		</div>
 		<div id="header-login-box">
-			<a href=""><span class="header-menu-text-xs">회원가입</span></a>
+			<a href="/member/join"><span class="header-menu-text-xs">회원가입</span></a>
 		</div>
 	</div>
 	<div id="hidden-menu-box">
