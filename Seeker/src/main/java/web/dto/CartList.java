@@ -7,7 +7,7 @@ public class CartList {
 	//장바구니 + 상품 조인 DTO
 	
 	private int cartNum;
-	private int member_no;
+	private int memberNo;
 	private int gdsNum;
 	private int gdsStock;
 	private int cartStock;
@@ -20,7 +20,7 @@ public class CartList {
 	private String ImgStoredName;
 	@Override
 	public String toString() {
-		return "CartList [cartNum=" + cartNum + ", member_no=" + member_no + ", gdsNum=" + gdsNum + ", gdsStock="
+		return "CartList [cartNum=" + cartNum + ", memberNo=" + memberNo + ", gdsNum=" + gdsNum + ", gdsStock="
 				+ gdsStock + ", cartStock=" + cartStock + ", addDate=" + addDate + ", num=" + num + ", gdsName="
 				+ gdsName + ", gdsPrice=" + gdsPrice + ", ImgOriginName=" + ImgOriginName + ", ImgStoredName="
 				+ ImgStoredName + "]";
@@ -31,11 +31,11 @@ public class CartList {
 	public void setCartNum(int cartNum) {
 		this.cartNum = cartNum;
 	}
-	public int getMember_no() {
-		return member_no;
+	public int getMemberNo() {
+		return memberNo;
 	}
-	public void setMember_no(int member_no) {
-		this.member_no = member_no;
+	public void setMemberNo(int memberNo) {
+		this.memberNo = memberNo;
 	}
 	public int getGdsNum() {
 		return gdsNum;
@@ -91,6 +91,7 @@ public class CartList {
 	public void setImgStoredName(String imgStoredName) {
 		ImgStoredName = imgStoredName;
 	}
+	
 	
 	
 	

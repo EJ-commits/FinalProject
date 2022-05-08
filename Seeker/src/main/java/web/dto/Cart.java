@@ -5,14 +5,14 @@ import java.util.Date;
 public class Cart {
 
 	private int cartNum;
-	private int member_no;
+	private int memberNo;
 	private int gdsNum;
 	private int cartStock;
 	private Date addDate;
 	@Override
 	public String toString() {
-		return "Cart [cartNum=" + cartNum + ", member_no=" + member_no + ", gdsNum=" + gdsNum + ", cartStock="
-				+ cartStock + ", addDate=" + addDate + "]";
+		return "Cart [cartNum=" + cartNum + ", memberNo=" + memberNo + ", gdsNum=" + gdsNum + ", cartStock=" + cartStock
+				+ ", addDate=" + addDate + "]";
 	}
 	public int getCartNum() {
 		return cartNum;
@@ -20,11 +20,11 @@ public class Cart {
 	public void setCartNum(int cartNum) {
 		this.cartNum = cartNum;
 	}
-	public int getMember_no() {
-		return member_no;
+	public int getMemberNo() {
+		return memberNo;
 	}
-	public void setMember_no(int member_no) {
-		this.member_no = member_no;
+	public void setMemberNo(int memberNo) {
+		this.memberNo = memberNo;
 	}
 	public int getGdsNum() {
 		return gdsNum;
@@ -44,6 +44,8 @@ public class Cart {
 	public void setAddDate(Date addDate) {
 		this.addDate = addDate;
 	}
+
+	
 	
 	
 
