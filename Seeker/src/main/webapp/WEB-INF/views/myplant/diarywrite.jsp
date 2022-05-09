@@ -30,7 +30,7 @@
 			<table class="table" id="profile-table">
 				<tr><td>식물명 : </td><td>${myPlant.bname}</td></tr>
 				<tr><td>이름 : </td><td>${myPlant.nick}</td></tr>
-				<tr><td>심은날 : </td><td>${myPlant.birth}(${gapDays}일째)</td></tr>
+				<tr><td>심은날 : </td><td>${myPlant.birth}(${gapDays + 1}일째)</td></tr>
 			</table>	
 		</div>
 	</div>

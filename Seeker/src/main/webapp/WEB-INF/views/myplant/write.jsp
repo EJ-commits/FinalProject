@@ -175,11 +175,13 @@ const search = document.getElementById('search-button');
 
 search.onclick = function() {
 	
+	//부모창 이름 정하기
 	window.name = 'writeForm';
 	
 	let w = (window.screen.width / 2) - 200;
 	let h = (window.screen.height / 2) - 250;
 	
+	//자식 창의 url, 이름, 크기, 위치 정하기
 	window.open('/myplant/searchform', 'searchForm', 'width=400, height=500, left=' + w + ', top=' + h);
 	
 };
