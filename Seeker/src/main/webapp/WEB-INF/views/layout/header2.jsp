@@ -79,12 +79,8 @@ body {
 	background-color : black;
 }
 
-#header-center {
-	width : 90px;
-}
-
 .header-menu-box {
-	width : 120px;
+	width : 130px;
 	padding : 53px 0px 0px 0px;
 	text-align : right;
 }
@@ -99,10 +95,30 @@ body {
 	color : #688331;
 }
 
+#header-chat-box {
+	width : 130px;
+	padding : 8px 0px 0px 0px;
+	text-align : right;
+}
+
+#header-chat-box > a:hover{
+	text-decoration-line : none;
+	color : black;
+}
+
+#header-chat-box > a{
+	font-size : 30px;
+	color : #688331;
+}
+
 #header-login-box {
-	width : 75px;
+	width : 130px;
 	padding : 20px 0px 0px 0px;
 	text-align : right;
+}
+
+#header-login-box > a{
+	margin : 0px 0px 0px 5px;
 }
 
 #header-login-box > a:hover {
@@ -126,7 +142,7 @@ body {
 
 #hidden-menu-board {
 	display : none;
-	margin: 0px 0px 0px 480px;
+	margin: 0px 0px 0px 430px;
 }
 
 #hidden-menu-board > a:hover {
@@ -199,6 +215,10 @@ body {
 	padding : 0px 50px 0px 50px;
 	text-align : center;
 }
+
+.dp48 {
+	margin : 6px 0px 0px 0px;
+}
 </style>
 
 </head>
@@ -232,33 +252,38 @@ body {
 			<a href="/garden/gardenMap">수목원</a>
 		</div>
 		<div class="header-menu-box">
-			<a href="">스토어</a>
+			<a href="/shop/home">스토어</a>
 		</div>
 		<div class="header-menu-box">
 			<a href="" >
-				<span class="material-icons">alarm_on</span>
+				<i class="material-icons dp48">alarm_on</i>
 				<span class="header-menu-text-sm">알람</span>
 			</a>
 		</div>
 		<div class="header-menu-box">
 			<a href="" >
-			<span class="material-icons">chat_bubble_outline</span>
+				<i class="material-icons dp48">shopping_cart</i>
+				<span class="header-menu-text-sm">장바구니</span>
+			</a>
+		</div>	
+		<div>
+			<div id="header-login-box">
+				<c:choose>
+					<c:when test="${empty login }">
+						<a href="/member/login"><span class="header-menu-text-xs">로그인</span></a>
+					</c:when>
+					<c:when test="${login eq true }">
+						<a href="/member/logout"><span class="header-menu-text-xs">로그아웃</span></a>
+					</c:when>
+				</c:choose>
+				<a href="/member/join"><span class="header-menu-text-xs">회원가입</span></a>
+			</div>
+			<div id="header-chat-box">
+			<a href="/chat/rooms" >
+			<i class="material-icons dp48">chat_bubble</i>
 			<span class="header-menu-text-sm">오픈채팅</span>
 			</a>
-		</div>
-		
-		<div id="header-login-box">
-		<c:choose>
-			<c:when test="${empty login }">
-				<a href="/member/login"><span class="header-menu-text-xs">로그인</span></a>
-			</c:when>
-			<c:when test="${login eq true }">
-				<a href="/member/logout"><span class="header-menu-text-xs">로그아웃</span></a>
-			</c:when>
-		</c:choose>
-		</div>
-		<div id="header-login-box">
-			<a href="/member/join"><span class="header-menu-text-xs">회원가입</span></a>
+			</div>
 		</div>
 	</div>
 	<div id="hidden-menu-box">
