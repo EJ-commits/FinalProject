@@ -250,7 +250,7 @@ $(document).ready(function(){
 						console.log("성공");
 							for(var i=0; i<list.length; i++){
 								var participant = list[i]
-				 				console.log("참여자명 "+participant)
+				 				console.log("참여자명 "+list)
 								$("#participants").html(participant)
 							}
 						},

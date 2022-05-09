@@ -111,6 +111,11 @@ $(document).ready(function(){
 </li>
 
 
+<form action="/garden/gardenResv" method="get">
+
+<button>예매</button>
+</form>
+
 
 </form>
 </body>

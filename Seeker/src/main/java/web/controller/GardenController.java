@@ -5,7 +5,9 @@ import java.io.IOException;
 import java.io.Writer;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
@@ -16,6 +18,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.google.gson.Gson;
 
 import web.dto.Garden;
 import web.service.face.GardenService;
@@ -143,4 +147,30 @@ public class GardenController {
 			}
 		}
 	}//update
+	
+	
+//	------------------
+
+	@RequestMapping(value = "/garden/reservation")
+	public String reserve() {
+		return "/garden/gardenResv";
+	}
+	
+	@RequestMapping(value = "/garden/getGardenList")
+	public String getGardenList( Model model, HttpServletResponse resp) {
+		
+		List<String> gardenList = gardenService.getGardenList();
+		
+//		Map<String, Object> map = new HashMap<String, Object>();
+//		map.put("gardenList", gardenList);
+//		Gson gson = new Gson();
+//		
+//		return gson.toJson(map);
+		
+
+		model.addAttribute("gardenList", gardenList);
+		return "jsonView";
+	}
+	
+	
 }

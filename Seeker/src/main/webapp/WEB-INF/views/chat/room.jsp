@@ -88,7 +88,7 @@ $(document).ready(function(){
 		stomp.send('/pub/chat/enter', {}, 
 				JSON.stringify({roomId: roomId, 
 					userid: username,
-					chatLog: '입장'
+					chatLog: ' 님이 입장하였습니다. '
 					}))
 		
 	})//connect end
@@ -137,7 +137,7 @@ $(document).ready(function(){
  					userid: username,
  					chatLog: msg.val()
  					}))
-         msg.value = '';
+         $("#messages").empty();
 	 
 	 })
 	 
@@ -146,7 +146,7 @@ $(document).ready(function(){
 			stomp.send('/pub/chat/exit', {}, 
 					JSON.stringify({roomId: roomId, 
 						userid: username,
-						chatLog: '퇴장'
+						chatLog: '님이 퇴장하였습니다.'
 						}))
 			console.log("here1")
 		}
@@ -216,8 +216,41 @@ $(document).ready(function(){
 			data:{roomId:roomId},
 			dataType:"json",
 			success:function(list){
-			console.log("참여자명 "+list);
-			$("#participants").html(list)
+				var str = "";
+				for(var i=0; i<list.length; i++){
+					str = ""
+					console.log("참여자명 "+list[i]);
+					str = "<div>" + list[i] + "</div>"
+				
+					$("#participants").append(str)
+				}
+			},
+			error:function(result){
+			console.log("에러");
+				$('#participants').val('error')
+			}
+		})
+	})
+	
+	$("#closeBtn").click(function(){
+		$("#participants").empty()
+	})
+	$("#reloadNames").click(function(){
+		$("#participants").empty()
+		$.ajax({
+			url:"/chat/participant",
+			type:"post",
+			data:{roomId:roomId},
+			dataType:"json",
+			success:function(list){
+				var str = "";
+				for(var i=0; i<list.length; i++){
+					str = ""
+					console.log("참여자명 "+list[i]);
+					str = "<div>" + list[i] + "</div>"
+				
+					$("#participants").append(str)
+				}
 			},
 			error:function(result){
 			console.log("에러");
@@ -277,12 +310,11 @@ $(document).ready(function(){
         <div style="text-align: center">
         	<div id="participants"></div>
         	<div style="padding: 0.3em 0"></div>
-			<div style="padding: 0.7em 0"></div>
-			<button name="createBtn" class="btn-create" style="border:0; padding: 8px 14px; border-radius: 4px;" id="checkparts">새로고침</button>
+			<button name="createBtn" id="reloadNames" class="btn-create"  style="border:0; padding: 8px 14px; border-radius: 4px;" id="checkparts">새로고침</button>
         </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-secondary" id="closeBtn" data-dismiss="modal">Close</button>
       </div>
       </div>
     </div>
