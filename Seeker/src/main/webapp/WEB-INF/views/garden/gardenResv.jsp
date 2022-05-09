@@ -23,8 +23,20 @@
 		type: "get",
 		data:{},
 		dataType: "json",
-		success: function(map){
-			console.log(map.gardenList)
+		success: function(res){
+			console.log(res.gardenList.length)
+				 
+			
+			var str;
+// 			for(var i=0; i<res.gardenList.length; i++){
+ 			str += '<input type="radio" class="btn-check" name="btnradio" id="btnradio1" autocomplete="off" checked>'
+ 			str += ' <label class='btn btn-outline-primary' for='btnradio1'>'
+			str += res.gardenList[0]
+			str += '</label>'
+			console.log(str)
+			$("#parkChoice").append(str)
+			
+// 			}
 			
 		},
 		error: function(){
@@ -42,9 +54,7 @@
 </head>
 <body>
 
-${gardenList}
 
-${test}
 
 <%-- <c:forEach var="i" items="${gardenList} "> --%>
 <%-- </c:forEach> --%>
@@ -54,10 +64,11 @@ ${test}
 	<div class="btn-group-vertical">
 		<div class="btn-group" role="group" aria-label="Basic radio toggle button group">
 		 
-		 <div class="parkchoice"></div>
+		 <div class="parkChoice">
 		 
 		  <input type="radio" class="btn-check" name="btnradio" id="btnradio1" autocomplete="off" checked>
 		  <label class="btn btn-outline-primary" for="btnradio1">서울수목원</label>
+		 </div>
 			 
 	
 	</div>

@@ -167,7 +167,6 @@ public class GardenController {
 //		
 //		return gson.toJson(map);
 		
-
 		model.addAttribute("gardenList", gardenList);
 		return "jsonView";
 	}
