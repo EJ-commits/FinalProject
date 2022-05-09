@@ -84,6 +84,10 @@ body {
 	background-color : black;
 }
 
+#header-logo-con:hover {
+	cursor : pointer;
+}
+
 .header-menu-box {
 	width : 130px;
 	padding : 53px 0px 0px 0px;
@@ -98,6 +102,19 @@ body {
 .header-menu-box > a{
 	font-size : 30px;
 	color : #688331;
+}
+
+.dropdown > span {
+	font-size : 30px;
+	color : #688331;
+}
+
+.dropdown > span:hover{
+	color : black;
+}
+
+.dropdown > ul {
+	color : black;
 }
 
 #header-chat-box {
@@ -261,16 +278,12 @@ $(document).ready(function(){
   })
 })
 </script>
-
-
-
-
 </head>
 
 <body>
 <header id="header">
 	<div id="header-box">
-		<div id="header-logo-con">
+		<div id="header-logo-con" onClick="location.href='/'">
 			<div id="header-logo-box">
 				<div class="header-lmg-box">
 					<img class="header-img" src="/resources/img/headerleft.png">
@@ -298,20 +311,18 @@ $(document).ready(function(){
 		<div class="header-menu-box">
 			<a href="/shop/home">스토어</a>
 		</div>
-		<div class="header-menu-box" >
-		<div style="height: 4px"></div>
-			<div class="dropdown" style="list-style: none;" > 
-				<i class="material-icons dp48">alarm_on</i>
-				<span class="header-menu-text-sm" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" style="cursor:pointer;">알람
-				</span> 
-				<ul class="dropdown-menu" role="menu" >
-			    	<li class="dropdown-header">Nav header</li>
-				    <li><div class="dropdown-item" id="alarm1" ></div></li>
-				    <li><div class="dropdown-item" id="alarm2" ></div></li>
-				    <li><div class="dropdown-item" id="alarm3" ></div></li>
-			    	<li class="divider"></li>
-			 	</ul>
-			</div>
+		<div class="header-menu-box dropdown" >
+			<span class="dropdown-toggle" data-toggle="dropdown" role="button" style="cursor:pointer;">
+			<i class="material-icons dp48">alarm_on</i>
+			<span class="header-menu-text-sm">알람</span> 
+			</span>
+			<ul class="dropdown-menu" role="menu" >
+			    <li class="dropdown-header">Nav header</li>
+				<li><div class="dropdown-item" id="alarm1" ></div></li>
+				<li><div class="dropdown-item" id="alarm2" ></div></li>
+				<li><div class="dropdown-item" id="alarm3" ></div></li>
+			    <li class="divider"></li>
+			</ul>
 		</div>
 		<div class="header-menu-box">
 			<a href="" >

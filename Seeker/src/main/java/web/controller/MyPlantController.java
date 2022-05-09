@@ -37,7 +37,7 @@ public class MyPlantController {
 		
 		session.setAttribute("memberNo", 10000000);
 		
-		int memberNo =  Integer.parseInt((String) session.getAttribute("memberNo"));
+		int memberNo = (int) session.getAttribute("memberNo");
 		model.addAttribute("list", myPlantService.list(memberNo));
 		
 		return "/myplant/list";
@@ -58,7 +58,7 @@ public class MyPlantController {
 		
 		logger.info("myplant/write [POST]");
 
-		myPlant.setMemberNo(Integer.parseInt((String) session.getAttribute("memberNo")));
+		myPlant.setMemberNo((int) session.getAttribute("memberNo"));
 		myPlantService.write(myPlant, file);
 		
 		return "redirect:/myplant/list";

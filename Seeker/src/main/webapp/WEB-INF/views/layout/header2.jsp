@@ -79,6 +79,10 @@ body {
 	background-color : black;
 }
 
+#header-logo-con:hover {
+	cursor : pointer;
+}
+
 .header-menu-box {
 	width : 130px;
 	padding : 53px 0px 0px 0px;
@@ -93,6 +97,19 @@ body {
 .header-menu-box > a{
 	font-size : 30px;
 	color : #688331;
+}
+
+.dropdown > span {
+	font-size : 30px;
+	color : #688331;
+}
+
+.dropdown > span:hover{
+	color : black;
+}
+
+.dropdown > ul {
+	color : black;
 }
 
 #header-chat-box {
@@ -226,7 +243,7 @@ body {
 <body>
 <header id="header">
 	<div id="header-box">
-		<div id="header-logo-con">
+		<div id="header-logo-con" onClick="location.href='/'">
 			<div id="header-logo-box">
 				<div class="header-lmg-box">
 					<img class="header-img" src="/resources/img/headerleft.png">
@@ -254,11 +271,18 @@ body {
 		<div class="header-menu-box">
 			<a href="/shop/home">스토어</a>
 		</div>
-		<div class="header-menu-box">
-			<a href="" >
-				<i class="material-icons dp48">alarm_on</i>
-				<span class="header-menu-text-sm">알람</span>
-			</a>
+		<div class="header-menu-box dropdown" >
+			<span class="dropdown-toggle" data-toggle="dropdown" role="button" style="cursor:pointer;">
+			<i class="material-icons dp48">alarm_on</i>
+			<span class="header-menu-text-sm">알람</span> 
+			</span>
+			<ul class="dropdown-menu" role="menu" >
+			    <li class="dropdown-header">Nav header</li>
+				<li><div class="dropdown-item" id="alarm1" ></div></li>
+				<li><div class="dropdown-item" id="alarm2" ></div></li>
+				<li><div class="dropdown-item" id="alarm3" ></div></li>
+			    <li class="divider"></li>
+			</ul>
 		</div>
 		<div class="header-menu-box">
 			<a href="" >
