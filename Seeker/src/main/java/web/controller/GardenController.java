@@ -64,7 +64,7 @@ public class GardenController {
 			//garden번호에 해당하는 리뷰 리스트 가져오기
 			List<HashMap<String,Object>> gardenInfo = gardenService.list(paging, garden.getGardenNo());
 			
-			HashMap<String, Object> info = new HashMap<>();
+			HashMap<String, Object> info = new HashMap<String, Object>();
 			info.put("list", gardenInfo);
 			info.put("paging", paging);
 			
