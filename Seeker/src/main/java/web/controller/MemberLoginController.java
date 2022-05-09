@@ -52,7 +52,7 @@ public class MemberLoginController {
 			session.setAttribute("addr2", memberService.getAddr2(member));
 			session.setAttribute("addr3", memberService.getAddr3(member));
 //			session.setAttribute("mdate", memberService.getMdate(member));
-			
+
 			return "redirect:/main";
 			
 		} else {

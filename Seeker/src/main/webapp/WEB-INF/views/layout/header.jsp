@@ -221,9 +221,8 @@ $(document).ready(function(){
 		stomp.subscribe("/sub/notice"+username, function(notice){
 		
 		var alArray = JSON.parse(notice.body)	
-		console.log(alArray[0])
-		console.log(alArray[1])
-		console.log(alArray[2])
+		
+		stomp.disconnect();
 		
 		$(".dropdown").eq(0).find("#alarm1").html(alArray[0])
 		$(".dropdown").eq(0).find("#alarm2").html(alArray[1])

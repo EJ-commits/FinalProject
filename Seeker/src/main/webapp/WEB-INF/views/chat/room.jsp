@@ -43,7 +43,8 @@
 $(document).ready(function(){
 	//웹소켓 설정을 위한 준비 작업 
 	//const username = ${sessionScope.testuser}
-	var username ="${testuser}"
+// 	var username ="${testuser}"
+	var username = "${sessionScope.nick}"
 	var namelength = username.length;
 	console.log(username)
 	var msg = $("#messages");
@@ -113,6 +114,7 @@ $(document).ready(function(){
 			success: console.log("session deleted") ,
 			error:	console.log("session delete error")
 		})
+		stomp.disconnect()
 		console.log("onClose()")
 		window.location.replace("/chat/rooms")
 	}

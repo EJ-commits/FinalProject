@@ -25,9 +25,10 @@
 </style>
 
 <script type="text/javascript">
-var testuser = 'testuser' // ${ session.userid }
+// var testuser = 'testuser' 
+var testuser = ${ session.id }
 $(document).ready(function(){
-	var username = ${testuser}
+	var username = ${session.nick}
 	
 	//클라이언트 소켓 만들기 
 	var sockJS = new SockJS("/notice")
@@ -51,7 +52,8 @@ $(document).ready(function(){
 		url: "/notice",
 		type: "post",
 		asnyc: false,
-		data: {username:testuser},
+		data: {username:id},
+// 		data: {username:testuser},
 // 		dataType:"JSON"
 	})
 	

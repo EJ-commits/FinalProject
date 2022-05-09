@@ -12,7 +12,7 @@
 
 <script type="text/javascript">
 $(document).ready(function(){
-	var username = ${testuser}
+	var username = ${id}
 	
 	//클라이언트 소켓 만들기 
 	var sockJS = new SockJS("/alart")
@@ -21,6 +21,8 @@ $(document).ready(function(){
 	stomp.connect({},function(){
 		stomp.subscribe("/sub/alart"+username, onAlarm)
 		var content = onAlarm.body 
+		stomp.disconnect();
+		console.log("alarm websocket closed")
 		$("#alarm1").append(content)
 		}) // 유저네임으로 수용
 		
