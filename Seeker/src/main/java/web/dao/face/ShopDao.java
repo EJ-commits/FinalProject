@@ -66,7 +66,8 @@ public interface ShopDao {
 	 * 장바구니에 담을 상품이 중복되어 담기는 지 체크
 	 * 
 	 * @param cart - 장바구니
-	 * @return 1 : 중복, 0 : 중복아님
+	 * @param memberNo - 멤버넘버(못가져오는 케이스여서 주입해줄 예정)
+	 * @return int - 1이면 중복, 0이면 중복아님
 	 */
 	public int selectCart(Cart cart);
 }
