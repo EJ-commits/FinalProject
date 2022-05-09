@@ -74,6 +74,24 @@ window.onload = function() {
 		}
 	}
 	
+	const button = document.getElementById('write-button');
+	const text = document.getElementById('write-text');
+	
+	button.onclick = function() {
+		
+		if(profile.length == 3) {
+			
+			text.className = 'text-danger';
+
+			return false;
+			
+		} else {
+			
+		location.href = '/myplant/write';
+			
+		}
+		
+	}
 	
 };
 </script>
@@ -85,10 +103,10 @@ window.onload = function() {
 </div>
 <div id="wrap-box">
 	<div id="post-box">
-	<span class="text-muted">식물은 3개까지 등록할 수 있어요!&nbsp;</span>
-	<a href="/myplant/write"><button type="button" class="btn btn-success btn-sm">식물 등록 하기</button></a>
+	<span class="text-muted" id="write-text">식물은 3개까지 등록할 수 있어요!&nbsp;</span>
+	<button type="button" class="btn btn-success btn-sm" id="write-button">식물 등록 하기</button>
 	</div>
-	<c:forEach items="${list}" var="MyPlant">
+	<c:forEach items="${list}" var="myPlant">
 	<div id="list-box">
 		<div class="calendar-box">
 			<div class="calendar bg-success" hidden="true">
@@ -97,25 +115,30 @@ window.onload = function() {
 		</div>
 		<div class="profile-box">
 			<div class="img-box">
-				<img src="/upload/${MyPlant.stored}" class="img-thumbnail">
+				<c:if test="${not empty myPlant.stored}">
+					<img src="/upload/${myPlant.stored}" class="img-thumbnail">
+				</c:if>
+				<c:if test="${empty myPlant.stored}">
+					<img src="/resources/img/default.jpg" class="img-thumbnail">
+				</c:if>
 			</div>
 			<div class="profile">
 				<table class="table">
-					<tr><td>학명 : </td><td>${MyPlant.bname}</td></tr>
-					<tr><td>이름 : </td><td>${MyPlant.nick}</td></tr>
-					<tr><td>심은날 : </td><td>${MyPlant.birth}</td></tr>
+					<tr><td>식물명 : </td><td>${myPlant.bname}</td></tr>
+					<tr><td>이름 : </td><td>${myPlant.nick}</td></tr>
+					<tr><td>심은날 : </td><td>${myPlant.birth}</td></tr>
 				</table>	
 			</div>
 			<div class="button-box">
-				<a href="/myplant/alter?no=${MyPlant.myPlantNo}">
+				<a href="/myplant/alter?no=${myPlant.myPlantNo}">
 				<button type="button" class="btn btn-info btn-sm">변경</button>
 				</a>
-				<a href="/myplant/delete?no=${MyPlant.myPlantNo}">
+				<a href="/myplant/delete?no=${myPlant.myPlantNo}">
 				<button type="button" class="btn btn-warning btn-sm">삭제</button>
 				</a>
 			</div>
 		</div>
-		<span class="number" hidden="true">${MyPlant.myPlantNo}</span>
+		<span class="number" hidden="true">${myPlant.myPlantNo}</span>
 	</div>
 	</c:forEach>
 </div>

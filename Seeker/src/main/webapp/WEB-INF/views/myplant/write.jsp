@@ -7,16 +7,16 @@
 <style type="text/css">
 #profile-box {
 	display : inline-flex;
-	width : 900px;
+	width : 800px;
 	height : 600px;
 	margin : auto;
-	padding : 50px;
 }
 
 #profile-box > div {
 	width : 400px;
-	height : 500px;
-	padding :50px 0px 0px 0px;
+	height : 550px;
+	padding :50px;
+	margin : 50px 0px 0px 0px;
 }
 
 .img-thumbnail {
@@ -25,9 +25,8 @@
 }
 
 #upload-box {
-	width : 400px;
+	width : 300px;
 	height :47px;
-	padding : 0px 50px 0px 50px;;
 }
 
 #upload {
@@ -52,7 +51,7 @@ label:hover {
 
 .table {
 	margin : 0px 0px 0px 0px;
-	text-align : center;
+	text-align : left;
 }
 
 .table div {
@@ -68,9 +67,18 @@ input {
 	padding : 0px;
 }
 
-#search {
+#search-box {
 	width : 150px;
 }
+
+#water-box {
+	width : 150px;
+}
+
+#submit {
+	margin : 0px 0px 0px 51px;
+}
+
 
 </style>
 
@@ -100,10 +108,11 @@ input {
 			</div>
 			<div>
 				<table class="table">
-				<tr><td>학명</td></tr>
+				<tr><td>식물명</td></tr>
 				<tr><td>
-				<div id="search"><input type="text" class="form-control" name="bname" readonly></div>
-				<button type="button" class="btn btn-default">검색</button>
+				<div id="search-box"><input type="text" class="form-control" name="bname" id="bname" readonly></div>
+				<input type="hidden" name="cnum" id="cnum">
+				<button type="button" class="btn btn-default" id="search-button">검색</button>
 				</td></tr>
 				<tr><td>이름</td></tr>
 				<tr><td><div><input type="text" name="nick" class="form-control"></div></td></tr>
@@ -113,10 +122,8 @@ input {
 				</td></tr>
 				<tr><td>물주기 간격</td></tr>
 				<tr><td>
-					<div><input type="text" class="form-control" name="water" placeholder="일"></div>
-				</td></tr>
-				<tr><td>
-				<button type="submit" class="btn btn-success" id="submit">등록 완료</button>
+					<div id="water-box"><input type="text" class="form-control" name="water" placeholder="일"></div>
+					<button type="submit" class="btn btn-success" id="submit">등록 완료</button>
 				</td></tr>
 				</table>	
 			</div>
@@ -161,6 +168,21 @@ upload.onchange = function() {
 		nbox.textContent = '';
 		
 	};
+	
+};
+
+const search = document.getElementById('search-button');
+
+search.onclick = function() {
+	
+	//부모창 이름 정하기
+	window.name = 'writeForm';
+	
+	let w = (window.screen.width / 2) - 200;
+	let h = (window.screen.height / 2) - 250;
+	
+	//자식 창의 url, 이름, 크기, 위치 정하기
+	window.open('/myplant/searchform', 'searchForm', 'width=400, height=500, left=' + w + ', top=' + h);
 	
 };
 

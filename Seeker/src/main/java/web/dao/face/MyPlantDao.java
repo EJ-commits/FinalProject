@@ -14,6 +14,8 @@ public interface MyPlantDao {
 	
 	public void insert(MyPlant myPlant);
 
+	public void update(MyPlant myPlant);
+
 	public void delete(int myPlantNo);
 
 }

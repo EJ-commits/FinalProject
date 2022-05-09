@@ -52,6 +52,29 @@ public class TransDate {
 		
 	}
 	
+	public String toString3(String str) {
+		
+		String date = null;
+		
+		try {
+			
+			SimpleDateFormat beforeFormat = new SimpleDateFormat("yyyyMMdd");
+			
+			SimpleDateFormat afterFormat = new SimpleDateFormat("yyyy-MM-dd");
+			
+			Date tempDate = beforeFormat.parse(str);
+			
+			date = afterFormat.format(tempDate);
+			
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		
+		
+		return date;
+		
+	}
+	
 	public Date toDate(String str) {
 		
 		Date tempDate = null;
