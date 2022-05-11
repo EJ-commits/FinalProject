@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+  <mapper namespace="web.dao.face.ReserveDao">
+	
+	<select id="getGardenNameList" resultType="String">
+	SELECT garden_name FROM garden
+	</select>
+	
+	<select id="getGardenPrice" parameterType="String" resultType="web.dto.GardenPriceDto" >
+	select * from gardenPrice 
+	where garden_name = #{garden}
+	</select>
+	
+	<select id="saveResInfo" parameterType="web.dto.ReserveInfo">
+	
+	insert into gardenReserve(reserv_no, GARDEN_NAME, USER_NO, VISIT_DATE, visit_time, ADULT_MEM, CHILD_MEM, DISAB_MEM, TOTAL_PRICE)
+	values (res_sequence.nextval, #{gardenName}, #{UserNo}, to_date(#{visitDate},'yyyy/mm/dd), #{visitTime}, #{adultMem}, #{childMem}, #{disabMem}, #{totalPrice})
+	
+	</select>
+  
+  </mapper>

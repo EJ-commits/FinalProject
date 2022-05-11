@@ -65,12 +65,5 @@ public interface GardenDao {
 	 */
 	public int selectCntAll(HashMap<String, Object> map);
 
-	
-	/**
-	 * DB에 저장된 수목원 목록을 조회한다.
-	 * 
-	 * @return 수목원 목록이 담긴 list 객체
-	 * */
-	public List<String> getGardenNameList();
 
 }

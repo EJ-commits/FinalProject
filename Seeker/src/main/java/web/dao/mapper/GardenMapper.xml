@@ -51,11 +51,5 @@
 		WHERE gr_no = #{grNo}
 	</update>
 	
-	<!-- 오은자 -->
-	
-	<select id="getGardenNameList" resultType="String">
-	SELECT garden_name FROM garden
-	</select>
-	
 	
 </mapper>
