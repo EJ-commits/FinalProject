@@ -1,5 +1,6 @@
 package web.controller;
 
+import java.lang.annotation.Retention;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -117,14 +118,15 @@ public class ReserveController {
 		return "jsonView";
 	}	
 	
-	@PostMapping(value = "/garden/reserveRes")
+	@RequestMapping(value = "/garden/reserveSet")
 	public String resultReserve(String reserveInfo, Model model) {
 
 		//받은 예약정보를 DTO에 담음.
 		Gson gson = new Gson();
 		ReserveInfo resInfo = gson.fromJson(reserveInfo, ReserveInfo.class);
 		
-		model.addAttribute("resInfo", resInfo);
+//		model.addAttribute("resInfo", resInfo);
+//		model.addAttribute("reserveInfo", reserveInfo);
 		
 		return "/garden/reserveRes";
 	}

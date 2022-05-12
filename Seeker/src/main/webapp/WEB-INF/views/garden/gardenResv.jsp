@@ -253,7 +253,7 @@
 <div id="totalPrice"></div>
 
 
-<form action="/garden/reserveRes" method="post">
+<form action="/garden/reserveSet" method="post">
 <input id="goToRes" name="reserveInfo" type="text">
 <button>예약하기</button>
 </form> 
