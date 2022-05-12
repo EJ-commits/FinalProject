@@ -96,6 +96,7 @@
 		  			console.log("calcBtn success")
 		  			console.log(res)
 		  			$("#totalPrice").html(res.Info.totalPrice)
+		  			$("#goToRes").val(JSON.stringify(res.Info))	
 		  		},
 		  		error: console.log("calcBtn error")
   		})
@@ -251,10 +252,11 @@
 총합
 <div id="totalPrice"></div>
 
-<!-- 
-<form>
-<input type="hidden">
+
+<form action="/garden/reserveRes" method="post">
+<input id="goToRes" name="reserveInfo" type="text">
+<button>예약하기</button>
 </form> 
- -->
+
 </body>
 </html>

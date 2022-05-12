@@ -38,8 +38,7 @@ public class ReserveServiceImpl implements ReserveService {
 
 	@Override
 	public int getReserveNo(int memberNo) {
-		reserveDao.getReserveNo(memberNo);
-		return 0;
+		return reserveDao.getReserveNo(memberNo);
 	}
 
 

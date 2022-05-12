@@ -27,7 +27,7 @@
   	(select reserv_no from gardenReserve 
     where member_No =  #{memberNo}
     order by reserv_no desc)
-    where rownum = 1;
+    where rownum = 1
   	</select>
   
   </mapper>

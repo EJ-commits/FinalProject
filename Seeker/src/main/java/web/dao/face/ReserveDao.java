@@ -33,8 +33,9 @@ public interface ReserveDao {
 	/**
 	 * 예약 번호를 불러온다. 
 	 * @param 예약한 사람의 유저번호
+	 * @return 
 	 * */
-	public void getReserveNo(int memberNo);
+	public int getReserveNo(int memberNo);
 
 
 
