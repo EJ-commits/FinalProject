@@ -2,6 +2,8 @@ package web.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,10 +16,16 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import net.sf.json.JSONArray;
+import web.dto.Admin;
+import web.dto.Board;
+import web.dto.BoardFile;
 import web.dto.Category;
 import web.dto.Goods;
 import web.dto.GoodsView;
+import web.dto.Member;
+import web.dto.Reply;
 import web.service.face.AdminService;
+import web.util.Paging;
 
 @Controller
 @RequestMapping("/admin/*")
@@ -109,5 +117,217 @@ public class AdminController {
 		
 		return "redirect:/admin/goods/list";
 	}
+	
+	//--------------------------------------------------------------------
+	
+	//관리자 로그인 페이지로 이동
+	@RequestMapping(value="/member/login", method=RequestMethod.GET)
+	public void adminLogin() {}
+	
+	//관리자 로그인 처리
+	@RequestMapping(value="/member/login", method=RequestMethod.POST)
+	public String adminLoginProcess(Admin admin,HttpSession session) {
+		logger.info("관리자페이지 접속 환영, admin: {}",admin);
+		
+		int res;
+		
+		if(admin!=null) {
+			res = adminService.adminLogin(admin);
+			if(res>0) {
+				session.setAttribute("adminid", admin.getAdminId());
+				session.setAttribute("adminlogin", true);
+				System.out.println();
+			}else {
+				session.invalidate();
+				return "/admin/member/login";
+			}
+		}else {
+			return "/admin/member/login";
+		}
+		
+		return "redirect:/admin/index";
+	}//adminLoginProcess
+	
+	//관리자 로그아웃
+	@RequestMapping(value="/member/logout", method=RequestMethod.GET)
+	public String adminLogout(HttpSession session) {
+		session.invalidate();
+		
+		return "/admin/index";
+	}
+
+	//관리자 에러페이지
+	@RequestMapping(value="/error")
+	public void adminError() {}
+	
+	//--------------------------------------------------------------------
+	
+	//회원리스트
+	@RequestMapping(value="/member/list")
+	public void adminMemberList(Paging paramData, Model model) {
+		logger.info("paramdata: {}", paramData);
+		//페이징 계산
+		Paging paging = adminService.getPaging( paramData );
+		logger.info("{}", paging);
+		
+		//회원 리스트 가져오기
+		List<Member> memberinfo = adminService.getMemberList(paging);
+		
+		logger.info("memberinfo: {}",memberinfo);
+		
+		model.addAttribute("memberinfo", memberinfo);
+		model.addAttribute("paging", paging);
+		
+	}//list
+	
+	//회원상세보기
+	@RequestMapping(value="/member/detail")
+	public void adminMemberDetail(Member member,Model model) {
+		logger.info("adminMemberDetail 접속");
+		logger.info("member: {}",member);
+		
+		//상세보기
+		member = adminService.getMember(member);
+		
+		model.addAttribute("member", member);
+		
+	}//detail
+	
+	//회원수정
+	@RequestMapping(value="/member/update", method=RequestMethod.GET)
+	public void adminMemberUpdate(Member member, Model model) {
+		logger.info("adminMemberUpdate get");
+		logger.info("member: {}",member);
+		
+		//상세보기
+		member = adminService.getMember(member);
+		
+		model.addAttribute("member", member);
+	}//update get
+	
+	//회원수정처리
+	@RequestMapping(value="/member/update", method=RequestMethod.POST)
+	public String adminMemberUpdateProcess(Member member) {
+		logger.info("adminMemberUpdate post");
+		logger.info("member: {}",member);
+		
+		int res = adminService.updateMember(member);
+		
+		if(res>0) {
+			//상세보기 화면으로 이동
+			return "redirect:/admin/member/detail?memberNo="+member.getMemberNo();
+			
+		}else {			
+			//실패면 수정화면 유지
+			return "redirect:/admin/member/update?memberNo="+member.getMemberNo();
+		}
+		
+	}//update post
+
+	//회원삭제
+	@RequestMapping(value="/member/delete", method=RequestMethod.GET)
+	public String adminMemberDelete(Member member) {
+		logger.info("adminMemberDelete 접속");
+		logger.info("member: {}",member);
+		
+		int res = adminService.deleteMember(member);
+		if(res>0) {
+			//성공시 리스트로 이동
+			return "redirect:/admin/member/list";
+			
+		}else {			
+			//실패면 상세화면 유지
+			return "redirect:/admin/member/detail?memberNo="+member.getMemberNo();
+		}
+	}
+
+	//--------------------------------------------------------------------
+	
+	//게시판 리스트
+	@RequestMapping(value="/board/list")
+	public void adminBoardList(Paging paramData, Model model, Board board) {
+		
+		logger.info("paramdata: {}", paramData);
+		//페이징 계산
+		Paging paging = adminService.getboardPaging( paramData, board );
+		logger.info("{}", paging);
+		
+		//게시판 리스트 가져오기
+		List<Board> boardinfo = adminService.getBoardList(paging, board);
+		
+		logger.info("paging: {}",paging);
+		
+		
+		model.addAttribute("boardinfo", boardinfo);
+		model.addAttribute("paging", paging);
+		
+		logger.info("paging2: {}",paging);
+		model.addAttribute("cateno", board.getCateno());
+
+	}
+	
+	//게시글 상세보기
+	@RequestMapping(value="/board/detail")
+	public String adminBoardDetail(Paging paramData,Board board, Model model) {
+		
+		logger.info("/admin/board/detail 접속");
+		logger.info("boardno:{}", board);
+		
+		if(board.getBoardNo()<1) {
+			return "redirect:/admin/board/list";
+		}
+		
+		
+		//해당 boardno의 게시글 정보 가져오기
+		Board boardinfo = adminService.getBoardDetail(board);
+		
+		//첨부파일이 있으면 가져오기
+		if(adminService.getBoardFileCnt(board)>0) {
+			List<BoardFile> boardFile = adminService.getBoardFile(board);
+			model.addAttribute("boardFile", boardFile);
+		}
+		
+		//댓글이 있으면 가져오기
+		if(adminService.getBoardReplyCnt(board)>0) {
+			Paging paging = adminService.getCommentPaging( paramData, board );
+			
+			//게시판 리스트 가져오기
+			List<Reply> reply = adminService.getReply(paging,board);
+			model.addAttribute("reply", reply);
+			model.addAttribute("paging", paging);
+		}
+		
+		model.addAttribute("boardinfo", boardinfo);
+		return null;
+		
+	}
+	
+	//게시글 삭제
+	@RequestMapping(value="/board/delete")
+	public String adminBoardDelete(Board board, String cateno) {
+		logger.info("adminBoardDelete[접속]");
+		
+		adminService.deleteBoard(board);
+		
+		return "redirect:/admin/board/list?cateno="+cateno;
+	}
+	
+	//게시글의 댓글 삭제
+	@RequestMapping(value="/comment/delete")
+	public String adminCommentDel(String boardNo, String replyNo) {
+		logger.info("/comment/delete[접속]");
+		logger.info("boardNo:{}",boardNo);
+		logger.info("replyNo:{}",replyNo);
+		
+		if(Integer.parseInt(boardNo)<1) {
+			return "redirect:/admin/board/detail?boardNo="+boardNo;
+		}
+		
+		//댓글 삭제
+		adminService.deleteReply(Integer.parseInt(replyNo));
+		
+		return "redirect:/admin/board/detail?boardNo="+boardNo;
+	}
+
 }
 
