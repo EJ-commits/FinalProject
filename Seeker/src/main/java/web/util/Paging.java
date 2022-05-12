@@ -16,6 +16,7 @@ private int curPage;	//현재 페이지 번호
 	
 	
 	private String search; //검색어
+	private String searchOpt; //검색어옵션
 
 	
 	
@@ -92,7 +93,7 @@ private int curPage;	//현재 페이지 번호
 	public String toString() {
 		return "Paging [curPage=" + curPage + ", totalCount=" + totalCount + ", listCount=" + listCount + ", totalPage="
 				+ totalPage + ", pageCount=" + pageCount + ", startPage=" + startPage + ", endPage=" + endPage
-				+ ", startNo=" + startNo + ", endNo=" + endNo + ", search=" + search + "]";
+				+ ", startNo=" + startNo + ", endNo=" + endNo + ", search=" + search + ", searchOpt=" + searchOpt + "]";
 	}
 
 	public int getCurPage() {
@@ -173,5 +174,13 @@ private int curPage;	//현재 페이지 번호
 
 	public void setSearch(String search) {
 		this.search = search;
+	}
+	
+	public String getSearchOpt() {
+		return searchOpt;
+	}
+
+	public void setSearchOpt(String searchOpt) {
+		this.searchOpt = searchOpt;
 	}
 }

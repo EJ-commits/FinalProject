@@ -1,11 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>=== SEEKER ADMIN PAGE ===</title>
 
 <script type="text/javascript" src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
 
@@ -41,7 +42,7 @@ body {
 	display : inline-flex;
 	width : 1200px;
 	margin : 0px 0px 0px 0px;
-	border-bottom : 2px solid black;
+ 	border-bottom : 2px solid black;
 }
 
 #header-logo-box {
@@ -85,7 +86,7 @@ body {
 }
 
 #header-login-box {
-	width : 100px;
+	width : 130px;
 	padding : 20px 0px 0px 0px;
 	text-align : right;
 }
@@ -148,7 +149,7 @@ body {
 	width : 100%;
 	height : 1580px;
 	margin : 130px 0px 0px 0px;
-	background-color: #ECF8E0;
+	background : url('/resources/img/background.jpg') center no-repeat;
 	background-size : cover; z-index : -1;
 	opacity : 0.2;
 }
@@ -198,37 +199,44 @@ body {
 		<div id="header-logo-con">
 			<div id="header-logo-box">
 				<div id="header-logo">
-					<h2>Manager</h2>
+					<h2 style="cursor:pointer" onclick="location.href='/admin/index'">Manager</h2>
 				</div>
 			</div>
 			<div id="header-logo-black">
 			</div>
 		</div>
 		<div class="header-menu-box">
-			<a href="">회원 관리</a>
+			<a href="/admin/member/list">회원 관리</a>
 		</div>
 		<div class="header-menu-box" id="menu-box-board">
-			게시판 관리
+			<a href="/admin/board/list">게시판 관리</a>
 		</div>	
 		<div class="header-menu-box" id="menu-box-store">
-			상품 관리
+			<a href="/admin/goods/list">상품 관리</a>
 		</div>
 		<div class="header-menu-box">
 			<a href="">1:1 문의 채팅</a>
 		</div>
 		<div id="header-login-box">
-			<a href="/login"><span class="header-menu-text-xs">로그아웃</span></a>
+		<c:if test="${empty adminid }">
+			<a href="/admin/member/login"><span class="header-menu-text-xs">로그인</span></a>
+		</c:if>
+		<c:if test="${not empty adminid }">
+			<span>관리자님</span>
+			<span> | </span>
+			<a href="/admin/member/logout" style="color:black;"><span class="header-menu-text-xs">로그아웃</span></a>
+		</c:if>
 		</div>
 	</div>
 	<div id="hidden-menu-box">
 		<div id="hidden-menu-board">
-			<a href=""><span>자유 게시판</span></a>
-			<a href=""><span>사진 게시판</span></a>
+			<a href="/admin/board/list?cateno=1"><span>자유 게시판</span></a>
+			<a href="/admin/board/list?cateno=2"><span>사진 게시판</span></a>
 		</div>
 		<div id="hidden-menu-store">
-			<a href=""><span>상품 등록</span></a>
-			<a href=""><span>상품 목록</span></a>
-			<a href=""><span>상품 소감</span></a>
+			<a href="/admin/goods/register"><span>상품 등록</span></a>
+			<a href="/admin/goods/list"><span>상품 목록</span></a>
+<!-- 			<a href=""><span>상품 소감</span></a> -->
 		</div>
 	</div>
 </header>

@@ -2,6 +2,7 @@ package web.service.impl;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
@@ -14,10 +15,16 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import web.dao.face.AdminDao;
+import web.dto.Admin;
+import web.dto.Board;
+import web.dto.BoardFile;
 import web.dto.Category;
 import web.dto.Goods;
 import web.dto.GoodsView;
+import web.dto.Member;
+import web.dto.Reply;
 import web.service.face.AdminService;
+import web.util.Paging;
 
 @Service
 public class AdminServiceImpl implements AdminService {
@@ -142,5 +149,149 @@ public class AdminServiceImpl implements AdminService {
 		adminDao.goodsDelete(goods);
 	}
 
+	//----------------------------------------
+	//관리자 로그인
+	@Override
+	public int adminLogin(Admin admin) {
+		
+		return adminDao.selectCntByadmin(admin);
+	}
+
+	@Override
+	public List<Member> getMemberList(Paging paging) {
+		return adminDao.selectMemberList(paging);
+	}
+
+	@Override
+	public Paging getPaging(Paging paramData) {
+		
+		//총 게시글 수 조회
+		int totalCount = adminDao.selectCntAll(paramData);
+		
+		//페이징 계산
+		Paging paging = new Paging(totalCount, paramData.getCurPage());
+		
+		paging.setSearch(paramData.getSearch());
+		paging.setSearchOpt(paramData.getSearchOpt());
+		
+		System.out.println(paging);
+
+		return paging;
+	}
+
+	@Override
+	public Member getMember(Member member) {
+		return adminDao.selectBymemeberNo(member);
+	}
+
+	@Override
+	public int updateMember(Member member) {
+		if(member!=null) {
+			return adminDao.updateBymember(member);
+		}
+		return 0;
+	}
+
+	@Override
+	public int deleteMember(Member member) {
+		if(member!=null) {
+			return adminDao.deleteBymember(member);
+		}
+		return 0;
+	}
+
+	@Override
+	public List<Board> getBoardList(Paging paging, Board board) {
+		HashMap<String, Object> map = new HashMap<>();
+		map.put("paging", paging);
+		map.put("board", board);
+		return adminDao.selectBoardList(map);
+	}
+
+	@Override
+	public Paging getboardPaging(Paging paramData, Board board) {
+		HashMap<String, Object> map = new HashMap<>();
+		map.put("paramData", paramData);
+		map.put("board", board);
+		
+		logger.info("ServiceImpe-paramData:{}",paramData);
+		//총 게시글 수 조회
+		int totalCount = adminDao.selectCntBoardAll(map);
+				
+		//페이징 계산
+		Paging paging = new Paging(totalCount, paramData.getCurPage());
+		
+		if(paramData.getSearch()!=null) {
+			paging.setSearch(paramData.getSearch());
+			paging.setSearchOpt(paramData.getSearchOpt());
+		}
+		
+		System.out.println(paging);
+
+		return paging;
+	}
+
+	@Override
+	public Board getBoardDetail(Board board) {
+		return adminDao.selectBoardNo(board);
+	}
+
+	@Override
+	public int getBoardFileCnt(Board board) {
+		return adminDao.selectBoardFileCntByBoardNo(board);
+	}
+	
+	@Override
+	public List<BoardFile> getBoardFile(Board board) {
+		return adminDao.selectBoardFileByBoardNo(board);
+	}
+	
+	@Override
+	public int getBoardReplyCnt(Board board) {
+		return adminDao.selectReplyCntByBoardNo(board);
+	}
+	
+	@Override
+	public List<Reply> getReply(Paging paging, Board board) {
+		HashMap<String, Object> map = new HashMap<>();
+		map.put("paging", paging);
+		map.put("board", board);
+		return adminDao.selectRelyByBoardNo(map);
+	}
+	
+	@Override
+	public void deleteReply(int parseInt) {
+		//댓글 삭제
+		adminDao.deleteByReviewNo(parseInt);
+	}
+	
+	@Override
+	public void deleteBoard(Board board) {
+		
+		//파일이랑 댓글이 있으면 먼저 삭제하고 게시글 삭제한다
+		if(adminDao.selectReplyCntByBoardNo(board)>0) {
+			adminDao.deleteReviewByBoardNo(board);
+		}
+		if(adminDao.selectBoardFileCntByBoardNo(board)>0) {
+			adminDao.deleteFileByBoardNo(board);
+		}
+		
+		//게시글 삭제
+		adminDao.deleteBoardByBoardNo(board);
+	}
+	
+	@Override
+	public Paging getCommentPaging(Paging paramData, Board board) {
+		
+		//총 댓글 수 조회
+		int totalCount = adminDao.selectReplyCntByBoardNo(board);
+				
+		//페이징 계산
+		Paging paging = new Paging(totalCount, paramData.getCurPage());
+				
+		System.out.println(paging);
+
+		return paging;
+	}
 }
 
