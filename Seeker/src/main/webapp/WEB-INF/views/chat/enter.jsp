@@ -72,6 +72,13 @@ $(document).ready(function(){
 </head>
 <body>
 
+
+
+<a href="/garden/reservation"><button>예매</button></a>
+
+
+
+
 <form action="/chat/rooms" method="get">
 
 <button>입장</button>

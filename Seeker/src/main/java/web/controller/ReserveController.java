@@ -67,7 +67,10 @@ public class ReserveController {
 
 		ReserveInfo info = new ReserveInfo();
 		info.setGardenName(reserve.getBtnradio());
-		info.setUserNo((int) session.getAttribute("memberNo"));
+		
+		logger.info("memberNo {}", session.getAttribute("memberNo"));
+		
+		info.setUserNo(Integer.parseInt( (String) session.getAttribute("memberNo")));
 		
 		logger.info("date {}", reserve.getDatepicker());
 		
