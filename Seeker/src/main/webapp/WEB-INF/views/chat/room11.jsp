@@ -258,7 +258,7 @@ $(document).ready(function(){
 
 
 <div id="wrap-box-top">
-	<div><a href="/diary/list"><span class="glyphicon glyphicon-arrow-left"></span>&nbsp;이전 페이지</a></div>
+	<div></div>
 	<div id="title-box">1:1 문의</div>
 	<div></div>
 </div>
@@ -282,7 +282,5 @@ $(document).ready(function(){
 	<button type="button" class="btn btn-primary" id="disconn" >대화방 나가기</button>
 	<div id="participants"></div>
 </div>		
-<div style="height: 2em">
-</div>
 </div>
 <c:import url="/WEB-INF/views/layout/footer.jsp" />
