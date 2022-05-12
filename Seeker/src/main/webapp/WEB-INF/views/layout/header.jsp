@@ -31,7 +31,6 @@
 
 body {
 	width : 1200px;
-	height : 900px;
 	margin : auto;
 }
 
@@ -185,21 +184,19 @@ body {
 
 #wrap-con {
 	width : 1200px;
-	height : 680px;
 	margin : auto;
 }
-
 #wrap-con::after {
 	content : "";
 	position : absolute;
 	left : 0;
 	top : 0;
 	width : 100%;
-	height : 680px;
+	height : 100%;
 	margin : 130px 0px 0px 0px;
 	background-color: #ECF8E0;
 	background-size : cover; z-index : -1;
-	opacity : 0.4;
+	opacity : 0.3;
 }
 
 #wrap-box-top {
@@ -232,7 +229,6 @@ body {
 
 #wrap-box {
 	width :1100px;
-	height : 600px;
 	margin : auto;
 	padding : 0px 50px 0px 50px;
 	text-align : center;

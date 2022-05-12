@@ -5,21 +5,10 @@
 <c:import url="/WEB-INF/views/layout/header.jsp" />
 <!DOCTYPE html>
 <html>
-
-<!-- jQuery 2.2.4 -->
-
-<script type="text/javascript" src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
 <!-- SOCKJS -->
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.6.0/sockjs.min.js"></script>
 <!-- STOMP -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
-<!-- BOOTSTRAP -->
- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
- 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css"/>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-YcbK69I5IXQftf/mYD8WY0/KmEDCv1asggHpJk1trM8=" crossorigin="anonymous"></script>
-    
    
 
     <style>
@@ -268,12 +257,12 @@ $(document).ready(function(){
 </script>
 
 
-<head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-</head>
-<body>
-
+<div id="wrap-box-top">
+	<div><a href="/diary/list"><span class="glyphicon glyphicon-arrow-left"></span>&nbsp;이전 페이지</a></div>
+	<div id="title-box">1:1 문의</div>
+	<div></div>
+</div>
+<div id="wrap-box">
 <div style="text-align: center; padding: 0.5em; background-color:#99CC66; font-size: 1.5em; font: bolder;">
 <label>[OnLine] ${roomId} 님의 문의 채팅 </label>
 </div>
@@ -295,7 +284,5 @@ $(document).ready(function(){
 </div>		
 <div style="height: 2em">
 </div>
-		
-
-</body>
-</html>
+</div>
+<c:import url="/WEB-INF/views/layout/footer.jsp" />
