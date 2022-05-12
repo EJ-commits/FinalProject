@@ -75,10 +75,20 @@ $(document).ready(function(){
 <button>예매</button>
 </a>
 
+<<<<<<< HEAD
 <br>
 <br><br><br><br>
 <br><br><br><br>
 <br><br><br>
+=======
+
+
+<a href="/garden/reservation"><button>예매</button></a>
+
+
+
+
+>>>>>>> main
 <form action="/chat/rooms" method="get">
 
 

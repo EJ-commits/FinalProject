@@ -68,10 +68,18 @@ public class ReserveController {
 		//프론트로부터 받은 예약 정보 ReserveInfo에 저장
 
 		ReserveInfo info = new ReserveInfo();
+<<<<<<< HEAD
 		info.setGardenNo(gardenPrice.getGardenNo());
 		info.setGardenName(reserve.getgardenName());
 		
 		info.setMemberNo(Integer.parseInt((String) session.getAttribute("memberNo")));
+=======
+		info.setGardenName(reserve.getBtnradio());
+		
+		logger.info("memberNo {}", session.getAttribute("memberNo"));
+		
+		info.setUserNo(Integer.parseInt( (String) session.getAttribute("memberNo")));
+>>>>>>> main
 		
 		logger.info("date {}", reserve.getDatepicker());
 		
