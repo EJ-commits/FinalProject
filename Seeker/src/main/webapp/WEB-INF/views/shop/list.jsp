@@ -83,7 +83,8 @@ aside#aside li > ul.low li { width:180px; }
 			 alt="그림을 불러오지못함" width="50%" height="50%"><br>
   			</div> 
   			<div class="goodsName">
-   				<a href="/shop/view?n=${list.gdsNum}">${list.gdsName}</a>
+   				<a href="/shop/view?n=${list.gdsNum}">${list.gdsName}</a><br>
+   				<fmt:formatNumber pattern="###,###,###" value="${list.gdsPrice}" /> 원
   			</div>
  			</li>
  			</c:forEach>

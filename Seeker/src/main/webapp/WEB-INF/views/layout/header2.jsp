@@ -16,6 +16,8 @@
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&display=swap" rel="stylesheet">
 
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 <style type="text/css">
 *{
  	font-family :'Do Hyeon', sans-serif; 
@@ -77,12 +79,12 @@ body {
 	background-color : black;
 }
 
-#header-center {
-	width : 90px;
+#header-logo-con:hover {
+	cursor : pointer;
 }
 
 .header-menu-box {
-	width : 120px;
+	width : 130px;
 	padding : 53px 0px 0px 0px;
 	text-align : right;
 }
@@ -97,10 +99,43 @@ body {
 	color : #688331;
 }
 
+.dropdown > span {
+	font-size : 30px;
+	color : #688331;
+}
+
+.dropdown > span:hover{
+	color : black;
+}
+
+.dropdown > ul {
+	color : black;
+}
+
+#header-chat-box {
+	width : 130px;
+	padding : 8px 0px 0px 0px;
+	text-align : right;
+}
+
+#header-chat-box > a:hover{
+	text-decoration-line : none;
+	color : black;
+}
+
+#header-chat-box > a{
+	font-size : 30px;
+	color : #688331;
+}
+
 #header-login-box {
-	width : 75px;
+	width : 130px;
 	padding : 20px 0px 0px 0px;
 	text-align : right;
+}
+
+#header-login-box > a{
+	margin : 0px 0px 0px 5px;
 }
 
 #header-login-box > a:hover {
@@ -124,7 +159,7 @@ body {
 
 #hidden-menu-board {
 	display : none;
-	margin: 0px 0px 0px 480px;
+	margin: 0px 0px 0px 430px;
 }
 
 #hidden-menu-board > a:hover {
@@ -197,14 +232,17 @@ body {
 	padding : 0px 50px 0px 50px;
 	text-align : center;
 }
-</style>
 
+.dp48 {
+	margin : 6px 0px 0px 0px;
+}
+</style>
 </head>
 
 <body>
 <header id="header">
 	<div id="header-box">
-		<div id="header-logo-con">
+		<div id="header-logo-con" onClick="location.href='/'">
 			<div id="header-logo-box">
 				<div class="header-lmg-box">
 					<img class="header-img" src="/resources/img/headerleft.png">
@@ -230,25 +268,45 @@ body {
 			<a href="/garden/gardenMap">수목원</a>
 		</div>
 		<div class="header-menu-box">
-			<a href="">스토어</a>
+			<a href="/shop/home">스토어</a>
+		</div>
+		<div class="header-menu-box dropdown" >
+			<span class="dropdown-toggle" data-toggle="dropdown" role="button" style="cursor:pointer;">
+			<i class="material-icons dp48">alarm_on</i>
+			<span class="header-menu-text-sm">알람</span> 
+			</span>
+			<ul class="dropdown-menu" role="menu" >
+			    <li class="dropdown-header">Nav header</li>
+				<li><div class="dropdown-item" id="alarm1" ></div></li>
+				<li><div class="dropdown-item" id="alarm2" ></div></li>
+				<li><div class="dropdown-item" id="alarm3" ></div></li>
+			    <li class="divider"></li>
+			</ul>
 		</div>
 		<div class="header-menu-box">
 			<a href="" >
-				<span class="material-icons">alarm_on</span>
-				<span class="header-menu-text-sm">알람</span>
+				<i class="material-icons dp48">shopping_cart</i>
+				<span class="header-menu-text-sm">장바구니</span>
 			</a>
-		</div>
-		<div class="header-menu-box">
-			<a href="" >
-			<span class="material-icons">chat_bubble_outline</span>
+		</div>	
+		<div>
+			<div id="header-login-box">
+				<c:choose>
+					<c:when test="${empty login }">
+						<a href="/member/login"><span class="header-menu-text-xs">로그인</span></a>
+					</c:when>
+					<c:when test="${login eq true }">
+						<a href="/member/logout"><span class="header-menu-text-xs">로그아웃</span></a>
+					</c:when>
+				</c:choose>
+				<a href="/member/join"><span class="header-menu-text-xs">회원가입</span></a>
+			</div>
+			<div id="header-chat-box">
+			<a href="/chat/rooms" >
+			<i class="material-icons dp48">chat_bubble</i>
 			<span class="header-menu-text-sm">오픈채팅</span>
 			</a>
-		</div>
-		<div id="header-login-box">
-			<a href="/login"><span class="header-menu-text-xs">로그인</span></a>
-		</div>
-		<div id="header-login-box">
-			<a href=""><span class="header-menu-text-xs">회원가입</span></a>
+			</div>
 		</div>
 	</div>
 	<div id="hidden-menu-box">

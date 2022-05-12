@@ -50,4 +50,6 @@
 		UPDATE garden_review SET gr_content = #{grContent}
 		WHERE gr_no = #{grNo}
 	</update>
+	
+	
 </mapper>

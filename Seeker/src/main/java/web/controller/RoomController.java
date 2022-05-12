@@ -38,7 +38,8 @@ public class RoomController {
 	@GetMapping("/chat/room")
 	public String getRoom(String roomId, Model model, HttpSession session) {
 		ChatRoomDto room = chatService.findRoomById(roomId);
-		String userid = (String) session.getAttribute("testuser");
+//		String userid = (String) session.getAttribute("testuser");
+		String userid = (String) session.getAttribute("id");
 		model.addAttribute("room",room);
 		
 		//세션 목록에 접속중인 유저명 추가 
@@ -51,7 +52,8 @@ public class RoomController {
 		
 		logger.info(roomName);
 		ChatRoomDto chatroom = chatService.createRoom(roomName);
-		String userid = (String) session.getAttribute("testuser");
+//		String userid = (String) session.getAttribute("testuser");
+		String userid = (String) session.getAttribute("id");
 		String roomId = chatroom.getRoomId(); // 생성한 채팅방의 주소
 		return "redirect:/chat/room?roomId="+roomId; // 생성된 방으로 리턴
 			
@@ -61,7 +63,8 @@ public class RoomController {
 	@GetMapping("/chat/exit")
 	public void getRoom(String roomId, HttpSession session) {
 		ChatRoomDto room = chatService.findRoomById(roomId);
-		String userid = (String) session.getAttribute("testuser");
+//		String userid = (String) session.getAttribute("testuser");
+		String userid = (String) session.getAttribute("id");
 		chatService.deleteSession(room, userid);
 		
 		ChatDto chatDto = new ChatDto();
@@ -79,12 +82,11 @@ public class RoomController {
 //	-------------- 일대일 채팅 로직 ---------------
 	
 
-	@PostMapping("/chat/room11")
+	@GetMapping("/chat/room11")
 	public String get11Room(HttpSession session, Model model) {
-		// String roomId = (String) session.getAttribute("testuser") ;
-		String roomId = "testuser"	;	
+//		String roomId = "testuser"	;	
+		String roomId = (String) session.getAttribute("id"); 
 		logger.info("11chat", roomId);
-		
 		model.addAttribute("roomId", roomId);
 		
 		 return "chat/room11";
@@ -120,8 +122,9 @@ public class RoomController {
 	@ResponseBody // 요청 - 객체 변환
 	@RequestMapping("/chat/participant")	
 	public Set<String> nameList(String roomId){
-		System.out.println("roomId"+roomId);
+		System.out.println("participant roomId"+roomId);
 		ChatRoomDto room = chatService.findRoomById(roomId);
+		System.out.println("participant room"+room.toString());
 		Set<String> list = room.nameList;
 		System.out.println("list"+list);
 		return list;
@@ -133,8 +136,10 @@ public class RoomController {
 // 	jsp 대신 파일 객체를 반환하므로, resolver 설정 + view 생성 클래스 필요
 	@RequestMapping("/chat/logdown")
 	public String chatLogDown(ChatDto chatDto, HttpServletRequest request, Model model) {
+
 		String filepath = chatService.getLog(chatDto); // ajax json값이 넘어옴 
 		request.setAttribute("filepath",filepath);
+		logger.info("logdown() {}" , chatDto.toString());
 		return "down";
 	}
 	

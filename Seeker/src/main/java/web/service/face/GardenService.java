@@ -71,9 +71,8 @@ public interface GardenService {
 	 * @return 계산이 완료된 Paging객체
 	 */
 	public Paging getPaging(Paging paramData, int gardenNo);
-	
 
-	
+
 
 
 	

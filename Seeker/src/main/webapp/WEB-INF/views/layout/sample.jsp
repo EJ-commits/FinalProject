@@ -6,8 +6,7 @@
 
 <div id="wrap-box-top">
 	<div><a href="/diary/list"><span class="glyphicon glyphicon-arrow-left"></span>&nbsp;이전 페이지</a></div>
-	<div id="title-box">제목</div>
-	<div></div>
+	</div>
 </div>
 <div id="wrap-box">
 

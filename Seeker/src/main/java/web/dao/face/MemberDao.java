@@ -5,10 +5,10 @@ import web.dto.Member;
 public interface MemberDao {
 	
 	/**
-	 * id/pw가 일치하는 사용자 수를 반환한다
+	 * ID/PW가 일치하는 사용자 수를 반환한다
 	 * 	-> 로그인 인증에 활용한다
 	 * 
-	 * @param member - 조회할 id/pw를 가진 객체
+	 * @param member - 조회할 ID/PW를 가진 객체
 	 * @return 조회된 행 수
 	 */
 	public int selectCntMember(Member member);
@@ -19,6 +19,41 @@ public interface MemberDao {
 	 * @param member - 조회하려는 회원의 id를 가진 객체
 	 * @return 조회된 nick
 	 */
-	public String selectNickByMember(Member member);
+	
+	public int selectMemberNoBymember(Member member);
+
+	public int selectMemberRankBymember(Member member);
+
+	public String selectNameBymember(Member member);
+
+	public String selectNickBymember(Member member);
+
+	public String selectEmailBymember(Member member);
+
+	public String selectPhoneBymember(Member member);
+
+	public String selectAddr1Bymember(Member member);
+
+	public String selectAddr2Bymember(Member member);
+
+	public String selectAddr3Bymember(Member member);
+	
+	public String selectMdateBymember(Member member);
+
+	/**
+	 * 회원 id가 존재하는 값인지 확인한다
+	 * 중복된 id인지 확인
+	 * 
+	 * @param member - 조회하려는 회원의 id를 가진 객체
+	 * @return 존재 여부 (0 - 없음, 1 - 있음)
+	 */
+	public int selectCntById(Member member);
+
+	/**
+	 * 신규 회원의 정보를 새롭게 삽입한다
+	 * 
+	 * @param member - 신규 회원 정보
+	 */
+	public void insert(Member member);
 	
 }

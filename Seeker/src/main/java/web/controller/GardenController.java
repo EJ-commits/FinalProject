@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.Writer;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import web.dto.Garden;
+import web.dto.GardenPriceDto;
 import web.service.face.GardenService;
 import web.util.Paging;
 
@@ -60,7 +62,7 @@ public class GardenController {
 			//garden번호에 해당하는 리뷰 리스트 가져오기
 			List<HashMap<String,Object>> gardenInfo = gardenService.list(paging, garden.getGardenNo());
 			
-			HashMap<String, Object> info = new HashMap<>();
+			HashMap<String, Object> info = new HashMap<String, Object>();
 			info.put("list", gardenInfo);
 			info.put("paging", paging);
 			
@@ -143,4 +145,5 @@ public class GardenController {
 			}
 		}
 	}//update
+	
 }

@@ -2,6 +2,8 @@ package web.service.face;
 
 import java.util.List;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import web.dto.MyPlant;
 
 public interface MyPlantService {
@@ -12,8 +14,10 @@ public interface MyPlantService {
 	
 	public MyPlant profile(int myPlantNo);
 	
-	public void write(MyPlant myPlant);
+	public void write(MyPlant myPlant, MultipartFile file);
+	
+	public void alter(MyPlant myPlant, MultipartFile file);
 	
 	public void drop(int myPlantNo);
-	
+
 }

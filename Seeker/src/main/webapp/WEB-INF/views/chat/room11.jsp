@@ -1,10 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+    
+<c:import url="/WEB-INF/views/layout/header.jsp" />
 <!DOCTYPE html>
 <html>
 
 <!-- jQuery 2.2.4 -->
+
 <script type="text/javascript" src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
 <!-- SOCKJS -->
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.6.0/sockjs.min.js"></script>
@@ -12,13 +15,15 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
 <!-- BOOTSTRAP -->
  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
  
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-YcbK69I5IXQftf/mYD8WY0/KmEDCv1asggHpJk1trM8=" crossorigin="anonymous"></script>
+    
+   
 
     <style>
-        .chat_wrap { border:1px solid #999; padding:5px; font-size:13px; color:#333}
+        .chat_wrap { border:3px solid #999; padding:5px; font-size:13px; color:#333}
         .chat_wrap .inner{background-color:#acc2d2; border-radius:5px; padding:10px; overflow-y:scroll;height: 400px;}
         .chat_wrap .item{margin-top:15px}
         .chat_wrap .item:first-child{margin-top:0px}
@@ -44,6 +49,10 @@
 		  border: 0;
 		 
 		   }
+		   
+     .modal-backdrop {
+       z-index: -1;
+ 	  }   
   
     </style>
 
@@ -52,7 +61,7 @@
 $(document).ready(function(){
 	//웹소켓 설정을 위한 준비 작업 
 	//const username = ${sessionScope.testuser}
-	var username ="${testuser}"
+	var username ="${id}"
 	var namelength = username.length;
 	console.log(username)
 	var msg = $("#messages");
@@ -135,8 +144,9 @@ $(document).ready(function(){
 			success: console.log("session deleted") ,
 			error:	console.log("session delete error")
 		})
+		stomp.disconnect()
 		console.log("onClose()")
-		window.location.replace("/chat/enter")
+		window.location.replace("/main")
 	}
 	
 	 function onError(e){
@@ -178,7 +188,7 @@ $(document).ready(function(){
 					url: "/chat/logdown",
 					type: "post",
 					async: false,
-					data: {userid:username}, //username은 위에서 선언한 var 
+					data:{userid:username, roomId:roomId}, //username은 위에서 선언한 var 
 // 					dataType: "json",
 	                success: function (data) {
 	                    var blob = new Blob([data], { type: "application/octet-stream" });
@@ -240,7 +250,7 @@ $(document).ready(function(){
 						console.log("성공");
 							for(var i=0; i<list.length; i++){
 								var participant = list[i]
-				 				console.log("참여자명 "+participant)
+				 				console.log("참여자명 "+list)
 								$("#participants").html(participant)
 							}
 						},
@@ -280,39 +290,12 @@ $(document).ready(function(){
 <div style="height: 1.3em">
 </div>
 <div style="text-align: center">
-	<button type="button"  class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">참가자 확인</button>
 	<button type="button" class="btn btn-primary" id="disconn" >대화방 나가기</button>
 	<div id="participants"></div>
 </div>		
 <div style="height: 2em">
 </div>
 		
-		
-<!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel">참여자 목록</h5>
-        <button type="btn btn-secondary" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body" >
-        <div style="text-align: center">
-        	<div id="participants"></div>
-        	<div style="padding: 0.3em 0"></div>
-			<div style="padding: 0.7em 0"></div>
-			<button name="createBtn" class="btn-create" style="border:0; padding: 8px 14px; border-radius: 4px;", id="checkparts">새로고침</button>
-        </div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-      </div>
-      </div>
-    </div>
-  </div>
-</div>		
 
 </body>
 </html>

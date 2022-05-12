@@ -65,4 +65,5 @@ public interface GardenDao {
 	 */
 	public int selectCntAll(HashMap<String, Object> map);
 
+
 }

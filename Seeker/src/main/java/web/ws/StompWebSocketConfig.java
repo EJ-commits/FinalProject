@@ -20,6 +20,9 @@ public class StompWebSocketConfig implements WebSocketMessageBrokerConfigurer{
 		registry.addEndpoint("/chat")
 //				.setAllowedOriginPatterns("*")
 				.withSockJS();		
+		registry.addEndpoint("/notice")
+//		.setAllowedOriginPatterns("*")
+		.withSockJS();	
 	}
 	
 	public void configureMessageBroker(MessageBrokerRegistry registry) {

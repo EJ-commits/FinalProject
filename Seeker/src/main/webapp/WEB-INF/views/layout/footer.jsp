@@ -39,7 +39,7 @@
 	<div><a href="" ><span class="header-menu-text-xs">이용약관</span></a></div>
 	<div><a href="" ><span class="header-menu-text-xs">개인정보처리방침</span></a></div>
 	<div>
-		<a href="" ><span class="header-menu-text-xs">1:1 문의 채팅</span></a>
+		<a href="/chat/room11" ><span class="header-menu-text-xs">1:1 문의 채팅</span></a>
 	</div>
 	<div><div id="footer-copy-box"><small>Copyright &copy; 식물키우조 :)</small></div></div>
 </footer>

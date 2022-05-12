@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+
+<c:import url="/WEB-INF/views/layout/header.jsp" />
 <!DOCTYPE html>
 <html>
 <meta charset="UTF-8">
@@ -28,6 +30,10 @@
   background-color: #99CC66;
   } 
   
+    .modal-backdrop {
+        z-index: -1;
+    }
+  
    .modal-body{
    margin: auto 0;
    }
@@ -53,6 +59,19 @@
 </script>
 </head>
 <body>
+
+<!-- 샘플jsp 적용 시작-->
+
+<div id="wrap-box-top">
+	<div><a href="/diary/list"><span class="glyphicon glyphicon-arrow-left"></span>&nbsp;이전 페이지</a></div>
+	<div id="title-box">채팅하기</div>
+	<div></div>
+</div>
+<div id="wrap-box">
+
+
+<!-- 샘플jsp 적용 종료 -->
+
 
   <div class=" chatList">
     참여 가능한 채팅방
@@ -99,6 +118,13 @@
     </div>
   </div>
 </div>
+
+<!-- 이하 샘플jsp 적용 -->
+
+</div>
+<c:import url="/WEB-INF/views/layout/footer.jsp" />
+
+
 
 </body>
 </html>

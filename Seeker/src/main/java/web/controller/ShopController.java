@@ -1,7 +1,10 @@
 package web.controller;
 
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.List;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
@@ -35,7 +38,8 @@ public class ShopController {
 	//상품 목록
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
 	public void getList(@RequestParam("c") int cateCode,
-						@RequestParam("L") int level, Model model) {
+						@RequestParam("L") int level, Model model,
+						HttpSession session) {
 		logger.info("/shop/list [GET]");
 		
 		List<GoodsView> list = shopService.list(cateCode, level);
@@ -56,32 +60,125 @@ public class ShopController {
 	@Transactional
 	@ResponseBody
 	@RequestMapping(value = "/view/addCart",method = RequestMethod.POST)
-	public int addCart(Cart cart, HttpSession session) {
+	public int addCart(Cart cart, HttpSession session) throws Exception {
 		
 		//로그인 되어있는 지 체크
 		int result = 0;
 		
-		int memberNo = (Integer)session.getAttribute("memberNo");
-		
-		if(memberNo != 0) {
+		if(session.getAttribute("memberNo") != null && !"".equals(session.getAttribute("memberNo"))) {
 			
-			cart.setMember_no(memberNo);
-			shopService.addCart(cart);
-			result = 1;
-		}
+			int memberNo = (Integer)session.getAttribute("memberNo");
+			logger.info("memberNo : {}", memberNo);
+			
+			if(memberNo != 0) {
+				
+				cart.setMemberNo(memberNo);
+				
+				if(shopService.selectCart(cart) >= 1) {
+					result = 2;
+					
+				} else {
+					
+					cart.setMemberNo(memberNo);
+					shopService.addCart(cart);
+					result = 1;
+				}
+			}
+		} 
+		
 		
 		return result;
 	}
 	
 	//카트 목록
 	@RequestMapping(value = "/cartList", method = RequestMethod.GET)
-	public void getCartList(HttpSession session, Model model) {
+	public String getCartList(HttpSession session, Model model, HttpServletResponse response) {
+		
+		if(session.getAttribute("memberNo") != null && !"".equals(session.getAttribute("memberNo"))) {
+		
+			int memberNo = (Integer)session.getAttribute("memberNo");
+			
+			logger.info("memberNo : {}", memberNo);
+		
+			List<CartList> cartList = shopService.cartList(memberNo);
+		
+			logger.info("cartList : {}", cartList );
+		
+			model.addAttribute("cartList", cartList);
+			
+			return "/shop/cartList";
+		
+		} else {
+			response.setContentType("text/html; charset=UTF-8");
+			 
+			PrintWriter out;
+			try {
+				out = response.getWriter();
+				
+				out.println("<script>alert('로그인이 필요한 서비스입니다.'); location.href='/member/login';</script>");
+				
+				out.flush();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			
+			return null;
+		}
+	}
+	
+	//카트 삭제
+	@Transactional
+	@ResponseBody
+	@RequestMapping(value = "/deleteCart", method = RequestMethod.POST)
+	public int deleteCart(HttpSession session,
+							@RequestParam(value = "chbox[]") List<String> chArr, Cart cart) {
 		
 		int memberNo = (Integer)session.getAttribute("memberNo");
 		
-		List<CartList> cartList = shopService.cartList(memberNo);
+		int result = 0;
+		int cartNum = 0;
 		
-		model.addAttribute("cartList", cartList);
+		if(memberNo != 0) {
+			cart.setMemberNo(memberNo);
+			
+			for(String i : chArr) {
+				//jsp에서 String으로 넘어온 배열을 Integer(cartNum타입)로 형변환
+				cartNum = Integer.parseInt(i);
+				cart.setCartNum(cartNum);
+				shopService.deleteCart(cart);
+			}
+			result = 1;
+		}
 		
+		return result;
+	}
+	
+	//카트 수량 변경
+	@Transactional
+	@ResponseBody
+	@RequestMapping(value = "/updateCart", method = RequestMethod.POST)
+	public int updateCart(HttpSession session, 
+						@RequestParam(value = "cartStock") int cartStock, 
+						@RequestParam(value = "cartNum") int cartNum, Cart cart) {
+		
+		int memberNo = (Integer)session.getAttribute("memberNo");
+		
+		int result = 0;
+//		int cartNum = 0;
+//		int cartStock = 0;
+		
+		if(memberNo != 0) {
+			/* cart.setMember_no(memberNo); */
+			
+
+				cart.setCartNum(cartNum);
+				cart.setCartStock(cartStock);
+				shopService.updateCart(cart);	
+			
+
+			result = 1;
+		}
+		
+		return result;
 	}
 }

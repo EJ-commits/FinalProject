@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+
+<c:import url="/WEB-INF/views/layout/header.jsp" />
 <!DOCTYPE html>
 <html style="height:100%">
 
@@ -22,12 +24,17 @@
         input[type="text"]{border:0; width:85%;background:#ddd; border-radius:5px; height:30px; padding-left:5px; box-sizing:border-box; margin-top:5px}
         input[type="text"]::placeholder{color:#999}
 
-		.btn-primary { 
-		  background-color: #99CC66;
-		  display: inline-block;
-		  margin: auto 0;
-		  border: 0;
-		   }
+	.btn-primary { 
+	  background-color: #99CC66;
+	  display: inline-block;
+	  margin: auto 0;
+	  border: 0;
+	   }
+		   
+     .modal-backdrop {
+       z-index: -1;
+ 	  }
+    
   
     </style>
 
@@ -36,7 +43,8 @@
 $(document).ready(function(){
 	//웹소켓 설정을 위한 준비 작업 
 	//const username = ${sessionScope.testuser}
-	var username ="${testuser}"
+// 	var username ="${testuser}"
+	var username = "${sessionScope.nick}"
 	var namelength = username.length;
 	console.log(username)
 	var msg = $("#messages");
@@ -80,7 +88,7 @@ $(document).ready(function(){
 		stomp.send('/pub/chat/enter', {}, 
 				JSON.stringify({roomId: roomId, 
 					userid: username,
-					chatLog: '입장'
+					chatLog: ' 님이 입장하였습니다. '
 					}))
 		
 	})//connect end
@@ -106,6 +114,7 @@ $(document).ready(function(){
 			success: console.log("session deleted") ,
 			error:	console.log("session delete error")
 		})
+		stomp.disconnect()
 		console.log("onClose()")
 		window.location.replace("/chat/rooms")
 	}
@@ -128,7 +137,7 @@ $(document).ready(function(){
  					userid: username,
  					chatLog: msg.val()
  					}))
-         msg.value = '';
+         $("#messages").empty();
 	 
 	 })
 	 
@@ -137,7 +146,7 @@ $(document).ready(function(){
 			stomp.send('/pub/chat/exit', {}, 
 					JSON.stringify({roomId: roomId, 
 						userid: username,
-						chatLog: '퇴장'
+						chatLog: '님이 퇴장하였습니다.'
 						}))
 			console.log("here1")
 		}
@@ -204,12 +213,44 @@ $(document).ready(function(){
 		$.ajax({
 			url:"/chat/participant",
 			type:"post",
-			data:{},
+			data:{roomId:roomId},
 			dataType:"json",
-			success:function(map){
-			var participant = map["participant"]
-			console.log("참여자명 "+participant);
-			$("#participants").html(participant)
+			success:function(list){
+				var str = "";
+				for(var i=0; i<list.length; i++){
+					str = ""
+					console.log("참여자명 "+list[i]);
+					str = "<div>" + list[i] + "</div>"
+				
+					$("#participants").append(str)
+				}
+			},
+			error:function(result){
+			console.log("에러");
+				$('#participants').val('error')
+			}
+		})
+	})
+	
+	$("#closeBtn").click(function(){
+		$("#participants").empty()
+	})
+	$("#reloadNames").click(function(){
+		$("#participants").empty()
+		$.ajax({
+			url:"/chat/participant",
+			type:"post",
+			data:{roomId:roomId},
+			dataType:"json",
+			success:function(list){
+				var str = "";
+				for(var i=0; i<list.length; i++){
+					str = ""
+					console.log("참여자명 "+list[i]);
+					str = "<div>" + list[i] + "</div>"
+				
+					$("#participants").append(str)
+				}
 			},
 			error:function(result){
 			console.log("에러");
@@ -248,7 +289,7 @@ $(document).ready(function(){
 
 
 	<div style="text-align: center">
-	<button type="button"  class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">참가자 확인</button>
+	<button type="button"  class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" id="checkparts">참가자 확인</button>
 	<button type="button" class="btn btn-primary" id="disconn" >대화방 나가기</button>
 	</div>		
 	<div style="height: 2em"></div>
@@ -269,12 +310,11 @@ $(document).ready(function(){
         <div style="text-align: center">
         	<div id="participants"></div>
         	<div style="padding: 0.3em 0"></div>
-			<div style="padding: 0.7em 0"></div>
-			<button name="createBtn" class="btn-create" style="border:0; padding: 8px 14px; border-radius: 4px;" id="checkparts">새로고침</button>
+			<button name="createBtn" id="reloadNames" class="btn-create"  style="border:0; padding: 8px 14px; border-radius: 4px;" id="checkparts">새로고침</button>
         </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-secondary" id="closeBtn" data-dismiss="modal">Close</button>
       </div>
       </div>
     </div>

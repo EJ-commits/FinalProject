@@ -6,6 +6,19 @@
     
 <mapper namespace="web.dao.face.ShopDao">
 
+	<!-- <resultMap type="web.dto.CartList" id="cartList">
+ 		<id column="cartNum" property="cartNum"/>
+ 		<result column="member_no" property="memberNo"/>
+ 		<result column="gdsNum" property="gdsNum"/>
+ 		<result column="cartStock" property="gdsStock"/>
+ 		<result column="addDate" property="cartStock"/>
+ 		<result column="gdsname" property="gdsname"/>
+ 		<result column="gdsPrice" property="gdsPrice"/>
+ 		<result column="gdsStock" property="gdsStock"/>
+ 		<result column="ImgOriginName" property="ImgOriginName"/>
+ 		<result column="ImgStoredName" property="ImgStoredName"/>
+ 	</resultMap>  -->
+
 	<!-- 카테고리별 상품 리스트 : 1차 분류 -->
 	<select id="list_1" resultType="web.dto.GoodsView">
 		SELECT
@@ -39,19 +52,40 @@
 	<!-- 카트 담기 -->
 	<insert id="addCart">
  		INSERT INTO tbl_cart (cartNum, member_no, gdsNum, cartStock)
-     	VALUES (tbl_cart_seq.nextval, #{member_no}, #{gdsNum}, #{cartStock})
+     	VALUES (tbl_cart_seq.nextval, #{memberNo}, #{gdsNum}, #{cartStock})
 	</insert>
 	
-	<!-- 카트 리스트 -->
+	<!-- 카트 목록 -->
 	<select id="cartList" resultType="web.dto.CartList">
 		SELECT 
 			ROW_NUMBER() OVER(ORDER BY c.cartNum DESC) as num,
-			c.cartNum, c.member_no, c.gdsNum, c.cartStock, c.addDate,
-			g.gdsName, g.gdsPrice, g.ImgOriginName, g.ImgStoredName
+			c.cartNum, c.member_no, g.gdsNum, c.cartStock, c.addDate,
+			g.gdsName, g.gdsPrice, g.ImgOriginName, g.ImgStoredName, g.gdsStock
 		FROM tbl_cart c
 			INNER JOIN tbl_goods g
 				ON c.gdsNum = g.gdsNum
-			WHERE c.member_no = #{member_no}
+			WHERE c.member_no = #{memberNo}
+	</select>
+	
+	<!-- 카트 삭제 -->
+	<delete id="deleteCart">
+ 		DELETE tbl_cart
+     	WHERE cartNum = #{cartNum}
+         	AND member_no = #{memberNo}
+	</delete>
+	
+	<!-- 카트 수량 변경 -->
+	<update id="updateCart">
+		UPDATE tbl_cart
+		SET cartStock = #{cartStock}
+		WHERE cartNum = #{cartNum}
+	</update>
+	
+	<!-- 카트 담기 전 목록에 이미 담겨있는 지 체크 -->
+	<select id="selectCart" resultType="int" parameterType="web.dto.Cart">
+		SELECT count(*) FROM tbl_cart
+			WHERE gdsNum = #{gdsNum}
+			AND member_no = #{memberNo}
 	</select>
 	
 	

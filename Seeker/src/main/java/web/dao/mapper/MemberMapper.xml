@@ -8,7 +8,67 @@
 
 <select id="selectCntMember" resultType="int" parameterType="web.dto.Member">
 	SELECT count(*) FROM member
-	WHERE id = #{userId} AND pw = #{pw}
+	WHERE id = #{id} AND pw = #{pw}
 </select>
+
+<select id="selectMemberNoBymember" resultType="int" parameterType="web.dto.Member">
+	SELECT member_no FROM member
+	WHERE id = #{id}
+</select>
+
+<select id="selectMemberRankBymember" resultType="int" parameterType="web.dto.Member">
+	SELECT member_rank FROM member
+	WHERE id = #{id}
+</select>
+
+<select id="selectNameBymember" resultType="string" parameterType="web.dto.Member">
+	SELECT name FROM member
+	WHERE id = #{id}
+</select>
+
+<select id="selectNickBymember" resultType="string" parameterType="web.dto.Member">
+	SELECT nick FROM member
+	WHERE id = #{id}
+</select>
+
+<select id="selectEmailBymember" resultType="string" parameterType="web.dto.Member">
+	SELECT email FROM member
+	WHERE id = #{id}
+</select>
+
+<select id="selectPhoneBymember" resultType="string" parameterType="web.dto.Member">
+	SELECT phone FROM member
+	WHERE id = #{id}
+</select>
+
+<select id="selectAddr1Bymember" resultType="string" parameterType="web.dto.Member">
+	SELECT addr1 FROM member
+	WHERE id = #{id}
+</select>
+
+<select id="selectAddr2Bymember" resultType="string" parameterType="web.dto.Member">
+	SELECT addr2 FROM member
+	WHERE id = #{id}
+</select>
+
+<select id="selectAddr3Bymember" resultType="string" parameterType="web.dto.Member">
+	SELECT addr3 FROM member
+	WHERE id = #{id}
+</select>
+
+<select id="selectMdateBymember" resultType="date" parameterType="web.dto.Member">
+	SELECT mdate FROM member
+	WHERE id = #{id}
+</select>
+
+<select id="selectCntById" resultType="int" parameterType="web.dto.Member">
+	SELECT count(*) FROM member
+	WHERE id = #{id}
+</select>
+
+<insert id="insert" parameterType="web.dto.Member">
+	INSERT INTO member( member_no, id, pw, name, nick, email, phone, addr1, addr2, addr3 )
+	VALUES ( member_seq.nextval, #{id}, #{pw}, #{name}, #{nick}, #{email}, #{phone}, #{addr1}, #{addr2}, #{addr3} )
+</insert>
 
 </mapper>

@@ -19,13 +19,18 @@
 <div id="wrap-box">
 	<div id="profile-box">
 		<div>
-			<img src="/upload/${myPlant.stored}" class="img-thumbnail" id="plant-photo">
+			<c:if test="${not empty myPlant.stored}">
+				<img src="/upload/${myPlant.stored}" class="img-thumbnail" id="plant-photo">
+			</c:if>
+			<c:if test="${empty myPlant.stored}">
+				<img src="/resources/img/default.jpg" class="img-thumbnail" id="plant-photo">
+			</c:if>
 		</div>
 		<div id="info-box">
 			<table class="table" id="profile-table">
-				<tr><td>학명 : </td><td>${myPlant.bname}</td></tr>
+				<tr><td>식물명 : </td><td>${myPlant.bname}</td></tr>
 				<tr><td>이름 : </td><td>${myPlant.nick}</td></tr>
-				<tr><td>심은날 : </td><td>${myPlant.birth}(${gapDays}일째)</td></tr>
+				<tr><td>심은날 : </td><td>${myPlant.birth}(${gapDays + 1}일째)</td></tr>
 			</table>	
 		</div>
 	</div>

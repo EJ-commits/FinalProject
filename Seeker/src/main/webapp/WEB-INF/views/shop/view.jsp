@@ -136,13 +136,13 @@ aside#aside li > ul.low li { width:180px; }
 				 </script>
  
 			</p>
-  
+  			
   			<p class="addToCart">
- 			<button type="button" class="addCart_btn">카트에 담기</button>
+ 			<button type="button" class="addCart_btn">장바구니에 담기</button>
  
 			 <script>
 			  $(".addCart_btn").click(function(){
-			   var gdsNum = $("#gdsNum").val();
+			   var gdsNum = ${view.gdsNum};
 			   var cartStock = $(".numBox").val();
 			      
 			   var data = {
@@ -159,6 +159,11 @@ aside#aside li > ul.low li { width:180px; }
 			    	if(result == 1) {
 					     alert("상품을 장바구니에 담았습니다!");
 			    	     $(".numBox").val("1");
+			    	     
+			    	    } else if(result == 2) {
+			    	     alert("이미 장바구니에 담겨 있는 상품입니다! 장바구니에서 확인해주세요.");
+			    	     $(".numBox").val("1");
+			    	    	
 			    	    } else {
 			    	     alert("회원만 이용할 수 있는 서비스입니다. 로그인 후, 다시 시도해주세요.")
 			    	     $(".numBox").val("1");
