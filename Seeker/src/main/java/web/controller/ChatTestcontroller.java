@@ -18,7 +18,8 @@ public class ChatTestcontroller {
 //		User user = chatservice.getUserInfo(userid);
 
 		//모델값으로 전달
-//		session.setAttribute("testuser","testuser");
+		session.setAttribute("testuser","testuser");
+		session.setAttribute("memberNo","200");
 		
 		
 	}

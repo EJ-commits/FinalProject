@@ -36,6 +36,12 @@ public class ReserveServiceImpl implements ReserveService {
 		reserveDao.saveResInfo(info);
 	}
 
+	@Override
+	public int getReserveNo(int memberNo) {
+		reserveDao.getReserveNo(memberNo);
+		return 0;
+	}
+
 
 
 }

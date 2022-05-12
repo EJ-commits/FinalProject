@@ -4,18 +4,18 @@ import java.util.Date;
 
 public class RequestReserve {
 
-	private String btnradio;
+	private String gardenName;
 	private String datepicker;
 	private String time;
 	private int adult;
 	private int child;
 	private int others;
 	
-	public String getBtnradio() {
-		return btnradio;
+	public String getgardenName() {
+		return gardenName;
 	}
-	public void setBtnradio(String btnradio) {
-		this.btnradio = btnradio;
+	public void setgardenName(String gardenName) {
+		this.gardenName = gardenName;
 	}
 	public String getDatepicker() {
 		return datepicker;
@@ -49,7 +49,7 @@ public class RequestReserve {
 	}
 	@Override
 	public String toString() {
-		return "ReserveInfo [ btnradio=" + btnradio + ", datepicker=" + datepicker + ", time="
+		return "ReserveInfo [ gardenName=" + gardenName + ", datepicker=" + datepicker + ", time="
 				+ time + ", adult=" + adult + ", child=" + child + ", others=" + others + "]";
 	}
 	

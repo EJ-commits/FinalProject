@@ -2,8 +2,10 @@ package web.controller;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -12,6 +14,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import web.dto.GardenPriceDto;
@@ -49,25 +52,26 @@ public class ReserveController {
 	}
 	
 	
-	
 	@RequestMapping(value = "/garden/reserveCalc")
 	public String reserveCalc(RequestReserve reserve, Model model) {
 		
 		logger.info("reserve {}", reserve.toString());
 		
-		String garden = reserve.getBtnradio();
+		String garden = reserve.getgardenName();
 		GardenPriceDto gardenPrice = resService.getGardenPrice(garden);
 		logger.info("gardenPrice {}", gardenPrice.toString());
 		
-		int totalPrice = reserve.getAdult()*gardenPrice.getAdult() +
+		double totalPrice= reserve.getAdult()*gardenPrice.getAdult() +
 						reserve.getChild()*gardenPrice.getchildren()+
 						reserve.getOthers()*gardenPrice.getRest();
 		
 		//프론트로부터 받은 예약 정보 ReserveInfo에 저장
 
 		ReserveInfo info = new ReserveInfo();
-		info.setGardenName(reserve.getBtnradio());
-		info.setUserNo((int) session.getAttribute("memberNo"));
+		info.setGardenNo(gardenPrice.getGardenNo());
+		info.setGardenName(reserve.getgardenName());
+		
+		info.setMemberNo(Integer.parseInt((String) session.getAttribute("memberNo")));
 		
 		logger.info("date {}", reserve.getDatepicker());
 		
@@ -79,18 +83,40 @@ public class ReserveController {
 			} catch (ParseException e) {
 				e.printStackTrace();
 			}
+			
+		logger.info("info middlecheck{}", info.toString());
 		
 		info.setVisitTime(reserve.getTime());
+		if(reserve.getTime() == "moring"){
+			totalPrice = totalPrice * 0.8;
+		}else if(reserve.getTime() == "night"){
+			totalPrice = totalPrice * 1.2;
+		}
+	
 		info.setAdultMem(reserve.getAdult());
 		info.setChildMem(reserve.getChild());
 		info.setDisabMem(reserve.getOthers());
 		info.setTotalPrice(totalPrice);
 		
-		logger.info("info {}", info.toString());
+		logger.info("info reserve {}", info.toString());
 		
 		resService.saveResInfo(info); // DB에 내역 저장
 		
+		//예약번호 추가
+		int resNo = resService.getReserveNo(
+				Integer.parseInt((String) 
+						session.getAttribute("memberNo")));
+		info.setReserveNo(resNo);
+		
+		model.addAttribute("Info", info);
 		
 		return "jsonView";
 	}	
+	
+	@RequestMapping(value = "/garden/reserveRes")
+	public void resultReserve() {
+		
+	}
+	
+	
 }//class end	

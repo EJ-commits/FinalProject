@@ -91,15 +91,50 @@
 		  		url:"/garden/reserveCalc",
 		  		type: "post",
 		  		data: formValues,
-// 		  		dataType: "json",
-		  		success: console.log("success"),
-		  		error: console.log("error")
+		  		dataType: "json",
+		  		success: function(res){
+		  			console.log("calcBtn success")
+		  			console.log(res)
+		  			$("#totalPrice").html(res.Info.totalPrice)
+		  		},
+		  		error: console.log("calcBtn error")
   		})
   		
 	})
-  })
+ 
+	$.ajax({
+		url:"/garden/getGardenList",
+		type: "get",
+		data:{},
+		dataType: "json",
+		success: function(res){
+			console.log(res.gardenList.length)
+			var str = "";
+			for(var i=0; i<res.gardenList.length; i++){
+	 			str += '<input type="radio" class="btn-check btn-block" name="gardenName" id="gardenName' 
+ 				str += i
+ 				str += '" value="'
+ 				str += res.gardenList[i]
+ 				str += '" autocomplete="off" checked>'
+	 			str += '<label class="btn btn-secondary" style="width:100%; text-align:center" for="gardenName'
+ 				str += i
+ 				str += '">'
+				str += res.gardenList[i]
+				str += '</label><br>'
+			}
+// 				console.log(str)
+				$("#parkChoice").html(str)
+			
+		},
+		error: function(){
+			console.log(" getGardenList error")
+		}
+	})
 
 
+ }) //document.ready end
+ 
+ 
   	function adultCount(type)  {
 	  let number = $("#adultTotal").text();
 	  if(type === 'plus') {
@@ -146,35 +181,7 @@
   	}
    
  
-	$.ajax({
-		url:"/garden/getGardenList",
-		type: "get",
-		data:{},
-		dataType: "json",
-		success: function(res){
-			console.log(res.gardenList.length)
-			var str = "";
-			for(var i=0; i<res.gardenList.length; i++){
-	 			str += '<input type="radio" class="btn-check btn-block" name="btnradio" id="btnradio' 
- 				str += i
- 				str += '" value="'
- 				str += res.gardenList[i]
- 				str += '" autocomplete="off" checked>'
-	 			str += '<label class="btn btn-secondary" style="width:100%; text-align:center" for="btnradio'
- 				str += i
- 				str += '">'
-				str += res.gardenList[i]
-				str += '</label><br>'
-			}
-				console.log(str)
-				$("#parkChoice").html(str)
-			
-		},
-		error: function(){
-			console.log("error")
-		}
-	})
-
+	
 
 </script>
 
@@ -235,13 +242,19 @@
 			
 		</div>
 	</div>
+	
 	<button type="button" id="calcBtn"> 계산하기 </button>
 </form>
 
 
-<div style="text-align: right">
-총합 
-</div>
 
+총합
+<div id="totalPrice"></div>
+
+<!-- 
+<form>
+<input type="hidden">
+</form> 
+ -->
 </body>
 </html>

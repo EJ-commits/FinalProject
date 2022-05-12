@@ -71,11 +71,22 @@ $(document).ready(function(){
 <title>Insert title here</title>
 </head>
 <body>
+<a href="/garden/reservation">
+<button>예매</button>
+</a>
 
+<br>
+<br><br><br><br>
+<br><br><br><br>
+<br><br><br>
 <form action="/chat/rooms" method="get">
+
 
 <button>입장</button>
 </form>
+
+<br>
+<br><br><br>
 
 <!-- <form action="/chat/room11" method="post"> -->
 <form action="/chat/room11" method="get">
@@ -97,6 +108,7 @@ $(document).ready(function(){
 
 
 
+
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Dropdown <span class="caret"></span></a>
   <ul class="dropdown-menu" role="menu">
@@ -111,12 +123,5 @@ $(document).ready(function(){
 </li>
 
 
-<form action="/garden/gardenResv" method="get">
-
-<button>예매</button>
-</form>
-
-
-</form>
 </body>
 </html>

@@ -1,70 +1,146 @@
 package web.dto;
 
-import java.util.Date;
 
 public class ReserveInfo {
+	private int reserveNo;
+	private int gardenNo;
 	private String gardenName;
-	private int UserNo;
+	private int memberNo;
 	private String visitDate;
 	private String visitTime;
 	private int adultMem;
 	private int childMem;
 	private int disabMem;
-	private int totalPrice;
+	private double totalPrice;
+
+	
+	
+	public int getGardenNo() {
+		return gardenNo;
+	}
+
+
+
+	public void setGardenNo(int gardenNo) {
+		this.gardenNo = gardenNo;
+	}
+
+
+
 	public String getGardenName() {
 		return gardenName;
 	}
+
+
+
 	public void setGardenName(String gardenName) {
 		this.gardenName = gardenName;
 	}
-	public int getUserNo() {
-		return UserNo;
+
+
+
+	public int getMemberNo() {
+		return memberNo;
 	}
-	public void setUserNo(int userNo) {
-		UserNo = userNo;
+
+
+
+	public void setMemberNo(int memberNo) {
+		this.memberNo = memberNo;
 	}
+
+
+
 	public String getVisitDate() {
 		return visitDate;
 	}
-	public void setVisitDate(String string) {
-		this.visitDate = string;
+
+
+
+	public void setVisitDate(String visitDate) {
+		this.visitDate = visitDate;
 	}
+
+
+
 	public String getVisitTime() {
 		return visitTime;
 	}
+
+
+
 	public void setVisitTime(String visitTime) {
 		this.visitTime = visitTime;
 	}
+
+
+
 	public int getAdultMem() {
 		return adultMem;
 	}
+
+
+
 	public void setAdultMem(int adultMem) {
 		this.adultMem = adultMem;
 	}
+
+
+
 	public int getChildMem() {
 		return childMem;
 	}
+
+
+
 	public void setChildMem(int childMem) {
 		this.childMem = childMem;
 	}
+
+
+
 	public int getDisabMem() {
 		return disabMem;
 	}
+
+
+
 	public void setDisabMem(int disabMem) {
 		this.disabMem = disabMem;
 	}
-	public int getTotalPrice() {
+
+
+
+	public double getTotalPrice() {
 		return totalPrice;
 	}
-	public void setTotalPrice(int totalPrice) {
+
+
+
+	public void setTotalPrice(double totalPrice) {
 		this.totalPrice = totalPrice;
 	}
-	@Override
-	public String toString() {
-		return "ReserveInfo [gardenName=" + gardenName + ", UserNo=" + UserNo + ", visitDate=" + visitDate
-				+ ", visitTime=" + visitTime + ", adultMem=" + adultMem + ", childMem=" + childMem + ", disabMem="
-				+ disabMem + ", totalPrice=" + totalPrice + "]";
+
+
+
+	public int getReserveNo() {
+		return reserveNo;
 	}
 
 
+	public void setReserveNo(int resNo) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+
+	@Override
+	public String toString() {
+		return "ReserveInfo [reserveNo=" + reserveNo + ", gardenNo=" + gardenNo + ", gardenName=" + gardenName
+				+ ", memberNo=" + memberNo + ", visitDate=" + visitDate + ", visitTime=" + visitTime + ", adultMem="
+				+ adultMem + ", childMem=" + childMem + ", disabMem=" + disabMem + ", totalPrice=" + totalPrice + "]";
+	}
+	
+	
 }
