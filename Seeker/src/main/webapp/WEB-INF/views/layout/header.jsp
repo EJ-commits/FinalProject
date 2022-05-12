@@ -185,6 +185,7 @@ body {
 #wrap-con {
 	width : 1200px;
 	margin : auto;
+	position : relative;
 }
 #wrap-con::after {
 	content : "";
@@ -193,9 +194,8 @@ body {
 	top : 0;
 	width : 100%;
 	height : 100%;
-	margin : 130px 0px 0px 0px;
 	background-color: #ECF8E0;
-	background-size : cover; z-index : -1;
+	background-size : 100%; z-index : -1;
 	opacity : 0.3;
 }
 
