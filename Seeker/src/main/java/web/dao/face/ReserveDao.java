@@ -30,6 +30,19 @@ public interface ReserveDao {
 	 * */
 	public void saveResInfo(ReserveInfo info);
 
+	/**
+	 * 예약 번호를 불러온다. 
+	 * @param 예약한 사람의 유저번호
+	 * @return 
+	 * */
+	public int getReserveNo(int memberNo);
+
+	/**
+	 * 예약 내역을 불러온다
+	 * @param 예약번호
+	 * @return 예약내역 DTO*/
+	public ReserveInfo getResInfo(int resNo);
+
 
 
 }

@@ -26,7 +26,20 @@ public interface ReserveService {
 	 * @param 예약 내역이 들어있는 DTO
 	 * */
 	public void saveResInfo(ReserveInfo info);
-	
+
+	/**
+	 * 오라클에서 자동 생성된 예약번호를 불러온다. 
+	 * @param memberNo 예약한 사람의 유저넘버
+	 * @return 예약번호
+	 * */
+	public int getReserveNo(int memberNo);
+
+	/**
+	 * 예약번호를 통해 예약 내역을 불러온다. 
+	 * @param 예약번호
+	 * @return 예약내역 DTO
+	 * */
+	public ReserveInfo getResInfo(int resNo);
 
 	
 }

@@ -16,6 +16,11 @@
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&display=swap" rel="stylesheet">
 
+<!-- SOCKJS -->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.6.0/sockjs.min.js"></script>
+<!-- STOMP -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <style type="text/css">
@@ -26,7 +31,6 @@
 
 body {
 	width : 1200px;
-	height : 1800px;
 	margin : auto;
 }
 
@@ -180,21 +184,19 @@ body {
 
 #wrap-con {
 	width : 1200px;
-	height : 1580px;
 	margin : auto;
+	position : relative;
 }
-
 #wrap-con::after {
 	content : "";
 	position : absolute;
 	left : 0;
 	top : 0;
 	width : 100%;
-	height : 1580px;
-	margin : 130px 0px 0px 0px;
+	height : 100%;
 	background-color: #ECF8E0;
-	background-size : cover; z-index : -1;
-	opacity : 0.2;
+	background-size : 100%; z-index : -1;
+	opacity : 0.3;
 }
 
 #wrap-box-top {
@@ -227,7 +229,6 @@ body {
 
 #wrap-box {
 	width :1100px;
-	height : 1500px;
 	margin : auto;
 	padding : 0px 50px 0px 50px;
 	text-align : center;
@@ -237,6 +238,42 @@ body {
 	margin : 6px 0px 0px 0px;
 }
 </style>
+
+
+<script type="text/javascript">
+var testuser = 'testuser' // ${ session.userid }
+
+$(document).ready(function(){
+	var username = testuser
+	
+	//클라이언트 소켓 만들기 
+	var sockJS = new SockJS("/notice")
+	var stomp = Stomp.over(sockJS);
+	
+	stomp.connect({},function(){
+		stomp.subscribe("/sub/notice"+username, function(notice){
+		
+		var alArray = JSON.parse(notice.body)	
+		
+		stomp.disconnect();
+		
+		$(".dropdown").eq(0).find("#alarm1").html(alArray[0])
+		$(".dropdown").eq(0).find("#alarm2").html(alArray[1])
+		$(".dropdown").eq(0).find("#alarm3").html(alArray[2])
+		
+		})
+		
+	$.ajax({
+		url: "/notice",
+		type: "get",
+		asnyc: false,
+		data: {username:testuser},
+// 		dataType:"JSON"
+	})
+	
+  })
+})
+</script>
 </head>
 
 <body>

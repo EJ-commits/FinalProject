@@ -26,13 +26,13 @@
 	
 	<dependencies>
 	
-	<!-- Gson » 2.9.0 -->
-<dependency>
-    <groupId>com.google.code.gson</groupId>
-    <artifactId>gson</artifactId>
-    <version>2.9.0</version>
-</dependency>
-	
+		<!-- Gson » 2.9.0 -->
+	<dependency>
+	    <groupId>com.google.code.gson</groupId>
+	    <artifactId>gson</artifactId>
+	    <version>2.9.0</version>
+	</dependency>
+		
 	
 		<!-- Spring Messaging » 5.3.19 -->
 	<dependency>
@@ -62,7 +62,15 @@
     		<version>1.1</version>
 		</dependency>
 		
-			
+		
+		<!-- ZXing Core » 3.4.1 -->
+		<dependency>
+		    <groupId>com.google.zxing</groupId>
+		    <artifactId>core</artifactId>
+		    <version>3.4.1</version>
+		</dependency>
+		
+		
 		<dependency>
 			<groupId>javax.websocket</groupId>
 			<artifactId>javax.websocket-api</artifactId>

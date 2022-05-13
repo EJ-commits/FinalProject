@@ -82,24 +82,102 @@
 	  } );
 
 	  
-  	$("#calcBtn").click(function(){
-	  	console.log("calcBtn click");
+//   	$("#calcBtn").click(function(){
+// 		var formValues = $("#totalThey").serialize();
+// 	  	console.log("calcBtn click");
 
-  		var formValues = $("#totalThey").serialize();
+//   	 	console.log("formValues",formValues)
+// 		$.ajax({
+// 		  		url:"/garden/reserveCalc",
+// 		  		type: "post",
+// 		  		data: formValues,
+// 		  		dataType: "json",
+// 		  		success: function(res){
+// 		  			console.log("calcBtn success")
+// 		  			console.log(res)
+// 		  			$("#totalPrice").html(res.Info.totalPrice)
+// 		  		},
+// 		  		error: console.log("calcBtn error")
+//   		})
+  		
+// 	})
+ 
+ 
+ // DB 연동하여 수목원 리스트 표시 
+	$.ajax({
+		url:"/garden/getGardenList",
+		type: "get",
+		data:{},
+		dataType: "json",
+		success: function(res){
+			console.log(res.gardenList.length)
+			var str = "";
+			for(var i=0; i<res.gardenList.length; i++){
+	 			str += '<input type="radio" class="btn-check btn-block" name="gardenName" id="gardenName' 
+ 				str += i
+ 				str += '" value="'
+ 				str += res.gardenList[i]
+ 				str += '" autocomplete="off" checked>'
+	 			str += '<label class="btn btn-secondary" style="width:100%; text-align:center" for="gardenName'
+ 				str += i
+ 				str += '">'
+				str += res.gardenList[i]
+				str += '</label><br>'
+			}
+				$("#parkChoice").html(str)
+			
+		},
+		error: function(){
+			console.log(" getGardenList error")
+		}
+	})
+
+	
+	//인원조정 버튼 클릭시
+	
+// 	$("#container input[type='button'], #container input[type='radio']")
+	$("#container").find("input[type='button'], input[type='radio']").click(function() {
+		var formValues = $("#totalThey").serialize();
+	  	console.log("relDetail click");
+
   	 	console.log("formValues",formValues)
 		$.ajax({
 		  		url:"/garden/reserveCalc",
 		  		type: "post",
 		  		data: formValues,
 // 		  		dataType: "json",
-		  		success: console.log("success"),
-		  		error: console.log("error")
+		  		success: function(res){
+		  			console.log("calcBtn success")
+		  			console.log(res)
+		  			$("#totalPrice").html(res.totalPrice)
+		  		},
+		  		error: console.log("calcBtn error")
   		})
-  		
 	})
-  })
 
+ //예약하기 버튼을 누르면 예약정보를 DB에 저장, 동시에 예약 결과 화면으로 이동한다. 
+ 	$("#goToRes").click(function(){
+	  	console.log("goToRes click");
+ 		var formValues = $("#totalThey").serialize();
 
+  	 	console.log("formValues",formValues)
+		$.ajax({
+		  		url:"/garden/saveReserve",
+		  		type: "post",
+		  		data: formValues,
+		  		dataType: "json",
+		  		success: function(res){
+		  			console.log("calcBtn success")
+		  		},
+		  		error: console.log("calcBtn error")
+  		})
+ 	})
+ 
+ 
+ }) //document.ready end
+ 
+ 
+ 
   	function adultCount(type)  {
 	  let number = $("#adultTotal").text();
 	  if(type === 'plus') {
@@ -113,7 +191,7 @@
 	  else {
 		$("#adultTotal").text(0); 
 		$("#adult").attr('value','0')}
-	}
+ }
  
 	function childCount(type)  {
 		  let number = $("#childTotal").text();
@@ -146,35 +224,7 @@
   	}
    
  
-	$.ajax({
-		url:"/garden/getGardenList",
-		type: "get",
-		data:{},
-		dataType: "json",
-		success: function(res){
-			console.log(res.gardenList.length)
-			var str = "";
-			for(var i=0; i<res.gardenList.length; i++){
-	 			str += '<input type="radio" class="btn-check btn-block" name="btnradio" id="btnradio' 
- 				str += i
- 				str += '" value="'
- 				str += res.gardenList[i]
- 				str += '" autocomplete="off" checked>'
-	 			str += '<label class="btn btn-secondary" style="width:100%; text-align:center" for="btnradio'
- 				str += i
- 				str += '">'
-				str += res.gardenList[i]
-				str += '</label><br>'
-			}
-				console.log(str)
-				$("#parkChoice").html(str)
-			
-		},
-		error: function(){
-			console.log("error")
-		}
-	})
-
+	
 
 </script>
 
@@ -231,17 +281,26 @@
 			<input type='button' onclick='disabCount("plus")' value='+'/>
 			<input type='button' onclick='disabCount("minus")' value='-'/>
 			<div id='disabTotal'>0</div>
-			<input type="hidden" name="disability" id="disability" value="0">
+			<input type="hidden" name="others" id="disability" value="0">
 			
 		</div>
 	</div>
-	<button type="button" id="calcBtn"> 계산하기 </button>
+	
+
 </form>
 
 
-<div style="text-align: right">
-총합 
-</div>
+총합
+<div id="totalPrice"></div>
+<button id="goToRes"> 예약하기 </button>
 
+
+
+
+
+
+<form action="/garden/reserveRes">
+<input type="hidden">
+</form> 
 </body>
 </html>
