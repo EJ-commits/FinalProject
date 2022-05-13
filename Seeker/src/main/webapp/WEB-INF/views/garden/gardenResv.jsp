@@ -251,10 +251,9 @@
 총합
 <div id="totalPrice"></div>
 
-<!-- 
-<form>
+
+<form action="/garden/reserveRes">
 <input type="hidden">
 </form> 
- -->
 </body>
 </html>

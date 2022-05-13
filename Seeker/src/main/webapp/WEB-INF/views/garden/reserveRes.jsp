@@ -16,7 +16,7 @@
 
 <body>
 
-${resInfo. gardenNo}
+${resInfo.gardenNo}
 wwwwwwwwwwwwwwww
 
 </body>
