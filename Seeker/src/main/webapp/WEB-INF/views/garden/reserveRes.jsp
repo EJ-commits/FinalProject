@@ -20,10 +20,6 @@
 
 <body>
 
-<<<<<<< HEAD
-${resInfo.gardenNo}
-wwwwwwwwwwwwwwww
-=======
 예약일시: 
 <c:out value = "${fn: substring(resInfo.visitDate,0,10)} "/>
 
@@ -33,7 +29,7 @@ wwwwwwwwwwwwwwww
 오후 </c:if>
 <c:if test = "${ resInfo.visitTime eq 'night'}">
 야간 </c:if>
-
+<br>
 예약인원: 성인 ${ resInfo.adultMem} 명, 유아 ${ resInfo.childMem} 명, 우대 ${ resInfo.disabMem} 명<br>
 지불예정금액: <fmt:formatNumber type="number" pattern="0" value="${ resInfo.totalPrice}"/> 원 <br>
  <br><br>
@@ -42,7 +38,6 @@ wwwwwwwwwwwwwwww
 
 	
 정보가 다를 경우 관리자에게 문의하세요. 
->>>>>>> chat
 
 </body>
 </html>

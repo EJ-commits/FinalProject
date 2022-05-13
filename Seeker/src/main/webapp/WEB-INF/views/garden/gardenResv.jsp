@@ -298,12 +298,9 @@
 
 
 
-<<<<<<< HEAD
 
 <form action="/garden/reserveRes">
 <input type="hidden">
 </form> 
-=======
->>>>>>> chat
 </body>
 </html>

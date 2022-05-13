@@ -13,10 +13,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-<<<<<<< HEAD
-=======
 import org.springframework.web.bind.annotation.GetMapping;
->>>>>>> chat
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -109,30 +106,10 @@ public class ReserveController {
 		info.setGardenNo(gardenPrice.getGardenNo());
 		info.setGardenName(reserve.getgardenName());
 		
-<<<<<<< HEAD
-		logger.info("memberNo {}", session.getAttribute("memberNo"));
-		info.setMemberNo(Integer.parseInt((String) session.getAttribute("memberNo")));
-		info.setGardenName(reserve.getgardenName());
-		
-		
-		info.setMemberNo(Integer.parseInt( (String) session.getAttribute("memberNo")));
-		
-		logger.info("date {}", reserve.getDatepicker());
-		
-			try {
-				SimpleDateFormat sdf = new SimpleDateFormat("mm/dd/yyyy");
-				Date resdate = sdf.parse(reserve.getDatepicker());
-				info.setVisitDate(sdf.format(resdate));
-				logger.info("resdate {}", resdate);
-			} catch (ParseException e) {
-				e.printStackTrace();
-			}
-=======
 		info.setMemberNo(Integer.parseInt((String) session.getAttribute("memberNo")));
 		info.setGardenName(reserve.getgardenName());
 		
 		info.setMemberNo(Integer.parseInt( (String) session.getAttribute("memberNo")));
->>>>>>> chat
 		
 		try {
 			SimpleDateFormat sdf = new SimpleDateFormat("mm/dd/yyyy");
@@ -154,34 +131,11 @@ public class ReserveController {
 		info.setDisabMem(reserve.getOthers());
 		info.setTotalPrice(totalPrice);
 		
-<<<<<<< HEAD
-=======
 		logger.info("totalInfo {}", info);
->>>>>>> chat
 		
 		// DB에 내역 저장
 		resService.saveResInfo(info); 
 		
-<<<<<<< HEAD
-		//예약번호 추가
-		int resNo = resService.getReserveNo(Integer.parseInt((String) session.getAttribute("memberNo")));
-		info.setReserveNo(resNo);
-		
-		logger.info("info reserve {}", resNo);
-		logger.info("info reserve {}", info.toString());	
-		
-		model.addAttribute("Info", info);
-		
-		return "jsonView";
-	}	
-	
-	@PostMapping(value = "/garden/reserveRes")
-	public String resultReserve(String reserveInfo, Model model) {
-
-		//받은 예약정보를 DTO에 담음.
-		Gson gson = new Gson();
-		ReserveInfo resInfo = gson.fromJson(reserveInfo, ReserveInfo.class);
-=======
 		return "redirect:/garden/reserveRes";
 	}	
 	
@@ -201,11 +155,7 @@ public class ReserveController {
 		logger.info("resNo {} ",resNo);
 		logger.info("resinfo {} ",resInfo);
 		
->>>>>>> chat
 		
-		model.addAttribute("resInfo", resInfo);
-		
-		return "/garden/reserveRes";
 	}
 	
 
