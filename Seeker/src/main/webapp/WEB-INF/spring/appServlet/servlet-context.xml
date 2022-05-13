@@ -35,6 +35,17 @@
 	</websocket:handlers>
  	<beans:bean id="chatHandler" class="web.ws.ChatHandler"></beans:bean> -->
 
+	<!-- ===========화상채팅 웹소켓 인터셉터 설정============ -->
+	<websocket:handlers>
+		<websocket:mapping path="/videows/video" handler="SocketHandler"/>
+			<websocket:handshake-interceptors>
+				 <beans:bean class="org.springframework.web.socket.server.support.HttpSessionHandshakeInterceptor"/> 
+			</websocket:handshake-interceptors>
+	</websocket:handlers>
+	
+	<beans:bean id="SocketHandler" class="web.ws.SocketHandler"></beans:bean>
+	<!-- ===========화상채팅 웹소켓 인터셉터 설정============ -->
+
 	<!-- interceptor 설정 -->
 	<interceptors>
 		<interceptor>
