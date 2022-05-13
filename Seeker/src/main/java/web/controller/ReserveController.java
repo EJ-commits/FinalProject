@@ -1,5 +1,6 @@
 package web.controller;
 
+import java.lang.annotation.Retention;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -12,6 +13,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+<<<<<<< HEAD
+=======
+import org.springframework.web.bind.annotation.GetMapping;
+>>>>>>> chat
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -55,23 +60,56 @@ public class ReserveController {
 	
 	@RequestMapping(value = "/garden/reserveCalc")
 	public String reserveCalc(RequestReserve reserve, Model model) {
+		logger.info("[post] /garden/reserveCalc");
+
 		
 		logger.info("reserve {}", reserve.toString());
-		
 		String garden = reserve.getgardenName();
 		GardenPriceDto gardenPrice = resService.getGardenPrice(garden);
+		
 		logger.info("gardenPrice {}", gardenPrice.toString());
 		
 		double totalPrice= reserve.getAdult()*gardenPrice.getAdult() +
 						reserve.getChild()*gardenPrice.getchildren()+
 						reserve.getOthers()*gardenPrice.getRest();
 		
-		//프론트로부터 받은 예약 정보 ReserveInfo에 저장
+		if(reserve.getTime().equals("morning")){
+			totalPrice = totalPrice * 0.8;
+		}else if(reserve.getTime().equals("night")){
+			totalPrice = totalPrice * 1.2;
+		}
+		logger.info("totalPrice {}", totalPrice);
+	
+		model.addAttribute("totalPrice",totalPrice);
+		return "jsonView";
+	}	
+	
+	
+	
+	//예약 정보 DB에 저장
+	@RequestMapping(value = "/garden/saveReserve")
+	public String saveReserve(RequestReserve reserve, Model model) {
+		logger.info("[get] /garden/saveReserve");
+		
+		String garden = reserve.getgardenName();
+		GardenPriceDto gardenPrice = resService.getGardenPrice(garden);
+		
+		double totalPrice= reserve.getAdult()*gardenPrice.getAdult() +
+				reserve.getChild()*gardenPrice.getchildren()+
+				reserve.getOthers()*gardenPrice.getRest();
 
+		if(reserve.getTime().equals("morning")){
+			totalPrice = totalPrice * 0.8;
+		}else if(reserve.getTime().equals("night")){
+			totalPrice = totalPrice * 1.2;
+		}
+		
+		//프론트로부터 받은 예약 정보 ReserveInfo에 저장
 		ReserveInfo info = new ReserveInfo();
 		info.setGardenNo(gardenPrice.getGardenNo());
 		info.setGardenName(reserve.getgardenName());
 		
+<<<<<<< HEAD
 		logger.info("memberNo {}", session.getAttribute("memberNo"));
 		info.setMemberNo(Integer.parseInt((String) session.getAttribute("memberNo")));
 		info.setGardenName(reserve.getgardenName());
@@ -89,7 +127,21 @@ public class ReserveController {
 			} catch (ParseException e) {
 				e.printStackTrace();
 			}
+=======
+		info.setMemberNo(Integer.parseInt((String) session.getAttribute("memberNo")));
+		info.setGardenName(reserve.getgardenName());
 		
+		info.setMemberNo(Integer.parseInt( (String) session.getAttribute("memberNo")));
+>>>>>>> chat
+		
+		try {
+			SimpleDateFormat sdf = new SimpleDateFormat("mm/dd/yyyy");
+			Date resdate = sdf.parse(reserve.getDatepicker());
+			info.setVisitDate(sdf.format(resdate));
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+	
 		info.setVisitTime(reserve.getTime());
 		if(reserve.getTime() == "moring"){
 			totalPrice = totalPrice * 0.8;
@@ -102,9 +154,15 @@ public class ReserveController {
 		info.setDisabMem(reserve.getOthers());
 		info.setTotalPrice(totalPrice);
 		
+<<<<<<< HEAD
+=======
+		logger.info("totalInfo {}", info);
+>>>>>>> chat
 		
-		resService.saveResInfo(info); // DB에 내역 저장
+		// DB에 내역 저장
+		resService.saveResInfo(info); 
 		
+<<<<<<< HEAD
 		//예약번호 추가
 		int resNo = resService.getReserveNo(Integer.parseInt((String) session.getAttribute("memberNo")));
 		info.setReserveNo(resNo);
@@ -123,11 +181,34 @@ public class ReserveController {
 		//받은 예약정보를 DTO에 담음.
 		Gson gson = new Gson();
 		ReserveInfo resInfo = gson.fromJson(reserveInfo, ReserveInfo.class);
+=======
+		return "redirect:/garden/reserveRes";
+	}	
+	
+	
+	@GetMapping(value = "/garden/reserveRes")
+	public void resultReserve(Model model) {
+		logger.info("[get] /garden/reserveRes");
+		//예약정보 불러오기 
+		int memberNo = Integer.parseInt((String)session.getAttribute("memberNo"));
+		int resNo = resService.getReserveNo(memberNo);
+
+		ReserveInfo resInfo = resService.getResInfo(resNo);
+		model.addAttribute("resInfo", resInfo);
+		model.addAttribute("name", "abc");
+	
+		logger.info("memberNo {} ",memberNo);
+		logger.info("resNo {} ",resNo);
+		logger.info("resinfo {} ",resInfo);
+		
+>>>>>>> chat
 		
 		model.addAttribute("resInfo", resInfo);
 		
 		return "/garden/reserveRes";
 	}
+	
+
 	
 	
 }//class end	

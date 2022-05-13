@@ -12,13 +12,21 @@ public class ReserveInfo {
 	private int childMem;
 	private int disabMem;
 	private double totalPrice;
+	
+	
+	public int getReserveNo() {
+		return reserveNo;
+	}
 
-	
-	
+
+	public void setReserveNo(int reserveNo) {
+		this.reserveNo = reserveNo;
+	}
+
+
 	public int getGardenNo() {
 		return gardenNo;
 	}
-
 
 
 	public void setGardenNo(int gardenNo) {
@@ -26,11 +34,9 @@ public class ReserveInfo {
 	}
 
 
-
 	public String getGardenName() {
 		return gardenName;
 	}
-
 
 
 	public void setGardenName(String gardenName) {
@@ -38,11 +44,9 @@ public class ReserveInfo {
 	}
 
 
-
 	public int getMemberNo() {
 		return memberNo;
 	}
-
 
 
 	public void setMemberNo(int memberNo) {
@@ -50,11 +54,9 @@ public class ReserveInfo {
 	}
 
 
-
 	public String getVisitDate() {
 		return visitDate;
 	}
-
 
 
 	public void setVisitDate(String visitDate) {
@@ -62,11 +64,9 @@ public class ReserveInfo {
 	}
 
 
-
 	public String getVisitTime() {
 		return visitTime;
 	}
-
 
 
 	public void setVisitTime(String visitTime) {
@@ -74,11 +74,9 @@ public class ReserveInfo {
 	}
 
 
-
 	public int getAdultMem() {
 		return adultMem;
 	}
-
 
 
 	public void setAdultMem(int adultMem) {
@@ -86,11 +84,9 @@ public class ReserveInfo {
 	}
 
 
-
 	public int getChildMem() {
 		return childMem;
 	}
-
 
 
 	public void setChildMem(int childMem) {
@@ -98,11 +94,9 @@ public class ReserveInfo {
 	}
 
 
-
 	public int getDisabMem() {
 		return disabMem;
 	}
-
 
 
 	public void setDisabMem(int disabMem) {
@@ -110,29 +104,14 @@ public class ReserveInfo {
 	}
 
 
-
 	public double getTotalPrice() {
 		return totalPrice;
 	}
 
 
-
 	public void setTotalPrice(double totalPrice) {
 		this.totalPrice = totalPrice;
 	}
-
-
-
-	public int getReserveNo() {
-		return reserveNo;
-	}
-
-
-	public void setReserveNo(int resNo) {
-		// TODO Auto-generated method stub
-		
-	}
-
 
 
 	@Override
@@ -141,6 +120,7 @@ public class ReserveInfo {
 				+ ", memberNo=" + memberNo + ", visitDate=" + visitDate + ", visitTime=" + visitTime + ", adultMem="
 				+ adultMem + ", childMem=" + childMem + ", disabMem=" + disabMem + ", totalPrice=" + totalPrice + "]";
 	}
+
 	
 	
 }

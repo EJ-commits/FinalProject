@@ -16,18 +16,25 @@
 	
 	<select id="saveResInfo" parameterType="web.dto.ReserveInfo">
 	
-	insert into gardenReserve(reserv_no, garden_no, GARDEN_NAME, member_No, VISIT_DATE, visit_time, ADULT_MEM, CHILD_MEM, DISAB_MEM, TOTAL_PRICE)
+	insert into gardenReserve(reserve_no, garden_no, GARDEN_NAME, member_No, VISIT_DATE, visit_time, ADULT_MEM, CHILD_MEM, DISAB_MEM, TOTAL_PRICE)
 	values (res_sequence.nextval, #{gardenNo}, #{gardenName}, #{memberNo}, to_date(#{visitDate},'mm/dd/yyyy'), #{visitTime}, #{adultMem}, #{childMem}, #{disabMem}, #{totalPrice})
 	
 	</select>
   
   
   	<select id="getReserveNo" parameterType="int" resultType="int">
-  	 select reserv_no from
-  	(select reserv_no from gardenReserve 
+  	 select reserve_no from
+  	(select reserve_no from gardenReserve 
     where member_No =  #{memberNo}
-    order by reserv_no desc)
-    where rownum = 1;
+    order by reserve_no desc)
+    where rownum = 1
   	</select>
+  	
+  	<select id="getResInfo" parameterType="int" resultType="web.dto.ReserveInfo">
+  	select * from gardenReserve
+  	where reserve_no = #{resNo}
+  	
+  	</select>
+  	
   
   </mapper>

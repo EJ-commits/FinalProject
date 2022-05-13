@@ -82,26 +82,28 @@
 	  } );
 
 	  
-  	$("#calcBtn").click(function(){
-	  	console.log("calcBtn click");
+//   	$("#calcBtn").click(function(){
+// 		var formValues = $("#totalThey").serialize();
+// 	  	console.log("calcBtn click");
 
-  		var formValues = $("#totalThey").serialize();
-  	 	console.log("formValues",formValues)
-		$.ajax({
-		  		url:"/garden/reserveCalc",
-		  		type: "post",
-		  		data: formValues,
-		  		dataType: "json",
-		  		success: function(res){
-		  			console.log("calcBtn success")
-		  			console.log(res)
-		  			$("#totalPrice").html(res.Info.totalPrice)
-		  		},
-		  		error: console.log("calcBtn error")
-  		})
+//   	 	console.log("formValues",formValues)
+// 		$.ajax({
+// 		  		url:"/garden/reserveCalc",
+// 		  		type: "post",
+// 		  		data: formValues,
+// 		  		dataType: "json",
+// 		  		success: function(res){
+// 		  			console.log("calcBtn success")
+// 		  			console.log(res)
+// 		  			$("#totalPrice").html(res.Info.totalPrice)
+// 		  		},
+// 		  		error: console.log("calcBtn error")
+//   		})
   		
-	})
+// 	})
  
+ 
+ // DB 연동하여 수목원 리스트 표시 
 	$.ajax({
 		url:"/garden/getGardenList",
 		type: "get",
@@ -122,7 +124,6 @@
 				str += res.gardenList[i]
 				str += '</label><br>'
 			}
-// 				console.log(str)
 				$("#parkChoice").html(str)
 			
 		},
@@ -131,8 +132,50 @@
 		}
 	})
 
+	
+	//인원조정 버튼 클릭시
+	
+// 	$("#container input[type='button'], #container input[type='radio']")
+	$("#container").find("input[type='button'], input[type='radio']").click(function() {
+		var formValues = $("#totalThey").serialize();
+	  	console.log("relDetail click");
 
+  	 	console.log("formValues",formValues)
+		$.ajax({
+		  		url:"/garden/reserveCalc",
+		  		type: "post",
+		  		data: formValues,
+// 		  		dataType: "json",
+		  		success: function(res){
+		  			console.log("calcBtn success")
+		  			console.log(res)
+		  			$("#totalPrice").html(res.totalPrice)
+		  		},
+		  		error: console.log("calcBtn error")
+  		})
+	})
+
+ //예약하기 버튼을 누르면 예약정보를 DB에 저장, 동시에 예약 결과 화면으로 이동한다. 
+ 	$("#goToRes").click(function(){
+	  	console.log("goToRes click");
+ 		var formValues = $("#totalThey").serialize();
+
+  	 	console.log("formValues",formValues)
+		$.ajax({
+		  		url:"/garden/saveReserve",
+		  		type: "post",
+		  		data: formValues,
+		  		dataType: "json",
+		  		success: function(res){
+		  			console.log("calcBtn success")
+		  		},
+		  		error: console.log("calcBtn error")
+  		})
+ 	})
+ 
+ 
  }) //document.ready end
+ 
  
  
   	function adultCount(type)  {
@@ -148,7 +191,7 @@
 	  else {
 		$("#adultTotal").text(0); 
 		$("#adult").attr('value','0')}
-	}
+ }
  
 	function childCount(type)  {
 		  let number = $("#childTotal").text();
@@ -238,22 +281,29 @@
 			<input type='button' onclick='disabCount("plus")' value='+'/>
 			<input type='button' onclick='disabCount("minus")' value='-'/>
 			<div id='disabTotal'>0</div>
-			<input type="hidden" name="disability" id="disability" value="0">
+			<input type="hidden" name="others" id="disability" value="0">
 			
 		</div>
 	</div>
 	
-	<button type="button" id="calcBtn"> 계산하기 </button>
-</form>
 
+</form>
 
 
 총합
 <div id="totalPrice"></div>
+<button id="goToRes"> 예약하기 </button>
 
+
+
+
+
+<<<<<<< HEAD
 
 <form action="/garden/reserveRes">
 <input type="hidden">
 </form> 
+=======
+>>>>>>> chat
 </body>
 </html>
