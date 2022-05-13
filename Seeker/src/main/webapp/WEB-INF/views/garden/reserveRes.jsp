@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 
 <!DOCTYPE html>
 <html>
@@ -18,25 +20,23 @@
 
 <body>
 
-${ nickname } 님은 ${ resinfo.gardenName} 에 예약되었습니다. 
+예약일시: 
+<c:out value = "${fn: substring(resInfo.visitDate,0,10)} "/>
 
-예약일시: ${ resinfo.visitDate} 
-<c:if test = "${ resinfo.visitTime} eq 'moring'">
-오전
-</c:if>
-<c:if test = "${ resinfo.visitTime} eq 'afternoon'">
-오후
-</c:if>
-<c:if test = "${ resinfo.visitTime} eq 'night'">
-야간
-</c:if>
-예약인원: 성인 ${ resinfo.adultMem} 명, 유아 ${ resinfo.childMem} 명, 우대 ${ resinfo.disabMem} 명
-지불예정금액: ${ resinfo.totalPrice} 원
- 
-입구에서 이 페이지 또는 아래의 QR 코드를 제시하세요.
+<c:if test = "${ resInfo.visitTime eq 'morning'}">
+오전 </c:if>
+<c:if test = "${ resInfo.visitTime eq 'afternoon'}">
+오후 </c:if>
+<c:if test = "${ resInfo.visitTime eq 'night'}">
+야간 </c:if>
 
+예약인원: 성인 ${ resInfo.adultMem} 명, 유아 ${ resInfo.childMem} 명, 우대 ${ resInfo.disabMem} 명<br>
+지불예정금액: <fmt:formatNumber type="number" pattern="0" value="${ resInfo.totalPrice}"/> 원 <br>
+ <br><br>
+매표소에서 이 페이지 또는 아래의 QR 코드를 제시하세요.
+<br><br><br><br>
 
-
+	
 정보가 다를 경우 관리자에게 문의하세요. 
 
 </body>
