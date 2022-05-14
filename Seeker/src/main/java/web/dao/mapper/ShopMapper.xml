@@ -6,7 +6,7 @@
     
 <mapper namespace="web.dao.face.ShopDao">
 
-	<!-- <resultMap type="web.dto.CartList" id="cartList">
+	<!-- <resultMap type="web.dto.OrderList" id="orderView">
  		<id column="cartNum" property="cartNum"/>
  		<result column="member_no" property="memberNo"/>
  		<result column="gdsNum" property="gdsNum"/>
@@ -17,7 +17,7 @@
  		<result column="gdsStock" property="gdsStock"/>
  		<result column="ImgOriginName" property="ImgOriginName"/>
  		<result column="ImgStoredName" property="ImgStoredName"/>
- 	</resultMap>  -->
+ 	</resultMap> -->
 
 	<!-- 카테고리별 상품 리스트 : 1차 분류 -->
 	<select id="list_1" resultType="web.dto.GoodsView">
@@ -86,6 +86,71 @@
 		SELECT count(*) FROM tbl_cart
 			WHERE gdsNum = #{gdsNum}
 			AND member_no = #{memberNo}
+	</select>
+	
+	<!-- 주문 정보 -->
+	<insert id="orderInfo">
+ 		INSERT INTO tbl_order(orderId, member_no, orderRec, addr1, addr2, addr3, phone, amount, imp_uid, merchant_uid, paid_amount, apply_num)
+     	VALUES(#{orderId}, #{memberNo}, #{orderRec}, #{addr1}, #{addr2}, #{addr3}, #{phone}, #{amount}, #{impUid}, #{merchantUid}, #{paidAmount}, #{applyNum})
+	</insert>
+   
+	<!-- 주문 상세 정보 --> 
+	<!-- INSERT SELECT문 -> SELECT에 있는 다수의 데이터 삽입 -->
+	<insert id="orderInfo_Details">
+ 		INSERT INTO tbl_order_details(orderDetailsNum, orderId, gdsNum, cartStock)
+     	SELECT tbl_order_details_seq.nextval, #{orderId}, gdsNum, cartStock
+         	FROM tbl_cart
+         	WHERE member_no = #{memberNo}
+	</insert> 
+	
+	<!-- 카트 비우기 -->
+	<delete id="cartAllDelete">
+	 	DELETE tbl_cart
+	     	WHERE member_no = #{memberNo}
+	</delete>
+	
+	<!-- 주문 목록 -->
+	<select id="orderList" resultType="web.dto.OrderList">
+ 		SELECT
+     		o.orderId, o.member_no, o.orderRec, o.addr1, o.addr2, o.addr3, o.phone, o.amount, o.orderDate, o.imp_uid, o.merchant_uid, o.paid_amount, o.apply_num, o.delivery,
+     		d.orderDetailsNum, d.gdsNum, d.cartStock,
+     		g.gdsName, g.ImgOriginName, g.ImgStoredName, g.gdsPrice
+ 		FROM tbl_order o
+ 			INNER JOIN tbl_order_details d
+             		ON o.orderId = d.orderId
+            INNER JOIN tbl_goods g
+            		ON d.gdsNum = g.gdsNum
+     	WHERE o.member_no = #{memberNo}
+     	ORDER BY o.orderDate DESC
+	</select>
+	
+	<!-- 특정 주문 목록 -->
+	<select id="orderView" resultType="web.dto.OrderList">
+ 		SELECT
+     		o.orderId, o.member_no, o.orderRec, o.addr1, o.addr2, o.addr3, o.phone, o.amount, o.orderDate, o.imp_uid, o.merchant_uid, o.paid_amount, o.apply_num, o.delivery,
+     		d.orderDetailsNum, d.gdsNum, d.cartStock,
+     		g.gdsName, g.ImgOriginName, g.ImgStoredName, g.gdsPrice
+ 		FROM tbl_order o
+         		INNER JOIN tbl_order_details d
+             		ON o.orderId = d.orderId
+         		INNER JOIN tbl_goods g
+            		ON d.gdsNum = g.gdsNum
+     	WHERE o.member_no = #{memberNo}
+         	AND o.orderId = #{orderId}
+	</select>
+	
+	<!-- 주문 취소 전, 주문 확인 -->
+	<select id="countOrder" resultType="int">
+		SELECT count(*) FROM tbl_order
+		WHERE member_no = #{memberNo}
+			AND orderId = #{orderId}
+	</select>
+	
+	<!-- 결제 정보 조회 -->
+	<select id="selectPayment" resultType="web.dto.OrderList">
+		SELECT imp_uid, merchant_uid, paid_amount, apply_num FROM tbl_order
+		WHERE member_no = #{memberNo}
+			AND orderId = #{orderId}
 	</select>
 	
 	

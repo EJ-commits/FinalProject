@@ -3,7 +3,7 @@
     
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-
+<script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.1.5.js"></script>
 
 <c:import url ="../layout/header2.jsp" ></c:import>
 
@@ -86,6 +86,22 @@ aside#aside li > ul.low li { width:180px; }
 .plus { font-size:26px; border:none; background:none; }
 .minus { font-size:26px; border:none; background:none; }
 
+.listResult { padding:20px; background:#eee; }
+.listResult .sum { float:left; width:45%; font-size:22px; }
+
+.listResult .orderOpne { float:right; width:45%; text-align:right; }
+.listResult .orderOpne button { font-size:18px; padding:5px 10px; border:1px solid #999; background:#fff;}
+.listResult::after { content:""; display:block; clear:both; }
+
+.orderInfo { border:5px solid #eee; padding:20px; display: none; }
+.orderInfo .inputArea { margin:10px 0; }
+.orderInfo .inputArea label { display:inline-block; width:150px; margin-right:10px; }
+.orderInfo .inputArea input { font-size:14px; padding:5px; width: 200px; }
+#addr2, #addr3 { width:250px; }
+
+.orderInfo .inputArea:last-child { margin-top:30px; }
+.orderInfo .inputArea button { font-size:20px; border:2px solid #ccc; padding:5px 10px; background:#fff; margin-right:20px;}
+
 </style>
 
 <div id="wrap-box-top">
@@ -105,6 +121,8 @@ aside#aside li > ul.low li { width:180px; }
 	</aside>
 	
 		<section id="content">
+		
+		<script>IMP.init("imp61196601");</script>
 			
 			<ul>
 			<li>
@@ -293,9 +311,123 @@ aside#aside li > ul.low li { width:180px; }
  			</c:forEach>
  			<li>
  				<br>
+   				<div class="listResult">
    				<div class="total">
    					상품가격 <fmt:formatNumber pattern="###,###,###" value="${total}" />원 + 배송비 0원 = <div class="gdsAllPrice">총 가격 <fmt:formatNumber pattern="###,###,###" value="${total}" />원<br /></div>
    				</div>
+				 <div class="orderOpne">
+				  <button type="button" class="orderOpne_bnt">주문 정보 입력</button>
+				 </div>
+				 
+				 <script>
+				 	//주문 정보 입력 버튼을 클릭하면 숨겨져있던 주문 입력란이 나타나면서 버튼이 사라짐
+					 $(".orderOpne_bnt").click(function(){
+					  $(".orderInfo").slideDown();
+					  $(".orderOpne_bnt").slideUp();
+					 });      
+				</script>
+				
+				</div>
+				
+				<div class="orderInfo">
+ 					<form role="form" method="post" action="/shop/cartList" autocomplete="off" name="orderForm">
+    
+  						<input type="hidden" name="amount" value="${total}" />
+    
+					  <div class="inputArea">
+					   <label for="orderRec">수령인</label>
+					   <input type="text" name="orderRec" id="orderRec" required="required" value="${member.name }" />
+					  </div>
+					  
+					  <div class="inputArea">
+					   <label for="phone">연락처</label>
+					   <input type="text" name="phone" id="phone" required="required" value="${member.phone }" />
+					  </div>
+					  
+					  <div class="inputArea">
+					   <label for="addr1">우편번호</label>
+					   <input type="text" name="addr1" id="addr1" required="required" value="${member.addr1 }" />
+					  </div>
+					  
+					  <div class="inputArea">
+					   <label for="addr2">1차 주소</label>
+					   <input type="text" name="addr2" id="addr2" required="required" value="${member.addr2 }" />
+					  </div>
+					  
+					  <div class="inputArea">
+					   <label for="addr3">2차 주소</label>
+					   <input type="text" name="addr3" id="addr3" required="required" value="${member.addr3 }" />
+					  </div>
+					  
+					  
+					  <input type="hidden" name="addr3" id="addr3" />
+					  
+					  <div class="inputArea">
+					  
+					   <button type="button" class="order_btn">주문</button>
+					   <script>
+					   	
+					   
+					   	$(".order_btn").click(function(){ 
+					   		IMP.request_pay({
+					   		    pg : 'html5_inicis',
+					   		    pay_method : 'card',
+					   		    merchant_uid: "merchant_" + new Date().getTime(), // 상점에서 관리하는 주문 번호를 전달
+					   		    name : '${cartList[0].gdsName}',
+					   		    amount : '10',
+					   		    buyer_email : '${member.email}',
+					   		    buyer_name : '${member.name}',
+					   		    buyer_tel : '${member.phone}',
+					   		    buyer_addr : '${member.addr2} ${member.addr3}',
+					   		    buyer_postcode : '${member.addr1}',
+					   		}, function(rsp) { // callback 로직
+					   			if(rsp.success) {
+					   				
+
+					   				var msg = '결제가 완료되었습니다.';
+					   				/* msg += '고유ID :' + rsp.imp_uid;
+					   				msg += '상점 거래ID : ' + rsp.merchant_uid; */
+					   				msg += '결제 금액 : ' + rsp.paid_amount;
+					   				msg += '카드 승인번호 : ' + rsp.apply_num;
+					   				
+					   				//직렬화 -> 데이터뭉치로 보내기
+					   				$('form[name="orderForm"]').serialize();
+					   				
+					   				$('form[name="orderForm"]').append($('<input/>', {type: 'hidden', name: 'impUid', value: rsp.imp_uid}));
+					   				$('form[name="orderForm"]').append($('<input/>', {type: 'hidden', name: 'merchantUid', value: rsp.merchant_uid}));
+					   				$('form[name="orderForm"]').append($('<input/>', {type: 'hidden', name: 'paidAmount', value: rsp.paid_amount}));
+					   				$('form[name="orderForm"]').append($('<input/>', {type: 'hidden', name: 'applyNum', value: rsp.apply_num}));
+					   				
+					   				/* newForm.appendTo('body'); */
+								   				   				
+					   				$('form[name="orderForm"]').submit();
+					   				
+					   			} else {
+					   				var msg = '결제가 실패하였습니다.';
+					   				msg += '에러내용 : ' + rsp.error_msg;
+					   			}
+					   			
+					   			alert(msg);
+					   		});
+					   		
+					   	});
+					   
+					   
+					   </script>
+					   
+					   <button type="button" class="cancel_btn">취소</button> 
+					  </div>
+					  
+					  <script>
+					  		//주문 입력란의 취소 버튼을 클릭하면 주문 입력란이 사라지면서 주문 정보 입력 버튼이 나타나게 됨
+							$(".cancel_btn").click(function(){
+							 $(".orderInfo").slideUp();
+							 $(".orderOpne_bnt").slideDown();
+							});      
+					   </script>
+  
+ 					</form> 
+				</div>
    			</li>
 			</ul>
 		
