@@ -76,15 +76,6 @@ public class GardenServiceImpl implements GardenService{
 		return paging;
 	}
 	
-	
-//-------------------------------
-	@Override
-	public List<String> getGardenList() {
-		
-		List<String> gerdenList = gardenDao.getGardenNameList();
-		
-		return gerdenList;
-	}
 
 	
 

@@ -72,15 +72,7 @@ public interface GardenService {
 	 */
 	public Paging getPaging(Paging paramData, int gardenNo);
 
-	
-	/**
-	 * 전체 수목원 목록을 불러온다.
-	 * 
-	 * @return 수목원 이름이 적힌 list 객체*/
-	public List getGardenList();
-	
 
-	
 
 
 	

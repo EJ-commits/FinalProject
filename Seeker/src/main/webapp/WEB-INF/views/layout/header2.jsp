@@ -237,6 +237,57 @@ body {
 .dp48 {
 	margin : 6px 0px 0px 0px;
 }
+
+
+
+/* 여기부터 화상통화===================================== */
+#video-call-div {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: none;
+}
+
+#local-video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    margin: 16px;
+    border-radius: 16px;
+    max-width: 20%;
+    max-height: 20%;
+    background: #ffffff;
+}
+
+#remote-video {
+    background: #000000;
+    width: 100%;
+    height: 100%;
+}
+
+.call-action-div {
+    position: absolute;
+    left: 45%;
+    bottom: 32px;
+}
+
+button {
+    cursor: pointer;
+}
+
+#video_modal {
+    display: none;
+    width: 600px;
+    height:600px;
+    padding: 20px 60px;
+    background-color: #fefefe;
+    border: 1px solid #888;
+    border-radius: 3px;
+    overflow:scroll;
+}
+/* 여기까지 화상통화===================================== */
 </style>
 
 
@@ -273,10 +324,276 @@ $(document).ready(function(){
 	
   })
 })
+
+
+
+//----------------------------------여기부터 화상통화--------------------------------------
+
+var receiverId;
+let myId = '${sessionScope.id }';
+
+var eventData
+var webSocket
+
+webSocket = new WebSocket("ws://localhost:8088/videows/video")
+
+
+webSocket.onmessage = (event) => {
+    eventData = JSON.parse(event.data);
+    receiverId = eventData.senderId;
+
+	console.log(JSON.parse(event.data))
+	
+	//통화요청 알림
+    let $socketAlert = $('div#socketAlert');
+    $socketAlert.text(eventData.senderId+"님의 화상통화 요청");
+    $socketAlert.css('display', 'block');
+    
+    handleSignallingData(JSON.parse(event.data))
+    
+}
+	
+
+function handleSignallingData(data) {
+    switch (data.type) {
+        case "send_answer":
+        	console.log("---send_answer---")
+            peerConn.setRemoteDescription(data.answer)
+        	console.log("---send_answer---")
+            break;
+        case "candidate":
+        	console.log("---candidate---")
+            peerConn.addIceCandidate(data.candidate)
+        	console.log("---candidate---")
+    }
+}
+
+function sendData(data) {
+    webSocket.send(JSON.stringify(data))
+}
+
+let localStream
+let peerConn
+function startCall() {
+ 	var	videoModal = "<div id='video-call-div'><video muted id='local-video' autoplay></video>"
+		videoModal += "<video id='remote-video' autoplay></video><div class='call-action-div'>"
+		videoModal += "<button onclick='muteVideo()'>화면 끄기</button>"
+		videoModal += "<button onclick='muteAudio()'>오디오 끄기</button>"
+		videoModal += "<button class='modal_close_btn'>나가기</button></div></div>"
+		
+    $("#video_modal").html(videoModal);
+	modalStart('video_modal');
+		
+    document.getElementById("video-call-div").style.display = "inline"
+
+//     navigator.getUserMedia({
+//         video: {
+//             frameRate: 24,
+//             width: {
+//                 min: 480, ideal: 720, max: 1280
+//             },
+//             aspectRatio: 1.33333
+//         },
+//         audio: true
+//     }, (stream) => {
+//         localStream = stream
+//         document.getElementById("local-video").srcObject = localStream
+
+//         let configuration = {
+//             iceServers: [
+//                 {
+//                     "urls": ["stun:stun.l.google.com:19302", 
+//                     "stun:stun1.l.google.com:19302", 
+//                     "stun:stun2.l.google.com:19302"]
+//                 }
+//             ]
+//         }
+
+//         peerConn = new RTCPeerConnection(configuration)
+//         peerConn.addStream(localStream)
+
+//         peerConn.onaddstream = (e) => {
+//             document.getElementById("remote-video").srcObject = e.stream
+//         }
+
+//         peerConn.onicecandidate = ((e) => {
+//             if (e.candidate == null)
+//                 return;
+//             sendData({
+//             	receiverId: receiverId,
+//             	senderId: myId,
+//                 type: "store_candidate",
+//                 candidate: e.candidate
+//             })
+//         })
+
+//         createAndSendOffer()
+//     }, (error) => {
+//         console.log(error);
+//     })
+
+		const constraints = {
+		    'video': true,
+		    'audio': true
+		}
+		navigator.mediaDevices.getUserMedia(constraints)
+		    .then(stream => {
+		        console.log('Got MediaStream:', stream);
+		 	    localStream = stream
+		 	    document.getElementById("local-video").srcObject = localStream
+		        
+		     let configuration = {
+		     iceServers: [
+		         {
+		             "urls": ["stun:stun.l.google.com:19302", 
+		             "stun:stun1.l.google.com:19302", 
+		             "stun:stun2.l.google.com:19302"]
+		         }
+		     ]
+		 }
+		
+		 peerConn = new RTCPeerConnection(configuration)
+		 peerConn.addStream(localStream)
+		
+		 peerConn.onaddstream = (e) => {
+		     document.getElementById("remote-video").srcObject = e.stream
+		 }
+		
+		 peerConn.onicecandidate = ((e) => {
+		     if (e.candidate == null)
+		         return;
+		     sendData({
+		     	receiverId: receiverId,
+		     	senderId: myId,
+		         type: "store_candidate",
+		         candidate: e.candidate
+		     })
+		 })
+		
+		 createAndSendOffer()
+		 	    
+		})
+		.catch(error => {
+		    console.error('Error accessing media devices.', error);
+		});
+    
+};   
+    
+
+function createAndSendOffer() {
+    peerConn.createOffer((offer) => {
+        sendData({
+        	receiverId: receiverId,
+        	senderId: myId,
+            type: "store_offer",
+            offer: offer
+        })
+
+        peerConn.setLocalDescription(offer)
+    }, (error) => {
+        console.log(error)
+    })
+};
+
+let isAudio = true
+function muteAudio() {
+    isAudio = !isAudio
+    localStream.getAudioTracks()[0].enabled = isAudio
+}
+
+let isVideo = true
+function muteVideo() {
+    isVideo = !isVideo
+    localStream.getVideoTracks()[0].enabled = isVideo
+};
+
+
+
+var modal
+var bg
+function modalStart(id) {
+    var zIndex = 9999;
+    modal = document.getElementById(id);
+
+    // 모달 div 뒤에 희끄무레한 레이어
+    bg = document.createElement('div');
+    bg.setStyle({
+        position: 'fixed',
+        zIndex: zIndex,
+        left: '0px',
+        top: '0px',
+        width: '100%',
+        height: '100%',
+        overflow: 'auto',
+        // 레이어 색갈은 여기서 바꾸면 됨
+        backgroundColor: 'rgba(0,0,0,0.4)'
+    });
+    document.body.append(bg);
+
+    // 닫기 버튼 처리, 시꺼먼 레이어와 모달 div 지우기
+    modal.querySelector('.modal_close_btn').addEventListener('click', function() {
+    	bg.remove();
+        modal.style.display = 'none';
+        $('#socketAlert').css('display', 'none');
+    });
+
+    modal.setStyle({
+        position: 'fixed',
+        display: 'block',
+        boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)',
+
+        // 시꺼먼 레이어 보다 한칸 위에 보이기
+        zIndex: zIndex + 1,
+
+        // div center 정렬
+        top: '50%',
+        left: '50%',
+        transform: 'translate(-50%, -50%)',
+        msTransform: 'translate(-50%, -50%)',
+        webkitTransform: 'translate(-50%, -50%)'
+//	        overflow:'hidden'
+    });
+}
+
+// Element 에 style 한번에 오브젝트로 설정하는 함수 추가
+Element.prototype.setStyle = function(styles) {
+    for (var k in styles) this.style[k] = styles[k];
+    return this;
+};
+
+function okCall(){
+
+	if (confirm("영상통화를 시작하시겠습니까?") == true){    //확인
+
+		startCall()
+
+	}else{   //취소
+		$('#socketAlert').css('display', 'none');
+		sendData({
+        	receiverId: receiverId,
+        	senderId: myId,
+            type: "cancle"
+        })
+	    return;
+
+	}
+
+}
+
+//----------------------------------여기부터 화상통화--------------------------------------
 </script>
 </head>
 
 <body>
+
+<!-- ===========화상통화 알림창============ -->
+<div id="socketAlert" class="alert alert-success" role="alert" style="display:none;" onClick="okCall()"></div>
+
+<div>
+	<span id="video_modal"></span>
+</div>
+<!-- ===========화상통화 알림창============ -->
+
 <header id="header">
 	<div id="header-box">
 		<div id="header-logo-con" onClick="location.href='/'">
