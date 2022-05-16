@@ -17,7 +17,7 @@
 	<select id="saveResInfo" parameterType="web.dto.ReserveInfo">
 	
 	insert into gardenReserve(reserve_no, garden_no, GARDEN_NAME, member_No, VISIT_DATE, visit_time, ADULT_MEM, CHILD_MEM, DISAB_MEM, TOTAL_PRICE)
-	values (res_sequence.nextval, #{gardenNo}, #{gardenName}, #{memberNo}, to_date(#{visitDate},'mm/dd/yyyy'), #{visitTime}, #{adultMem}, #{childMem}, #{disabMem}, #{totalPrice})
+	values (res_sequence.nextval, #{gardenNo}, #{gardenName}, #{memberNo}, to_date(#{visitDate},'yyyy-mm-dd'), #{visitTime}, #{adultMem}, #{childMem}, #{disabMem}, #{totalPrice})
 	
 	</select>
   
@@ -33,8 +33,11 @@
   	<select id="getResInfo" parameterType="int" resultType="web.dto.ReserveInfo">
   	select * from gardenReserve
   	where reserve_no = #{resNo}
-  	
   	</select>
   	
+	<insert id="saveQrName" parameterType="HashMap">
+	update gardenReserve set qr_code = #{qrImgName}
+	where reserve_no = #{resNo}
+	</insert>  
   
   </mapper>

@@ -12,6 +12,8 @@ public class ReserveInfo {
 	private int childMem;
 	private int disabMem;
 	private double totalPrice;
+	private String qrCode;
+	
 	
 	
 	public int getReserveNo() {
@@ -19,9 +21,11 @@ public class ReserveInfo {
 	}
 
 
+
 	public void setReserveNo(int reserveNo) {
 		this.reserveNo = reserveNo;
 	}
+
 
 
 	public int getGardenNo() {
@@ -29,9 +33,11 @@ public class ReserveInfo {
 	}
 
 
+
 	public void setGardenNo(int gardenNo) {
 		this.gardenNo = gardenNo;
 	}
+
 
 
 	public String getGardenName() {
@@ -39,9 +45,11 @@ public class ReserveInfo {
 	}
 
 
+
 	public void setGardenName(String gardenName) {
 		this.gardenName = gardenName;
 	}
+
 
 
 	public int getMemberNo() {
@@ -49,9 +57,11 @@ public class ReserveInfo {
 	}
 
 
+
 	public void setMemberNo(int memberNo) {
 		this.memberNo = memberNo;
 	}
+
 
 
 	public String getVisitDate() {
@@ -59,9 +69,11 @@ public class ReserveInfo {
 	}
 
 
+
 	public void setVisitDate(String visitDate) {
 		this.visitDate = visitDate;
 	}
+
 
 
 	public String getVisitTime() {
@@ -69,9 +81,11 @@ public class ReserveInfo {
 	}
 
 
+
 	public void setVisitTime(String visitTime) {
 		this.visitTime = visitTime;
 	}
+
 
 
 	public int getAdultMem() {
@@ -79,9 +93,11 @@ public class ReserveInfo {
 	}
 
 
+
 	public void setAdultMem(int adultMem) {
 		this.adultMem = adultMem;
 	}
+
 
 
 	public int getChildMem() {
@@ -89,9 +105,11 @@ public class ReserveInfo {
 	}
 
 
+
 	public void setChildMem(int childMem) {
 		this.childMem = childMem;
 	}
+
 
 
 	public int getDisabMem() {
@@ -99,9 +117,11 @@ public class ReserveInfo {
 	}
 
 
+
 	public void setDisabMem(int disabMem) {
 		this.disabMem = disabMem;
 	}
+
 
 
 	public double getTotalPrice() {
@@ -109,18 +129,31 @@ public class ReserveInfo {
 	}
 
 
+
 	public void setTotalPrice(double totalPrice) {
 		this.totalPrice = totalPrice;
 	}
+
+
+
+	public String getQrCode() {
+		return qrCode;
+	}
+
+
+
+	public void setQrCode(String qrCode) {
+		this.qrCode = qrCode;
+	}
+
 
 
 	@Override
 	public String toString() {
 		return "ReserveInfo [reserveNo=" + reserveNo + ", gardenNo=" + gardenNo + ", gardenName=" + gardenName
 				+ ", memberNo=" + memberNo + ", visitDate=" + visitDate + ", visitTime=" + visitTime + ", adultMem="
-				+ adultMem + ", childMem=" + childMem + ", disabMem=" + disabMem + ", totalPrice=" + totalPrice + "]";
+				+ adultMem + ", childMem=" + childMem + ", disabMem=" + disabMem + ", totalPrice=" + totalPrice
+				+ ", qrCode=" + qrCode + "]";
 	}
-
-	
 	
 }

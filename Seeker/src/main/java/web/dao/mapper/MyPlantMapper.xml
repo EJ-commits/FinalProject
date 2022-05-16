@@ -19,7 +19,7 @@
  	</resultMap>
  
  	<select id="selectList" resultMap="myPlant" parameterType="int">
- 		SELECT myplant_no, bname, nick, birth, origin, stored FROM myplant 
+ 		SELECT myplant_no, bname, nick, birth, water, origin, stored FROM myplant 
  		WHERE member_no = #{memberNo}
  		ORDER BY myplant_no
  	</select>
