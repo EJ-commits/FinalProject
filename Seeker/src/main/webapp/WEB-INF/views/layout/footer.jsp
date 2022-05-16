@@ -41,6 +41,9 @@
 	<div>
 		<a href="/chat/room11" ><span class="header-menu-text-xs">1:1 문의 채팅</span></a>
 	</div>
+	<div>
+		<a href="/videoChat/sender" ><span class="header-menu-text-xs">영상 통화</span></a>
+	</div>
 	<div><div id="footer-copy-box"><small>Copyright &copy; 식물키우조 :)</small></div></div>
 </footer>
 </body>

@@ -41,5 +41,12 @@ public interface ReserveService {
 	 * */
 	public ReserveInfo getResInfo(int resNo);
 
+	/**
+	 * 예약 내역에 대한 QR코드를 생성하고, 이미지 경로를 DB에 저장 
+	 * @param info 
+	 * @param 예약내역
+	 * */
+	public void getQrCode(ReserveInfo info);
+
 	
 }

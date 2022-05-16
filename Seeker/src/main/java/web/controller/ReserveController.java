@@ -136,6 +136,8 @@ public class ReserveController {
 		// DB에 내역 저장
 		resService.saveResInfo(info); 
 		
+		resService.getQrCode(info);
+		
 		return "redirect:/garden/reserveRes";
 	}	
 	

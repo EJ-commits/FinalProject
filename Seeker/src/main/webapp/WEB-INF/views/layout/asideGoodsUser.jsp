@@ -7,10 +7,10 @@
 <title>Insert title here</title>
 <style>
 aside#aside li { position:relative; }
-aside#aside li:hover { background:#eee; }   
+aside#aside li:hover { background:#fff; }   
 aside#aside li > ul.low { display:none; position:absolute; top:0; left:180px;  }
 aside#aside li:hover > ul.low { display:block; }
-aside#aside li:hover > ul.low li a { background:#eee; border:1px solid #eee; }
+aside#aside li:hover > ul.low li a { background:#ECF8E0; border:1px solid #ECF8E0; }
 aside#aside li:hover > ul.low li a:hover { background:#fff;}
 aside#aside li > ul.low li { width:180px; }
 </style>
