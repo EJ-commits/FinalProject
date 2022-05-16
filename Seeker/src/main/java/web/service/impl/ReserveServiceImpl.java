@@ -52,8 +52,8 @@ public class ReserveServiceImpl implements ReserveService {
 
 	@Override
 	public void saveResInfo(ReserveInfo info) {
+		logger.info("saving info {}" , info.toString());
 		reserveDao.saveResInfo(info);
-		logger.info("saved info {}" , info.toString());
 	}
 
 	@Override

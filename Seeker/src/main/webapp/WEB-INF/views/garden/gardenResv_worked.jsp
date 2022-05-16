@@ -150,6 +150,7 @@
  
  
  // DB 연동하여 수목원 리스트 표시 
+	// DB 연동하여 수목원 리스트 표시 
 	$.ajax({
 		url:"/garden/getGardenList",
 		type: "get",
@@ -180,6 +181,7 @@
 		}
 	})
 
+
 	
 	//인원조정 버튼 클릭시
 	
@@ -207,10 +209,9 @@
  //예약하기 버튼을 누르면 예약정보를 DB에 저장, 동시에 예약 결과 화면으로 이동한다. 
  	$("#goToRes").click(function(){
 	  	console.log("goToRes click");
-
+	  	
  		var formValues = $("#totalThey").serialize();
- 		
- 	
+ 
   	 	console.log("formValues",formValues)
 		$.ajax({
 		  		url:"/garden/saveReserve",
@@ -218,8 +219,27 @@
 		  		data: formValues,
 		  		dataType: "json",
 		  		success: function(res){
-		  			console.log(res)
+
+		  	 		if(res.gardenName == 'noneChecked'){
+		  	 			alert("공원을 선택해주세요")
+		  	 			return;
+		  	 		}  		else if(datepicker == ''){	
+		  	 			alert("공원을 선택해주세요")
+		  	 			return;
+		  	 		} 
+		  	 		else if(time == 'noneChecked'){
+		  	 			alert("공원을 선택해주세요")
+		  	 			return;
+		  	 		} 
+		  	 		else if(adult=='0' && child =='0' && others=='0'){
+		  	 			alert("인원수를 선택해주세요")
+		  	 			return;
+		  	 		} else {
+		  	 			
 		  			console.log("calcBtn success")
+		  	 		}
+		  	
+
 		  		},
 		  		error: console.log("calcBtn error")
   		})
@@ -281,6 +301,7 @@
 </script>
 
 
+
 <meta charset="UTF-8">
 <title>Insert title here</title>
 </head>
@@ -289,15 +310,18 @@
 
 <form name="totalThey" id="totalThey">
 	<div id="container" class="container modern-skin">
-	   <div id="gardenList" style=" height:90%; width:33%; padding-right: 3% " >
-	   	<div style="height: 5%;"></div>
-	   	<div style="height: 5%; text-align: center"> 예약하실 수목원을 선택하세요. </div>
-	   	<div style="height: 3%;"></div>
-	  <div class="btn-group" role="group" aria-label="Basic radio toggle button group" style=" overflow: auto; height:90%; width: 100%; sc">
-		 <div id="parkChoice" style=" height: 582px; width: 80%; margin: auto" > </div>
-			 
-		</div>
-	   </div>
+
+	   <div id="gardenList" style=" height:90%; width:33%; padding-right: 3% " > 
+	   	<div style="height: 5%;"></div> 
+	   	<div style="height: 5%; text-align: center"> 예약하실 수목원을 선택하세요 </div>
+	   	<div style="height: 3%;"></div> 
+	  <div class="btn-group" role="group" aria-label="Basic radio toggle button group" style=" overflow: auto; height:90%; width: 100%; sc"> 
+ 		<input style="width:0px" type="radio" checked='checked' name="gardenName" id="gardenName00" value="noneChecked">
+ 		
+		 <div id="parkChoice" style=" height: 582px; width: 80%; margin: auto" > </div> 
+		 
+		</div> -->
+	   </div> -->
 		   
 	  <div id="dateCon"  style=" width:33%; height:100%; float: left">
 		<div id="resDate" style="position:relative; height: 50%; width: 100%;float: left ">
@@ -311,6 +335,11 @@
 			<table style="position:relative; width: 80%; margin: auto; top: 25%">
 				<tr><td style="text-align: center;">방문하실 시간을 선택해주세요.</td></tr>
 				<tr style="height: 10px"></tr>
+				<tr>
+					<td style="height:0px">
+					<input type="radio" class="btn-check" name="time" id="noToime" value="noneChecked" autocomplete="off" checked>
+					</td>
+				</tr>
 				<tr>
 					<td>
 						<input type="radio" class="btn-check" name="time" id="morning" value="morning" autocomplete="off" checked>
@@ -413,7 +442,8 @@
 	<div style="position: absolute; display:block; text-align: right; height:20% ;  right: 0; bottom: 0">
 	총합 
 		<span id="totalPrice"> 0 원</span> <br>
-		<button type="button" id="goToRes"> 예약하기 </button>
+		<button type="button" class="btn btn-info" id="goToRes">  <span style="vertical-align: middle;">예약하기</span> </button>
+		
 	</div>
 		</div>
 	</div>

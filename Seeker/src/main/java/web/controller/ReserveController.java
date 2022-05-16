@@ -95,7 +95,7 @@ public class ReserveController {
 	//예약 정보 DB에 저장
 	@ResponseBody
 	@RequestMapping(value = "/garden/saveReserve")
-	public boolean saveReserve(RequestReserve reserve, Model model) {
+	public ReserveInfo saveReserve(RequestReserve reserve, Model model) {
 		logger.info("[get] /garden/saveReserve");
 		
 		String garden = reserve.getgardenName();
@@ -117,7 +117,7 @@ public class ReserveController {
 		info.setGardenNo(gardenPrice.getGardenNo());
 		info.setGardenName(reserve.getgardenName());
 		
-		info.setMemberNo(Integer.parseInt((String) session.getAttribute("memberNo")));
+		info.setMemberNo(Integer.parseInt(String.valueOf( session.getAttribute("memberNo" )) ));
 		info.setGardenName(reserve.getgardenName());
 		
 		
@@ -146,14 +146,14 @@ public class ReserveController {
 		
 		// DB에 내역 저장
 		resService.saveResInfo(info); 
-		int memberNo = Integer.parseInt((String)session.getAttribute("memberNo"));
+		int memberNo = Integer.parseInt((String.valueOf( session.getAttribute("memberNo"))));
 		int resNo = resService.getReserveNo(memberNo);
 		info.setReserveNo(resNo);
 		logger.info("totalInfo {}", info);
 		resService.getQrCode(info, resNo);
 		
 		
-		return true;
+		return info;
 //		return "redirect:/garden/reserveRes";
 //		return "/garden/reserveRes";
 	}	
