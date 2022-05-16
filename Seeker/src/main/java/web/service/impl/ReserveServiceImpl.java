@@ -2,15 +2,23 @@ package web.service.impl;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import javax.imageio.ImageIO;
 import javax.servlet.ServletContext;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.google.gson.Gson;
+import com.google.zxing.WriterException;
 
+import web.controller.ReserveController;
 import web.dao.face.ReserveDao;
 import web.dto.GardenPriceDto;
 import web.dto.ReserveInfo;
@@ -20,7 +28,11 @@ import web.util.QrUtil;
 @Service
 public class ReserveServiceImpl implements ReserveService {
 	
+	private static final Logger logger = LoggerFactory.getLogger(ReserveController.class);
+	
+	
 	@Autowired ReserveDao reserveDao;
+	@Autowired ServletContext context;
 	
 	@Override
 	public List<String> getGardenList() {
@@ -41,6 +53,7 @@ public class ReserveServiceImpl implements ReserveService {
 	@Override
 	public void saveResInfo(ReserveInfo info) {
 		reserveDao.saveResInfo(info);
+		logger.info("saved info {}" , info.toString());
 	}
 
 	@Override
@@ -49,33 +62,46 @@ public class ReserveServiceImpl implements ReserveService {
 	}
 
 	@Override
-	public ReserveInfo getResInfo(int resNo) {
+	public ReserveInfo getResInfo (int resNo) {
 		return reserveDao.getResInfo(resNo);
 	}
 
-	
-	@Autowired ServletContext context;
-	@Autowired QrUtil qrUtil;
-	
 	@Override
-	public void getQrCode(ReserveInfo info) {
+	public void getQrCode(ReserveInfo info, int resNo) {
+		
+		QrUtil qrUtil = new QrUtil();
+		
+		String storedPath = context.getRealPath("qrImg");
+		logger.info("storedPath {}" ,storedPath);
+		File folder = new File(storedPath);
+		if(!folder.exists()) 
+		folder.mkdir();
 		
 		Gson gson = new Gson();
 		String context = gson.toJson(info);
 		
-		String storedPath = context.getRealPath("qrImg");
-		File folder = new File(storedPath);
-		if(!folder.exists()) 
-			folder.mkdir();
+		String qrImgName = Integer.toString(info.getMemberNo()) + Integer.toString(info.getReserveNo());
 		
-		String qrImgName = info.getMemberNo() + info.getReserveNo() + "";
+//		File dest = new File( folder, qrImgName);
 		
-		File dest = new File(folder, qrImgName);
-		
+		try {
+			
 		BufferedImage qrCode = qrUtil.makeQR(context);
+			ImageIO.write(qrCode, "png", new File(storedPath+File.separator+qrImgName+".png"));
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (WriterException e) {
+			e.printStackTrace();
+		}
 		
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("qrImgName", qrImgName);
+		map.put("resNo", resNo);
+		
+		reserveDao.saveQrName(map);
 		
 	}
+
 
 
 
