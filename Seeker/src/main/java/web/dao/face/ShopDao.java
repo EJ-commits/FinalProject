@@ -5,6 +5,9 @@ import java.util.List;
 import web.dto.Cart;
 import web.dto.CartList;
 import web.dto.GoodsView;
+import web.dto.Order;
+import web.dto.OrderDetail;
+import web.dto.OrderList;
 
 public interface ShopDao {
 
@@ -66,8 +69,54 @@ public interface ShopDao {
 	 * 장바구니에 담을 상품이 중복되어 담기는 지 체크
 	 * 
 	 * @param cart - 장바구니
-	 * @param memberNo - 멤버넘버(못가져오는 케이스여서 주입해줄 예정)
 	 * @return int - 1이면 중복, 0이면 중복아님
 	 */
 	public int selectCart(Cart cart);
+	
+	/**
+	 * 주문 정보
+	 * 
+	 * @param order - 주문 정보 DTO
+	 */
+	public void orderInfo(Order order);
+	
+	/**
+	 * 주문 상세 정보
+	 * 
+	 * @param orderDetail - 주문 상세 정보 DTO
+	 */
+	public void orderInfo_Details(OrderDetail orderDetail);
+	
+	/**
+	 * 주문이 완료되면 장바구니 비우기
+	 * 
+	 * @param memberNo - 멤버 번호
+	 */
+	public void cartAllDelete(int memberNo);
+	
+	/**
+	 * 주문 목록
+	 * 
+	 * @param order - 주문 목록 DTO
+	 * @return 주문 목록 리스트
+	 */
+	public List<OrderList> orderList(Order order);
+	
+	/**
+	 * 주문 상세 목록
+	 * 
+	 * @param order - 주문 DTO
+	 * @return 주문 상세 목록
+	 */
+	public List<OrderList> orderView(Order order);
+	
+	/**
+	 * 주문 취소 전, 주문 확인
+	 * 
+	 * @param order - 확인할 주문 DTO
+	 * @return 1 : 주문O, 0 : 주문X
+	 */
+	public int countOrder(Order order);
+	
+	public OrderList selectPayment();
 }
