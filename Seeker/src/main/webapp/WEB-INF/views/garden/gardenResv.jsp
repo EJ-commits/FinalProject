@@ -4,6 +4,7 @@
 
 <!DOCTYPE html>
 <html>
+<c:import url="/WEB-INF/views/layout/header.jsp" />
 
 <!-- 합쳐지고 최소화된 최신 CSS -->
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
@@ -50,6 +51,7 @@
     color: #fff;
 }
 
+
  #ampm #relDetail{
  	overflow: hidden;
     -webkit-text-size-adjust: 100%;
@@ -68,17 +70,61 @@
  #gardenList {float: left}
  #ampm {float: left ; position: relative; }
  #relDetail { position: relative;}
+ #wrap-box-bottom {height: 5px} 
+  .flex-container{ 
+            width: 100%; 
+            height: 100%; 
+            display: -webkit-box; 
+            display: -moz-box;
+            display: -ms-flexbox; 
+            display: flex; 
  
+            -webkit-box-align: center; 
+            -moz-box-align: center;
+            -ms-flex-align: center;
+            align-items: center; /* 수직 정렬 */
+ 
+            -webkit-box-pack: center;
+            -moz-box-pack: center; 
+            -ms-flex-pack: center; 
+            justify-content: center; /* 수평 정렬 */
+        } 
+ 
+.btn-success{height:4em; border-color:transparent; background-color:transparent !important; }    
+.gardens .{color:green }
+.{height:4em; border-color:transparent !important; background-color:green !important; color:#fff !important }   
+
+::-webkit-scrollbar {
+    display: none;
+}
     </style>
     
     
 
 <script type="text/javascript">
 
+	$.datepicker.setDefaults({
+	    dateFormat: 'yy-mm-dd',
+	    prevText: '이전 달',
+	    nextText: '다음 달',
+	    monthNames: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
+	    monthNamesShort: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
+	    dayNames: ['일', '월', '화', '수', '목', '금', '토'],
+	    dayNamesShort: ['일', '월', '화', '수', '목', '금', '토'],
+	    dayNamesMin: ['일', '월', '화', '수', '목', '금', '토'],
+	    showMonthAfterYear: true,
+	    yearSuffix: '년'
+	});
+
  $(document).ready(function() {
 
 	$( function() {
-	    $( "#datepicker" ).datepicker();
+	    $( "#datepicker" ).datepicker({
+             minDate: "-2M", 
+             maxDate: "+2M"
+	    });
+	    console.log("datepicked")
+	    
 	  } );
 
 	  
@@ -118,10 +164,12 @@
  				str += '" value="'
  				str += res.gardenList[i]
  				str += '" autocomplete="off" checked>'
-	 			str += '<label class="btn btn-secondary" style="width:100%; text-align:center" for="gardenName'
+	 			str += '<label class="btn btn-success" style="width:100%; text-align:center" for="gardenName'
  				str += i
  				str += '">'
+				str +='<span class="gardens" style="vertical-align: middle;">'
 				str += res.gardenList[i]
+				str +='</span>'
 				str += '</label><br>'
 			}
 				$("#parkChoice").html(str)
@@ -150,6 +198,7 @@
 		  			console.log("calcBtn success")
 		  			console.log(res)
 		  			$("#totalPrice").html(res.totalPrice)
+		  			$("#totalPrice").append(' 원')
 		  		},
 		  		error: console.log("calcBtn error")
   		})
@@ -186,10 +235,10 @@
 	    number = parseInt(number) - 1;
 	  }
 	  if(number > 0){
-	  	$("#adultTotal").text(number);
+	  	$("#adultTotal").html('&nbsp;&nbsp;'+number+'&nbsp;&nbsp;');
 		$("#adult").attr('value',number)}
 	  else {
-		$("#adultTotal").text(0); 
+		$("#adultTotal").html('&nbsp;&nbsp;'+0+'&nbsp;&nbsp;'); 
 		$("#adult").attr('value','0')}
  }
  
@@ -201,10 +250,10 @@
 		    number = parseInt(number) - 1;
 		  }
 		  if(number > 0){
-		  	$("#childTotal").text(number);
+		  	$("#childTotal").html('&nbsp;&nbsp;'+number+'&nbsp;&nbsp;');
 			$("#child").attr('value',number)}
 		  else{
-			$("#childTotal").text(0);  
+			$("#childTotal").html('&nbsp;&nbsp;'+0+'&nbsp;&nbsp;');  
 			$("#child").attr('value','0')}
 		}
 	 
@@ -216,10 +265,10 @@
   	    number = parseInt(number) - 1;
   	  }
   	  if(number > 0){
-  	  	$("#disabTotal").text(number);
+  	  	$("#disabTotal").html('&nbsp;&nbsp;'+number+'&nbsp;&nbsp;');
 		$("#disability").attr('value',number)}
   	  else{
-  		$("#disabTotal").text(0);  
+  		$("#disabTotal").html('&nbsp;&nbsp;'+0+'&nbsp;&nbsp;'); 
 		$("#disability").attr('value','0')}
   	}
    
@@ -227,6 +276,7 @@
 	
 
 </script>
+
 
 
 <meta charset="UTF-8">
@@ -237,70 +287,141 @@
 
 <form name="totalThey" id="totalThey">
 	<div id="container" class="container modern-skin">
-	   <div id="gardenList" style=" width:33%; " >
-		  <div class="btn-group" role="group" aria-label="Basic radio toggle button group" style=" overflow: auto; width: 100%;">
-			 <div id="parkChoice" style=" height: 600px; " > </div>
+	   <div id="gardenList" style=" height:90%; width:33%; padding-right: 3% " >
+	   	<div style="height: 5%;"></div>
+	   	<div style="height: 5%; text-align: center"> 예약하실 수목원을 선택하세요. </div>
+	   	<div style="height: 3%;"></div>
+	  <div class="btn-group" role="group" aria-label="Basic radio toggle button group" style=" overflow: auto; height:90%; width: 100%; sc">
+		 <div id="parkChoice" style=" height: 582px; width: 80%; margin: auto" > </div>
 			 
 		</div>
 	   </div>
 		   
 	  <div id="dateCon"  style=" width:33%; height:100%; float: left">
-		<div id="resDate" style="height: 50%; width: 100%;float: left ">
-			<input type="text" name="datepicker" id="datepicker" style="width:100%">
+		<div id="resDate" style="position:relative; height: 50%; width: 100%;float: left ">
+			<div style="height: 10%"></div>
+			<div style="position:relative;  text-align: center">
+				예약하실 날짜를 선택하세요.
+				<input type="text" name="datepicker" id="datepicker" style="width:100%">
+			</div>
 		</div>
-		<div id="ampm" style=" height: 50%; width: 100%">
-			<input type="radio" class="btn-check" name="time" id="morning" value="morning" autocomplete="off" checked>
-			<label class="btn btn-outline-primary" for="morning" style="width: 100%">오전
-			</label><br>
-			<input type="radio" class="btn-check" name="time" id="afternoon" value="afternoon" autocomplete="off" checked>
-			<label class="btn btn-outline-primary" for="afternoon" style="width: 100%">오후
-			</label><br>
-			<input type="radio" class="btn-check" name="time" id="night" value="night" autocomplete="off" checked>
-			<label class="btn btn-outline-primary" for="night" style="width: 100%">야간
-			</label>
+		<div id="ampm" style="position:relative; height: 50%; width: 100%;">
+			<table style="position:relative; width: 80%; margin: auto; top: 25%">
+				<tr><td style="text-align: center;">방문하실 시간을 선택해주세요.</td></tr>
+				<tr style="height: 10px"></tr>
+				<tr>
+					<td>
+						<input type="radio" class="btn-check" name="time" id="morning" value="morning" autocomplete="off" checked>
+						<label class="btn btn-success" for="morning" style="width: 100%; ">
+							<span style="vertical-align: middle;">오전</span>
+						</label><br>
+					</td>
+				</tr>
+				<tr style="height: 10px"></tr>
+				<tr>
+					<td>
+					<input type="radio" class="btn-check" name="time" id="afternoon" value="afternoon" autocomplete="off" checked>
+					<label class="btn btn-success" for="afternoon" style="width: 100%">
+						<span style="vertical-align: middle;">오후</span>
+					</label><br>
+					</td>
+				</tr>
+				<tr style="height: 10px"></tr>
+				<tr>
+					<td>
+					<input type="radio" class="btn-check" name="time" id="night" value="night" autocomplete="off" checked>
+					<label class="btn btn-success" for="night" style="width: 100%">
+						<span style="vertical-align: middle;">야간</span>
+					</label>
+					</td>
+				</tr>
+			</table>
 		</div>
 	  </div> 
 		
-		<div id="relDetail" style=" width:33%;  float: left ">
-			몇명?
-			
-			어른
-			<input type='button' onclick='adultCount("plus")' value='+'/>
-			<input type='button' onclick='adultCount("minus")' value='-'/>
-			<div id='adultTotal'>0</div>
-			<input type="hidden" name="adult" id="adult" value="0">
-			
-			소아
-			<input type='button' onclick='childCount("plus")' value='+'/>
-			<input type='button' onclick='childCount("minus")' value='-'/>
-			<div id='childTotal'>0</div>
-			<input type="hidden" name="child" id="child" value="0">
-			
-			
-			우대
-			<input type='button' onclick='disabCount("plus")' value='+'/>
-			<input type='button' onclick='disabCount("minus")' value='-'/>
-			<div id='disabTotal'>0</div>
-			<input type="hidden" name="others" id="disability" value="0">
-			
+		<div id="relDetail" style="position:relative; width:33%;  float: right; height: 100%">
+			<div style="height: 5%"></div>
+			<div style="height:5%; text-align: center;">
+				인원수를 선택하세요.
+			</div>	
+			<div style="position:relative; float:relative; height:80%; width: 100%">
+				<table style=" margin: auto auto; position:relative; float: relative; top:25% ">
+					<tr>
+						<th style="width: 40%; ">어른</th>
+						<td><input type='button' onclick='adultCount("plus")' value='+'/>
+							<span id='adultTotal'>&nbsp;&nbsp;0&nbsp;&nbsp;</span>
+							<input type='button' onclick='adultCount("minus")' value='-'/>
+							<input type="hidden" name="adult" id="adult" value="0"></td>
+					</tr>
+					<tr style="height: 10px"></tr>
+					<tr>
+						<th style="width: 40%; ">소아</th>
+						<td><input type='button' onclick='childCount("plus")' value='+'/>
+						<span id='childTotal'>&nbsp;&nbsp;0&nbsp;&nbsp;</span>
+						<input type='button' onclick='childCount("minus")' value='-'/>
+						<input type="hidden" name="child" id="child" value="0"></td>
+					</tr>
+					<tr style="height: 10px"></tr>
+					<tr>
+						<th style="width: 40%; ">우대</th>
+						<td><input type='button' onclick='disabCount("plus")' value='+'/>
+						<span id='disabTotal'>&nbsp;&nbsp;0&nbsp;&nbsp;</span>
+						<input type='button' onclick='disabCount("minus")' value='-'/>
+						<input type="hidden" name="others" id="disability" value="0"></td>
+					</tr>
+					
+				</table>
+			</div>	
+<!-- 		 
+			<div style="height:65%;">
+				<div style="position:absolute; left:37%; top:35%; float:relative; align-items:center ; ">
+					<div class="flex-container">
+					어른	&nbsp; &nbsp; &nbsp; &nbsp;
+						<input type='button' onclick='adultCount("plus")' value='+'/>
+						<span id='adultTotal'>&nbsp;&nbsp;0&nbsp;&nbsp;</span>
+						<input type='button' onclick='adultCount("minus")' value='-'/>
+						<input type="hidden" name="adult" id="adult" value="0">
+					</div>
+				<div style="display: block; height: 10px;"></div>
+				
+				<div style="display: block; width: width: 100%;">
+					<div class="flex-container">				
+				소아 &nbsp; &nbsp; &nbsp; &nbsp;
+					<input type='button' onclick='childCount("plus")' value='+'/>
+					<span id='childTotal'>&nbsp;&nbsp;0&nbsp;&nbsp;</span>
+					<input type='button' onclick='childCount("minus")' value='-'/>
+					<input type="hidden" name="child" id="child" value="0">
+					</div>
+					<div style="display: block; height: 10px;"></div>
+				</div>
+				
+			<div style="display: block; ">
+				<div class="flex-container">		
+				우대&nbsp; &nbsp; &nbsp; &nbsp;
+					<input type='button' onclick='disabCount("plus")' value='+'/>
+					<span id='disabTotal'>&nbsp;&nbsp;0&nbsp;&nbsp;</span>
+					<input type='button' onclick='disabCount("minus")' value='-'/>
+					<input type="hidden" name="others" id="disability" value="0">
+					<div style="display: block; height: 10px;"></div>
+				</div>
+			</div>
+		</div>		
+		
+	-->
+	<div style="position: absolute; display:block; text-align: right; height:20% ;  right: 0; bottom: 0">
+	총합 
+		<span id="totalPrice"> 0 원</span> <br>
+		<button type="button" class="btn btn-info" id="goToRes">  <span style="vertical-align: middle;">예약하기</span> </button>
+		
+	</div>
 		</div>
 	</div>
 	
-
+</div>
 </form>
 
 
-총합
-<div id="totalPrice"></div>
-<button id="goToRes"> 예약하기 </button>
+<c:import url="/WEB-INF/views/layout/footer.jsp" />
 
-
-
-
-
-
-<form action="/garden/reserveRes">
-<input type="hidden">
-</form> 
 </body>
 </html>

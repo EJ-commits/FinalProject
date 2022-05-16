@@ -1,11 +1,13 @@
 package web.controller;
 
+import java.io.UnsupportedEncodingException;
 import java.lang.annotation.Retention;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
@@ -14,25 +16,32 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.Mapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.google.gson.Gson;
+import com.google.zxing.WriterException;
 
 import web.dto.GardenPriceDto;
 import web.dto.RequestReserve;
 import web.dto.ReserveInfo;
 import web.service.face.ReserveService;
+import web.util.QrUtil;
+
 
 
 @Controller
 public class ReserveController {
-
+	
 	private static final Logger logger = LoggerFactory.getLogger(ReserveController.class);
 	
 	@Autowired ReserveService resService;
 	@Autowired HttpSession session;
+	@Autowired QrUtil qrUtil;
+	@Autowired ServletContext context;
 	
 	@RequestMapping(value = "/garden/reservation")
 	public String reserve() {
@@ -84,8 +93,9 @@ public class ReserveController {
 	
 	
 	//예약 정보 DB에 저장
+	@ResponseBody
 	@RequestMapping(value = "/garden/saveReserve")
-	public String saveReserve(RequestReserve reserve, Model model) {
+	public boolean saveReserve(RequestReserve reserve, Model model) {
 		logger.info("[get] /garden/saveReserve");
 		
 		String garden = reserve.getgardenName();
@@ -103,21 +113,23 @@ public class ReserveController {
 		
 		//프론트로부터 받은 예약 정보 ReserveInfo에 저장
 		ReserveInfo info = new ReserveInfo();
+		
 		info.setGardenNo(gardenPrice.getGardenNo());
 		info.setGardenName(reserve.getgardenName());
 		
 		info.setMemberNo(Integer.parseInt((String) session.getAttribute("memberNo")));
 		info.setGardenName(reserve.getgardenName());
 		
-		info.setMemberNo(Integer.parseInt( (String) session.getAttribute("memberNo")));
 		
-		try {
-			SimpleDateFormat sdf = new SimpleDateFormat("mm/dd/yyyy");
-			Date resdate = sdf.parse(reserve.getDatepicker());
-			info.setVisitDate(sdf.format(resdate));
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}
+//		try {
+//			SimpleDateFormat sdf = new SimpleDateFormat("mm/dd/yyyy");
+//			logger.info("resdate when getDate {} ", info.toString());
+//			Date resdate = sdf.parse(reserve.getDatepicker());
+//			logger.info("resdate when getDate {} ", resdate);
+			info.setVisitDate(reserve.getDatepicker());
+//		} catch (ParseException e) {
+//			e.printStackTrace();
+//		}
 	
 		info.setVisitTime(reserve.getTime());
 		if(reserve.getTime() == "moring"){
@@ -131,33 +143,40 @@ public class ReserveController {
 		info.setDisabMem(reserve.getOthers());
 		info.setTotalPrice(totalPrice);
 		
-		logger.info("totalInfo {}", info);
 		
 		// DB에 내역 저장
 		resService.saveResInfo(info); 
+		int memberNo = Integer.parseInt((String)session.getAttribute("memberNo"));
+		int resNo = resService.getReserveNo(memberNo);
+		info.setReserveNo(resNo);
+		logger.info("totalInfo {}", info);
+		resService.getQrCode(info, resNo);
 		
-		resService.getQrCode(info);
 		
-		return "redirect:/garden/reserveRes";
+		return true;
+//		return "redirect:/garden/reserveRes";
+//		return "/garden/reserveRes";
 	}	
 	
 	
-	@GetMapping(value = "/garden/reserveRes")
-	public void resultReserve(Model model) {
+	@RequestMapping(value = "/garden/reserveRes")
+	public String resultReserve(Model model) {
 		logger.info("[get] /garden/reserveRes");
 		//예약정보 불러오기 
 		int memberNo = Integer.parseInt((String)session.getAttribute("memberNo"));
 		int resNo = resService.getReserveNo(memberNo);
-
+		
+		model.addAttribute("qrCodeUrl","http://localhost:8088/qrImg/" + resService.getResInfo(resNo).getQrCode()+".png");
+		
 		ReserveInfo resInfo = resService.getResInfo(resNo);
 		model.addAttribute("resInfo", resInfo);
-		model.addAttribute("name", "abc");
 	
 		logger.info("memberNo {} ",memberNo);
 		logger.info("resNo {} ",resNo);
 		logger.info("resinfo {} ",resInfo);
+		logger.info("resinfo {} ", context.getRealPath("qrImg")+"\\"+resService.getResInfo(resNo).getQrCode()+".png");
 		
-		
+		return "/garden/reserveRes";
 	}
 	
 

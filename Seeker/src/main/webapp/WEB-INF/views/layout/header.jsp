@@ -290,10 +290,9 @@ button {
 
 
 <script type="text/javascript">
-var testuser = 'testuser' // ${ session.userid }
 
 $(document).ready(function(){
-	var username = testuser
+	var username = '${id}'
 	
 	//클라이언트 소켓 만들기 
 	var sockJS = new SockJS("/notice")
@@ -303,20 +302,27 @@ $(document).ready(function(){
 		stomp.subscribe("/sub/notice"+username, function(notice){
 		
 		var alArray = JSON.parse(notice.body)	
+		console.log(alArray)
 		
 		stomp.disconnect();
 		
-		$(".dropdown").eq(0).find("#alarm1").html(alArray[0])
-		$(".dropdown").eq(0).find("#alarm2").html(alArray[1])
-		$(".dropdown").eq(0).find("#alarm3").html(alArray[2])
-		
+		if(alArray[0]!='noPlantsWantWater'){
+			$(".dropdown").eq(0).find("#wantsWater").html("물이 먹고 싶어요.")
+			$(".dropdown").eq(0).find("#alarm1").html(alArray[0].nick)
+			if(alArray[1]!=null)
+				$(".dropdown").eq(0).find("#alarm2").html(alArray[1].nick)
+			if(alArray[2]!=null)
+				$(".dropdown").eq(0).find("#alarm3").html(alArray[2].nick)
+		}else if(alArray[0]=='noPlantsWantWater'){
+			$(".dropdown").eq(0).find("#wantsWater").html(alArray[1])
+		}
 		})
 		
 	$.ajax({
 		url: "/notice",
 		type: "get",
 		asnyc: false,
-		data: {username:testuser},
+		data: {username:username},
 // 		dataType:"JSON"
 	})
 	
@@ -626,11 +632,14 @@ function okCall(){
 			<i class="material-icons dp48">alarm_on</i>
 			<span class="header-menu-text-sm">알람</span> 
 			</span>
-			<ul class="dropdown-menu" role="menu" >
-			    <li class="dropdown-header">Nav header</li>
-				<li><div class="dropdown-item" id="alarm1" ></div></li>
-				<li><div class="dropdown-item" id="alarm2" ></div></li>
-				<li><div class="dropdown-item" id="alarm3" ></div></li>
+			<ul class="dropdown-menu" role="menu" style="width: 15em" >
+				<li><div id="wantsWater" style="text-align: center"></div></li>
+				<li> <div style="text-align: center">
+				<span class="dropdown-item" id="alarm1" ></span> 
+				<span class="dropdown-item" id="alarm2" ></span> 
+				<span class="dropdown-item" id="alarm3" ></span> 
+				</div>
+			    <li class="dropdown-header"></li>
 			    <li class="divider"></li>
 			</ul>
 		</div>

@@ -36,5 +36,11 @@
   	
   	</select>
   	
+    	
+	<insert id="saveQrName" parameterType="HashMap">
+	update gardenReserve set qr_code = #{qrImgName}
+	where reserve_no = #{resNo}
+	</insert>  
+  	
   
   </mapper>

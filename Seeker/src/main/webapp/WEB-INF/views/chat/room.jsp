@@ -2,9 +2,9 @@
     pageEncoding="UTF-8"%>
     <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
-<c:import url="/WEB-INF/views/layout/header.jsp" />
 <!DOCTYPE html>
 <html style="height:100%">
+
 
 <!-- jQuery 2.2.4 -->
 <script type="text/javascript" src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
@@ -193,7 +193,7 @@ $(document).ready(function(){
 					 })
 		}
 			 
-		if(!confirm("저장?")){ // 저장안함
+		if(!confirm("채팅 내역을 저장하시겠습니까?")){ // 저장안함
 			forcheckSaveDiv.click() 
 		} else { // 저장함 
 			pro1();
@@ -204,7 +204,7 @@ $(document).ready(function(){
 	  })//disconn end
 	
 	  $("#forcheckSaveDiv").click(function(){
-          		if (confirm("종료?")){ //종료함
+          		if (confirm("채팅을 종료하시겠습니까?")){ //종료함
      		    	onClose();
           		}
 	  })	
@@ -268,6 +268,7 @@ $(document).ready(function(){
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<c:import url="/WEB-INF/views/layout/header.jsp" />	
 </head>
 <body style="height: 100%">
 
@@ -275,14 +276,15 @@ $(document).ready(function(){
 <label>[OnLine] ${room.roomName}</label>
 </div>
 
-<div id="msgArea" style="height:75%; overflow-y:scroll; padding: 10px 10px"></div>
+<div id="msgArea" style="height:600px; overflow-y:scroll; padding: 10px 10px"></div>
+
+<div style="height: 15px"></div>
 
 <div style=" position:static; width: -webkit-fill-available;">
-	<div>
+	<div style="text-align: center;">
 		<input type="text" id="messages" placeholder="메시지를 입력하세요.">
-		<button type="button" class="btn" id="sendButton" style=" height:30px; width: 10%;" >전송</button>
+		<button type="button" class="btn" id="sendButton" style=" height:31px; width: 10%" >전송</button>
 		<div id="forcheckSaveDiv"></div> <!-- 체크용 빈 div -->
-		
 	</div>
 
 	<div style="padding: 1em">

@@ -1,6 +1,7 @@
 package web.dao.face;
 
 import java.util.List;
+import java.util.Map;
 
 import web.dto.GardenPriceDto;
 import web.dto.ReserveInfo;
@@ -42,6 +43,18 @@ public interface ReserveDao {
 	 * @param 예약번호
 	 * @return 예약내역 DTO*/
 	public ReserveInfo getResInfo(int resNo);
+
+	/**
+	 * 생성된 QR코드 이미지 경로를 예약정보DTO내에 추가로 저장한다. 
+	 * @param resNo 
+	 * @param qrImgName qr코드 이미지 이름
+	 * @param resNo 예약번호
+	 * */
+	public void saveQrName(Map map);
+	
+
+
+
 
 
 

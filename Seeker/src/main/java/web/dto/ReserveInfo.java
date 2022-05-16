@@ -12,6 +12,7 @@ public class ReserveInfo {
 	private int childMem;
 	private int disabMem;
 	private double totalPrice;
+	private int qrCode;
 	
 	
 	public int getReserveNo() {
@@ -114,13 +115,24 @@ public class ReserveInfo {
 	}
 
 
+	public int getQrCode() {
+		return qrCode;
+	}
+
+
+	public void setQrCode(int qrCode) {
+		this.qrCode = qrCode;
+	}
+
+
 	@Override
 	public String toString() {
 		return "ReserveInfo [reserveNo=" + reserveNo + ", gardenNo=" + gardenNo + ", gardenName=" + gardenName
 				+ ", memberNo=" + memberNo + ", visitDate=" + visitDate + ", visitTime=" + visitTime + ", adultMem="
-				+ adultMem + ", childMem=" + childMem + ", disabMem=" + disabMem + ", totalPrice=" + totalPrice + "]";
+				+ adultMem + ", childMem=" + childMem + ", disabMem=" + disabMem + ", totalPrice=" + totalPrice
+				+ ", qrCode=" + qrCode + "]";
 	}
-
+	
 	
 	
 }

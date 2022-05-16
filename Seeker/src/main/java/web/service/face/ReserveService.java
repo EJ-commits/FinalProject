@@ -46,7 +46,6 @@ public interface ReserveService {
 	 * @param info 
 	 * @param 예약내역
 	 * */
-	public void getQrCode(ReserveInfo info);
+	public void getQrCode(ReserveInfo info, int resNo);
 
-	
 }
