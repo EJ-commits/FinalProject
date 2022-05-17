@@ -116,7 +116,6 @@ public class AdminServiceImpl implements AdminService {
 
 	// 상품 수정
 	@Override
-
 	public void goodsUpdate(GoodsView goods, MultipartFile[] file) {
 
 		logger.info("update() - File");
@@ -126,7 +125,7 @@ public class AdminServiceImpl implements AdminService {
 
 		for (int i = 0; i < file.length; i++) {
 
-			if (file[0].getSize() <= 0) {
+			if (file[i].getSize() <= 0) {
 				logger.info("파일 크기가 0 이하, 처리 중단");
 
 				return; // 더이상 진행 안되게 막기
