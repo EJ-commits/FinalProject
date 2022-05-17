@@ -73,15 +73,15 @@ public class AdminController {
 	@RequestMapping(value = "/goods/list", method = RequestMethod.GET)
 	public void goodsList(Paging paramData, Model model) {
 		
-		logger.info("paramdata: {}", paramData);
-		//페이징 계산
-		Paging paging = adminService.getPaging( paramData );
+		Paging paging = adminService.getGoodsPaging( paramData );
 		logger.info("{}", paging);
-		
-		List<GoodsView> list = adminService.goodsList();
-		
+				
+		//회원 리스트 가져오기
+		List<GoodsView> list = adminService.goodsList(paging);
+
+		//model값 전달
+		model.addAttribute("paging", paging);		
 		model.addAttribute("list", list);
-		model.addAttribute("paging", paging);
 	}
 	
 	//상품 상세조회

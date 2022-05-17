@@ -32,6 +32,24 @@
 
 </style>
 
+<script type="text/javascript">
+$(document).ready(function(){
+	
+	//검색버튼 눌렀을 때 검색
+	$("#btnSearch").click(function(){
+		console.log("btnSearch clicked")
+		location.href="/admin/goods/list?search="+$("#search").val()+"&searchOpt="+$("#searchOpt").val();
+	})
+	
+	//검색창에서 enter키 눌렀을 때도 검색
+	$("#search").keydown(function(e){
+		if(e.keyCode == 13){//엔터키
+			location.href="/admin/goods/list?search="+$("#search").val()+"&searchOpt="+$("#searchOpt").val();
+		}
+	})
+})
+</script>
+
 
 
 <section id="container">
@@ -41,6 +59,14 @@
 	</aside>
 	<div id="container_box" class="text-center">
 	
+	<div class="pull-right form-inline" style="margin-bottom:20px;">
+	<select id="searchOpt" style="height:34px;border:1px solid #ccc;border-radius:5px;">
+		<option value="gdsNum">상품번호</option>
+		<option value="gdsName">상품이름</option>
+	</select>
+	<input type="text" id="search" class="form-control">
+	<button id="btnSearch" class="btn btn-primary">검색</button>
+	</div>
 	
 		<table>
 		
@@ -88,6 +114,69 @@
  			
 		</table>
 		
+		<!-- 상품 페이징 -->
+	<c:if test="${not empty paging.search and not empty paging.searchOpt }">
+		<c:set var="searchParam" value="&search=${paging.search }&searchOpt=${paging.searchOpt }" />
+	</c:if>
+
+	<div class="text-center">
+		<ul class="pagination pagination-sm">
+	
+		<%-- 첫 페이지로 이동 --%>
+		<c:if test="${paging.curPage ne 1 }">
+			<li><a href="/admin/goods/list${searchParam }">&larr; 처음</a></li>	
+		</c:if>
+		
+		<%-- 이전 페이징 리스트로 이동 --%>
+		<c:choose>
+		<c:when test="${paging.startPage ne 1 }">
+			<li><a href="/admin/goods/list?curPage=${paging.startPage - paging.pageCount }${searchParam }">&laquo;</a></li>
+		</c:when>
+		<c:when test="${paging.startPage eq 1 }">
+			<li class="disabled"><a>&laquo;</a></li>
+		</c:when>
+		</c:choose>
+		
+		<%-- 이전 페이지로 가기 --%>
+		<c:if test="${paging.curPage > 1 }">
+			<li><a href="/admin/goods/list?curPage=${paging.curPage - 1 }${searchParam }">&lt;</a></li>
+		</c:if>
+		
+		<%-- 페이징 리스트 --%>
+		<c:forEach begin="${paging.startPage }" end="${paging.endPage }" var="i">
+		<c:if test="${paging.curPage eq i }">
+			<li class="active"><a href="/admin/goods/list?curPage=${i }${searchParam }">${i }</a></li>
+		</c:if>
+		<c:if test="${paging.curPage ne i }">
+			<li><a href="/admin/goods/list?curPage=${i }${searchParam }">${i }</a></li>
+		</c:if>
+		</c:forEach>
+		
+	
+		<%-- 다음 페이지로 가기 --%>
+		<c:if test="${paging.curPage < paging.totalPage }">
+			<li><a href="/admin/goods/list?curPage=${paging.curPage + 1 }${searchParam }">&gt;</a></li>
+		</c:if>
+		
+		<%-- 다음 페이징 리스트로 이동 --%>
+		<c:choose>
+		<c:when test="${paging.endPage ne paging.totalPage }">
+			<li><a href="/admin/goods/list?curPage=${paging.startPage + paging.pageCount }${searchParam }">&raquo;</a></li>
+		</c:when>
+		<c:when test="${paging.endPage eq paging.totalPage }">
+			<li class="disabled"><a>&raquo;</a></li>
+		</c:when>
+		</c:choose>
+	
+		<%-- 끝 페이지로 이동 --%>
+		<c:if test="${paging.curPage ne paging.totalPage }">
+			<li><a href="/admin/goods/list?curPage=${paging.totalPage }${searchParam }">끝 &rarr;</a></li>	
+		</c:if>
+		
+		</ul>
+	</div>
+	<!-- 상품페이징 -->
+	
 	</div>
 
 

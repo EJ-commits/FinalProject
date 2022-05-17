@@ -21,13 +21,35 @@
 	</insert>
 	
 	<!-- 상품 목록 --> 
-	<select id="goodsList" parameterType="web.util.Paging" resultType="web.dto.GoodsView">
- 		SELECT
-  			gdsNum, gdsName, g.cateCode, c.cateCodeRef, c.cateName, gdsPrice, gdsStock, gdsDes, gdsDate, ImgOriginName, ImgStoredName
+	<!-- 상품 목록 --> 
+	<select id="goodsList" resultType="web.dto.GoodsView" parameterType="web.util.Paging">
+ 		SELECT * FROM (
+		SELECT rownum rnum, B.* FROM (
+		 		SELECT
+		  			gdsNum, gdsName, g.cateCode, c.cateCodeRef, c.cateName, gdsPrice, gdsStock, gdsDes, gdsDate, ImgOriginName, ImgStoredName
+		    	FROM tbl_goods g, goods_category c
+		    	WHERE g.cateCode = c.cateCode
+		    	<if test="search!=null and !search.equals('')">
+						AND ${searchOpt} LIKE '%' || #{search} || '%' 
+				</if>
+		        ORDER BY gdsNum DESC
+        	) B
+		) BOARD
+		WHERE rnum BETWEEN #{startNo } AND #{endNo }
+        
+	</select>
+	
+		
+	<!-- 상품 게시판의 상품수 -->
+	<select id="selectProductCntAll" resultType="int" parameterType="web.util.Paging">	
+		SELECT
+				count(*)
     	FROM tbl_goods g, goods_category c
     	WHERE g.cateCode = c.cateCode
+    	<if test="search!=null and !search.equals('')">
+				AND ${searchOpt} LIKE '%' || #{search} || '%' 
+		</if>
         ORDER BY gdsNum DESC
- 
 	</select>
 	
 	
