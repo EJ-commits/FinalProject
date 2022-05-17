@@ -52,8 +52,7 @@ public class ShopController {
 	//상품 목록
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
 	public void getList(@RequestParam("c") int cateCode,
-						@RequestParam("L") int level, Model model,
-						HttpSession session) {
+						@RequestParam("L") int level, Model model) {
 		logger.info("/shop/list [GET]");
 		
 		logger.info("cateCode : {}", cateCode);
