@@ -49,6 +49,7 @@ aside#aside li > ul.low li { width:180px; }
 
 <style>
  div.goods div.goodsImg { float:left; width:350px; }
+/* .orgImg{ width:500px; } */
  div.goods div.goodsImg img { width:350px; height:auto; }
  
  div.goods div.goodsInfo { float:right; width:330px; font-size:22px; }
@@ -104,6 +105,8 @@ aside#aside li > ul.low li { width:180px; }
   			<p class="gdsStock">
    				<span>재고 </span><fmt:formatNumber pattern="###,###,###" value="${view.gdsStock}" /> EA
   			</p>
+  			
+  			<c:if test="${view.gdsStock != 0}">
   
   			<p class="cartStock">
  				<span>구입 수량</span>
@@ -136,6 +139,11 @@ aside#aside li > ul.low li { width:180px; }
 				 </script>
  
 			</p>
+			</c:if>
+			
+			<c:if test="${view.gdsStock == 0 }">
+				<p>상품 수량이 부족합니다.</p>
+			</c:if>
   			
   			<p class="addToCart">
  			<button type="button" class="addCart_btn">장바구니에 담기</button>
@@ -179,7 +187,11 @@ aside#aside li > ul.low li { width:180px; }
 			</p>
  		</div>
  
- 			<div class="gdsDes">${view.gdsDes}</div>
+ 			<div class="gdsDes">${view.gdsDes}<br><br>
+ 			</div>
+ 			<img src="<%=request.getContextPath() %>/upload/${view.imgStoredName2 }" 
+			 	alt="그림을 불러오지못함" width="100%" height="100%" class="oriImg2">
+ 			
 		</div>
 		</section>
 	</div>

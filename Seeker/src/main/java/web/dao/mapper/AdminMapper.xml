@@ -16,24 +16,25 @@
 	
 	<!-- 상품 등록 -->
 	<insert id="register" parameterType="web.dto.Goods">
- 		INSERT INTO tbl_goods (gdsNum, gdsName, cateCode, gdsPrice, gdsStock, gdsDes, ImgOriginName, ImgStoredName)
-     	VALUES (tbl_goods_seq.nextval, #{gdsName}, #{cateCode}, #{gdsPrice}, #{gdsStock}, #{gdsDes}, #{ImgOriginName}, #{ImgStoredName})
+ 		INSERT INTO tbl_goods (gdsNum, gdsName, cateCode, gdsPrice, gdsStock, gdsDes, ImgOriginName, ImgStoredName, ImgOriginName2, ImgStoredName2)
+     	VALUES (tbl_goods_seq.nextval, #{gdsName}, #{cateCode}, #{gdsPrice}, #{gdsStock}, #{gdsDes}, #{ImgOriginName}, #{ImgStoredName}, #{ImgOriginName2}, #{ImgStoredName2})
 	</insert>
 	
 	<!-- 상품 목록 --> 
-	<select id="goodsList" resultType="web.dto.GoodsView">
+	<select id="goodsList" parameterType="web.util.Paging" resultType="web.dto.GoodsView">
  		SELECT
   			gdsNum, gdsName, g.cateCode, c.cateCodeRef, c.cateName, gdsPrice, gdsStock, gdsDes, gdsDate, ImgOriginName, ImgStoredName
     	FROM tbl_goods g, goods_category c
     	WHERE g.cateCode = c.cateCode
         ORDER BY gdsNum DESC
+ 
 	</select>
 	
 	
 	<!-- 상품 조회 + 카테고리 조인-->
 	<select id="goodsView" resultType="web.dto.GoodsView">
  		SELECT
-     		g.gdsNum, g.gdsName, g.cateCode, c.cateCodeRef, c.cateName, gdsPrice, gdsStock, gdsDes, gdsDate,ImgOriginName, ImgStoredName
+     		g.gdsNum, g.gdsName, g.cateCode, c.cateCodeRef, c.cateName, gdsPrice, gdsStock, gdsDes, gdsDate,ImgOriginName, ImgStoredName, ImgOriginName2, ImgStoredName2
         FROM tbl_goods g, goods_category c                        
         WHERE g.cateCode = c.cateCode  
         AND g.gdsNum = #{gdsNum}
@@ -49,7 +50,9 @@
          gdsStock = #{gdsStock},
          gdsDes = #{gdsDes},
          ImgOriginName = #{ImgOriginName},
-         ImgStoredName = #{ImgStoredName}
+         ImgStoredName = #{ImgStoredName},
+         ImgOriginName2 = #{ImgOriginName2},
+         ImgStoredName2 = #{ImgStoredName2}
      	WHERE gdsNum = ${gdsNum}
 	</update>
 	
@@ -59,6 +62,48 @@
      		tbl_goods
  		WHERE gdsNum = #{gdsNum}
 	</delete>
+	
+	<!-- 주문 목록 -->
+	<select id="orderList" resultType="web.dto.OrderList">
+ 		SELECT
+     		o.orderId, o.member_no, o.orderRec, o.addr1, o.addr2, o.addr3, o.phone, o.amount, o.orderDate, o.imp_uid, o.merchant_uid, o.paid_amount, o.apply_num, o.delivery,
+     		d.orderDetailsNum, d.gdsNum, d.cartStock,
+     		g.gdsName, g.ImgOriginName, g.ImgStoredName, g.gdsPrice
+ 		FROM tbl_order o
+ 			INNER JOIN tbl_order_details d
+             		ON o.orderId = d.orderId
+            INNER JOIN tbl_goods g
+            		ON d.gdsNum = g.gdsNum
+     	ORDER BY o.orderDate DESC
+	</select>
+	
+	<!-- 특정 주문 목록 -->
+	<select id="orderView" resultType="web.dto.OrderList">
+ 		SELECT
+     		o.orderId, o.member_no, o.orderRec, o.addr1, o.addr2, o.addr3, o.phone, o.amount, o.orderDate, o.imp_uid, o.merchant_uid, o.paid_amount, o.apply_num, o.delivery,
+     		d.orderDetailsNum, d.gdsNum, d.cartStock,
+     		g.gdsName, g.ImgOriginName, g.ImgStoredName, g.gdsPrice
+ 		FROM tbl_order o
+         		INNER JOIN tbl_order_details d
+             		ON o.orderId = d.orderId
+         		INNER JOIN tbl_goods g
+            		ON d.gdsNum = g.gdsNum
+         	WHERE o.orderId = #{orderId}
+	</select>
+	
+	<!-- 배송 상태 -->
+	<update id="delivery">
+	 	UPDATE tbl_order
+	     	SET delivery = #{delivery}
+		WHERE orderId = #{orderId}
+	</update>
+	
+	<!-- 상품 수량 조절 -->
+	<update id="changeStock">
+	 	UPDATE tbl_goods
+	     	SET gdsStock = gdsStock - #{gdsStock}
+	 	WHERE gdsNum = #{gdsNum}
+	</update>
 	
 	<!-- 관리자 아이디 조회 -->
 	<select id="selectCntByadmin" parameterType="web.dto.Admin" resultType="int">

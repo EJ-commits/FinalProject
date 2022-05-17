@@ -25,20 +25,8 @@ public class ShopServiceImpl implements ShopService {
 	@Override
 	public List<GoodsView> list(int cateCode, int level) {
 		
-		int cateCodeRef = 0;
-		
-		if(level == 1) { // level 1 = 1차 분류
-			
-			cateCodeRef = cateCode;
-			return shopDao.list_1(cateCode, cateCodeRef);
-			//두 가지 모두 cateCode로 해도 무관
-			
-			
-		} else { // level 2 = 2차 분류
-			
-			return shopDao.list_2(cateCode);
-		}
-		
+		return shopDao.list_2(cateCode);
+
 	}
 
 	//상품 상세조회

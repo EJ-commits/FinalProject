@@ -3,7 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
     
-<c:import url ="../../layout/header.jsp" ></c:import>
+<c:import url ="../../layout/headerm.jsp" ></c:import>
 
 <style>
 #container_box table {width: 900px;}
@@ -13,16 +13,11 @@
 #container_box table td { padding: 10px; text-align: center; }
 #container_box table img {width: 150px; height: auto;}
 
- body { font-family:'맑은 고딕', verdana; padding:0; margin:0; }
  ul { padding:0; margin:0; list-style:none;  }
 
  div#root { width:90%; margin:0 auto; }
  
- header#header { font-size:60px; padding:20px 0; }
- header#header h1 a { color:#000; font-weight:bold; }
- 
- nav#nav { padding:10px; text-align:right; }
- nav#nav ul li { display:inline-block; margin-left:10px; }
+
 
 /*  section#container { padding:20px 0; border-top:2px solid #eee; border-bottom:2px solid #eee; }
  section#container::after { content:""; display:block; clear:both; } */
@@ -33,8 +28,7 @@
  aside ul li a { display:block; width:100%; padding:10px 0;}
  aside ul li a:hover { background:#eee; }
  
- footer#footer { background:#f9f9f9; padding:20px; }
- footer#footer ul li { display:inline-block; margin-right:10px; }
+
 
 </style>
 
@@ -46,6 +40,7 @@
 		<c:import url ="../../layout/aside.jsp" ></c:import>
 	</aside>
 	<div id="container_box" class="text-center">
+	
 	
 		<table>
 		
@@ -99,4 +94,5 @@
 </section>
 
 
-<c:import url ="../../layout/footer.jsp" ></c:import>
+
+<c:import url ="../../layout/footerm.jsp" ></c:import>

@@ -56,6 +56,9 @@ public class ShopController {
 						HttpSession session) {
 		logger.info("/shop/list [GET]");
 		
+		logger.info("cateCode : {}", cateCode);
+		logger.info("level : {}", level);
+		
 		List<GoodsView> list = shopService.list(cateCode, level);
 		
 		model.addAttribute("list", list);

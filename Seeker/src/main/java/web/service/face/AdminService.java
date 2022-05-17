@@ -11,6 +11,8 @@ import web.dto.Category;
 import web.dto.Goods;
 import web.dto.GoodsView;
 import web.dto.Member;
+import web.dto.Order;
+import web.dto.OrderList;
 import web.dto.Reply;
 import web.util.Paging;
 
@@ -29,7 +31,7 @@ public interface AdminService {
 	 * @param goods - 등록할 상품 DTO
 	 * @param file - 등록할 상품 썸네일이미지
 	 */
-	public void register(Goods goods,  MultipartFile file);
+	public void register(Goods goods,  MultipartFile[] file);
 	
 	/**
 	 * 상품 목록 조회 
@@ -52,7 +54,7 @@ public interface AdminService {
 	 * @param goods - 새로 수정한 상품 정보
 	 * @param file - 새로 수정한 상품 썸네일이미지
 	 */
-	public void goodsUpdate(GoodsView goods, MultipartFile file);
+	public void goodsUpdate(GoodsView goods, MultipartFile[] file);
 	
 	/**
 	 * 상품 삭제
@@ -60,6 +62,36 @@ public interface AdminService {
 	 * @param goods - 삭제할 상품 정보
 	 */
 	public void goodsDelete(Goods goods);
+	
+	/**
+	 * 주문 목록
+	 * 
+	 * @param order - 주문 목록 DTO
+	 * @return 주문 목록 리스트
+	 */
+	public List<OrderList> orderList(Order order);
+	
+	/**
+	 * 주문 상세 목록
+	 * 
+	 * @param order - 주문 DTO
+	 * @return 주문 상세 목록
+	 */
+	public List<OrderList> orderView(Order order);
+	
+	/**
+	 * 주문 배송 상태 변경
+	 * 
+	 * @param order - 주문 배송 상태 DTO
+	 */
+	public void delivery(Order order);
+	
+	/**
+	 * 주문 완료 시, 상품 수량 조절
+	 * 
+	 * @param goods - 수량 조절할 DTO
+	 */
+	public void changeStock(Goods goods);
 
 	/**
 	 * 관리자 로그인

@@ -23,6 +23,8 @@ import web.dto.Category;
 import web.dto.Goods;
 import web.dto.GoodsView;
 import web.dto.Member;
+import web.dto.Order;
+import web.dto.OrderList;
 import web.dto.Reply;
 import web.service.face.AdminService;
 import web.util.Paging;
@@ -55,7 +57,11 @@ public class AdminController {
 	//상품등록
 	@Transactional
 	@RequestMapping(value = "/goods/register", method = RequestMethod.POST)
-	public String goodsRegisterProc(Goods goods, MultipartFile file) {
+	public String goodsRegisterProc(Goods goods, @RequestParam("file") MultipartFile[] file) {
+	
+		logger.info("file : {}", file[0]);
+		logger.info("file : {}", file[1]);
+		
 		adminService.register(goods, file);
 		
 		logger.info("goods : {}", goods);
@@ -65,11 +71,17 @@ public class AdminController {
 	
 	//상품목록
 	@RequestMapping(value = "/goods/list", method = RequestMethod.GET)
-	public void goodsList(Model model) {
+	public void goodsList(Paging paramData, Model model) {
+		
+		logger.info("paramdata: {}", paramData);
+		//페이징 계산
+		Paging paging = adminService.getPaging( paramData );
+		logger.info("{}", paging);
 		
 		List<GoodsView> list = adminService.goodsList();
 		
 		model.addAttribute("list", list);
+		model.addAttribute("paging", paging);
 	}
 	
 	//상품 상세조회
@@ -97,7 +109,7 @@ public class AdminController {
 	//상품 수정 POST
 	@Transactional
 	@RequestMapping(value = "/goods/update", method = RequestMethod.POST)
-	public String goodsUpdateProc(GoodsView goods, MultipartFile file) {
+	public String goodsUpdateProc(GoodsView goods, MultipartFile[] file) {
 		
 		logger.info("/admin/goods/update [POST]");
 		logger.info("goods : {}", goods);
@@ -117,6 +129,46 @@ public class AdminController {
 		
 		return "redirect:/admin/goods/list";
 	}
+	
+	//주문 목록
+	@RequestMapping(value = "/goods/orderList", method = RequestMethod.GET)
+	public void getOrderList(HttpSession session, Order order, Model model) {
+		
+		List<OrderList> orderList = adminService.orderList(order);
+		
+		model.addAttribute("orderList", orderList);
+	}
+	
+	//주문 상세 목록
+	@RequestMapping(value = "/goods/orderView", method = RequestMethod.GET)
+	public void getOrderList(HttpSession session, @RequestParam("n") String orderId, Order order, Model model) {
+		
+		order.setOrderId(orderId);
+		
+		List<OrderList> orderView = adminService.orderView(order);
+		
+		model.addAttribute("orderView", orderView);
+	}
+	
+	// 주문 상세 목록 - 상태 변경
+	@Transactional
+	@RequestMapping(value = "/goods/orderView", method = RequestMethod.POST)
+	public String delivery(Order order) {
+	   
+	 adminService.delivery(order);
+	 
+	 List<OrderList> orderView = adminService.orderView(order);
+	 Goods goods = new Goods();
+	 
+	 for(OrderList i : orderView) {
+		 goods.setGdsNum(i.getGdsNum());
+		 goods.setGdsStock(i.getCartStock());
+		 adminService.changeStock(goods);
+	 }
+
+	 return "redirect:/admin/goods/orderView?n=" + order.getOrderId();
+	}
+	
 	
 	//--------------------------------------------------------------------
 	

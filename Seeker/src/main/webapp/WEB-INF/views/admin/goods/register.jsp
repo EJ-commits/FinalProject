@@ -3,7 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
     
-<c:import url ="../../layout/header.jsp" ></c:import>
+<c:import url ="../../layout/headerm.jsp" ></c:import>
 
 
 <!-- 스마트 에디터 2 로드 -->
@@ -43,40 +43,41 @@ $(document).ready(function() {
 </script>
 
 <style>
- body { font-family:'맑은 고딕', verdana; padding:0; margin:0; }
  ul { padding:0; margin:0; list-style:none;  }
 
  div#root { width:90%; margin:0 auto; }
  
- header#header { font-size:60px; padding:20px 0; }
- header#header h1 a { color:#000; font-weight:bold; }
  
  nav#nav { padding:10px; text-align:right; }
  nav#nav ul li { display:inline-block; margin-left:10px; }
 
- section#container { padding:20px 0; border-top:2px solid #eee; border-bottom:2px solid #eee; }
- section#container::after { content:""; display:block; clear:both; }
+/*  section#container { padding:20px 0; border-top:2px solid #eee; border-bottom:2px solid #eee; }
+ section#container::after { content:""; display:block; clear:both; } */
  aside { float:left; width:200px; }
- div#container_box { float:right; width:calc(100% - 200px - 20px); }
+ div#container_box { float:right; width:calc(100% - 200px - 180px); }
  
  aside ul li { text-align:center; margin-bottom:10px; }
  aside ul li a { display:block; width:100%; padding:10px 0;}
  aside ul li a:hover { background:#eee; }
  
- footer#footer { background:#f9f9f9; padding:20px; }
- footer#footer ul li { display:inline-block; margin-right:10px; }
  
  .inputArea { margin:10px 0; }
  select { width:100px; }
- label { display:inline-block; width:70px; padding:5px; }
- label[for='gdsDes'] { display:block; }
+ label { display:inline-block; width:100px; padding:5px; }
+ /* label[for='gdsDes'] { display:block; } */
  input { width:150px; }
- textarea#gdsDes { width:400px; height:180px; }
- 
+ textarea#gdsDes { width:400px; height:180px;}
  .select_img img {margin: 20px 0;}
+ p {display:inline-block;}
  
 </style>
 
+<div id="wrap-box-top">
+	<div><a href="/admin/goods/list"><span class="glyphicon glyphicon-arrow-left"></span>&nbsp;상품 리스트</a></div>
+	<div id="title-box">상품 상세보기</div>
+	<div></div>
+	</div>
+<div id="wrap-box">
 
 
 <section id="container">
@@ -118,13 +119,18 @@ $(document).ready(function() {
 
 			<div class="inputArea">
  				<label for="gdsDes">상품소개</label>
+ 
  				<textarea rows="5" cols="50" id="gdsDes" name="gdsDes"></textarea>
+ 			
 			</div>
 			
 			<div class="inputArea">
- 				<label for="ImgOriginName">이미지</label>
-				 <input type="file" id="ImgOriginName" name="file" />
+ 				<label for="ImgOriginName">썸네일 이미지</label>
+				 <input type="file" id="ImgOriginName" name="file" multiple="multiple" />
  			<div class="select_img"><img src="" /></div>
+ 				<label for="ImgOriginName">설명 이미지</label>
+				 <input type="file" id="ImgOriginName2" name="file" multiple="multiple" />
+ 			<div class="select_img2"><img src="" /></div>
  
  			<script>
  			//어떤 이미지인지 미리보기
@@ -135,6 +141,17 @@ $(document).ready(function() {
     				var reader = new FileReader;
     				reader.onload = function(data) {
      					$(".select_img img").attr("src", data.target.result).width(500);        
+    				}
+    			reader.readAsDataURL(this.files[0]);
+   				}
+  			});
+  			$("#ImgOriginName2").change(function(){
+  				
+  				//앞에께 true인 경우, 뒤에꺼 반환 // 앞에께 false인 경우, 앞에꺼 반환 
+   				if(this.files && this.files[0]) {
+    				var reader = new FileReader;
+    				reader.onload = function(data) {
+     					$(".select_img2 img").attr("src", data.target.result).width(500);        
     				}
     			reader.readAsDataURL(this.files[0]);
    				}
@@ -154,7 +171,7 @@ $(document).ready(function() {
 
 
 </section>
-
+</div>
 
 <script>
 // 가격과 수량에서 숫자가 아닌 데이터는 받지 않기
@@ -258,4 +275,4 @@ nhn.husky.EZCreator.createInIFrame({
 	, fCreator: "createSEditor2"
 })
 </script> 
-<c:import url ="../../layout/footer.jsp" ></c:import>
+<c:import url ="../../layout/footerm.jsp" ></c:import>

@@ -12,14 +12,16 @@ public class Goods {
 	private String gdsDes; //설명
 	private Date gdsDate; //등록날짜
 	
-	private String ImgOriginName; //이미지 원본이름
-	private String ImgStoredName; //이미지 저장이름
-	
+	private String ImgOriginName; //썸네일이미지 원본이름
+	private String ImgStoredName; //썸네일이미지 저장이름
+	private String ImgOriginName2; //설명이미지 원본이름
+	private String ImgStoredName2; //설명이미지 저장이름
 	@Override
 	public String toString() {
 		return "Goods [gdsNum=" + gdsNum + ", gdsName=" + gdsName + ", cateCode=" + cateCode + ", gdsPrice=" + gdsPrice
 				+ ", gdsStock=" + gdsStock + ", gdsDes=" + gdsDes + ", gdsDate=" + gdsDate + ", ImgOriginName="
-				+ ImgOriginName + ", ImgStoredName=" + ImgStoredName + "]";
+				+ ImgOriginName + ", ImgStoredName=" + ImgStoredName + ", ImgOriginName2=" + ImgOriginName2
+				+ ", ImgStoredName2=" + ImgStoredName2 + "]";
 	}
 	public int getGdsNum() {
 		return gdsNum;
@@ -75,6 +77,20 @@ public class Goods {
 	public void setImgStoredName(String imgStoredName) {
 		ImgStoredName = imgStoredName;
 	}
+	public String getImgOriginName2() {
+		return ImgOriginName2;
+	}
+	public void setImgOriginName2(String imgOriginName2) {
+		ImgOriginName2 = imgOriginName2;
+	}
+	public String getImgStoredName2() {
+		return ImgStoredName2;
+	}
+	public void setImgStoredName2(String imgStoredName2) {
+		ImgStoredName2 = imgStoredName2;
+	}
+	
+	
 	
 	
 	

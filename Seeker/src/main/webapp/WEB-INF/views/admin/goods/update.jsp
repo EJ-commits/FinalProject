@@ -3,7 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
     
-<c:import url ="../../layout/header.jsp" ></c:import>
+<c:import url ="../../layout/headerm.jsp" ></c:import>
 
 <!-- 스마트 에디터 2 로드 -->
 <script type="text/javascript" src="/resources/se2/js/service/HuskyEZCreator.js"></script>
@@ -51,49 +51,50 @@ $(document).ready(function() {
 </script>
 
 <style>
- body { font-family:'맑은 고딕', verdana; padding:0; margin:0; }
  ul { padding:0; margin:0; list-style:none;  }
 
  div#root { width:90%; margin:0 auto; }
  
- header#header { font-size:60px; padding:20px 0; }
- header#header h1 a { color:#000; font-weight:bold; }
  
  nav#nav { padding:10px; text-align:right; }
  nav#nav ul li { display:inline-block; margin-left:10px; }
 
- section#container { padding:20px 0; border-top:2px solid #eee; border-bottom:2px solid #eee; }
- section#container::after { content:""; display:block; clear:both; }
+/* section#container { padding:20px 0; border-top:2px solid #eee; border-bottom:2px solid #eee; }
+ section#container::after { content:""; display:block; clear:both; }  */
  aside { float:left; width:200px; }
- div#container_box { float:right; width:calc(100% - 200px - 20px); }
+ div#container_box { float:right; width:calc(100% - 200px - 180px); }
  
  aside ul li { text-align:center; margin-bottom:10px; }
  aside ul li a { display:block; width:100%; padding:10px 0;}
  aside ul li a:hover { background:#eee; }
  
- footer#footer { background:#f9f9f9; padding:20px; }
- footer#footer ul li { display:inline-block; margin-right:10px; }
- 
  .inputArea { margin:10px 0; }
  select { width:100px; }
  label { display:inline-block; width:70px; padding:5px; }
- label[for='gdsDes'] { display:block; }
+/*  label[for='gdsDes'] { display:block; }  */
  input { width:150px; }
- textarea#gdsDes { width:400px; height:180px; }
+ textarea#gdsDes { width:400px; height:180px;}
  
   .select_img img {margin: 20px 0;}
+  .select_img2 img {margin: 20px 0;}
+ p{display:inline-block;}
  
 </style>
 
-
+	<div id="wrap-box-top">
+	<div><a href="/admin/goods/list"><span class="glyphicon glyphicon-arrow-left"></span>&nbsp;상품 리스트</a></div>
+	<div id="title-box">상품 상세보기</div>
+	<div></div>
+	</div>
+<div id="wrap-box">
 
 <section id="container">
 
 	<aside>
 		<c:import url ="../../layout/aside.jsp" ></c:import>
 	</aside>
+	
 	<div id="container_box">
-		<h2>상품 수정</h2>
 		
 		<form action="/admin/goods/update" method="post" enctype="multipart/form-data">
 		
@@ -175,17 +176,24 @@ $(document).ready(function() {
 			<!-- el은 첫번째 문자를 소문자로 해주면 에러가 나지않는다. ImgStoredName -> X, imgStoredName O -->
 			<div>
 			<c:if test="${not empty goods }">
+			<p>썸네일 이미지</p>
 			<img src="<%=request.getContextPath() %>/upload/${goods.imgStoredName }" 
 			 	alt="그림을 불러오지못함" width="50%" height="50%" class="oriImg"><br>
-			<a href="<%=request.getContextPath() %>/upload/${goods.imgStoredName }">
-			</a>
+			<p>설명 이미지</p>
+			<img src="<%=request.getContextPath() %>/upload/${goods.imgStoredName2 }" 
+			 	alt="그림을 불러오지못함" width="50%" height="50%" class="oriImg"><br>
 			</c:if>
 			</div>
 			
 			<div class="inputArea">
- 				<label for="ImgOriginName">새 파일</label>
+ 				<label for="ImgOriginName"></label>
+ 				<p>새 썸네일이미지</p>
 				 <input type="file" id="ImgOriginName" name="file" />
  			<div class="select_img"><img src="" /></div>
+ 				<label for="ImgOriginName"></label>
+ 				<p>새 설명이미지</p>
+				 <input type="file" id="ImgOriginName2" name="file" />
+ 			<div class="select_img2"><img src="" /></div>
  			<small>** 새로운 파일로 첨부하면 기존 파일은 삭제됩니다</small>
  
  			<script>
@@ -197,6 +205,18 @@ $(document).ready(function() {
     				var reader = new FileReader;
     				reader.onload = function(data) {
      					$(".select_img img").attr("src", data.target.result).width(500);        
+    				}
+    			reader.readAsDataURL(this.files[0]);
+   				}
+  			});
+ 			
+  			$("#ImgOriginName2").change(function(){
+  				
+  				//앞에께 true인 경우, 뒤에꺼 반환 // 앞에께 false인 경우, 앞에꺼 반환 
+   				if(this.files && this.files[0]) {
+    				var reader = new FileReader;
+    				reader.onload = function(data) {
+     					$(".select_img2 img").attr("src", data.target.result).width(500);        
     				}
     			reader.readAsDataURL(this.files[0]);
    				}
@@ -218,7 +238,7 @@ $(document).ready(function() {
 
 
 </section>
-
+</div>
 <script>
 // 가격과 수량에서 숫자가 아닌 데이터는 받지 않기
 //상품 가격과 상품 수량에 숫자가 아닌 다른 문자를 입력하려고하면, 곧바로 지워지게됨
@@ -344,4 +364,4 @@ nhn.husky.EZCreator.createInIFrame({
 </script> 
 
 
-<c:import url ="../../layout/footer.jsp" ></c:import>
+<c:import url ="../../layout/footerm.jsp" ></c:import>

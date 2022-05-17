@@ -10,6 +10,8 @@ import web.dto.Category;
 import web.dto.Goods;
 import web.dto.GoodsView;
 import web.dto.Member;
+import web.dto.Order;
+import web.dto.OrderList;
 import web.dto.Reply;
 import web.util.Paging;
 
@@ -57,6 +59,36 @@ public interface AdminDao {
 	 * @param goods - 삭제할 상품 정보
 	 */
 	public void goodsDelete(Goods goods);
+	
+	/**
+	 * 주문 목록
+	 * 
+	 * @param order - 주문 목록 DTO
+	 * @return 주문 목록 리스트
+	 */
+	public List<OrderList> orderList(Order order);
+	
+	/**
+	 * 주문 상세 목록
+	 * 
+	 * @param order - 주문 DTO
+	 * @return 주문 상세 목록
+	 */
+	public List<OrderList> orderView(Order order);
+	
+	/**
+	 * 주문 배송 상태 변경
+	 * 
+	 * @param order - 주문 배송 상태 DTO
+	 */
+	public void delivery(Order order);
+	
+	/**
+	 * 주문 완료 시, 상품 수량 조절
+	 * 
+	 * @param goods - 수량 조절할 DTO
+	 */
+	public void changeStock(Goods goods);
 
 	/**
 	 * 데이터베이스에 form에서 보낸 데이터와 일치하는 아이디, 패스워드 확인
