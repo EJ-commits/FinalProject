@@ -3,8 +3,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:import url="/WEB-INF/views/layout/headerm.jsp" />
 
-<style> 
-table th, td{text-align: center;}
+<style>
+ 	table th, td{text-align: center;} 
 </style>
 
 <script type="text/javascript">

@@ -32,19 +32,11 @@ public interface AdminDao {
 	public void register(Goods goods);
 	
 	/**
-	 * 상품을 조회한다
-	 * @param paramData 페이징 객체
-	 * @return 상품갯수
-	 */
-	public int selectProductCntAll(Paging paramData);
-
-
-	/**
 	 * 상품 목록 조회
 	 * 
 	 * @return - 상품 목록 List
 	 */
-	public List<GoodsView> goodsList(Paging paging);
+	public List<GoodsView> goodsList();
 	
 	/**
 	 * 상품 상세조회 + 카테고리 조인

@@ -34,6 +34,13 @@ public interface AdminService {
 	public void register(Goods goods,  MultipartFile[] file);
 	
 	/**
+	 * 상품 목록 조회 
+	 * 
+	 * @return - 상품 목록 List
+	 */
+	public List<GoodsView> goodsList();
+	
+	/**
 	 * 상품 상세조회 + 카테고리 조인
 	 * 
 	 * @param gdsNum - 상세보기 하려는 상품 번호
@@ -85,20 +92,6 @@ public interface AdminService {
 	 * @param goods - 수량 조절할 DTO
 	 */
 	public void changeStock(Goods goods);
-	
-	/**
-	 * 상품 페이징 객체 생성
-	 * @param paramData curPage를 저장하고있는 객체
-	 * @return 계산이 완료된 Paging객체
-	 */
-	public Paging getGoodsPaging(Paging paramData);
-
-	/**
-	 * 상품 목록 조회 
-	 * 
-	 * @return - 상품 목록 List
-	 */
-	public List<GoodsView> goodsList(Paging paging);
 
 	/**
 	 * 관리자 로그인

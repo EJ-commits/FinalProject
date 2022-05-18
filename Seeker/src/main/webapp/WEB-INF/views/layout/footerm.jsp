@@ -12,8 +12,8 @@
 }
 
 #footer > div {
- 	width : 300px; 
-	height : 25px; 
+	width : 300px;
+	height : 25px;
 	text-align : center;
 }
 
