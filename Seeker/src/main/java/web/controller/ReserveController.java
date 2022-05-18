@@ -74,10 +74,10 @@ public class ReserveController {
 		String garden = reserve.getgardenName();
 		double totalPrice = 0;
 		
-		if(garden != "noneChecked") {
+		if(!(garden.equals( "noneChecked"))) {
 			GardenPriceDto gardenPrice = resService.getGardenPrice(garden);
-			if((reserve.getAdult() == 0)&&(reserve.getChild() == 0)&&(reserve.getOthers() == 0))
-				totalPrice= reserve.getAdult()*gardenPrice.getAdult() +
+			if( !((reserve.getAdult() == 0)&&(reserve.getChild() == 0)&&(reserve.getOthers() == 0)) ) {
+				totalPrice= (reserve.getAdult()*gardenPrice.getAdult()) +
 								reserve.getChild()*gardenPrice.getchildren()+
 								reserve.getOthers()*gardenPrice.getRest();
 				if(reserve.getTime().equals("morning")){
@@ -86,11 +86,14 @@ public class ReserveController {
 					totalPrice = totalPrice * 1.2;
 				}
 				model.addAttribute("totalPrice",totalPrice);
-		}else {
-			totalPrice = 0;
-			logger.info("totalPrice {}", totalPrice);
-			model.addAttribute("totalPrice", 0); 	
+			}else {
+				totalPrice = 0;
+				logger.info("totalPrice {}", totalPrice);
+				model.addAttribute("totalPrice", 0);
+			}	
 		}
+		
+		System.out.println("totalPrice"+totalPrice);
 		return "jsonView";
 	}	
 	
@@ -123,7 +126,7 @@ public class ReserveController {
 			totalPrice = 0;
 
 		}
-
+		
 		info.setGardenName(reserve.getgardenName());
 		info.setMemberNo(Integer.parseInt(String.valueOf( session.getAttribute("memberNo" )) ));
 		info.setGardenName(reserve.getgardenName());

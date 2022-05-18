@@ -138,28 +138,8 @@ a { text-decoration:none }
 	  } );
 
 	  
-//   	$("#calcBtn").click(function(){
-// 		var formValues = $("#totalThey").serialize();
-// 	  	console.log("calcBtn click");
 
-//   	 	console.log("formValues",formValues)
-// 		$.ajax({
-// 		  		url:"/garden/reserveCalc",
-// 		  		type: "post",
-// 		  		data: formValues,
-// 		  		dataType: "json",
-// 		  		success: function(res){
-// 		  			console.log("calcBtn success")
-// 		  			console.log(res)
-// 		  			$("#totalPrice").html(res.Info.totalPrice)
-// 		  		},
-// 		  		error: console.log("calcBtn error")
-//   		})
-  		
-// 	})
  
- 
- // DB 연동하여 수목원 리스트 표시 
 	// DB 연동하여 수목원 리스트 표시 
 	$.ajax({
 		url:"/garden/getGardenList",
@@ -210,7 +190,7 @@ a { text-decoration:none }
 // 		  		dataType: "json",
 		  		success: function(res){
 		  			console.log("calcBtn success")
-		  			console.log(res)
+		  			console.log("calcBtn res",res)
 		  			$("#totalPrice").html(res.totalPrice)
 		  			$("#totalPrice").append(' 원')
 		  		},
@@ -255,28 +235,51 @@ a { text-decoration:none }
 		  		error: console.log("calcBtn error")
   		})
  	})
- 
+ 	
+
+ 	
  
  }) //document.ready end
  
- 
- 
-  	function adultCount(type)  {
-	  let number = $("#adultTotal").text();
-	  if(type === 'plus') {
-	    number = parseInt(number) + 1;
-	  }else if(type === 'minus')  {
-	    number = parseInt(number) - 1;
-	  }
-	  if(number > 0){
-	  	$("#adultTotal").html('&nbsp;&nbsp;'+number+'&nbsp;&nbsp;');
-		$("#adult").attr('value',number)}
-	  else {
-		$("#adultTotal").html('&nbsp;&nbsp;'+0+'&nbsp;&nbsp;'); 
-		$("#adult").attr('value','0')}
- }
- 
+
+	function adultCount(type)  {
+		
+
+// 	 console.log($("#datepicker").val()=='')
+// 	 console.log($("input[name='gardenName']:checked").val() == 'noneChecked')
+// 	 console.log($("input[name='time']:checked").val() == 'noneChecked')
+	 
+	 if($("input[name=gardenName]:checked").val() != 'noneChecked' && 
+		$("input[name=time]:checked").val() != 'noneChecked' && 
+		$("#datepicker").val() !=''){
+	 
+		  let number = $("#adultTotal").text();
+		  console.log("number",number)
+		  if(type === 'plus') {
+		    number = parseInt(number) + 1;
+		  }else if(type === 'minus')  {
+		    number = parseInt(number) - 1;
+		  }
+		  if(number > 0){
+		  	$("#adultTotal").html('&nbsp;&nbsp;'+number+'&nbsp;&nbsp;');
+			$("#adult").attr('value',number)
+		  }
+		  else {
+			$("#adultTotal").html('&nbsp;&nbsp;'+0+'&nbsp;&nbsp;'); 
+			$("#adult").attr('value','0')
+		  }
+
+	 } else {
+		 alert("가실 수목원과 날짜, 시간을 선택해주세요")
+	 }
+	}
+
 	function childCount(type)  {
+		
+		if($("input[name=gardenName]:checked").val() != 'noneChecked' && 
+				$("input[name=time]:checked").val() != 'noneChecked' && 
+				$("#datepicker").val() !=''){
+			 
 		  let number = $("#childTotal").text();
 		  if(type === 'plus') {
 		    number = parseInt(number) + 1;
@@ -289,23 +292,34 @@ a { text-decoration:none }
 		  else{
 			$("#childTotal").html('&nbsp;&nbsp;'+0+'&nbsp;&nbsp;');  
 			$("#child").attr('value','0')}
-		}
+     }else {
+		 alert("가실 수목원과 날짜, 시간을 선택해주세요")
+	 }
+	}
 	 
-  	function disabCount(type)  {
-  	  let number = $("#disabTotal").text();
-  	  if(type === 'plus') {
-  	    number = parseInt(number) + 1;
-  	  }else if(type === 'minus')  {
-  	    number = parseInt(number) - 1;
-  	  }
-  	  if(number > 0){
-  	  	$("#disabTotal").html('&nbsp;&nbsp;'+number+'&nbsp;&nbsp;');
-		$("#disability").attr('value',number)}
-  	  else{
-  		$("#disabTotal").html('&nbsp;&nbsp;'+0+'&nbsp;&nbsp;'); 
-		$("#disability").attr('value','0')}
-  	}
-   
+	function disabCount(type)  {
+		
+		if($("input[name=gardenName]:checked").val() != 'noneChecked' && 
+			$("input[name=time]:checked").val() != 'noneChecked' && 
+			$("#datepicker").val() !=''){
+	
+		  let number = $("#disabTotal").text();
+		  if(type === 'plus') {
+		    number = parseInt(number) + 1;
+		  }else if(type === 'minus')  {
+		    number = parseInt(number) - 1;
+		  }
+		  if(number > 0){
+		  	$("#disabTotal").html('&nbsp;&nbsp;'+number+'&nbsp;&nbsp;');
+			$("#disability").attr('value',number)}
+		  else{
+			$("#disabTotal").html('&nbsp;&nbsp;'+0+'&nbsp;&nbsp;'); 
+			$("#disability").attr('value','0')}
+		}else {
+			 alert("가실 수목원과 날짜, 시간을 선택해주세요")
+		 }
+	}
+
  
 	
 
@@ -372,7 +386,7 @@ a { text-decoration:none }
 				</tr>
 				<tr>
 					<td style="height:0px">
-					<input type="radio" class="btn-check" name="time" id="noToime" value="noneChecked" autocomplete="off" checked>
+					<input type="radio" class="btn-check" name="time" id="noTime" value="noneChecked" autocomplete="off" checked>
 					</td>
 				</tr>
 			</table>
