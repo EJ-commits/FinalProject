@@ -168,8 +168,11 @@ a { text-decoration:none }
 		dataType: "json",
 		success: function(res){
 			console.log(res.gardenList.length)
+			console.log("수정 전 ",info.gardenName)
 			var str = "";
-			str += '<input style="width:0px" type="radio" name="gardenName" id="gardenNameBasic" value="noneChecked">'
+			str += '<input style="width:0px" type="radio" name="gardenName" id="gardenNameBasic" value="'
+			str += ${info.gardenName}
+			str +- '>"'
 			for(var i=0; i<res.gardenList.length; i++){
 	 			str += '<input type="radio" class="btn-check btn-block " name="gardenName" id="gardenName' 
  				str += i
@@ -226,31 +229,11 @@ a { text-decoration:none }
  
   	 	console.log("formValues",formValues)
 		$.ajax({
-		  		url:"/garden/saveReserve",
+		  		url:"/garden/modifyReserve",
 		  		type: "post",
 		  		data: formValues,
 		  		dataType: "json",
 		  		success: function(res){
-		  	 		if(res.gardenName == 'noneChecked'){
-		  	 			alert("공원을 선택해주세요")
-		  	 			return;
-		  	 		}
-		  	 		else if(res.visitDate == 'noneChecked'){	
-		  	 			alert("날짜를 선택해주세요")
-		  	 			return;
-		  	 		} 
-		  	 		else if(res.visitTime == 'noneChecked'){
-		  	 			alert("방문 시간을 선택해주세요")
-		  	 			return;
-		  	 		} 
-		  	 		else if(res.adultMem=='0' && res.childMem =='0' && res.disabMem=='0'){
-		  	 			alert("인원수를 선택해주세요")
-		  	 			return;
-		  	 		} else {
-		  			console.log(res)
-		  			console.log("calcBtn success")
-		  			window.location.replace("/garden/reserveRes")
-		  	 		}
 		  		},
 		  		error: console.log("calcBtn error")
   		})

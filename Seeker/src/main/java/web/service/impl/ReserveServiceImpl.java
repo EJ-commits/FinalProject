@@ -67,7 +67,7 @@ public class ReserveServiceImpl implements ReserveService {
 	}
 
 	@Override
-	public void getQrCode(ReserveInfo info, int resNo) {
+	public String getQrCode(ReserveInfo info, int resNo) {
 		
 		QrUtil qrUtil = new QrUtil();
 		
@@ -81,7 +81,6 @@ public class ReserveServiceImpl implements ReserveService {
 		String context = gson.toJson(info);
 		
 		String qrImgName = Integer.toString(info.getMemberNo()) + Integer.toString(info.getReserveNo());
-		
 //		File dest = new File( folder, qrImgName);
 		
 		try {
@@ -99,7 +98,8 @@ public class ReserveServiceImpl implements ReserveService {
 		map.put("resNo", resNo);
 		
 		reserveDao.saveQrName(map);
-		
+		String qrNo = (String) map.get("qrImgName");
+		return qrNo;
 	}
 
 

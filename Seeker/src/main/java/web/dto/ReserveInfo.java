@@ -12,7 +12,7 @@ public class ReserveInfo {
 	private int childMem;
 	private int disabMem;
 	private double totalPrice;
-	private int qrCode;
+	private String qrCode;
 	
 	
 	public int getReserveNo() {
@@ -115,13 +115,13 @@ public class ReserveInfo {
 	}
 
 
-	public int getQrCode() {
+	public String getQrCode() {
 		return qrCode;
 	}
 
 
-	public void setQrCode(int qrCode) {
-		this.qrCode = qrCode;
+	public void setQrCode(String qrNo) {
+		this.qrCode = qrNo;
 	}
 
 

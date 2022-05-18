@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.Mapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.google.gson.Gson;
@@ -71,22 +72,25 @@ public class ReserveController {
 		
 		logger.info("reserve {}", reserve.toString());
 		String garden = reserve.getgardenName();
-		GardenPriceDto gardenPrice = resService.getGardenPrice(garden);
+		double totalPrice = 0;
 		
-		logger.info("gardenPrice {}", gardenPrice.toString());
-		
-		double totalPrice= reserve.getAdult()*gardenPrice.getAdult() +
-						reserve.getChild()*gardenPrice.getchildren()+
-						reserve.getOthers()*gardenPrice.getRest();
-		
-		if(reserve.getTime().equals("morning")){
-			totalPrice = totalPrice * 0.8;
-		}else if(reserve.getTime().equals("night")){
-			totalPrice = totalPrice * 1.2;
+		if(garden != "noneChecked") {
+			GardenPriceDto gardenPrice = resService.getGardenPrice(garden);
+			if((reserve.getAdult() == 0)&&(reserve.getChild() == 0)&&(reserve.getOthers() == 0))
+				totalPrice= reserve.getAdult()*gardenPrice.getAdult() +
+								reserve.getChild()*gardenPrice.getchildren()+
+								reserve.getOthers()*gardenPrice.getRest();
+				if(reserve.getTime().equals("morning")){
+					totalPrice = totalPrice * 0.8;
+				}else if(reserve.getTime().equals("night")){
+					totalPrice = totalPrice * 1.2;
+				}
+				model.addAttribute("totalPrice",totalPrice);
+		}else {
+			totalPrice = 0;
+			logger.info("totalPrice {}", totalPrice);
+			model.addAttribute("totalPrice", 0); 	
 		}
-		logger.info("totalPrice {}", totalPrice);
-	
-		model.addAttribute("totalPrice",totalPrice);
 		return "jsonView";
 	}	
 	
@@ -98,45 +102,48 @@ public class ReserveController {
 	public ReserveInfo saveReserve(RequestReserve reserve, Model model) {
 		logger.info("[get] /garden/saveReserve");
 		
-		String garden = reserve.getgardenName();
-		GardenPriceDto gardenPrice = resService.getGardenPrice(garden);
-		
-		double totalPrice= reserve.getAdult()*gardenPrice.getAdult() +
-				reserve.getChild()*gardenPrice.getchildren()+
-				reserve.getOthers()*gardenPrice.getRest();
-
-		if(reserve.getTime().equals("morning")){
-			totalPrice = totalPrice * 0.8;
-		}else if(reserve.getTime().equals("night")){
-			totalPrice = totalPrice * 1.2;
-		}
-		
 		//프론트로부터 받은 예약 정보 ReserveInfo에 저장
 		ReserveInfo info = new ReserveInfo();
+		String garden = reserve.getgardenName();
+		double totalPrice = 0; // 초기값
 		
-		info.setGardenNo(gardenPrice.getGardenNo());
+	if( !garden.toString().equals("noneChecked") ) {
+		GardenPriceDto gardenPrice = resService.getGardenPrice(garden);
+			if (!( (reserve.getAdult()==0) && 
+				  (reserve.getChild()==0) && 
+				  (reserve.getOthers()==0) )) {
+					totalPrice= reserve.getAdult()*gardenPrice.getAdult() +
+					reserve.getChild()*gardenPrice.getchildren()+
+					reserve.getOthers()*gardenPrice.getRest();
+					info.setTotalPrice(totalPrice);
+			}
+			info.setGardenNo(gardenPrice.getGardenNo());
+		} else {
+			info.setGardenNo(000); //공원 선택되지 않으면 공원번호 000으로 지정
+			totalPrice = 0;
+
+		}
+
 		info.setGardenName(reserve.getgardenName());
-		
 		info.setMemberNo(Integer.parseInt(String.valueOf( session.getAttribute("memberNo" )) ));
 		info.setGardenName(reserve.getgardenName());
 		
-		
-//		try {
-//			SimpleDateFormat sdf = new SimpleDateFormat("mm/dd/yyyy");
-//			logger.info("resdate when getDate {} ", info.toString());
-//			Date resdate = sdf.parse(reserve.getDatepicker());
-//			logger.info("resdate when getDate {} ", resdate);
+
+		if(reserve.getDatepicker()!="")
 			info.setVisitDate(reserve.getDatepicker());
-//		} catch (ParseException e) {
-//			e.printStackTrace();
-//		}
-	
-		info.setVisitTime(reserve.getTime());
-		if(reserve.getTime() == "moring"){
-			totalPrice = totalPrice * 0.8;
-		}else if(reserve.getTime() == "night"){
-			totalPrice = totalPrice * 1.2;
+		else
+			info.setVisitDate("noneChecked");
+
+		if(reserve.getTime()!="") {
+			info.setVisitTime(reserve.getTime());
+			if(reserve.getTime() == "moring"){
+				totalPrice = totalPrice * 0.8;
+			}else if(reserve.getTime() == "night"){
+				totalPrice = totalPrice * 1.2;
+			}
 		}
+		else
+			info.setVisitTime("NotCheckedTime");
 	
 		info.setAdultMem(reserve.getAdult());
 		info.setChildMem(reserve.getChild());
@@ -145,12 +152,22 @@ public class ReserveController {
 		
 		
 		// DB에 내역 저장
-		resService.saveResInfo(info); 
-		int memberNo = Integer.parseInt((String.valueOf( session.getAttribute("memberNo"))));
-		int resNo = resService.getReserveNo(memberNo);
-		info.setReserveNo(resNo);
-		logger.info("totalInfo {}", info);
-		resService.getQrCode(info, resNo);
+		if(reserve.getDatepicker()!="" &&
+			reserve.getDatepicker()!="" &&
+			reserve.getTime()!="" &&
+			!( (reserve.getAdult()==0) && 
+			   (reserve.getChild())==0) && 
+			   (reserve.getOthers()==0) ) {
+					resService.saveResInfo(info); 
+					int memberNo = Integer.parseInt((String.valueOf( session.getAttribute("memberNo"))));
+					int resNo = resService.getReserveNo(memberNo);
+					info.setReserveNo(resNo);
+					
+					String qrNo = resService.getQrCode(info, resNo);
+					info.setQrCode(qrNo);
+					
+					logger.info("DB saved {}", info);
+		}
 		
 		
 		return info;
@@ -162,8 +179,9 @@ public class ReserveController {
 	@RequestMapping(value = "/garden/reserveRes")
 	public String resultReserve(Model model) {
 		logger.info("[get] /garden/reserveRes");
+		logger.info("{}",session.getAttribute("memberNo").toString());
 		//예약정보 불러오기 
-		int memberNo = Integer.parseInt((String)session.getAttribute("memberNo"));
+		int memberNo = Integer.parseInt(session.getAttribute("memberNo").toString());
 		int resNo = resService.getReserveNo(memberNo);
 		
 		model.addAttribute("qrCodeUrl","http://localhost:8088/qrImg/" + resService.getResInfo(resNo).getQrCode()+".png");
@@ -174,12 +192,92 @@ public class ReserveController {
 		logger.info("memberNo {} ",memberNo);
 		logger.info("resNo {} ",resNo);
 		logger.info("resinfo {} ",resInfo);
-		logger.info("resinfo {} ", context.getRealPath("qrImg")+"\\"+resService.getResInfo(resNo).getQrCode()+".png");
+		logger.info("resinfo {} ", "http://localhost:8088/qrImg/" + resService.getResInfo(resNo).getQrCode()+".png");
 		
 		return "/garden/reserveRes";
 	}
 	
 
+	@RequestMapping(value = "/garden/modifyReserve")
+	public ReserveInfo modifyReserve(RequestReserve reserve, Model model) {
+		logger.info("[get] /garden/modifyReserve");
+		
+		//프론트로부터 받은 예약 정보 ReserveInfo에 저장
+		ReserveInfo info = new ReserveInfo();
+		String garden = reserve.getgardenName();
+		double totalPrice = 0; // 초기값
+		
+	if( !garden.toString().equals("noneChecked") ) {
+		GardenPriceDto gardenPrice = resService.getGardenPrice(garden);
+			if (!( (reserve.getAdult()==0) && 
+				  (reserve.getChild()==0) && 
+				  (reserve.getOthers()==0) )) {
+					totalPrice= reserve.getAdult()*gardenPrice.getAdult() +
+					reserve.getChild()*gardenPrice.getchildren()+
+					reserve.getOthers()*gardenPrice.getRest();
+					info.setTotalPrice(totalPrice);
+			}
+			info.setGardenNo(gardenPrice.getGardenNo());
+		} else {
+			info.setGardenNo(000); //공원 선택되지 않으면 공원번호 000으로 지정
+			totalPrice = 0;
+
+		}
+
+		info.setGardenName(reserve.getgardenName());
+		info.setMemberNo(Integer.parseInt(String.valueOf( session.getAttribute("memberNo" )) ));
+		info.setGardenName(reserve.getgardenName());
+		
+
+		if(reserve.getDatepicker()!="")
+			info.setVisitDate(reserve.getDatepicker());
+		else
+			info.setVisitDate("noneChecked");
+
+		if(reserve.getTime()!="") {
+			info.setVisitTime(reserve.getTime());
+			if(reserve.getTime() == "moring"){
+				totalPrice = totalPrice * 0.8;
+			}else if(reserve.getTime() == "night"){
+				totalPrice = totalPrice * 1.2;
+			}
+		}
+		else
+			info.setVisitTime("NotCheckedTime");
+	
+		info.setAdultMem(reserve.getAdult());
+		info.setChildMem(reserve.getChild());
+		info.setDisabMem(reserve.getOthers());
+		info.setTotalPrice(totalPrice);
+		
+		
+		// DB에 내역 저장
+		if(reserve.getDatepicker()!="" &&
+			reserve.getDatepicker()!="" &&
+			reserve.getTime()!="" &&
+			!( (reserve.getAdult()==0) && 
+			   (reserve.getChild())==0) && 
+			   (reserve.getOthers()==0) ) {
+					resService.saveResInfo(info); 
+					int memberNo = Integer.parseInt((String.valueOf( session.getAttribute("memberNo"))));
+					int resNo = resService.getReserveNo(memberNo);
+					info.setReserveNo(resNo);
+					
+					String qrNo = resService.getQrCode(info, resNo);
+					info.setQrCode(qrNo);
+					
+					logger.info("DB saved {}", info);
+		}
+		return info;
+	}	
+	
+	
+	@RequestMapping(value = "/garden/resModify")
+	public void resModify(@RequestParam String resNo, ReserveInfo info) {
+		System.out.println("resNo"+resNo);
+		info = resService.getResInfo(Integer.parseInt(resNo));
+		
+	}
 	
 	
 }//class end	

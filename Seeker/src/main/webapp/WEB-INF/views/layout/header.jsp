@@ -293,40 +293,40 @@ button {
 
 $(document).ready(function(){
 	var username = '${id}'
-	
-	//클라이언트 소켓 만들기 
-	var sockJS = new SockJS("/notice")
-	var stomp = Stomp.over(sockJS);
-	
-	stomp.connect({},function(){
-		stomp.subscribe("/sub/notice"+username, function(notice){
+	console.log('${id}')
+	if('${id}'!='') {// 아이디가 비어있지 않다면
+		//클라이언트 소켓 만들기 
+		var sockJS = new SockJS("/notice")
+		var stomp = Stomp.over(sockJS);
 		
-		var alArray = JSON.parse(notice.body)	
-		console.log(alArray)
-		
-		stomp.disconnect();
-		
-		if(alArray[0]!='noPlantsWantWater'){
-			$(".dropdown").eq(0).find("#wantsWater").html("물이 먹고 싶어요.")
-			$(".dropdown").eq(0).find("#alarm1").html(alArray[0].nick)
-			if(alArray[1]!=null)
-				$(".dropdown").eq(0).find("#alarm2").html(alArray[1].nick)
-			if(alArray[2]!=null)
-				$(".dropdown").eq(0).find("#alarm3").html(alArray[2].nick)
-		}else if(alArray[0]=='noPlantsWantWater'){
-			$(".dropdown").eq(0).find("#wantsWater").html(alArray[1])
-		}
-		})
-		
-	$.ajax({
-		url: "/notice",
-		type: "get",
-		asnyc: false,
-		data: {username:username},
-// 		dataType:"JSON"
-	})
-	
-  })
+		stomp.connect({},function(){
+			stomp.subscribe("/sub/notice"+username, function(notice){
+			
+			var alArray = JSON.parse(notice.body)	
+			console.log(alArray)
+			
+			stomp.disconnect();
+			
+			if(alArray[0]!='noPlantsWantWater'){
+				$(".dropdown").eq(0).find("#wantsWater").html("물이 먹고 싶어요.")
+				$(".dropdown").eq(0).find("#alarm1").html(alArray[0].nick)
+				if(alArray[1]!=null)
+					$(".dropdown").eq(0).find("#alarm2").html(alArray[1].nick)
+				if(alArray[2]!=null)
+					$(".dropdown").eq(0).find("#alarm3").html(alArray[2].nick)
+			}else if(alArray[0]=='noPlantsWantWater'){
+				$(".dropdown").eq(0).find("#wantsWater").html(alArray[1])
+			}
+			})
+			
+			$.ajax({
+				url: "/notice",
+				type: "get",
+				asnyc: false,
+				data: {username:username},
+			})
+		  })
+	}//if end
 })
 
 //----------------------------------여기부터 화상통화--------------------------------------

@@ -49,6 +49,19 @@ div{color: #688331}
 	</div>
 	<br>
 	정보가 다를 경우 관리자에게 문의하세요. 
+	<br><br>
+	
+	<div>
+		<form action="/garden/resModify?resNo=${ resInfo.reserveNo}" method="get">
+<!-- 		<form action="/resModify" method="get"> -->
+<%-- 		<input type="hidden" value="${ resInfo.reserveNo}"> --%>
+		<button>수정하기</button>
+		</form>
+	</div>
+	<div style="height: 1em"></div>
+	<div>
+		<button onclick="location.href='/main'">홈으로 돌아가기</button>
+	</div>
 
 </div>
 </body>
