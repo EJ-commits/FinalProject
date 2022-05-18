@@ -102,6 +102,16 @@ public class ReserveServiceImpl implements ReserveService {
 		return qrNo;
 	}
 
+	@Override
+	public void updateResInfo(ReserveInfo info) {
+		reserveDao.updateResInfo(info);
+	}
+
+	@Override
+	public void updateQrCode(String qrNo, int resNo) {
+		reserveDao.updateResInfo(qrNo,resNo);
+	}
+
 
 
 

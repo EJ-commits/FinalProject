@@ -29,7 +29,7 @@ public class ChatHsIntcp implements HandshakeInterceptor{
 		
 		HttpSession session = req.getSession();
 		
-		String userid = (String) session.getAttribute("testuser");
+		String userid = (String) session.getAttribute("id");
 		attributes.put("HttpSession", session);
 		
 		logger.info("HandshakeInterceptor end");

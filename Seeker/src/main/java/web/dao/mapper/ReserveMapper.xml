@@ -41,6 +41,26 @@
 	update gardenReserve set qr_code = #{qrImgName}
 	where reserve_no = #{resNo}
 	</insert>  
+	
+	<update id="updateResInfo" parameterType="web.dto.ReserveInfo">
+	update gardenReserve set 
+		GARDEN_NO = #{gardenNo},
+		GARDEN_NAME = #{gardenName},
+		VISIT_DATE = #{visitDate},
+		VISIT_TIME = #{visitTime},
+		ADULT_MEM = #{adultMem},
+		CHILD_MEM = #{childMem},
+		DISAB_MEM = #{disabMem},
+		TOTAL_PRICE = #{totalPrice}
+	where reserve_no = #{reserveNo}
+		
+	</update>
+	
+	<update id="updateQrCode" parameterType="int">
+	update gardenReserve set QR_CODE = #{qrNo}
+	where  reserve_no = #{resNo}
+	
+	</update>
   	
   
   </mapper>

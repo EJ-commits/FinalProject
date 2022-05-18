@@ -21,9 +21,9 @@ div{color: #688331}
 </head>
 
 <body>
-<div style="text-align: center; font-size: 3em; margin-top:0.4em; margin-bottom: 0.4em">
-예약이 완료되었습니다! 
-</div>
+<div style="text-align: center; font-size: 2.5em; margin-top:0.4em; margin-bottom: 0.4em">
+예약이 수정되었습니다. 
+</div> 
 <div style="width:80%; margin: 0 auto; text-align: center; font-size: 1.5em">
 
 	<div style="height: 1em"></div>

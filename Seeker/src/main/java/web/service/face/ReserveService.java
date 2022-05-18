@@ -1,5 +1,6 @@
 package web.service.face;
 
+import java.util.HashMap;
 import java.util.List;
 
 import web.dto.GardenPriceDto;
@@ -48,5 +49,24 @@ public interface ReserveService {
 	 * @return 
 	 * */
 	public String getQrCode(ReserveInfo info, int resNo);
+
+	/**
+	 * 예약번호를 통해 예약 내역을 수정한다  
+	 * @param 예약번호
+	 * @return 예약내역 DTO
+	 * */
+	public void updateResInfo(ReserveInfo info);
+
+
+	/**
+	 * 예약번호를 통해 예약 QR코드 이미지 수정한다  
+	 * @param qrNo QR코드 이름 (넘버)
+	 * 		 resNo 예약번호
+	 * */
+	public void updateQrCode(String qrNo, int resNo);
+
+
+
+
 
 }

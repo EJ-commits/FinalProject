@@ -1,5 +1,6 @@
 package web.dao.face;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -51,6 +52,22 @@ public interface ReserveDao {
 	 * @param resNo 예약번호
 	 * */
 	public void saveQrName(Map map);
+
+	/**
+	 * 예약 내역을 수정(업데이트)
+	 * @param resNo 예약번호
+	 * 		  info 수정된 예약내역
+	 * */
+	public void updateResInfo(ReserveInfo info);
+
+	/**
+	 * QR코드 이미지 이름을 수정(업데이트)
+	 * @param resNo 예약번호
+	 * 		  qrNo 새 qr 코드
+	 * */
+	public void updateResInfo(String qrNo, int resNo);
+
+
 	
 
 

@@ -134,10 +134,7 @@ a { text-decoration:none }
              maxDate: "+2M"
 	    });
 	    console.log("datepicked")
-	    
 	  } );
-
-	  
 
  
 	// DB 연동하여 수목원 리스트 표시 
@@ -148,8 +145,11 @@ a { text-decoration:none }
 		dataType: "json",
 		success: function(res){
 			console.log(res.gardenList.length)
+			console.log()
 			var str = "";
-			str += '<input style="width:0px" type="radio" name="gardenName" id="gardenNameBasic" value="noneChecked">'
+			str += '<input style="width:0px" type="radio" name="gardenName" id="gardenName" value="'
+			str += "${info.gardenName}"
+			str += '">'
 			for(var i=0; i<res.gardenList.length; i++){
 	 			str += '<input type="radio" class="btn-check btn-block " name="gardenName" id="gardenName' 
  				str += i
@@ -176,8 +176,6 @@ a { text-decoration:none }
 
 	
 	//인원조정 버튼 클릭시
-	
-// 	$("#container input[type='button'], #container input[type='radio']")
 	$("#container").find("input[type='button'], input[type='radio']").click(function() {
 		var formValues = $("#totalThey").serialize();
 	  	console.log("relDetail click");
@@ -200,44 +198,31 @@ a { text-decoration:none }
 
  //예약하기 버튼을 누르면 예약정보를 DB에 저장, 동시에 예약 결과 화면으로 이동한다. 
  	$("#goToRes").click(function(){
+
 	  	console.log("goToRes click");
 	  	
  		var formValues = $("#totalThey").serialize();
+
+	  	console.log(formValues);
  
-  	 	console.log("formValues",formValues)
 		$.ajax({
-		  		url:"/garden/saveReserve",
+		  		url:"/garden/modifyReserve",
 		  		type: "post",
 		  		data: formValues,
 		  		dataType: "json",
 		  		success: function(res){
-		  	 		if(res.gardenName == 'noneChecked'){
-		  	 			alert("공원을 선택해주세요")
-		  	 			return;
-		  	 		}
-		  	 		else if(res.visitDate == 'noneChecked'){	
-		  	 			alert("날짜를 선택해주세요")
-		  	 			return;
-		  	 		} 
-		  	 		else if(res.visitTime == 'noneChecked'){
-		  	 			alert("방문 시간을 선택해주세요")
-		  	 			return;
-		  	 		} 
-		  	 		else if(res.adultMem=='0' && res.childMem =='0' && res.disabMem=='0'){
+					if(res.adultMem=='0' && res.childMem =='0' && res.disabMem=='0'){
 		  	 			alert("인원수를 선택해주세요")
 		  	 			return;
 		  	 		} else {
-		  			console.log(res)
-		  			console.log("calcBtn success")
-		  			window.location.replace("/garden/reserveRes")
-		  	 		}
-		  		},
+			  			console.log(res)
+			  			console.log("calcBtn success")
+		  				window.location.replace("/garden/modifyRes?resNo="+res.reserveNo)
+		  	 		}},
 		  		error: console.log("calcBtn error")
+		  		
   		})
- 	})
- 	
-
- 	
+ 	})//goToRes click end
  
  }) //document.ready end
  
@@ -334,6 +319,7 @@ a { text-decoration:none }
 
 
 <form name="totalThey" id="totalThey">
+<input type="hidden" name="reserveNo" value="${info.reserveNo }">
 	<div id="container" class="container modern-skin">
 
 	   <div id="gardenList" style=" height:90%; width:33%; padding-right: 3% " > 
@@ -351,7 +337,7 @@ a { text-decoration:none }
 			<div style="height: 10%"></div>
 			<div style="position:relative;  text-align: center">
 				예약하실 날짜를 선택하세요.
-				<input type="text" name="datepicker" id="datepicker" style="width:100%">
+				<input type="text" name="datepicker" id="datepicker" style="width:100%" value=${info.visitDate }>
 			</div>
 		</div>
 		<div id="ampm" style="position:relative; height: 50%; width: 100%;">
@@ -386,7 +372,7 @@ a { text-decoration:none }
 				</tr>
 				<tr>
 					<td style="height:0px">
-					<input type="radio" class="btn-check" name="time" id="noTime" value="noneChecked" autocomplete="off" checked>
+					<input type="radio" class="btn-check" name="time" id="noTime" value=${info.visitTime } autocomplete="off" checked>
 					</td>
 				</tr>
 			</table>
@@ -403,25 +389,25 @@ a { text-decoration:none }
 					<tr>
 						<th style="width: 40%; ">어른</th>
 						<td><input type='button' onclick='adultCount("plus")' value='+'/>
-							<span id='adultTotal'>&nbsp;&nbsp;0&nbsp;&nbsp;</span>
+							<span id='adultTotal'>&nbsp;&nbsp;${info. adultMem}&nbsp;&nbsp;</span>
 							<input type='button' onclick='adultCount("minus")' value='-'/>
-							<input type="hidden" name="adult" id="adult" value="0"></td>
+							<input type="hidden" name="adult" id="adult" value=${info. adultMem}></td>
 					</tr>
 					<tr style="height: 10px"></tr>
 					<tr>
 						<th style="width: 40%; ">소아</th>
 						<td><input type='button' onclick='childCount("plus")' value='+'/>
-						<span id='childTotal'>&nbsp;&nbsp;0&nbsp;&nbsp;</span>
+						<span id='childTotal'>&nbsp;&nbsp;${info. childMem}&nbsp;&nbsp;</span>
 						<input type='button' onclick='childCount("minus")' value='-'/>
-						<input type="hidden" name="child" id="child" value="0"></td>
+						<input type="hidden" name="child" id="child" value=${info. childMem}></td>
 					</tr>
 					<tr style="height: 10px"></tr>
 					<tr>
 						<th style="width: 40%; ">우대</th>
 						<td><input type='button' onclick='disabCount("plus")' value='+'/>
-						<span id='disabTotal'>&nbsp;&nbsp;0&nbsp;&nbsp;</span>
+						<span id='disabTotal'>&nbsp;&nbsp;${info. disabMem}&nbsp;&nbsp;</span>
 						<input type='button' onclick='disabCount("minus")' value='-'/>
-						<input type="hidden" name="others" id="disability" value="0"></td>
+						<input type="hidden" name="others" id="disability" value=${info. disabMem}></td>
 					</tr>
 					
 				</table>
@@ -465,7 +451,7 @@ a { text-decoration:none }
 	<div style="position: absolute; display:block; text-align: right; height:20% ;  right: 0; bottom: 0">
 	총합 
 		<span id="totalPrice"> 0 원</span> <br>
-		<button type="button" class="btn btn-info" id="goToRes">  <span style="vertical-align: middle;">예약하기</span> </button>
+		<button type="button" class="btn btn-info" id="goToRes">  <span style="vertical-align: middle;">수정하기</span> </button>
 		
 	</div>
 		</div>
