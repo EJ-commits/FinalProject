@@ -238,8 +238,6 @@ body {
 	margin : 6px 0px 0px 0px;
 }
 
-
-
 /* 여기부터 화상통화===================================== */
 #video-call-div {
     position: absolute;
@@ -288,44 +286,126 @@ button {
     overflow:scroll;
 }
 /* 여기까지 화상통화===================================== */
+
+/* 쪽지 사이드바 스타일 */
+.sidenav {
+    height:100%;
+    width: 0;
+    position: fixed;
+    z-index:1;
+    top: 0;
+    left: 0;
+    background-color: #F5F6CE;
+    overflow-x: hidden;
+    transition:0.5s ease-in-out;
+    padding-top: 60px;
+}
+.sidenav a {
+    padding: 8px 8px 8px 32px;
+    text-decoration: none;
+    font-size: 25px;
+    color: #fff;
+    display: block;
+    transition: 0.2s ease-in-out;
+}
+.sidenav a:hover, .offcanvas a:focus {
+    color: #000;
+}
+.closebtn {
+    position: absolute;
+    top: 0;
+    right: 25px;
+    font-size: 36px !important;
+    margin-left: 50px;
+}
+.openmenu:hover {
+    color:rgb(0,154,200);
+    transition:0.5s ease-in-out;
+}
+.openmenu {
+    font-size: 25px;
+    cursor:pointer;
+    transition:0.5s ease-in-out;
+}
+.openmenu > i {
+    font-size: 30px;
+}
+/* 미디어쿼리 적용 */
+@media screen and (max-height:450px) {
+    .sidenav {
+        padding-top:15px;
+    }
+    .sidenav a {
+        font-size: 18px;
+    }
+}
+ 
+.letter {
+    margin-left : 20px;
+    border : 1px solid white;
+    background-color : white;
+    margin-bottom : 10px;
+    display :inline-block;
+    width : 300px;
+    height : 150px;
+}
+.letter .header {
+    background-color : #e60e45;
+    font-color : white;
+}
+ 
+#mssage_send_btn {
+    float : left;
+    margin-top : -50px;
+    margin-left : 10px;
+    height :35px;
+}
+ 
+.msg_form .modal-body table tbody tr {
+    margin-bottom : 20px;
+}
 </style>
 
 
 <script type="text/javascript">
-var testuser = 'testuser' // ${ session.userid }
 
 $(document).ready(function(){
-	var username = testuser
-	
-	//클라이언트 소켓 만들기 
-	var sockJS = new SockJS("/notice")
-	var stomp = Stomp.over(sockJS);
-	
-	stomp.connect({},function(){
-		stomp.subscribe("/sub/notice"+username, function(notice){
+	var username = '${id}'
+	console.log('${id}')
+	if('${id}'!='') {// 아이디가 비어있지 않다면
+		//클라이언트 소켓 만들기 
+		var sockJS = new SockJS("/notice")
+		var stomp = Stomp.over(sockJS);
 		
-		var alArray = JSON.parse(notice.body)	
-		
-		stomp.disconnect();
-		
-		$(".dropdown").eq(0).find("#alarm1").html(alArray[0])
-		$(".dropdown").eq(0).find("#alarm2").html(alArray[1])
-		$(".dropdown").eq(0).find("#alarm3").html(alArray[2])
-		
-		})
-		
-	$.ajax({
-		url: "/notice",
-		type: "get",
-		asnyc: false,
-		data: {username:testuser},
-// 		dataType:"JSON"
-	})
-	
-  })
+		stomp.connect({},function(){
+			stomp.subscribe("/sub/notice"+username, function(notice){
+			
+			var alArray = JSON.parse(notice.body)	
+			console.log(alArray)
+			
+			stomp.disconnect();
+			
+			if(alArray[0]!='noPlantsWantWater'){
+				$(".dropdown").eq(0).find("#wantsWater").html("물이 먹고 싶어요.")
+				$(".dropdown").eq(0).find("#alarm1").html(alArray[0].nick)
+				if(alArray[1]!=null)
+					$(".dropdown").eq(0).find("#alarm2").html(alArray[1].nick)
+				if(alArray[2]!=null)
+					$(".dropdown").eq(0).find("#alarm3").html(alArray[2].nick)
+			}else if(alArray[0]=='noPlantsWantWater'){
+				$(".dropdown").eq(0).find("#wantsWater").html(alArray[1])
+			}
+			})
+			
+			$.ajax({
+				url: "/notice",
+				type: "get",
+				asnyc: false,
+				data: {username:username},
+			})
+		  })
+	}//if end
 })
-
-
 
 //----------------------------------여기부터 화상통화--------------------------------------
 
@@ -581,7 +661,252 @@ function okCall(){
 }
 
 //----------------------------------여기부터 화상통화--------------------------------------
+
 </script>
+
+<!-- ----------------------------------여기부터 쪽지-------------------------------------- -->
+
+<script src="/resources/js/sockjs.min.js"></script>
+<html>
+
+<span id="recMs" onclick="openNav()" name="recMs" style="float:right;cursor:pointer;margin-right:10px;color:pink;"><img src="/resources/img/msgicon.png" id="messageImage" style="opacity :0.3;width:15px;"></span>
+    <!-- <form id="chatForm">
+        <div class="chat_start_main">
+            상담 CHAT
+        </div>
+        <div class="chat_main" style="display:none;">
+            <div class="modal-header" style="height:20%;">
+                상담 CHAT 
+            </div>
+            <div class="modal-content" id="chat" style="height:60%;">
+                
+            </div>
+            <div class="modal-footer">
+                <input type="text" id="message" class="form-control" style="height:20%;" placeholder="메세지를 입력하세요"/>    
+            </div>
+        </div> 
+        <button class="">send</button> 
+    </form> -->
+<div id="mysidenav" class="sidenav">
+        <a href="#" class="closebtn" onclick='closeNav()'>x</a>
+        <div id="mssage_send_btn" name="mssage_send_btn" class="btn btn-warning"><p>쪽지 보내기</p></div>
+        <!--  <div id="bbb" name="mssage_send_btn" class="btn btn-warning"><p>쪽지</p></div> -->
+    </div>
+    
+<div class="modal fade momo" id="MsgForm" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header fn-font">
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">X</span>
+                    </button>
+                </div>
+                <form class="msg_form">
+                    <!-- <input type="hidden" id="flag" name="flag" value="insert"/> -->
+                    <input type="hidden" id="memberNo" name="memberNo" value="${memberNo}"/>
+                    <div class="modal-body fn-font">
+                        <table>
+                            <colgroup>
+                                <col style="width:150px;"/>
+                                <col style="width:px;"/>
+                            </colgroup>
+                            <tbody>
+                                <tr>
+                                    <th>작성자</th>
+                                    <th><input type="text" id="senderName" name="senderName" class="form-control" value="<c:out value='${id}'/>" readonly/></th>
+                                </tr>
+                                <tr>
+                                    <th>받는 사람</th>
+                                    <th>
+                                        <select id="receiverName" name="receiverName" class="form-control user" value="">
+                                            
+                                                <option value="">전체</option>
+                                            
+                                        </select>
+                                    </th>
+                                </tr>
+                                <tr>
+                                    <th>제목</th>
+                                    <th><input type="text" id="msTitle" name="msTitle" class="form-control" value=""/></th>
+                                    
+                                </tr>
+                                <tr>
+                                    <th>내용</th>
+                                    <th><textArea id="msContent" name="msContent" class="form-control"></textArea></th>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </form>
+                <div class="modal-footer fn-font">
+                    <button class="btn" type="button" id="msg_submit">SEND</button>
+                    <button class="btn" type="button" data-dismiss="modal">NO</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<script>
+$(document).ready(function() {
+	//$("#bbb").click(function(){
+	$.ajax({
+		type:"get",
+        dataType:"json",
+        url:"/layout/header",
+        success:function(userList){
+        	
+        	console.log(userList);
+
+        	for(let i = 0; i<userList.length; i++) {
+        		console.log(userList[i].id);
+        		
+        		var userSelect = $("select.user");
+        		
+        		userSelect.append("<option value='" + userList[i].id + "'>"
+						+ userList[i].id + "</option>");
+        		
+        	}
+    
+      
+        },
+        error:function(){
+        	//'<c:set var="userList" value="userList"/>'
+        	console.log("에러러러러러ㅓ" );
+      
+        }
+	})
+	//})
+});
+
+</script>
+
+<script>
+
+function openNav() {
+    document.getElementById('mysidenav').style.width = '350px';
+    $.ajax({
+        type:"post",
+        dataType:"json",
+        url:"/message/list",
+        data :{
+            receiverName : '${id}'
+        },
+        success:function(data){
+            var i =1;
+            var dataset = data.result;
+            
+            
+            dataset.forEach(function(row){
+            	// 메세지를 호출해와야 하기 때문에 $.ajax를 통해 receiverName으로 온 메세지들을 모두 불러온다
+            	//해당 if 조건절의 length 는 div의 ID값이 데이터베이스에서 AUTO INCREMENT 되는 값이기 때문에,
+				//div 아이디를 토대로 중복으로 html 요소가 생성되지 않도록 하는 구문이다.
+         
+				var date = new Date(+ row.msDate + 3240 * 10000).toISOString().replace("T", " ").replace(/\..*/, '');
+            	
+            	console.log(date)
+            	
+                if($("#"+i).length >0){
+                }else{
+                    $("#mysidenav").append("<div id='"+row.readYn+"'class='letter'><div class='header'><p style='color:white;font-size:23px;margin-left: 20px;'>"+row.msTitle+"</p></div><table><tbody><tr><th>"+date+"</th><th>&nbsp;&nbsp;발송자: "+row.senderName+"</th></tr>"+   
+                               "<tr><th>"+row.msContent+"</th></tr></tbody></table><div class='footer'></div></div>");
+            
+                    if(row.readYn == 0){
+                            $("#"+i+" .footer").append("<input type='button' style='float:right;' id='letter_read' class='btn btn-danger' value='read'/>");
+                    }
+                    i++;    
+                }
+            });
+        }
+    })
+    
+    //사이드바가 열려있을 때 width가 늘어나고 닫힐 때 없어짐
+    if($("#mysidenav").css("width") =="350px")
+        document.getElementById('mysidenav').style.width = '0';
+        
+}
+function closeNav() {
+    document.getElementById('mysidenav').style.width = '0';
+}
+
+</script>  
+
+<script>
+$("#mssage_send_btn").click(function(){
+    $('#MsgForm').modal("show");
+});
+$("#msg_submit").click(function(){
+    var msg= "쪽지를 보내겠습니까?";
+    
+    if(!confirm(msg))
+        return false;
+    
+    $.ajax({
+        url : "/message/proc",
+        dataType : "json",
+        type : "post",
+        data : $(".msg_form").serialize(),
+        success:function(result){
+        	
+        	if(result == 1) {
+            alert("쪽지를 보냈습니다."); 
+            $(".momo").hide();
+        	}
+   
+        }
+    })
+});
+
+</script>  
+    
+<script type="text/javascript">
+var socket = null;
+var sock = new SockJS("/message");
+socket =sock;
+$(document).ready(function(){
+    if(${login} == true)
+            connectWS();
+});
+   /*  $(".chat_start_main").click(function(){
+        $(this).css("display","none");
+        $(".chat_main").css("display","inline");
+    })
+    $(".chat_main .modal-header").click(function(){
+        $(".chat_start_main").css("display","inline");
+        $(".chat_main").css("display","none");
+    }); */
+ 
+    function connectWS(){
+        sock.onopen = function() {
+               console.log('Message: connection opened.');
+        };
+        sock.onmessage = function(e){
+            var splitdata =e.data.split(":");
+            if(splitdata[0].indexOf("recMs") > -1)
+                $("#recMs").append("["+splitdata[1]+"통의 쪽지가 왔습니다.]");
+            /* else
+                $("#chat").append(e.data + "<br/>"); */
+        }
+        /* sock.onclose = function(){
+            $("#chat").append("연결 종료");
+//              setTimeout(function(){conntectWs();} , 10000); 
+        } */
+        sock.onerror = function (err) {console.log('Errors : ' , err);};
+ 		
+    }
+    
+    /* $("#board1").click(function(){
+        location.href="/board/main_board.do";
+    }); */
+ 
+$("#chatForm").submit(function(event){
+        event.preventDefault();
+            sock.send($("#message").val());
+            $("#message").val('').focus();    
+    });    
+</script>
+
+<!-- ----------------------------------여기까지 쪽지-------------------------------------- -->
+
 </head>
 
 <body>
@@ -629,11 +954,14 @@ function okCall(){
 			<i class="material-icons dp48">alarm_on</i>
 			<span class="header-menu-text-sm">알람</span> 
 			</span>
-			<ul class="dropdown-menu" role="menu" >
-			    <li class="dropdown-header">Nav header</li>
-				<li><div class="dropdown-item" id="alarm1" ></div></li>
-				<li><div class="dropdown-item" id="alarm2" ></div></li>
-				<li><div class="dropdown-item" id="alarm3" ></div></li>
+			<ul class="dropdown-menu" role="menu" style="width: 15em" >
+				<li><div id="wantsWater" style="text-align: center"></div></li>
+				<li> <div style="text-align: center">
+				<span class="dropdown-item" id="alarm1" ></span> 
+				<span class="dropdown-item" id="alarm2" ></span> 
+				<span class="dropdown-item" id="alarm3" ></span> 
+				</div>
+			    <li class="dropdown-header"></li>
 			    <li class="divider"></li>
 			</ul>
 		</div>

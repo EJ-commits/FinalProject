@@ -47,7 +47,7 @@ public class MessageController {
 
 		int result = 0;
 
-		System.out.println("하하하");
+//		System.out.println("하하하");
 
 		message.setMemberNo((Integer) session.getAttribute("memberNo"));
 

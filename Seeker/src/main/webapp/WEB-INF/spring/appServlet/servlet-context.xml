@@ -45,6 +45,18 @@
 	
 	<beans:bean id="SocketHandler" class="web.ws.SocketHandler"></beans:bean>
 	<!-- ===========화상채팅 웹소켓 인터셉터 설정============ -->
+	
+	<!-- ===========쪽지 웹소켓 인터셉터 설정============ -->
+	<websocket:handlers>
+		<websocket:mapping path="/message" handler="MessageHandler"/>
+			<websocket:handshake-interceptors>
+				 <beans:bean class="org.springframework.web.socket.server.support.HttpSessionHandshakeInterceptor"/> 
+			</websocket:handshake-interceptors>
+			<websocket:sockjs></websocket:sockjs>
+	</websocket:handlers>
+	
+	<beans:bean id="MessageHandler" class="web.ws.MessageHandler"></beans:bean>
+	<!-- ===========쪽지 웹소켓 인터셉터 설정============ -->
 
 	<!-- interceptor 설정 -->
 	<interceptors>
