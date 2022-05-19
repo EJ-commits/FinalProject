@@ -6,12 +6,13 @@ public class BoardFile {
 	private int boardNo;
 	private String originName;
 	private String storedName;
+	private String btitle;
 	
 	
 	@Override
 	public String toString() {
 		return "BoardFile [fileNo=" + fileNo + ", boardNo=" + boardNo + ", originName=" + originName + ", storedName="
-				+ storedName + "]";
+				+ storedName + ", btitle=" + btitle + "]";
 	}
 	public int getFileNo() {
 		return fileNo;
@@ -37,7 +38,14 @@ public class BoardFile {
 	public void setStoredName(String storedName) {
 		this.storedName = storedName;
 	}
+	public String getBtitle() {
+		return btitle;
+	}
+	public void setBtitle(String btitle) {
+		this.btitle = btitle;
+	}
 
+	
 	
 	
 }

@@ -1,58 +1,80 @@
 package web.dto;
 
-import java.util.Date;
-
 public class Reply {
-	private int replyNo;
-	private int boardNo;
+
+	private int rum;
+	private int replyno;
+	private int boardno;
 	private String id;
 	private String content;
-	private Date bDate;
+	private String bdate;
+	private String reparent;
+	private String redepth;
+	private String reorder;
+	
 	
 	@Override
 	public String toString() {
-		return "Reply [replyNo=" + replyNo + ", boardNo=" + boardNo + ", id=" + id + ", content=" + content + ", bDate="
-				+ bDate + "]";
+		return "Reply [rum=" + rum + ", replyno=" + replyno + ", boardno=" + boardno + ", id=" + id + ", content="
+				+ content + ", bdate=" + bdate + ", reparent=" + reparent + ", redepth=" + redepth + ", reorder="
+				+ reorder + "]";
 	}
-
-	public int getReplyNo() {
-		return replyNo;
+	public int getRum() {
+		return rum;
 	}
-
-	public void setReplyNo(int replyNo) {
-		this.replyNo = replyNo;
+	public void setRum(int rum) {
+		this.rum = rum;
 	}
-
-	public int getBoardNo() {
-		return boardNo;
+	public int getReplyno() {
+		return replyno;
 	}
-
-	public void setBoardNo(int boardNo) {
-		this.boardNo = boardNo;
+	public void setReplyno(int replyno) {
+		this.replyno = replyno;
 	}
-
+	public int getBoardno() {
+		return boardno;
+	}
+	public void setBoardno(int boardno) {
+		this.boardno = boardno;
+	}
 	public String getId() {
 		return id;
 	}
-
 	public void setId(String id) {
 		this.id = id;
 	}
-
 	public String getContent() {
 		return content;
 	}
-
 	public void setContent(String content) {
 		this.content = content;
 	}
-
-	public Date getbDate() {
-		return bDate;
+	public String getBdate() {
+		return bdate;
 	}
-
-	public void setbDate(Date bDate) {
-		this.bDate = bDate;
+	public void setBdate(String bdate) {
+		this.bdate = bdate;
 	}
+	public String getReparent() {
+		return reparent;
+	}
+	public void setReparent(String reparent) {
+		this.reparent = reparent;
+	}
+	public String getRedepth() {
+		return redepth;
+	}
+	public void setRedepth(String redepth) {
+		this.redepth = redepth;
+	}
+	public String getReorder() {
+		return reorder;
+	}
+	public void setReorder(String reorder) {
+		this.reorder = reorder;
+	}
+	
+	
+	
 	
 }
