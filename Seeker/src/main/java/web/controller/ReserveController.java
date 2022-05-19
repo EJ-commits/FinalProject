@@ -189,7 +189,7 @@ public class ReserveController {
 		return "/garden/reserveRes";
 	}
 	
-
+	@ResponseBody
 	@RequestMapping(value = "/garden/modifyReserve")
 	public ReserveInfo modifyReserve(@RequestParam HashMap<String, String> map, Model model) {
 		logger.info("[get] /garden/modifyReserve");
@@ -232,6 +232,7 @@ public class ReserveController {
 			info.setVisitTime("NotCheckedTime");
 		}
 		
+		info.setMemberNo(Integer.parseInt(String.valueOf( session.getAttribute("memberNo" )) ));
 		info.setGardenNo(gardenPrice.getGardenNo());
 		info.setGardenName(map.get("gardenName"));
 		info.setAdultMem(adult);
@@ -250,7 +251,6 @@ public class ReserveController {
 			   (info.getChildMem()==0) && 
 			   (info.getDisabMem()==0) )) {
 //					int memberNo = Integer.parseInt((String.valueOf( session.getAttribute("memberNo"))));
-					System.out.println("업데이트 내역 체크 "+info);
 					resService.updateResInfo(info); 
 					
 					String qrNo = resService.getQrCode(info, resNo);
@@ -261,6 +261,7 @@ public class ReserveController {
 					
 					logger.info("DB saved {}", info);
 		}
+		
 		return info;
 	}	
 		
@@ -275,12 +276,30 @@ public class ReserveController {
 	
 	
 	@RequestMapping(value = "/garden/modifyRes")
-	public void modifyRes(@RequestParam String resNo, ReserveInfo info, Model model) {
+	public String modifyRes(@RequestParam String resNumber, ReserveInfo info, Model model) {
 		logger.info("[get] /garden/modifyRes");
 		
-		info = resService.getResInfo(Integer.parseInt(resNo));
+		logger.info("[get] /garden/reserveRes");
+		logger.info("{}",session.getAttribute("memberNo").toString());
+		//예약정보 불러오기 
+		
+		int resNo = Integer.parseInt(resNumber);
+		
+		info = resService.getResInfo(resNo);
 		model.addAttribute("resInfo",info);
+		model.addAttribute("qrCodeUrl","http://localhost:8088/qrImg/" + resService.getResInfo(resNo).getQrCode()+".png");
+		
+		ReserveInfo resInfo = resService.getResInfo(resNo);
+		model.addAttribute("resInfo", resInfo);
+	
+		logger.info("resNo {} ",resNo);
+		logger.info("resinfo {} ",resInfo);
+		logger.info("resinfo {} ", "http://localhost:8088/qrImg/" + resService.getResInfo(resNo).getQrCode()+".png");
+		
+		return "/garden/modifyRes";
 	}
+		
+	
 	
 	
 }//class end	

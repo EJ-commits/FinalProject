@@ -187,7 +187,7 @@ a { text-decoration:none }
 		  		url:"/garden/reserveCalc",
 		  		type: "post",
 		  		data: formValues,
-// 		  		dataType: "json",
+		  		dataType: "json",
 		  		success: function(res){
 		  			console.log("calcBtn success")
 		  			console.log("calcBtn res",res)

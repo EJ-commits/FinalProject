@@ -215,9 +215,9 @@ a { text-decoration:none }
 		  	 			alert("인원수를 선택해주세요")
 		  	 			return;
 		  	 		} else {
-			  			console.log(res)
+			  			console.log("modifyres ",res)
 			  			console.log("calcBtn success")
-		  				window.location.replace("/garden/modifyRes?resNo="+res.reserveNo)
+		  				window.location.replace("/garden/modifyRes?resNumber="+res.reserveNo)
 		  	 		}},
 		  		error: console.log("calcBtn error")
 		  		

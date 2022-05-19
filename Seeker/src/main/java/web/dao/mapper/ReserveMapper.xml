@@ -56,7 +56,7 @@
 		
 	</update>
 	
-	<update id="updateQrCode" parameterType="int">
+	<update id="updateQrCode" parameterType="HashMap">
 	update gardenReserve set QR_CODE = #{qrNo}
 	where  reserve_no = #{resNo}
 	

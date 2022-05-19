@@ -62,10 +62,10 @@ public interface ReserveDao {
 
 	/**
 	 * QR코드 이미지 이름을 수정(업데이트)
-	 * @param resNo 예약번호
-	 * 		  qrNo 새 qr 코드
+	 * @param 예약번호(int) , qr이름 (String) 이 요소로 있는 MAP객체
 	 * */
-	public void updateResInfo(String qrNo, int resNo);
+
+	public void updateResInfo(HashMap<String, Object> map);
 
 
 	

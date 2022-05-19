@@ -109,7 +109,11 @@ public class ReserveServiceImpl implements ReserveService {
 
 	@Override
 	public void updateQrCode(String qrNo, int resNo) {
-		reserveDao.updateResInfo(qrNo,resNo);
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("qrNo", qrNo);
+		map.put("resNo", resNo);
+		
+		reserveDao.updateResInfo(map);
 	}
 
 
