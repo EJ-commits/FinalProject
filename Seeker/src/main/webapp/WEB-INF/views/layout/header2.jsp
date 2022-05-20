@@ -133,7 +133,7 @@ body {
 }
 
 #header-login-box {
-	width : 130px;
+	width : 180px;
 	padding : 20px 0px 0px 0px;
 	text-align : right;
 }
@@ -666,10 +666,9 @@ function okCall(){
 
 <!-- ----------------------------------여기부터 쪽지-------------------------------------- -->
 
-<script src="/resources/js/sockjs.min.js"></script>
+<!-- <script src="/resources/js/sockjs.min.js"></script> -->
 <html>
 
-<span id="recMs" onclick="openNav()" name="recMs" style="float:right;cursor:pointer;margin-right:10px;color:pink;"><img src="/resources/img/msgicon.png" id="messageImage" style="opacity :0.3;width:15px;"></span>
     <!-- <form id="chatForm">
         <div class="chat_start_main">
             상담 CHAT
@@ -739,8 +738,8 @@ function okCall(){
                     </div>
                 </form>
                 <div class="modal-footer fn-font">
-                    <button class="btn" type="button" id="msg_submit">SEND</button>
-                    <button class="btn" type="button" data-dismiss="modal">NO</button>
+                    <button class="btn" type="button" id="msg_submit">보내기</button>
+                    <button class="btn" type="button" data-dismiss="modal">취소</button>
                 </div>
             </div>
         </div>
@@ -876,13 +875,15 @@ $(document).ready(function(){
     }); */
  
     function connectWS(){
-        sock.onopen = function() {
+        sock.onopen = function(e) {
                console.log('Message: connection opened.');
+               console.log(e)
         };
         sock.onmessage = function(e){
-            var splitdata =e.data.split(":");
-            if(splitdata[0].indexOf("recMs") > -1)
-                $("#recMs").append("["+splitdata[1]+"통의 쪽지가 왔습니다.]");
+           /* var splitdata =e.data.split(":");
+            if(splitdata[0].indexOf("recMs") > -1)             
+                $("#recMs").append("["+splitdata[1]+"통의 쪽지가 왔습니다.]"); */
+                $("#recMs").append("["+e+"통의 쪽지가 왔습니다.]");
             /* else
                 $("#chat").append(e.data + "<br/>"); */
         }
@@ -912,7 +913,7 @@ $("#chatForm").submit(function(event){
 <body>
 
 <!-- ===========화상통화 알림창============ -->
-<div id="socketAlert" class="alert alert-success" role="alert" style="display:none;" onClick="okCall()"></div>
+<div id="socketAlert" class="alert alert-success" role="alert" style="display:none; margin: 0;" onClick="okCall()"></div>
 
 <div>
 	<span id="video_modal"></span>
@@ -966,7 +967,7 @@ $("#chatForm").submit(function(event){
 			</ul>
 		</div>
 		<div class="header-menu-box">
-			<a href="" >
+			<a href="/shop/cartList" >
 				<i class="material-icons dp48">shopping_cart</i>
 				<span class="header-menu-text-sm">장바구니</span>
 			</a>
@@ -978,6 +979,7 @@ $("#chatForm").submit(function(event){
 						<a href="/member/login"><span class="header-menu-text-xs">로그인</span></a>
 					</c:when>
 					<c:when test="${login eq true }">
+<span id="recMs" class="header-menu-text-xs" onclick="openNav()" name="recMs" style="float:left;cursor:pointer;margin-right:10px;color:pink;"><img src="/resources/img/msgicon.png" id="messageImage" style="opacity :0.3;width:15px;"></span>
 						<a href="/member/logout"><span class="header-menu-text-xs">로그아웃</span></a>
 					</c:when>
 				</c:choose>
@@ -993,8 +995,8 @@ $("#chatForm").submit(function(event){
 	</div>
 	<div id="hidden-menu-box">
 		<div id="hidden-menu-board">
-			<a href=""><span>자유 게시판</span></a>
-			<a href=""><span>사진 게시판</span></a>
+			<a href="/board/freeList"><span>자유 게시판</span></a>
+			<a href="/board/photoList"><span>사진 게시판</span></a>
 		</div>
 	</div>
 </header>

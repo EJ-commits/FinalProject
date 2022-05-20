@@ -1,10 +1,12 @@
 package web.ws;
 
 import java.util.ArrayList;
+
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
@@ -12,24 +14,39 @@ import org.springframework.web.socket.handler.TextWebSocketHandler;
 
 import web.dao.face.MessageDao;
 
+@Component
 public class MessageHandler extends TextWebSocketHandler {
 	
 	@Autowired private MessageDao messageDao; 
 
-	private static List<WebSocketSession> sessionList = new ArrayList<WebSocketSession>();
+	private List<WebSocketSession> sessionList = new ArrayList<WebSocketSession>();
 	
 	//해당 IP포트로 클라이언트가 접속했을 때 실행되는 메소드
-	public void afterConnnectionEstablished(WebSocketSession session) throws Exception {
-		String user_name = searchUserName(session);
+	public void afterConnnectionEstablished(WebSocketSession session, TextMessage message) throws Exception {
 		
+		System.out.println("Message : afterConnectionEstablished: "+ session);
+		
+		System.out.println(session.getAttributes());
+		
+		System.out.println((String)session.getAttributes().get("id"));
+		
+		String id = searchUserName(session);
+	
 		sessionList.add(session);
-		session.sendMessage(new TextMessage("recMs :" + messageDao.countMessageView(user_name)));
+		//session.sendMessage(new TextMessage("recMs :" + messageDao.countMessageView(id)));
+		
+		byte[] countMs = messageDao.countMessageView(id).getBytes();
+		
+		System.out.println(countMs);
+		
+		session.sendMessage(new TextMessage(countMs));
 	}
 	
 	//클라이언트가 메세지를 보냈을 때, 나타나는 메소드
 	public void handlerTextMessage(WebSocketSession session, TextMessage message) throws Exception {
 		
 		String user_name = searchUserName(session);
+		
 		
 		for(WebSocketSession sess: sessionList) {
             sess.sendMessage(new TextMessage(user_name+": "+ message.getPayload()));
@@ -48,11 +65,11 @@ public class MessageHandler extends TextWebSocketHandler {
 	
 	//세션 객체에 저장해둔 유저의 id 사용
 	public String searchUserName(WebSocketSession session)throws Exception {
-        String user_name;
-        Map<String, Object> map;
-        map = session.getAttributes();
-        user_name = (String) map.get("id");
-        return user_name;
+        String id = (String)session.getAttributes().get("id");
+       // Map<String, Object> map;
+       // map = session.getAttributes();
+      //  id = (String) map.get("id");
+        return id;
     }
 	
 }
