@@ -12,14 +12,19 @@ import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.google.gson.Gson;
 
+import web.dto.CartList;
 import web.dto.ChatDto;
 import web.dto.MyPlant;
+import web.dto.Order;
+import web.dto.OrderList;
 import web.service.face.ChatService;
 import web.service.face.MemberService;
 import web.service.face.MyPlantService;
+import web.service.face.ShopService;
 import web.service.face.WaterPerService;
 
 @Controller
@@ -31,6 +36,7 @@ public class StompChatController {
     @Autowired MemberService memberService;
     @Autowired MyPlantService myPlantService;
     @Autowired WaterPerService wpService;
+    @Autowired ShopService shopService;
 	// StompWebSocketConfig 에서 설정한 prifix가 경로에 병합됨.
 	
 	@MessageMapping(value = "/chat/enter")
@@ -107,22 +113,47 @@ public class StompChatController {
           String[] str = {"noPlantsWantWater","아직 물이 부족하지 않아요."};
           template.convertAndSend("/sub/notice"+username, gson.toJson(str));
       }
-      
-  
-      //테스트용 
-//      username = (String) session.getAttribute("id");
-      
-//      String[] str = {"물을 줄 시간이에요","상품이 출발했어요","좋은 하루 되세요"}; // 추후 물주기및 구매 업데이트반영
-      
-      
-//      session.setAttribute("str",str);
-      
-//      PrintWriter out = null  ;
-//      out.write("{\"result\": true}");
-      
       return "chat/empty";
       
   }
   
+  //카트가 비어있지 않으면 알람에 추가 
+  @GetMapping(value = "/chkCarts")
+  public String messageChkCarts(String username, HttpSession session) {
+	  
+	  	int memberNo = (Integer) session.getAttribute("memberNo");
+	  	 Gson gson = new Gson();
+		List<CartList> cartList = shopService.cartList(memberNo);
+		if(cartList.size()!=0) {
+			template.convertAndSend("/sub/notice"+username, gson.toJson(cartList));
+		}else {
+	          String[] str = {"emptyCart","카트가 비어 있어요."};
+	          template.convertAndSend("/sub/notice"+username, gson.toJson(str));
+	      }
+	      return "chat/empty";
+	      
+  }
+
+  //주문한 내역이 있으면 알람에 추가 
+  @GetMapping(value = "/chkOrders")
+  public String messageChkOrders(String username, HttpSession session) {
+	  	int memberNo = (Integer) session.getAttribute("memberNo");
+	  	Order order = new Order();
+	  	Gson gson = new Gson();
+	  
+	  	order.setMemberNo(memberNo);
+	  	List<OrderList> orderList = shopService.orderList(order);
+	  	if(orderList.size()!=0) {
+			template.convertAndSend("/sub/notice"+username, gson.toJson(orderList));
+			logger.info("{}","/sub/notice"+username);
+			logger.info("{}",gson.toJson(orderList));
+		}else {
+	          String[] str = {"noPlantsWantWater","아직 물이 부족하지 않아요."};
+	          template.convertAndSend("/sub/notice"+username, gson.toJson(str));
+	      }
+	      return "chat/empty";
+	      
+  }
+	  //주문후 배송이 완료되면 알람에 추가 (미구현)
   
 }
