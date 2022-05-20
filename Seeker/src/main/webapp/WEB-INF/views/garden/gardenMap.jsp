@@ -94,14 +94,14 @@
 <!-- <div id="wrap-box"> -->
 
 <div id="wrap-box-top">
-	<div><a href="/diary/list"><span class="glyphicon glyphicon-arrow-left"></span>&nbsp;이전 페이지</a></div>
+	<div><a style="cursor:pointer;" onclick="history.go(-1)"><span class="glyphicon glyphicon-arrow-left"></span>&nbsp;이전 페이지</a></div>
 	<div id="title-box">수목원</div>
 	<div></div>
 </div>
 <div id="wrap-box">
 <!-- 본문 -->
 <!-- 지도 -->
-<div class="garden_wrap"><!-- garden 전체 div -->
+<div class="garden_wrap" style="text-align:left;"><!-- garden 전체 div -->
 
 <div class="map_wrap" style="width:100%;margin:20px auto;">
 
@@ -576,13 +576,22 @@ function addVar(place){
 	var garden = document.getElementById("gardenName");
 	var gname = document.getElementById("gName");
 	gname.innerText = place.place_name+" 리뷰";
-	garden.value=place.place_name;
-	document.getElementById("reviewWriteForm").style.display = "block";
+	
+	var idFlag = ${not empty id}
+	
+	if(idFlag){
+		garden.value=place.place_name;
+		document.getElementById("reviewWriteForm").style.display = "block";
+	}
 	callList(place.place_name);
 }
 
 $(document).ready(function(){
 	callList = function(gardenName, curPage){
+		if(curPage==0||curPage==null){
+			curPage=0
+		}
+		
 		$.ajax({
 			type:"get"
 			,url:"/garden/list"
@@ -598,6 +607,7 @@ $(document).ready(function(){
 				console.log("실패");
 				var result="<p style='margin-top:10px;font-size:13px;'>처음으로 댓글을 달아주세요!</p>";
 				$("#allReview").html(result);
+				$(".pagingReview").html('');
 			}
 		})
 	}
@@ -606,6 +616,7 @@ $(document).ready(function(){
 	function textArrange(reviewList){
 		
 		var result = "<div style='margin-top:10px;'>";
+//      result += "<div style><span style='font-size:15px;font-weight:bold;'>한줄 리뷰<span></div><hr style='margin-bottom:10px;'>";
 		$.each(reviewList.list ,function(index, obj){
 		var reviewDate = new Date(obj.GRDATE);
 		result += "<div>";
@@ -997,6 +1008,12 @@ $(document).ready(function() {
 		$(".display"+grNo+"").html(result);
 		$(".update"+grNo+"").css("display","none");
 		$(".cancel"+grNo+"").css("display","block");
+		
+        $("#grUContent"+grNo+"").keydown(function(e){
+            if(e.keyCode == 13){//엔터키
+                reviewUpdate(grNo,gardenName);
+            }
+        })
 		
 	}
 	

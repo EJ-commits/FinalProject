@@ -20,15 +20,37 @@
      	VALUES (tbl_goods_seq.nextval, #{gdsName}, #{cateCode}, #{gdsPrice}, #{gdsStock}, #{gdsDes}, #{ImgOriginName}, #{ImgStoredName}, #{ImgOriginName2}, #{ImgStoredName2})
 	</insert>
 	
-	<!-- 상품 목록 --> 
-	<select id="goodsList" parameterType="web.util.Paging" resultType="web.dto.GoodsView">
- 		SELECT
-  			gdsNum, gdsName, g.cateCode, c.cateCodeRef, c.cateName, gdsPrice, gdsStock, gdsDes, gdsDate, ImgOriginName, ImgStoredName
-    	FROM tbl_goods g, goods_category c
-    	WHERE g.cateCode = c.cateCode
+	    <!-- 상품 목록 --> 
+    <select id="goodsList" resultType="web.dto.GoodsView" parameterType="web.util.Paging">
+         SELECT * FROM (
+        SELECT rownum rnum, B.* FROM (
+                 SELECT
+                      gdsNum, gdsName, g.cateCode, c.cateCodeRef, c.cateName, gdsPrice, gdsStock, gdsDes, gdsDate, ImgOriginName, ImgStoredName
+                FROM tbl_goods g, goods_category c
+                WHERE g.cateCode = c.cateCode
+                <if test="search!=null and !search.equals('')">
+                        AND ${searchOpt} LIKE '%' || #{search} || '%' 
+                </if>
+                ORDER BY gdsNum DESC
+            ) B
+        ) BOARD
+        WHERE rnum BETWEEN #{startNo } AND #{endNo }
+        
+    </select>
+    
+        
+    <!-- 상품 게시판의 상품수 -->
+    <select id="selectProductCntAll" resultType="int" parameterType="web.util.Paging">    
+        SELECT
+                count(*)
+        FROM tbl_goods g, goods_category c
+        WHERE g.cateCode = c.cateCode
+        <if test="search!=null and !search.equals('')">
+                AND ${searchOpt} LIKE '%' || #{search} || '%' 
+        </if>
         ORDER BY gdsNum DESC
  
-	</select>
+    </select>
 	
 	
 	<!-- 상품 조회 + 카테고리 조인-->
@@ -235,27 +257,27 @@
 	<select id="selectBoardNo" parameterType="web.dto.Board" resultType="web.dto.Board">
 		SELECT boardNo, btitle, bcontent, id, nick, hit, bdate, cateno
 		FROM board
-		WHERE boardno = #{boardNo}
+		WHERE boardno = #{boardno}
 	</select>
 	
 	<select id="selectBoardFileCntByBoardNo" parameterType="web.dto.Board" resultType="int">
 		SELECT count(*)
 		FROM boardfile
-		WHERE boardno = #{boardNo}
+		WHERE boardno = #{boardno}
 	</select>
 	
 	<!-- 게시글 파일 갯수 -->
 	<select id="selectBoardFileByBoardNo" parameterType="web.dto.Board" resultType="web.dto.BoardFile">
 		SELECT fileno, boardno, origin_name, stored_name
 		FROM boardfile
-		WHERE boardno = #{boardNo}
+		WHERE boardno = #{boardno}
 	</select>
 	
 	<!-- 댓글 갯수 -->
 	<select id="selectReplyCntByBoardNo" parameterType="web.dto.Board" resultType="int">
 		SELECT count(*)
 		FROM replytb
-		WHERE boardno =#{boardNo}
+		WHERE boardno =#{boardno}
 	</select>
 	
 	<!-- boardno에 해당하는 댓글 -->
@@ -264,7 +286,7 @@
 			SELECT rownum rnum, B.* FROM (
 				SELECT replyno, boardno, id, content, bdate
 				FROM replytb
-				WHERE boardno = #{board.boardNo}
+				WHERE boardno = #{board.boardno}
 				ORDER BY bdate DESC
 			) B
 		) BOARD
@@ -280,18 +302,18 @@
 	<!-- boardno에 해당하는 게시글 삭제 -->
 	<delete id="deleteBoardByBoardNo" parameterType="web.dto.Board">
 		DELETE FROM board
-		WHERE boardno=#{boardNo}
+		WHERE boardno=#{boardno}
 	</delete>
 	
 	<!-- boardno에 해당하는 댓글 삭제 -->
 	<delete id="deleteReviewByBoardNo" parameterType="web.dto.Board">
 		DELETE FROM replytb
-		WHERE boardno=#{boardNo}
+		WHERE boardno=#{boardno}
 	</delete>
 	
 	<!-- boardno에 해당하는 파일 삭제 -->
 	<delete id="deleteFileByBoardNo" parameterType="web.dto.Board">
 		DELETE FROM boardfile
-		WHERE boardno=#{boardNo}
+		WHERE boardno=#{boardno}
 	</delete>
 </mapper>

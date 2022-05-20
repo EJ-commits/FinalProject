@@ -69,8 +69,8 @@ $(document).ready(function(){
 <th>조회수</th>
 </tr>
 <c:forEach items="${boardinfo }" var="i">
-<tr onclick="location.href='/admin/board/detail?boardNo=${i.boardNo }'" style="cursor:pointer;">
-<td>${i.boardNo}</td>
+<tr onclick="location.href='/admin/board/detail?boardno=${i.boardno }'" style="cursor:pointer;">
+<td>${i.boardno}</td>
 <td>${i.btitle }</td>
 <td>${i.id }</td>
 <td>${i.hit }</td>

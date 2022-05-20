@@ -16,14 +16,13 @@ $(document).ready(function(){
 		console.log("#btnDel clicked")
 		if( confirm('게시글을 삭제하면 첨부파일과 댓글도 삭제됩니다. 삭제하시겠습니까?') )
 		{
-			location.href="/admin/board/delete?boardNo=${boardinfo.boardNo}&cateno=${boardinfo.cateno}";
+			location.href="/admin/board/delete?boardno=${boardinfo.boardno}&cateno=${boardinfo.cateno}";
 		}
 	})
 	
-	function noImage(){
-		rs="<br>이미지 파일이 아닙니다";
-		$(".noImageResult").html(rs);
-	}
+	$( "[class^='img']" ).on( "error", function() {
+      	$(this).hide();
+    } );
 	
 })
 </script>
@@ -57,7 +56,7 @@ $(document).ready(function(){
 
 <tr>
 <th>게시글번호</th>
-<td colspan="3">${boardinfo.boardNo}</td>
+<td colspan="3">${boardinfo.boardno}</td>
 <th>카테고리</th>
 <c:if test="${boardinfo.cateno eq 1 }">
 <td colspan="3">자유게시판</td>
@@ -73,11 +72,16 @@ $(document).ready(function(){
 <tr>
 <td colspan="8">
 ${boardinfo.bcontent }
+
 <c:if test="${not empty boardFile }">
+<br>
+<br>
+<p>첨부파일</p>
 	<c:forEach items="${boardFile }" var="i">
-		<img src="<%=request.getContextPath() %>/upload/${i.storedName }" width="20%" height="20%" onerror="noImage();"><br>
-		<a href="<%=request.getContextPath() %>/upload/${i.storedName }" download="${i.originName }">${i.originName }</a>
-		<span class="noImageResult"></span>
+		<div>
+		<img class="img" src="<%=request.getContextPath() %>/upload/${i.storedName }" width="30%" height="30%"><br>
+		<a href="<%=request.getContextPath() %>/upload/${i.storedName }" download="${i.originName }">${i.originName }</a><br>
+		</div>
 	</c:forEach>
 </c:if>
 </td>
@@ -95,7 +99,7 @@ ${boardinfo.bcontent }
 <c:forEach items="${reply }" var="i">
 <div style="border-bottom:1px solid #ccc;margin-top:5px;">
 	<span>${i.id }</span>
-	<span style="margin-right:10px;cursor:pointer;"class="pull-right" onclick="if( confirm('해당 댓글을 삭제하시겠습니까?') ){location.href='/admin/comment/delete?replyNo=${i.replyNo}&boardNo=${boardinfo.boardNo }'}" >삭제</span>
+	<span style="margin-right:10px;cursor:pointer;"class="pull-right" onclick="if( confirm('해당 댓글을 삭제하시겠습니까?') ){location.href='/admin/comment/delete?replyNo=${i.replyNo}&boardno=${boardinfo.boardno }'}" >삭제</span>
 	<br class="clearfix">
 	<span>${i.content }</span>
 	<br>
@@ -110,13 +114,13 @@ ${boardinfo.bcontent }
 
 	<%-- 첫 페이지로 이동 --%>
 	<c:if test="${paging.curPage ne 1 }">
-		<li><a href="/admin/board/detail?boardNo=${boardinfo.boardNo }">&larr; 처음</a></li>	
+		<li><a href="/admin/board/detail?boardno=${boardinfo.boardno }">&larr; 처음</a></li>	
 	</c:if>
 	
 	<%-- 이전 페이징 리스트로 이동 --%>
 	<c:choose>
 	<c:when test="${paging.startPage ne 1 }">
-		<li><a href="/admin/board/detail?boardNo=${boardinfo.boardNo }&cateno=1&curPage=${paging.startPage - paging.pageCount }">&laquo;</a></li>	
+		<li><a href="/admin/board/detail?boardno=${boardinfo.boardno }&cateno=1&curPage=${paging.startPage - paging.pageCount }">&laquo;</a></li>	
 	</c:when>
 	<c:when test="${paging.startPage eq 1 }">
 		<li class="disabled"><a>&laquo;</a></li>
@@ -125,29 +129,29 @@ ${boardinfo.bcontent }
 	
 	<%-- 이전 페이지로 가기 --%>
 	<c:if test="${paging.curPage > 1 }">
-		<li><a href="/admin/board/detail?boardNo=${boardinfo.boardNo }&curPage=${paging.curPage - 1 }">&lt;</a></li>	
+		<li><a href="/admin/board/detail?boardno=${boardinfo.boardno }&curPage=${paging.curPage - 1 }">&lt;</a></li>	
 	</c:if>
 	
 	<%-- 페이징 리스트 --%>
 	<c:forEach begin="${paging.startPage }" end="${paging.endPage }" var="i">
 	<c:if test="${paging.curPage eq i }">
-		<li class="active"><a href="/admin/board/detail?boardNo=${boardinfo.boardNo }&curPage=${i }">${i }</a></li>	
+		<li class="active"><a href="/admin/board/detail?boardno=${boardinfo.boardno }&curPage=${i }">${i }</a></li>	
 	</c:if>
 	<c:if test="${paging.curPage ne i }">
-		<li><a href="/admin/board/detail?boardNo=${boardinfo.boardNo }&curPage=${i }">${i }</a></li>	
+		<li><a href="/admin/board/detail?boardno=${boardinfo.boardno }&curPage=${i }">${i }</a></li>	
 	</c:if>
 	</c:forEach>
 	
 
 	<%-- 다음 페이지로 가기 --%>
 	<c:if test="${paging.curPage < paging.totalPage }">
-		<li><a href="/admin/board/detail?boardNo=${boardinfo.boardNo }&curPage=${paging.curPage + 1 }">&gt;</a></li>	
+		<li><a href="/admin/board/detail?boardno=${boardinfo.boardno }&curPage=${paging.curPage + 1 }">&gt;</a></li>	
 	</c:if>
 	
 	<%-- 다음 페이징 리스트로 이동 --%>
 	<c:choose>
 	<c:when test="${paging.endPage ne paging.totalPage }">
-		<li><a href="/admin/board/detail?boardNo=${boardinfo.boardNo }&curPage=${paging.startPage + paging.pageCount }">&raquo;</a></li>	
+		<li><a href="/admin/board/detail?boardno=${boardinfo.boardno }&curPage=${paging.startPage + paging.pageCount }">&raquo;</a></li>	
 	</c:when>
 	<c:when test="${paging.endPage eq paging.totalPage }">
 		<li class="disabled"><a>&raquo;</a></li>
@@ -156,7 +160,7 @@ ${boardinfo.bcontent }
 
 	<%-- 끝 페이지로 이동 --%>
 	<c:if test="${paging.curPage ne paging.totalPage }">
-		<li><a href="/admin/board/detail?boardNo=${boardinfo.boardNo }&curPage=${paging.totalPage }">끝 &rarr;</a></li>	
+		<li><a href="/admin/board/detail?boardno=${boardinfo.boardno }&curPage=${paging.totalPage }">끝 &rarr;</a></li>	
 	</c:if>
 	
 	</ul>
