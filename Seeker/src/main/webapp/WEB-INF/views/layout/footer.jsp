@@ -44,6 +44,9 @@
 	<div>
 		<a href="/videoChat/sender" ><span class="header-menu-text-xs">영상 통화</span></a>
 	</div>
+	<div>
+		<a href="/admin/index" ><span class="header-menu-text-xs">관리자</span></a>
+	</div>
 	<div><div id="footer-copy-box"><small>Copyright &copy; 식물키우조 :)</small></div></div>
 </footer>
 </body>

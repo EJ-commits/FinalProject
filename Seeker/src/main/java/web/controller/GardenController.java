@@ -36,7 +36,7 @@ public class GardenController {
 	
 	
 	@RequestMapping(value="/garden/gardenMap", method=RequestMethod.GET)
-	public void gardenMain(HttpSession session) {
+	public void gardenMain() {
 		logger.info("/garden/gardenMap[GET]");
 		
 	}//gardenMain
