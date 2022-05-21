@@ -806,6 +806,7 @@ function openNav() {
             	
                 if($("#"+i).length >0){
                 }else{
+                	$("#mysidenav").children().remove(); 
                     $("#mysidenav").append("<div id='"+row.readYn+"'class='letter'><div class='header'><p style='color:white;font-size:23px;margin-left: 20px;'>"+row.msTitle+"</p></div><table><tbody><tr><th>"+date+"</th><th>&nbsp;&nbsp;발송자: "+row.senderName+"</th></tr>"+   
                                "<tr><th>"+row.msContent+"</th></tr></tbody></table><div class='footer'></div></div>");
             
@@ -858,12 +859,19 @@ $("#msg_submit").click(function(){
 </script>  
     
 <script type="text/javascript">
-var socket = null;
+
+/* var sock = null; */
+
+var socket = null; 
 var sock = new SockJS("/message");
-socket =sock;
+socket = sock; 
+
 $(document).ready(function(){
-    if(${login} == true)
-            connectWS();
+    if(${login}) {
+    	
+	
+    }		
+           /*  connectWS(); */
 });
    /*  $(".chat_start_main").click(function(){
         $(this).css("display","none");
@@ -874,16 +882,19 @@ $(document).ready(function(){
         $(".chat_main").css("display","none");
     }); */
  
-    function connectWS(){
-        sock.onopen = function(e) {
+    /* function connectWS(){ */
+        sock.onopen = function() {
                console.log('Message: connection opened.');
-               console.log(e)
+				sock.send("1");
         };
         sock.onmessage = function(e){
            /* var splitdata =e.data.split(":");
             if(splitdata[0].indexOf("recMs") > -1)             
                 $("#recMs").append("["+splitdata[1]+"통의 쪽지가 왔습니다.]"); */
-                $("#recMs").append("["+e+"통의 쪽지가 왔습니다.]");
+                
+                console.log(e.data);
+                
+                $("#recMs").append("["+e.data+"통]");
             /* else
                 $("#chat").append(e.data + "<br/>"); */
         }
@@ -893,17 +904,17 @@ $(document).ready(function(){
         } */
         sock.onerror = function (err) {console.log('Errors : ' , err);};
  		
-    }
+   /*  } */
     
     /* $("#board1").click(function(){
         location.href="/board/main_board.do";
     }); */
  
-$("#chatForm").submit(function(event){
+/* $("#chatForm").submit(function(event){
         event.preventDefault();
             sock.send($("#message").val());
             $("#message").val('').focus();    
-    });    
+    });  */   
 </script>
 
 <!-- ----------------------------------여기까지 쪽지-------------------------------------- -->
