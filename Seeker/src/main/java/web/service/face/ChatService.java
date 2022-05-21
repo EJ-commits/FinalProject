@@ -6,6 +6,7 @@ import javax.servlet.http.HttpSession;
 
 import web.dto.ChatDto;
 import web.dto.ChatRoomDto;
+import web.dto.Member;
 
 public interface ChatService {
 
@@ -63,6 +64,17 @@ public interface ChatService {
 	 * @param session , 채팅방 DTO
 	 * */
 	public void deleteRoom(ChatRoomDto room);
+
+
+	/**일대일 채팅방 리스트를 불러온다. 
+	 * 관리자가 답장하지 않은 순서대로 보여준다. 
+	 * */
+	public List<ChatDto> get11chatList();
+
+	/**지난 채팅 내역을 불러온다. 
+	 * @param 채팅방 번호 (1:1이므로 개인 아이디)
+	 * @return 채팅 내역 DTO 리스트*/
+	public List<ChatDto> getPastChat(String roomId);
 
 
 	

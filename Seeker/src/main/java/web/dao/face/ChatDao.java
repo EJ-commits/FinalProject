@@ -4,6 +4,7 @@ import java.util.List;
 
 import web.dto.ChatDto;
 import web.dto.ChatRoomDto;
+import web.dto.Member;
 
 public interface ChatDao {
 
@@ -17,6 +18,11 @@ public interface ChatDao {
 
 	public void deleteRoom(ChatRoomDto room);
 
-	public List<ChatDto> getChatLog(ChatDto chatDto); 
+	public List<ChatDto> getChatLog(ChatDto chatDto);
+
+	public List<ChatDto> get11chatList(); 
+
+	public List<ChatDto> getPastChatLog(ChatDto chatDto);
+
 
 }

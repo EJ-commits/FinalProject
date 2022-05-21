@@ -38,7 +38,6 @@ public class RoomController {
 	@GetMapping("/chat/room")
 	public String getRoom(String roomId, Model model, HttpSession session) {
 		ChatRoomDto room = chatService.findRoomById(roomId);
-//		String userid = (String) session.getAttribute("testuser");
 		String userid = (String) session.getAttribute("id");
 		model.addAttribute("room",room);
 		
@@ -52,7 +51,6 @@ public class RoomController {
 		
 		logger.info(roomName);
 		ChatRoomDto chatroom = chatService.createRoom(roomName);
-//		String userid = (String) session.getAttribute("testuser");
 		String userid = (String) session.getAttribute("id");
 		String roomId = chatroom.getRoomId(); // 생성한 채팅방의 주소
 		return "redirect:/chat/room?roomId="+roomId; // 생성된 방으로 리턴
@@ -63,13 +61,13 @@ public class RoomController {
 	@GetMapping("/chat/exit")
 	public void getRoom(String roomId, HttpSession session) {
 		ChatRoomDto room = chatService.findRoomById(roomId);
-//		String userid = (String) session.getAttribute("testuser");
 		String userid = (String) session.getAttribute("id");
 		chatService.deleteSession(room, userid);
 		
 		ChatDto chatDto = new ChatDto();
 		//채팅방 접속자 0명일시 채팅방 삭제 
 		if (room.nameList.size() == 0)
+			logger.info("채팅방 접속자 삭제 로직 {}", room.nameList.size() == 0);
 			chatDto.setRoomId(roomId);
 			chatDto.setIsEnd(1);
 			chatDto.setChatLog("퇴장");
@@ -81,15 +79,62 @@ public class RoomController {
 	
 //	-------------- 일대일 채팅 로직 ---------------
 	
-
+	//일반회원 접근
 	@GetMapping("/chat/room11")
-	public String get11Room(HttpSession session, Model model) {
-//		String roomId = "testuser"	;	
-		String roomId = (String) session.getAttribute("id"); 
+	
+	public String get11Room(String roomId, HttpSession session, Model model) {
+		roomId = (String) session.getAttribute("id"); 
+		logger.info("roomid", roomId);
+		model.addAttribute("roomId", roomId);
+		getPastChat(roomId, model);
+		//지난 채팅 내역 표시하기 
+		 return "chat/room11";
+	}
+	
+	//관리자 접근
+	@GetMapping("/chat/room11Adm")
+	public String get11RoomAdm(String roomId, HttpSession session, Model model) {
 		logger.info("11chat", roomId);
 		model.addAttribute("roomId", roomId);
+		//지난 채팅 내역 표시하기 
+		getPastChat(roomId, model);
 		
 		 return "chat/room11";
+	}
+	
+	@GetMapping("/chat/getPastChat")
+	public String getPastChat(String roomId, Model model){
+		List<ChatDto> pastChat =  chatService.getPastChat(roomId);
+		logger.info("getPastChat {}", pastChat.toString());
+		model.addAttribute("pastChat", pastChat);
+		return "jsonView";
+	}
+	
+	//접속자 리스트 가져오기 
+	@ResponseBody // 요청 - 객체 변환
+	@RequestMapping("/chat/participant")	
+	public Set<String> nameList(String roomId){
+		System.out.println("participant roomId"+roomId);
+		ChatRoomDto room = chatService.findRoomById(roomId);
+		System.out.println("participant room"+room.toString());
+		Set<String> list = room.nameList;
+		System.out.println("list"+list);
+		return list;
+	}
+	
+	
+	//--------------------기타 처리 --------------
+	
+//	다운로드는 chat.jsp 내에서 비동기적으로 처리되므로
+//  따로 뷰를 지정한다.
+// 	jsp 대신 파일 객체를 반환하므로, resolver 설정 + view 생성 클래스 필요
+	@RequestMapping("/chat/logdown")
+	public String chatLogDown(ChatDto chatDto, HttpServletRequest request, Model model) {
+		
+		String filepath = chatService.getLog(chatDto); // ajax json값이 넘어옴 
+		request.setAttribute("filepath",filepath);
+		logger.info("logdown() {}" , chatDto.toString());
+		return "down";
 	}
 	
 //	@PostMapping("/chat/room11")
@@ -117,30 +162,4 @@ public class RoomController {
 	
 	
 //	-------------------------------
-	
-	//접속자 리스트 가져오기 
-	@ResponseBody // 요청 - 객체 변환
-	@RequestMapping("/chat/participant")	
-	public Set<String> nameList(String roomId){
-		System.out.println("participant roomId"+roomId);
-		ChatRoomDto room = chatService.findRoomById(roomId);
-		System.out.println("participant room"+room.toString());
-		Set<String> list = room.nameList;
-		System.out.println("list"+list);
-		return list;
-	}
-	
-	
-//	다운로드는 chat.jsp 내에서 비동기적으로 처리되므로
-//  따로 뷰를 지정한다.
-// 	jsp 대신 파일 객체를 반환하므로, resolver 설정 + view 생성 클래스 필요
-	@RequestMapping("/chat/logdown")
-	public String chatLogDown(ChatDto chatDto, HttpServletRequest request, Model model) {
-
-		String filepath = chatService.getLog(chatDto); // ajax json값이 넘어옴 
-		request.setAttribute("filepath",filepath);
-		logger.info("logdown() {}" , chatDto.toString());
-		return "down";
-	}
-	
 }

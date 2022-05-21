@@ -10,13 +10,11 @@ import java.util.Iterator;
 import java.util.List;
 
 import javax.servlet.ServletContext;
-import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.socket.WebSocketSession;
 
 import web.dao.face.ChatDao;
 import web.dto.ChatDto;
@@ -45,9 +43,7 @@ public class ChatServiceImpl implements ChatService{
 	//메시지 DB에 저장하는 메서드
 	@Override
 	public void saveMsg(ChatDto chatDto) {
-	
-	chatDao.saveMsg(chatDto);
-		
+		chatDao.saveMsg(chatDto);
 	}
 
 	//저장된 메시지 클라이언트 쪽에서 다운로드하는 메서드
@@ -59,7 +55,7 @@ public class ChatServiceImpl implements ChatService{
 		if(!storedFolder.exists()) storedFolder.mkdir();
 		
 		//파일생성 준비
-		String userid = chatDto.getUserid();
+		String userid = chatDto.getUserID();
 		String today = new SimpleDateFormat("yyyyMMdd_mmss").format(new Date());
 		String fileName = userid + "_CHATLOG_"+ today + ".txt";
 		
@@ -97,7 +93,7 @@ public class ChatServiceImpl implements ChatService{
 				System.out.println(date);
 				
 				String str = "["+date+"] "+
-						chatDtoLog.getUserid()+" : "+
+						chatDtoLog.getUserID()+" : "+
 						chatDtoLog.getChatLog() + "\n" ;	
 				logger.info("chatlog {}" , str);
 				
@@ -157,6 +153,25 @@ public class ChatServiceImpl implements ChatService{
 		chatDao.deleteRoom(room);
 	}
 
+
+	@Override
+	public List<ChatDto> get11chatList() {
+		List<ChatDto> list = chatDao.get11chatList();
+		return list;
+	}
+
+	@Override
+	public List<ChatDto> getPastChat(String roomId) {
+		
+		
+		ChatDto chatDto = new ChatDto();
+		chatDto.setRoomId(roomId);
+		chatDto.setUserID(roomId);
+		
+		List<ChatDto> list = chatDao.getPastChatLog(chatDto);
+		return list;
+	}
+	
 
 
 

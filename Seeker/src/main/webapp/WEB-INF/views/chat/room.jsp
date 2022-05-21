@@ -35,6 +35,7 @@
        z-index: -1;
  	  }
     
+    
   
     </style>
 
@@ -70,7 +71,7 @@ $(document).ready(function(){
 			console.log(chat)
   		   var content = JSON.parse(chat.body)
 			var chatLog = content.chatLog
-			var writer = content.userid;
+			var writer = content.userID;
 	 		var message = content.chatLog
 	 		var str = '<div style=padding'
 	 			str += ":" 
@@ -87,7 +88,7 @@ $(document).ready(function(){
 		//send(path, header, message)
 		stomp.send('/pub/chat/enter', {}, 
 				JSON.stringify({roomId: roomId, 
-					userid: username,
+					userID: username,
 					chatLog: ' 님이 입장하였습니다. '
 					}))
 		
@@ -134,7 +135,7 @@ $(document).ready(function(){
 		 console.log("messages "+msg)
          stomp.send('/pub/chat/message', {}, 
  				JSON.stringify({roomId: roomId, 
- 					userid: username,
+ 					userID: username,
  					chatLog: msg.val()
  					}))
          $("#messages").empty();
@@ -143,9 +144,10 @@ $(document).ready(function(){
 	 
 	  $("#disconn").click(function(){
 		function pro1(){
+			console.log("퇴장 ",username)
 			stomp.send('/pub/chat/exit', {}, 
 					JSON.stringify({roomId: roomId, 
-						userid: username,
+						userID: username,
 						chatLog: '님이 퇴장하였습니다.'
 						}))
 			console.log("here1")
@@ -164,7 +166,7 @@ $(document).ready(function(){
 					url: "/chat/logdown",
 					type: "post",
 					async: false,
-					data: {userid:username, roomId:roomId}, //username은 위에서 선언한 var 
+					data: {userID:username, roomId:roomId}, //username은 위에서 선언한 var 
 // 					dataType: "json",
 	                success: function (data) {
 	                	console.log(data)
@@ -324,4 +326,7 @@ $(document).ready(function(){
 </div>		
 
 </body>
+
+<c:import url="/WEB-INF/views/layout/footer.jsp" />
+
 </html>
