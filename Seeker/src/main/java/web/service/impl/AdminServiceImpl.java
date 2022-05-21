@@ -99,12 +99,29 @@ public class AdminServiceImpl implements AdminService {
 		
 		adminDao.register(goods);
 	}
+	
+    @Override
+    public Paging getGoodsPaging(Paging paramData) {
+        
+        //총 게시글 수 조회
+        int totalCount = adminDao.selectProductCntAll(paramData);
+        
+        //페이징 계산
+        Paging paging = new Paging(totalCount, paramData.getCurPage());
+        
+        paging.setSearch(paramData.getSearch());
+        paging.setSearchOpt(paramData.getSearchOpt());
+        
+        System.out.println(paging);
+
+        return paging;
+    }
 
 	//상품목록
 	@Override
-	public List<GoodsView> goodsList() {
+    public List<GoodsView> goodsList(Paging paging) {
 		
-		return adminDao.goodsList();
+        return adminDao.goodsList(paging);
 	}
 
 	//상품조회 + 카테고리 조인
