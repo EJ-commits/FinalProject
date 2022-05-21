@@ -1,3 +1,8 @@
+#diary {
+	width : 1000px;
+	height : 600px;	
+}
+
 #profile-box {
 	display : inline-flex;
 }

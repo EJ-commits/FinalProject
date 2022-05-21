@@ -29,6 +29,7 @@ body {
 	width : 400px;
 	height : 350px;
 	padding : 60px 20px 0px 20px;
+	margin :auto;
 }
 
 h3 {

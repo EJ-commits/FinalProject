@@ -26,14 +26,15 @@ body {
 
 #wrap-top {
 	width : 200px;
-	height : 80px;
-	margin : 20px 100px 0px 100px;
+	height : 100px;
+	padding : 20px;
+	margin : auto;
 }
 
 #wrap-bottom {
 	width : 300px;
 	height : 400px;
-	margin : 0px 50px 0px 50px;
+	margin : auto;
 }
 
 #wrap-bottom > div {
