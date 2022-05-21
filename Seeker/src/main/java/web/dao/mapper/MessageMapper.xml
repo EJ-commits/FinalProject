@@ -52,4 +52,10 @@
 		WHERE receiver_name= #{receiverName}
 	</update>
 	
+	<!-- 메세지 삭제 -->
+	<delete id="deleteMessage">
+	 	DELETE tbl_message
+	     	WHERE message_no = #{messageNo}
+	</delete>
+	
 </mapper>

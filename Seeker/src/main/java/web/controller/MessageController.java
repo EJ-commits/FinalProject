@@ -31,6 +31,7 @@ public class MessageController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(MessageController.class);
 	
+	//메시지 리스트 불러오기
 	@ResponseBody
 	@RequestMapping(value = "/message/list", method = RequestMethod.POST)
 	public Map<String, Object> findMessageList(Message message, Model model) {
@@ -51,6 +52,7 @@ public class MessageController {
 		return result;
 	}
 	
+	//메시지 보내기
 	@Transactional
 	@ResponseBody
 	@RequestMapping(value = "/message/proc")
@@ -75,6 +77,7 @@ public class MessageController {
 //		}
 	}
 	
+	//유저리스트
 	@ResponseBody
 	@RequestMapping(value = "/layout/header", method = RequestMethod.GET)
 	public List<Member> searchMember() {
@@ -90,5 +93,19 @@ public class MessageController {
 		List<Member> userList = messageService.searchMember();
 
 		return userList;
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "/message/delete", method = RequestMethod.POST)
+	public int deleteMessage(Message message) {
+
+		int result = 0;
+
+		if (messageService.deleteMessage(message) > 0) {
+
+			result = 1;
+		}
+		return result;
+
 	}
 }

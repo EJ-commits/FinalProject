@@ -53,4 +53,15 @@ public class MessageServiceImpl implements MessageService {
 		messageDao.updateRead(message);
 	}
 
+	@Override
+	public int deleteMessage(Message message) {
+		
+		int result = 0;
+		if(messageDao.deleteMessage(message) > 0 ) {
+			result = 1;
+		}
+		return result;
+		
+	}
+
 }

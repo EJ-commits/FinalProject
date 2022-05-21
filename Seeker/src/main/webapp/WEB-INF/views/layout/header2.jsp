@@ -806,13 +806,13 @@ function openNav() {
             	
                 if($("#"+i).length >0){
                 }else{
-                	$("#mysidenav").children().remove(); 
-                    $("#mysidenav").append("<div id='"+row.readYn+"'class='letter'><div class='header'><p style='color:white;font-size:23px;margin-left: 20px;'>"+row.msTitle+"</p></div><table><tbody><tr><th>"+date+"</th><th>&nbsp;&nbsp;발송자: "+row.senderName+"</th></tr>"+   
+                	/* $("#mysidenav").children().remove(); */
+                    $("#mysidenav").append("<div id='"+ row.memberNo +"'class='letter'><div class='header'><p style='color:white;font-size:23px;margin-left: 20px;'>"+row.msTitle+"</p></div><table><tbody><tr><th>"+date+"</th><th>&nbsp;&nbsp;발송자: "+row.senderName+"</th></tr>"+   
                                "<tr><th>"+row.msContent+"</th></tr></tbody></table><div class='footer'></div></div>");
             
-                    if(row.readYn == 0){
+                    /* if(row.readYn == 0){
                             $("#"+i+" .footer").append("<input type='button' style='float:right;' id='letter_read' class='btn btn-danger' value='read'/>");
-                    }
+                    } */
                     i++;    
                 }
             });
@@ -849,7 +849,7 @@ $("#msg_submit").click(function(){
         	
         	if(result == 1) {
             alert("쪽지를 보냈습니다."); 
-            $(".momo").hide();
+            location.href = "/";
         	}
    
         }

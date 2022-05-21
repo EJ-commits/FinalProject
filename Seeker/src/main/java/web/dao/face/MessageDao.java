@@ -44,4 +44,11 @@ public interface MessageDao {
 	 * @param message update할 메시지 DTO
 	 */
 	public void updateRead(Message message);
+	
+	/**
+	 * 메시지 삭제
+	 * 
+	 * @param message - 삭제할 메시지 DTO
+	 */
+	public int deleteMessage(Message message);
 }
