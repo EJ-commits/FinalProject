@@ -7,6 +7,11 @@
 <script type="text/javascript" src="/resources/js/calendar.js"></script>
 
 <style type="text/css">
+#cal {
+	width : 1000px;
+	height : 600px;
+}
+
 #cal-header {
 	display : inline-flex;
 	width : 1000px;
@@ -69,93 +74,95 @@
 	<div></div>
 </div>
 <div id="wrap-box">
-	<div id="cal-header">
-		<div>
-		<div id="plant-box">
-			<c:out value="${nick}" />의 일기
-		</div>
-		</div>
-		<div>
-			<div id="year-box">
-				<button class="btn btn-sm" id="prev-week">&lt;</button>
-				<div id="year">
+	<div id="cal">
+		<div id="cal-header">
+			<div>
+			<div id="plant-box">
+				<c:out value="${nick}" />의 일기
+			</div>
+			</div>
+			<div>
+				<div id="year-box">
+					<button class="btn btn-sm" id="prev-week">&lt;</button>
+					<div id="year">
+					</div>
+					<button class="btn btn-sm" id="next-week">&gt;</button>
 				</div>
-				<button class="btn btn-sm" id="next-week">&gt;</button>
+			</div>
+			<div>
 			</div>
 		</div>
-		<div>
-		</div>
-	</div>
-	<div id="cal-body">
-		<div class="day-box">
-			<br>
-			<div class="date-box">
-			<span class="date"></span>
+		<div id="cal-body">
+			<div class="day-box">
+				<br>
+				<div class="date-box">
+				<span class="date"></span>
+				</div>
+				<hr>
+				<p>일</p>
+				<table class="table table-striped diary-table">
+				</table>
 			</div>
-			<hr>
-			<p>일</p>
-			<table class="table table-striped diary-table">
-			</table>
-		</div>
-		<div class="day-box">
-			<br>
-			<div class="date-box">	
-			<span class="date"></span>
+			<div class="day-box">
+				<br>
+				<div class="date-box">	
+				<span class="date"></span>
+				</div>
+				<hr>
+				<p>월</p>
+				<table class="table table-striped diary-table">
+				</table>
 			</div>
-			<hr>
-			<p>월</p>
-			<table class="table table-striped diary-table">
-			</table>
-		</div>
-		<div class="day-box">
-			<br>
-			<div class="date-box">
-			<span class="date"></span>
+			<div class="day-box">
+				<br>
+				<div class="date-box">
+				<span class="date"></span>
+				</div>
+				<hr>
+				<p>화</p>
+				<table class="table table-striped diary-table">
+				</table>
 			</div>
-			<hr>
-			<p>화</p>
-			<table class="table table-striped diary-table">
-			</table>
-		</div>
-		<div class="day-box">
-			<br>
-			<div class="date-box">
-			<span class="date"></span>
+			<div class="day-box">
+				<br>
+				<div class="date-box">
+				<span class="date"></span>
+				</div>
+				<hr>
+				<p>수</p>
+				<table class="table table-striped diary-table">
+				</table>
 			</div>
-			<hr>
-			<p>수</p>
-			<table class="table table-striped diary-table">
-			</table>
-		</div>
-		<div class="day-box">
-			<br>
-			<div class="date-box">
-			<span class="date"></span>
+			<div class="day-box">
+				<br>
+				<div class="date-box">
+				<span class="date"></span>
+				</div>
+				<hr>
+				<p>목</p>
+				<table class="table table-striped diary-table">
+				</table>
 			</div>
-			<hr>
-			<p>목</p>
-			<table class="table table-striped diary-table">
-			</table>
-		</div>
-		<div class="day-box">
-			<br>
-			<div class="date-box">
-			<span class="date"></span>
+			<div class="day-box">
+				<br>
+				<div class="date-box">
+				<span class="date"></span>
+				</div>
+				<hr>
+				<p>금</p>
+				<table class="table table-striped diary-table">
+				</table>
 			</div>
-			<hr>
-			<p>금</p>
-			<table class="table table-striped diary-table">
-			</table>
-		</div>
-		<div class="day-box">
-			<br>
-			<div class="date-box">
-			<span class="date"></span>
+			<div class="day-box">
+				<br>
+				<div class="date-box">
+				<span class="date"></span>
+				</div>
+				<hr>
+				<p>토</p>
+				<table class="table table-striped diary-table">
+				</table>
 			</div>
-			<hr>
-			<p>토</p>
-			<table class="table table-striped diary-table">
-			</table>
 		</div>
 	</div>
 </div>

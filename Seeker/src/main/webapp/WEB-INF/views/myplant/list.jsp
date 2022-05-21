@@ -5,6 +5,11 @@
 <c:import url="/WEB-INF/views/layout/header.jsp" />
 
 <style type="text/css">
+#list {
+	width : 1000px;
+	height : 600px;	
+}
+
 #post-box {
 	height: 30px;
 	width : 1000px;
@@ -102,45 +107,47 @@ window.onload = function() {
 	<div></div>
 </div>
 <div id="wrap-box">
-	<div id="post-box">
-	<span class="text-muted" id="write-text">식물은 3개까지 등록할 수 있어요!&nbsp;</span>
-	<button type="button" class="btn btn-success btn-sm" id="write-button">식물 등록 하기</button>
-	</div>
-	<c:forEach items="${list}" var="myPlant">
-	<div id="list-box">
-		<div class="calendar-box">
-			<div class="calendar bg-success" hidden="true">
-				<span>캘린더 보기</span>
-			</div>
+	<div id="list">
+		<div id="post-box">
+		<span class="text-muted" id="write-text">식물은 3개까지 등록할 수 있어요!&nbsp;</span>
+		<button type="button" class="btn btn-success btn-sm" id="write-button">식물 등록 하기</button>
 		</div>
-		<div class="profile-box">
-			<div class="img-box">
-				<c:if test="${not empty myPlant.stored}">
-					<img src="/upload/${myPlant.stored}" class="img-thumbnail">
-				</c:if>
-				<c:if test="${empty myPlant.stored}">
-					<img src="/resources/img/default.jpg" class="img-thumbnail">
-				</c:if>
+		<c:forEach items="${list}" var="myPlant">
+		<div id="list-box">
+			<div class="calendar-box">
+				<div class="calendar bg-success" hidden="true">
+					<span>캘린더 보기</span>
+				</div>
 			</div>
-			<div class="profile">
-				<table class="table">
-					<tr><td>식물명 : </td><td>${myPlant.bname}</td></tr>
-					<tr><td>이름 : </td><td>${myPlant.nick}</td></tr>
-					<tr><td>심은날 : </td><td>${myPlant.birth}</td></tr>
-				</table>	
+			<div class="profile-box">
+				<div class="img-box">
+					<c:if test="${not empty myPlant.stored}">
+						<img src="/upload/${myPlant.stored}" class="img-thumbnail">
+					</c:if>
+					<c:if test="${empty myPlant.stored}">
+						<img src="/resources/img/default.jpg" class="img-thumbnail">
+					</c:if>
+				</div>
+				<div class="profile">
+					<table class="table">
+						<tr><td>식물명 : </td><td>${myPlant.bname}</td></tr>
+						<tr><td>이름 : </td><td>${myPlant.nick}</td></tr>
+						<tr><td>심은날 : </td><td>${myPlant.birth}</td></tr>
+					</table>	
+				</div>
+				<div class="button-box">
+					<a href="/myplant/alter?no=${myPlant.myPlantNo}">
+					<button type="button" class="btn btn-info btn-sm">변경</button>
+					</a>
+					<a href="/myplant/delete?no=${myPlant.myPlantNo}">
+					<button type="button" class="btn btn-warning btn-sm">삭제</button>
+					</a>
+				</div>
 			</div>
-			<div class="button-box">
-				<a href="/myplant/alter?no=${myPlant.myPlantNo}">
-				<button type="button" class="btn btn-info btn-sm">변경</button>
-				</a>
-				<a href="/myplant/delete?no=${myPlant.myPlantNo}">
-				<button type="button" class="btn btn-warning btn-sm">삭제</button>
-				</a>
-			</div>
+			<span class="number" hidden="true">${myPlant.myPlantNo}</span>
 		</div>
-		<span class="number" hidden="true">${myPlant.myPlantNo}</span>
+		</c:forEach>
 	</div>
-	</c:forEach>
 </div>
 
 <c:import url="/WEB-INF/views/layout/footer.jsp" />
