@@ -19,28 +19,37 @@
  		<result column="read_yn" property="readYn"/>
  	</resultMap> 
 
-	<!-- 발송된 메세지 카운트 -->
+	<!-- 읽지 않은 메세지 카운트 -->
 	<select id="countMessageView" resultType="String">
         SELECT count(*) FROM tbl_message 
         WHERE receiver_name= #{receiverName}
         	AND division = 0
     </select> 
     
+    <!-- 수신한 메세지 전체 List -->
 	<select id="findList" resultMap="Message">
         SELECT * FROM tbl_message 
         WHERE receiver_name= #{receiverName}
-        	AND division = 0
         ORDER BY ms_date DESC
     </select>
     
+    <!-- 메세지 보내기 -->
     <insert id="insertMessage" parameterType="web.dto.Message">
     	INSERT INTO tbl_message(message_no, ms_title, receiver_name, division, ms_content, sender_name, member_no, read_yn)
     	VALUES(tbl_message_seq.nextval, #{msTitle}, #{receiverName}, #{division}, #{msContent}, #{senderName}, #{memberNo}, #{readYn})
     </insert>
 	
+	<!-- 유저 List -->
 	<select id="searchMember" resultType="web.dto.Member">
 		SELECT id FROM member
 		ORDER BY id desc
 	</select>
+	
+	<!-- 메세지 확인 시 읽음 처리 -->
+	<update id="updateRead">
+		UPDATE tbl_message
+		SET division = #{division}
+		WHERE receiver_name= #{receiverName}
+	</update>
 	
 </mapper>

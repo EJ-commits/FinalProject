@@ -8,6 +8,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,18 +22,29 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import web.dto.Member;
 import web.dto.Message;
 import web.service.face.MessageService;
+import web.ws.MessageHandler;
 
 @Controller
 public class MessageController {
 	
 	@Autowired private MessageService messageService;
 	
+	private static final Logger logger = LoggerFactory.getLogger(MessageController.class);
+	
 	@ResponseBody
 	@RequestMapping(value = "/message/list", method = RequestMethod.POST)
 	public Map<String, Object> findMessageList(Message message, Model model) {
+		
+		message.setDivision(1);
+		message.setReadYn(0);
+		messageService.updateRead(message);
+		
 		List<Message> msg_result = messageService.findList(message.getReceiverName());
 		Map<String, Object> result = new HashMap<>();
 		result.put("result", msg_result);
+		
+		logger.info("message : {}", message);
+		logger.info("msg_result : {}", msg_result);
 		
 		model.addAttribute("message", message);
 		

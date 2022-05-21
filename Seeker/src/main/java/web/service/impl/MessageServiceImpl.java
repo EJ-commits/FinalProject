@@ -47,4 +47,10 @@ public class MessageServiceImpl implements MessageService {
 		return userList;
 	}
 
+	@Override
+	public void updateRead(Message message) {
+		
+		messageDao.updateRead(message);
+	}
+
 }
