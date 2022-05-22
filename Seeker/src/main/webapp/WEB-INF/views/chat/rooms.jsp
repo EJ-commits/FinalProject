@@ -41,6 +41,14 @@
   </style>	
   <script type="text/javascript"> 
   
+  $(document).ready(function(){
+	     if (self.name != 'reload') {
+	         self.name = 'reload';
+	         self.location.reload(true);
+	     }
+	     else self.name = ''; 
+  })
+  
 	function chkNull(){
 		var roomName =$("#roomName").val();
 		var nameLength = roomName.trim().length

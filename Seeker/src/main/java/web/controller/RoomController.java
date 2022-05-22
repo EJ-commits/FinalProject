@@ -39,6 +39,7 @@ public class RoomController {
 	public String getRoom(String roomId, Model model, HttpSession session) {
 		ChatRoomDto room = chatService.findRoomById(roomId);
 		String userid = (String) session.getAttribute("id");
+		logger.info("채팅방 입장시 전달되는 모델값 {}", room);
 		model.addAttribute("room",room);
 		
 		//세션 목록에 접속중인 유저명 추가 
@@ -67,8 +68,10 @@ public class RoomController {
 		ChatDto chatDto = new ChatDto();
 		//채팅방 접속자 0명일시 채팅방 삭제 
 		if (room.nameList.size() == 0)
+			logger.info("마지막 접속자 {}", chatDto);
 			logger.info("채팅방 접속자 삭제 로직 {}", room.nameList.size() == 0);
 			chatDto.setRoomId(roomId);
+			chatDto.setUserID(userid);
 			chatDto.setIsEnd(1);
 			chatDto.setChatLog("퇴장");
 			chatService.saveMsg(chatDto); // 퇴장 문구 db 삽입
