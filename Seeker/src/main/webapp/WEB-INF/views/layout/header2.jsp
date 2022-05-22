@@ -849,67 +849,7 @@ $(document).ready(function(){
 
 <body>
 
-<!-- ----------------------------------여기부터 쪽지-------------------------------------- -->
-<div id="mysidenav" class="sidenav">
-        <a href="#" class="closebtn" onclick='closeNav()'>x</a>
-        <div id="mssage_send_btn" name="mssage_send_btn" class="btn btn-warning"><p>쪽지 보내기</p></div>
-        <!--  <div id="bbb" name="mssage_send_btn" class="btn btn-warning"><p>쪽지</p></div> -->
-    </div>
-    
-<div class="modal fade momo" id="MsgForm" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header fn-font">
-                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">X</span>
-                    </button>
-                </div>
-                <form class="msg_form">
-                    <!-- <input type="hidden" id="flag" name="flag" value="insert"/> -->
-                    <input type="hidden" id="memberNo" name="memberNo" value="${memberNo}"/>
-                    <div class="modal-body fn-font">
-                        <table>
-                            <colgroup>
-                                <col style="width:150px;"/>
-                                <col style="width:px;"/>
-                            </colgroup>
-                            <tbody>
-                                <tr>
-                                    <th>작성자</th>
-                                    <th><input type="text" id="senderName" name="senderName" class="form-control" value="<c:out value='${id}'/>" readonly/></th>
-                                </tr>
-                                <tr>
-                                    <th>받는 사람</th>
-                                    <th>
-                                        <select id="receiverName" name="receiverName" class="form-control user" value="">
-                                            
-                                                <option value="">전체</option>
-                                            
-                                        </select>
-                                    </th>
-                                </tr>
-                                <tr>
-                                    <th>제목</th>
-                                    <th><input type="text" id="msTitle" name="msTitle" class="form-control" value=""/></th>
-                                    
-                                </tr>
-                                <tr>
-                                    <th>내용</th>
-                                    <th><textArea id="msContent" name="msContent" class="form-control"></textArea></th>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </form>
-                <div class="modal-footer fn-font">
-                    <button class="btn" type="button" id="msg_submit">보내기</button>
-                    <button class="btn" type="button" data-dismiss="modal">취소</button>
-                </div>
-            </div>
-        </div>
-    </div>
-    
-<!-- ----------------------------------여기까지 쪽지-------------------------------------- -->
+
 <!-- ===========화상통화 알림창============ -->
 <div id="socketAlert" class="alert alert-success" role="alert" style="display:none; margin: 0;" onClick="okCall()"></div>
 
