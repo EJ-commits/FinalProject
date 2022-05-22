@@ -160,7 +160,8 @@ $(document).ready(function(){
  					userID: username,
  					chatLog: msg.val()
  					}))
-         msg.value = '';
+ 					
+          $("#messages").val('')
 	 })
 	 
 	  $("#disconn").click(function(){
@@ -273,7 +274,9 @@ $(document).ready(function(){
 		                   $("#inner").append(str);
 		            }
 				}
+	  $("#inner").append("<br>");
 	  $("#inner").append("-------------이전 대화 내역-------------");
+	  $("#inner").append("<br>");
 				
 		},
 		

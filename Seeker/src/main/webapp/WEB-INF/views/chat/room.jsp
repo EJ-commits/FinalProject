@@ -138,7 +138,7 @@ $(document).ready(function(){
  					userID: username,
  					chatLog: msg.val()
  					}))
-         $("#messages").empty();
+         $("#messages").val('')
 	 
 	 })
 	 
