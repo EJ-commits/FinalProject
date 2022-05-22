@@ -206,6 +206,7 @@ public class AdminController {
 	//관리자 로그아웃
 	@RequestMapping(value="/member/logout", method=RequestMethod.GET)
 	public String adminLogout(HttpSession session) {
+		
 		session.invalidate();
 		
 		return "/admin/index";
@@ -369,19 +370,20 @@ public class AdminController {
 	
 	//게시글의 댓글 삭제
 	@RequestMapping(value="/comment/delete")
-	public String adminCommentDel(String boardNo, String replyNo) {
+	public String adminCommentDel(String replyNo, String boardNo) {
 		logger.info("/comment/delete[접속]");
-		logger.info("boardNo:{}",boardNo);
-		logger.info("replyNo:{}",replyNo);
+		logger.info("boardno:{}",boardNo);
+		logger.info("replyno:{}",replyNo);
 		
 		if(Integer.parseInt(boardNo)<1) {
-			return "redirect:/admin/board/detail?boardNo="+boardNo;
-		}
-		
+			return "redirect:/admin/board/detail?boardno="+boardNo;
+		} 
+			
 		//댓글 삭제
 		adminService.deleteReply(Integer.parseInt(replyNo));
-		
-		return "redirect:/admin/board/detail?boardNo="+boardNo;
+		 
+		logger.info("boardno2:{}",boardNo);
+		return "redirect:/admin/board/detail?boardno="+boardNo;
 	}
 
 }

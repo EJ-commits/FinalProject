@@ -99,11 +99,11 @@ ${boardinfo.bcontent }
 <c:forEach items="${reply }" var="i">
 <div style="border-bottom:1px solid #ccc;margin-top:5px;">
 	<span>${i.id }</span>
-	<span style="margin-right:10px;cursor:pointer;"class="pull-right" onclick="if( confirm('해당 댓글을 삭제하시겠습니까?') ){location.href='/admin/comment/delete?replyNo=${i.replyNo}&boardno=${boardinfo.boardno }'}" >삭제</span>
+	<span style="margin-right:10px;cursor:pointer;"class="pull-right" onclick="if( confirm('해당 댓글을 삭제하시겠습니까?') ){location.href='/admin/comment/delete?replyNo=${i.replyno}&boardNo=${boardinfo.boardno }'}" >삭제</span>
 	<br class="clearfix">
 	<span>${i.content }</span>
 	<br>
-	<span><fmt:formatDate value="${i.bDate }" pattern="yyyy-MM-dd"/></span>
+	<span>${i.bdate }</span>
 </div>
 </c:forEach>
 
