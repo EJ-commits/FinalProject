@@ -349,7 +349,7 @@ button {
     width : 300px;
     height : 150px;
 }
-.letter .header {
+.letter .letter_header {
     background-color : #e60e45;
     font-color : white;
 }
@@ -364,6 +364,8 @@ button {
 .msg_form .modal-body table tbody tr {
     margin-bottom : 20px;
 }
+
+
 </style>
 
 
@@ -879,8 +881,8 @@ function openNav() {
                 if($("#"+i).length >0){
                 }else{
                 	/* $("#mysidenav").children().remove(); */
-                    $("#mysidenav").append("<div id='"+ row.memberNo +"'class='letter'><div class='header'><p style='color:white;font-size:23px;margin-left: 20px;'>"+row.msTitle+"</p></div><table><tbody><tr><th>"+date+"</th><th>&nbsp;&nbsp;발송자: "+row.senderName+"</th></tr>"+   
-                               "<tr><th>"+row.msContent+"</th></tr></tbody></table><div class='footer'></div></div>");
+                    $("#mysidenav").append("<div id='"+ row.memberNo +"'class='letter'><div class='letter_header'><p style='color:white;font-size:23px;margin-left: 20px;'>"+row.msTitle+"</p></div><table><tbody><tr style='border-bottom: none;'><th>"+date+"</th><th>&nbsp;&nbsp;발송자: "+row.senderName+"</th></tr>"+   
+                               "<tr style='border-bottom: none;'><th>"+row.msContent+"</th></tr></tbody></table><div class=''></div></div>");
             
                     /* if(row.readYn == 0){
                             $("#"+i+" .footer").append("<input type='button' style='float:right;' id='letter_read' class='btn btn-danger' value='read'/>");
