@@ -3,31 +3,27 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
-<c:import url="/WEB-INF/views/layout/header.jsp" />
+<meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1"
+    />
 
-<div id="wrap-box-top">
-</div>
-<div id="wrap-box" style="margin:0px;padding:0px;">
+  <!-- Link Swiper's CSS -->
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/swiper/swiper-bundle.min.css"
+    />
+
+
+
+
+<c:import url="/WEB-INF/views/layout/header.jsp" />
 
 <link rel="stylesheet" type="text/css" href="../../resources/css/weather-icons.min.css">
 
 <script type="text/javascript">
 $(document).ready(function(){
 	
-// 	$.ajax({
-// 		type:"get",			//요청 메소드
-// 		url:"/main/address",				//요청 URL
-// 		data:{address:$('#address').val()},			//요청 파라미터, 전달 데이터
-// 		dataType:"json",		//응답받을 데이터 형식
-// 		success:function(res){	//AJAX응답 성공 시 콜백
-// 			console.log("AJAX성공")
-// 			console.log(res)
-			
-// 		},
-// 		error:function(){	//AJAX응답 실패 시 콜백
-// 			console.log("AJAX실패")
-// 		}
-// 	})
 	
 	//window.navigator.geolocation.getCurrentPosition() API를 사용
 	//성공 시 showLocation함수 호출, 실패 시 showError함수 호출
@@ -59,7 +55,7 @@ $(document).ready(function(){
 					if(key==res.icon){
 					console.log('키 : '+key + ', 값 : ' + weatherIcon[key])
 					$("#wicon").empty();
-					$('#wicon').append('<i class="' + weatherIcon[key] +'" style="font-size:140px;"></i>');
+					$('#wicon').append('<i class="' + weatherIcon[key] +'" style="font-size:270px;"></i>');
 					}
 				}
 				
@@ -256,7 +252,7 @@ function getWeather(latitude, longitude){
 				if(key==res.icon){
 				console.log('키 : '+key + ', 값 : ' + weatherIcon[key])
 				$("#wicon").html("");
-				$('#wicon').append('<i class="' + weatherIcon[key] +'" style="font-size:140px;"></i>');
+				$('#wicon').append('<i class="' + weatherIcon[key] +'" style="font-size:270px;"></i>');
 				}
 			}
 			
@@ -310,20 +306,6 @@ ul{
    height:620px;
    text-align:center;
 }
-
-/* 메인메뉴 백그라운드 이미지 */
-/* .nav:after { */
-/*     content : ""; */
-/*     display: block; */
-/*     position: absolute; */
-/*     top: 0; */
-/*     left: 0; */
-/*     background-image: url('../../resources/img/mainNav.jpg');  */
-/*     width: 100%; */
-/*     height: 100%; */
-/*     opacity : 0.2; */
-/*     z-index: -1; */
-/* } */
 .nav ul li{
 	width:230px;
 	height:80px;
@@ -355,65 +337,178 @@ ul{
 #address:focus{
 	outline: none;
 }
-#myplant{
-	overflow:auto;
-	border:1px solid #ccc;
-	width:397px;
-	height:150px;
+/* #myplant{ */
+/* 	overflow:auto; */
+/* 	border:1px solid #ccc; */
+/* 	width:397px; */
+/* 	height:150px; */
+/* } */
+td{
+	text-align:center;
+	width:150px;
 }
+tr{
+	border-bottom:1px solid #ccc;
+}
+
+      html, body {
+        position: relative !important;
+        height: 100% !important;
+        width : 1200px !important;
+		margin : auto !important;
+		background:white;
+      }
+
+      body {
+        background: #eee !important;
+        font-family: Helvetica Neue, Helvetica, Arial, sans-serif !important;
+        font-size: 14px !important;
+        color: #000 !important;
+        margin: 0 !important;
+        padding: 0 !important;
+      }
+
+      .swiper {
+        width: 100%;
+        height: 100%;
+      }
+
+      .swiper-slide {
+        text-align: center;
+        font-size: 18px;
+        background: #fff;
+
+        /* Center slide text vertically */
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: -webkit-flex;
+        display: flex;
+        -webkit-box-pack: center;
+        -ms-flex-pack: center;
+        -webkit-justify-content: center;
+        justify-content: center;
+        -webkit-box-align: center;
+        -ms-flex-align: center;
+        -webkit-align-items: center;
+        align-items: center;
+      }
+
+      .swiper-slide img {
+        display: block;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+      #header{
+      	background-color:white !important;
+      }
+      #wrap-box-bottom{
+      	background-color:white !important;
+      	margin-top:0;
+      }
+      
+      
 </style>
 
-<div class="col-xs-3 nav">
-	<ul class="flex-column" style="font-size:35px;margin-top:240px;">
-		<li class="nav-item"><a href="">자유게시판</a></li>
-		<li class="nav-item"><a href="">사진게시판</a></li>
-		<li class="nav-item"><a href="">식물원</a></li>
-	</ul>
-</div>
 
-<div>
-	<div class="col-xs-9 text-center"style="margin-bottom:30px;height:350px;">
-	
-		<div class="weather" style="margin-top:50px;">
+ <!-- Swiper -->
+    <div class="swiper mySwiper">
+      <div class="swiper-wrapper">
+      	
+      	<div class="swiper-slide">
+        <div id="search">
+			<div style="margin-top:0;font-size:105px;">
+				나는 <span contenteditable="true" id="searchPlant" style="width:500px;display:inline-block;color:#688331;font-size:105px;text-align:center;"></span>&nbsp를<br>
+				잘 키우는 방법이<br>
+				궁금하다. <span id="searchIcon"><svg id="btnPlant" xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-arrow-up-right" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M14 2.5a.5.5 0 0 0-.5-.5h-6a.5.5 0 0 0 0 1h4.793L2.146 13.146a.5.5 0 0 0 .708.708L13 3.707V8.5a.5.5 0 0 0 1 0v-6z"/></svg></span>
+			</div>
+			<div><a class="naverSearch" style="margin-left:10px;cursor:pointer;">네이버 백과로 검색하기</a></div>
+		</div>
+        </div>
+      	
+      	<div class="swiper-slide">
+        <div class="weather" style="width:100%;">
 		
 			<div id="wicon" class="col-xs-offset-2 col-xs-3"style="margin-top:30px;margin-right:30px;"></div>
 			
-			<div class="col-xs-5" style="margin-left:0px;font-size:21px;">
-				<span id="city"></span><br>
-				<span id="condition"></span><br>
-				<span id="temp"></span><br>
-				<span id="humidity"></span><br>
-				<span id="windSpeed"></span><br>
+			<div style="margin-left:0px;">
+				<span style="font-size:43px;" id="city"></span><br>
+				<span style="font-size:43px;" id="condition"></span><br>
+				<span style="font-size:43px;" id="temp"></span><br>
+				<span style="font-size:43px;" id="humidity"></span><br>
+				<span style="font-size:43px;" id="windSpeed"></span><br>
 				
-				<input type="text" name="address" id="address" style="border:none;border-bottom:1px solid #ccc;">
+				<input type="text" name="address" id="address" style="margin-left:540px;border:none;border-bottom:1px solid black;">
 				<button id="searchAddress">검색</button>
 			
 			</div>
 			
 		</div>
-		
-	</div>
-	
-	<div class="col-xs-9">
-		<div id="myplant" class="col-xs-6">
-			<table class="table table-striped">
-			<tr>
-				<td>감돌이</td>
-				<td>물을 주세요</td>
-			</tr>
+        </div>
+      	
+        <div class="swiper-slide">
+        <div style="width:60%;height:70%;"><img src="<%=request.getContextPath() %>/upload/${dailyPlant.imgStoredName }"alt="그림을 불러오지못함" style="width:100%;height:100%;"></div>
+        <div style="margin-left:50px;">
+			<table>
+				<tr style="height:50px;">
+					<td style="font-size:50px;" colspan="2">추천 식물 소개</td>
+				</tr>
+				<tr style="height:40px;">
+					<td>식물명:</td>
+					<td>${dailyPlant.name }</td>
+				</tr>
+				<tr style="height:40px;">
+					<td>물주기:</td>
+					<td>${dailyPlant.water }</td>
+				</tr>
+				<tr style="height:40px;">
+					<td>햇빛:</td>
+					<td>${dailyPlant.sun }</td>
+				</tr>
+				<tr style="height:40px;">
+					<td>습도:</td>
+					<td>${dailyPlant.humidity }</td>
+				</tr>
 			</table>
 		</div>
-		
-		<div id="search" class="col-xs-6">
-			<div style="margin-left:62px;">
-				나는 <span contenteditable="true" id="searchPlant" style="width:200px;display:inline-block;color:#688331;font-size:30px;text-align:center;"></span>&nbsp를<br>
-				잘 키우는 방법이<br>
-				궁금하다. <span id="searchIcon"><svg id="btnPlant" xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-arrow-up-right" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M14 2.5a.5.5 0 0 0-.5-.5h-6a.5.5 0 0 0 0 1h4.793L2.146 13.146a.5.5 0 0 0 .708.708L13 3.707V8.5a.5.5 0 0 0 1 0v-6z"/></svg></span>
-			</div>
-		</div>
-		<div><a class="naverSearch" style="margin-left:532px;cursor:pointer;">네이버 백과로 검색하기</a></div>
-	</div>
-</div>
+        </div>
+        
+        
+        
+        
+      </div>
+      <div class="swiper-pagination"></div>
+    </div>
+
+    <!-- Swiper JS -->
+    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+
+    <!-- Initialize Swiper -->
+    <script>
+      var swiper = new Swiper(".mySwiper", {
+        direction: "vertical",
+        slidesPerView: 1,
+        spaceBetween: 30,
+        mousewheel: true,
+        pagination: {
+          el: ".swiper-pagination",
+          clickable: true,
+        },
+      });
+    </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 <!-- -------------------------------------------------- -->
 <div>
@@ -471,7 +566,6 @@ ul{
 	};
 </script>
 
-</div>
 
 
 <c:import url="/WEB-INF/views/layout/footer.jsp" />

@@ -7,6 +7,7 @@ import web.dto.Admin;
 import web.dto.Board;
 import web.dto.BoardFile;
 import web.dto.Category;
+import web.dto.DailyPlant;
 import web.dto.Goods;
 import web.dto.GoodsView;
 import web.dto.Member;
@@ -218,4 +219,10 @@ public interface AdminDao {
 	 * @param board 삭제할 boardno
 	 */
 	public void deleteFileByBoardNo(Board board);
+	
+	/**
+	 * 식물 추천 정보 입력
+	 * @param daliyPlant - 식물 정보
+	 */
+	public void dailyPlantInsert(DailyPlant dailyPlant);
 }

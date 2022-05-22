@@ -216,7 +216,7 @@ body {
 			<a href="/admin/goods/list">상품 관리</a>
 		</div>
 		<div class="header-menu-box">
-			<a href="">1:1 문의 채팅</a>
+			<a href="/chat/chatList11">1:1 문의 채팅</a>
 		</div>
 		<div id="header-login-box">
 		<c:if test="${empty adminid }">

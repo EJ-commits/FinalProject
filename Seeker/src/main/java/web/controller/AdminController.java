@@ -20,6 +20,7 @@ import web.dto.Admin;
 import web.dto.Board;
 import web.dto.BoardFile;
 import web.dto.Category;
+import web.dto.DailyPlant;
 import web.dto.Goods;
 import web.dto.GoodsView;
 import web.dto.Member;
@@ -206,6 +207,7 @@ public class AdminController {
 	//관리자 로그아웃
 	@RequestMapping(value="/member/logout", method=RequestMethod.GET)
 	public String adminLogout(HttpSession session) {
+		
 		session.invalidate();
 		
 		return "/admin/index";
@@ -369,19 +371,32 @@ public class AdminController {
 	
 	//게시글의 댓글 삭제
 	@RequestMapping(value="/comment/delete")
-	public String adminCommentDel(String boardNo, String replyNo) {
+	public String adminCommentDel(String replyNo, String boardNo) {
 		logger.info("/comment/delete[접속]");
-		logger.info("boardNo:{}",boardNo);
-		logger.info("replyNo:{}",replyNo);
+		logger.info("boardno:{}",boardNo);
+		logger.info("replyno:{}",replyNo);
 		
 		if(Integer.parseInt(boardNo)<1) {
-			return "redirect:/admin/board/detail?boardNo="+boardNo;
-		}
-		
+			return "redirect:/admin/board/detail?boardno="+boardNo;
+		} 
+			
 		//댓글 삭제
 		adminService.deleteReply(Integer.parseInt(replyNo));
-		
-		return "redirect:/admin/board/detail?boardNo="+boardNo;
+		 
+		logger.info("boardno2:{}",boardNo);
+		return "redirect:/admin/board/detail?boardno="+boardNo;
+	}
+	
+	//메인페이지 식물추천 글쓰기
+	@RequestMapping(value = "/plant/insert", method = RequestMethod.GET)
+	public void plantInfoInsertView() {}
+	
+	//식물추천 insert
+	@Transactional
+	@RequestMapping(value = "/plant/insert", method = RequestMethod.POST)
+	public String plantInfoInsert(DailyPlant dailyPlant, MultipartFile file) {
+		adminService.plantInfowrite(dailyPlant, file);
+		return "redirect:/admin/index";
 	}
 
 }
