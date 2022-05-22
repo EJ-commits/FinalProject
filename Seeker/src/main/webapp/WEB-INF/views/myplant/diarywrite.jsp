@@ -2,7 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<c:import url="/WEB-INF/views/layout/header.jsp" />
+<c:import url="/WEB-INF/views/layout/header2.jsp" />
 
 <link rel="stylesheet" href="/resources/css/diaryform.css">
 <script type="text/javascript" src="/resources/js/diarywrite.js"></script>
