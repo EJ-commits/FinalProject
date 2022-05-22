@@ -785,11 +785,11 @@ function okCall(){
                                 <col style="width:px;"/>
                             </colgroup>
                             <tbody>
-                                <tr>
+                                <tr style="border-bottom: none;">
                                     <th>작성자</th>
                                     <th><input type="text" id="senderName" name="senderName" class="form-control" value="<c:out value='${id}'/>" readonly/></th>
                                 </tr>
-                                <tr>
+                                <tr style="border-bottom: none;">
                                     <th>받는 사람</th>
                                     <th>
                                         <select id="receiverName" name="receiverName" class="form-control user" value="">
@@ -799,12 +799,12 @@ function okCall(){
                                         </select>
                                     </th>
                                 </tr>
-                                <tr>
+                                <tr style="border-bottom: none;">
                                     <th>제목</th>
                                     <th><input type="text" id="msTitle" name="msTitle" class="form-control" value=""/></th>
                                     
                                 </tr>
-                                <tr>
+                                <tr style="border-bottom: none;">
                                     <th>내용</th>
                                     <th><textArea id="msContent" name="msContent" class="form-control"></textArea></th>
                                 </tr>
