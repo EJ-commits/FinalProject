@@ -18,5 +18,6 @@
   <li><a href="/admin/goods/orderList">주문 목록</a></li>
 <!--   <a href=""><li>상품 소감</li></a> -->
   <li><a href="/admin/member/list">회원 목록</a></li>
+  <li><a href="/admin/plant/insert">메인 식물 등록</a></li>
  </ul>
 </aside>

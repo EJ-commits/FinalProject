@@ -20,6 +20,7 @@ import web.dto.Admin;
 import web.dto.Board;
 import web.dto.BoardFile;
 import web.dto.Category;
+import web.dto.DailyPlant;
 import web.dto.Goods;
 import web.dto.GoodsView;
 import web.dto.Member;
@@ -384,6 +385,18 @@ public class AdminController {
 		 
 		logger.info("boardno2:{}",boardNo);
 		return "redirect:/admin/board/detail?boardno="+boardNo;
+	}
+	
+	//메인페이지 식물추천 글쓰기
+	@RequestMapping(value = "/plant/insert", method = RequestMethod.GET)
+	public void plantInfoInsertView() {}
+	
+	//식물추천 insert
+	@Transactional
+	@RequestMapping(value = "/plant/insert", method = RequestMethod.POST)
+	public String plantInfoInsert(DailyPlant dailyPlant, MultipartFile file) {
+		adminService.plantInfowrite(dailyPlant, file);
+		return "redirect:/admin/index";
 	}
 
 }
