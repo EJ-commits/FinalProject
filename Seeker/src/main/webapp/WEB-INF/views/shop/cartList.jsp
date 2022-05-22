@@ -374,7 +374,7 @@ aside#aside li > ul.low li { width:180px; }
 					   		    pay_method : 'card',
 					   		    merchant_uid: "merchant_" + new Date().getTime(), // 상점에서 관리하는 주문 번호를 전달
 					   		    name : '${cartList[0].gdsName}',
-					   		    amount : '10',
+					   		    amount : '${total}',
 					   		    buyer_email : '${member.email}',
 					   		    buyer_name : '${member.name}',
 					   		    buyer_tel : '${member.phone}',
