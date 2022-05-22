@@ -16,7 +16,7 @@
         .chat_wrap .inner{background-color:#acc2d2; border-radius:5px; padding:10px; overflow-y:scroll;height: 400px;}
         .chat_wrap .item{margin-top:15px}
         .chat_wrap .item:first-child{margin-top:0px}
-        .chat_wrap .item .box{ max-width:none; position:initial}
+        .chat_wrap .item .box{ max-width:none; position:initial;}
         .chat_wrap .item .box::before{content:""; position:absolute; left:-8px; top:9px; border-top:0px solid transparent; border-bottom:8px solid transparent;border-right:8px solid #fff;}
         .chat_wrap .item .box .msg {background:#fff; border-radius:10px; padding:8px; text-align:left}
         .chat_wrap .item .box .time {font-size:11px; color:#999; position:inherit; padding-left:5px; right: -75px; bottom:5px; width:70px}
@@ -27,6 +27,8 @@
         .chat_wrap .item .box{transition:all .3s ease-out; margin:0 0 0 20px;opacity: 7}
         .chat_wrap .item .mymsg .box{transition:all .3s ease-out; margin:0 20px 0 0;}
         .chat_wrap .item.on .box{margin:0; opacity: 1;}
+
+		.msg.anothermsg.box { text-align: left;}
 
         input[type="text"]{border:0; width:85%;background:#ddd; border-radius:5px; height:30px; padding-left:5px; box-sizing:border-box; margin-top:5px}
         input[type="text"]::placeholder{color:#999}
@@ -87,16 +89,18 @@ $(document).ready(function(){
                 str += currentTime()
                 str += "</span>";
                 str += "</div></div></div></div>";
+                str += "<div></div>"
                 $("#inner").append(str);
             }
             else{
             	   str = "<div class=' item box '>";
-                   str += "<div class='msg box'>";
+                   str += "<div class='msg anothermsg box'>";
                    str +=  writer + " : " + message 
                    str += "<span class='time'>"
                    str += currentTime()
                    str += "</span>";
                    str += "</div></div></div></div>";
+	                str += "<div></div>"
                    $("#inner").append(str);
             }
 
@@ -214,7 +218,7 @@ $(document).ready(function(){
 }
 
 		
-		if(!confirm("저장?")){ // 저장안함
+		if(!confirm("채팅 내역을 저장하시겠습니까?")){ // 저장안함
 			forcheckSaveDiv.click() 
 		} else { // 저장함 
 			pro1();
@@ -225,7 +229,7 @@ $(document).ready(function(){
 	  })//disconn end
 	
 	  $("#forcheckSaveDiv").click(function(){
-          		if (confirm("종료?")){ //종료함
+          		if (confirm("채팅을 종료하시겠습니까?")){ //종료함
      		    	onClose();
           		}
 	  })	
@@ -244,7 +248,8 @@ $(document).ready(function(){
 				for(var i=0; i<pastChat.length; i++){
 				var writer = pastChat[i].userID
 		 		var message = pastChat[i].chatLog
-		 		var time = pastChat[i].chatDate
+		 		var time = pastChat[i].chatDate.substring(0,11)
+		 		console.log(time)
 				var str = writer + ":" + message 
 					
 		            if(writer === username){
@@ -258,8 +263,8 @@ $(document).ready(function(){
 		                $("#inner").append(str);
 		            }
 		            else{
-		            	   str = "<div class=' item box '>";
-		                   str += "<div class='msg box'>";
+		            	   str = "<div class=' item  box '>";
+		                   str += "<div class='msg anothermsg box'>";
 		                   str +=  writer + " : " + message 
 		                   str += "<span class='time'>"
 		                   str += time
