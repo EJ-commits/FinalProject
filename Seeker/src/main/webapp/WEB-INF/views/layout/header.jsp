@@ -373,31 +373,22 @@ button {
 
 $(document).ready(function(){
 	var username = '${id}'
-	console.log('${id}')
-	if('${id}'!='') {// 아이디가 비어있지 않다면
-		//클라이언트 소켓 만들기 
-		var sockJS = new SockJS("/notice")
-		var stomp = Stomp.over(sockJS);
+		console.log('${id}')
 		
-		stomp.connect({},function(){
-			stomp.subscribe("/sub/notice"+username, function(notice){
-			
-			var alArray = JSON.parse(notice.body)	
-			console.log(alArray)
-			
-			stomp.disconnect();
-			
-			if(alArray[0]!='noPlantsWantWater'){
-				$(".dropdown").eq(0).find("#wantsWater").html("물이 먹고 싶어요.")
-				$(".dropdown").eq(0).find("#alarm1").html(alArray[0].nick)
-				if(alArray[1]!=null)
-					$(".dropdown").eq(0).find("#alarm2").html(alArray[1].nick)
-				if(alArray[2]!=null)
-					$(".dropdown").eq(0).find("#alarm3").html(alArray[2].nick)
-			}else if(alArray[0]=='noPlantsWantWater'){
-				$(".dropdown").eq(0).find("#wantsWater").html(alArray[1])
-			}
-			})
+
+	if('${id}' == '' ) {
+			$(".dropdown").eq(0).find("#wantsWater").html("로그인 해 주세요.")
+			$(".dropdown").eq(0).find("#isLoggedForAlarm").remove()
+	}
+
+	if('${id}' != '' ) {
+		// 아이디가 비어있지 않다면
+		
+		//클라이언트 소켓 만들기 
+		var noticeSockJS = new SockJS("/notice")
+		var noticeStomp = Stomp.over(noticeSockJS);
+
+		noticeStomp.connect({},function(){
 			
 			$.ajax({
 				url: "/notice",
@@ -405,10 +396,102 @@ $(document).ready(function(){
 				asnyc: false,
 				data: {username:username},
 			})
+			
+		noticeStomp.subscribe("/sub/notice"+username, function(notice){
+			
+			var alArray = JSON.parse(notice.body)	
+			console.log(alArray)
+			
+			noticeStomp.disconnect();
+			
+				if(alArray[0]!='noPlantsWantWater'){
+					$(".dropdown").eq(0).find("#wantsWater").html("물이 먹고 싶어요.")
+					$(".dropdown").eq(0).find("#alarm1").html(alArray[0].nick)
+					if(alArray[1]!=null)
+						$(".dropdown").eq(0).find("#alarm2").html(alArray[1].nick)
+					if(alArray[2]!=null)
+						$(".dropdown").eq(0).find("#alarm3").html(alArray[2].nick)
+				}else if(alArray[0]=='noPlantsWantWater'){
+					$(".dropdown").eq(0).find("#wantsWater").html(alArray[1])
+				}
+		 
+		})//noticeStomp subscribe end
+		})//noticeStomp connect end
+	}//else if end
+	
+	
+	
+	//카트에 담긴 상품 알람 
+	if('${id}'!='') { 
+		var chkCartSockJS = new SockJS("/chkCarts")
+		var chkCartstomp = Stomp.over(chkCartSockJS);
+		console.log("chkcarts")
+		
+	 chkCartstomp.connect({},function(){
+			
+			$.ajax({
+				url: "/chkCarts",
+				type: "get",
+				asnyc: false,
+				data: {username:username},
+			})
+		
+			chkCartstomp.subscribe("/sub/chkCarts"+username, function(chkCarts){
+			
+			var alArray = JSON.parse(chkCarts.body)	
+			console.log(alArray)
+			
+			chkCartstomp.disconnect();
+			
+			if(alArray[0]!='emptyCart'){
+				$(".dropdown").eq(0).find("#cartExists").html("카트가 비어 있어요.")
+				$(".dropdown").eq(0).find("#cart1").html(alArray[0].nick)
+				if(alArray[1]!=null)
+					$(".dropdown").eq(0).find("#cart2").html(alArray[1].nick)
+				if(alArray[2]!=null)
+					$(".dropdown").eq(0).find("#cart3").html(alArray[2].nick)
+			}else if(alArray[0]=='emptyCart'){
+				$(".dropdown").eq(0).find("#cartExists").html(alArray[1])
+			}
+			})
 		  })
 	}//if end
-})
+	
 
+	//결제된 상품 알람 
+	if('${id}'!='') { 
+		var sockJS = new SockJS("/chkOrders")
+ 		var chkOrdersstomp = Stomp.over(sockJS);
+		
+		chkOrdersstomp.connect({},function(){
+			chkOrdersstomp.subscribe("/sub/chkOrders"+username, function(chkOrders){
+			
+			var alArray = JSON.parse(chkOrders.body)	
+			console.log(alArray)
+			
+			chkOrdersstomp.disconnect();
+			
+			if(alArray[0]!='noOrderExists'){
+				$(".dropdown").eq(0).find("#orderExists").html("주문 내역이 없어요.")
+				$(".dropdown").eq(0).find("#order1").html(alArray[0].nick)
+				if(alArray[1]!=null)
+					$(".dropdown").eq(0).find("#order2").html(alArray[1].nick)
+				if(alArray[2]!=null)
+					$(".dropdown").eq(0).find("#order3").html(alArray[2].nick)
+			}else if(alArray[0]=='noOrderExists'){
+				$(".dropdown").eq(0).find("#orderExists").html(alArray[1])
+			}
+			})
+			
+			$.ajax({
+				url: "/chkOrders",
+				type: "get",
+				asnyc: false,
+				data: {username:username},
+			})
+		  })
+	}//if end
+})// document ready end
 //----------------------------------여기부터 화상통화--------------------------------------
 
 var receiverId;
@@ -714,15 +797,33 @@ function okCall(){
 			<i class="material-icons dp48">alarm_on</i>
 			<span class="header-menu-text-sm">알람</span> 
 			</span>
-			<ul class="dropdown-menu" role="menu" style="width: 15em" >
+			<ul class="dropdown-menu" id="isLoggedForAlarm" role="menu" style="width: 15em" >
 				<li><div id="wantsWater" style="text-align: center"></div></li>
 				<li> <div style="text-align: center">
 				<span class="dropdown-item" id="alarm1" ></span> 
 				<span class="dropdown-item" id="alarm2" ></span> 
 				<span class="dropdown-item" id="alarm3" ></span> 
 				</div>
+				
 			    <li class="dropdown-header"></li>
 			    <li class="divider"></li>
+			    	
+			    <li><div id="cartExists" style="text-align: center"></div></li>
+				<li> <div style="text-align: center">
+				<span class="dropdown-item" id="cart1" ></span> 
+				<span class="dropdown-item" id="cart2" ></span> 
+				<span class="dropdown-item" id="cart3" ></span> 
+				</div>
+				
+				<li class="dropdown-header"></li>
+			    <li class="divider"></li>
+			    
+			    <li><div id="orderExists" style="text-align: center"></div></li>
+				<li> <div style="text-align: center">
+				<span class="dropdown-item" id="order1" ></span> 
+				<span class="dropdown-item" id="order2" ></span> 
+				<span class="dropdown-item" id="order3" ></span> 
+				</div>
 			</ul>
 		</div>
 		<div class="header-menu-box">
