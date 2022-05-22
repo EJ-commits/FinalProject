@@ -664,13 +664,159 @@ function okCall(){
 
 </script>
 
+
+</head>
+
+<body>
+
+<!-- ===========화상통화 알림창============ -->
+<div id="socketAlert" class="alert alert-success" role="alert" style="display:none; margin: 0;" onClick="okCall()"></div>
+
+<div>
+	<span id="video_modal"></span>
+</div>
+<!-- ===========화상통화 알림창============ -->
+
+<header id="header">
+	<div id="header-box">
+		<div id="header-logo-con" onClick="location.href='/'">
+			<div id="header-logo-box">
+				<div class="header-lmg-box">
+					<img class="header-img" src="/resources/img/headerleft.png">
+				</div>
+				<div id="header-logo">
+					<h2>Seeker</h2>
+				</div>
+				<div class="header-lmg-box">
+					<img class="header-img" src="/resources/img/headerright.png">
+				</div>
+			</div>
+			<div id="header-logo-black">
+			</div>
+		</div>
+		<div id="header-center"></div>
+		<div class="header-menu-box">
+			<a href="/myplant/list">나의 식물</a>
+		</div>
+		<div class="header-menu-box" id="menu-box-board">
+			<a id="menu-board">게시판</a>
+		</div>	
+		<div class="header-menu-box">
+			<a href="/garden/gardenMap">수목원</a>
+		</div>
+		<div class="header-menu-box">
+			<a href="/shop/home">스토어</a>
+		</div>
+		<div class="header-menu-box dropdown" >
+			<span class="dropdown-toggle" data-toggle="dropdown" role="button" style="cursor:pointer;">
+			<i class="material-icons dp48">alarm_on</i>
+			<span class="header-menu-text-sm">알람</span> 
+			</span>
+			<ul class="dropdown-menu" role="menu" style="width: 15em" >
+				<li><div id="wantsWater" style="text-align: center"></div></li>
+				<li> <div style="text-align: center">
+				<span class="dropdown-item" id="alarm1" ></span> 
+				<span class="dropdown-item" id="alarm2" ></span> 
+				<span class="dropdown-item" id="alarm3" ></span> 
+				</div>
+			    <li class="dropdown-header"></li>
+			    <li class="divider"></li>
+			</ul>
+		</div>
+		<div class="header-menu-box">
+			<a href="/shop/cartList" >
+				<i class="material-icons dp48">shopping_cart</i>
+				<span class="header-menu-text-sm">장바구니</span>
+			</a>
+		</div>	
+		<div>
+			<div id="header-login-box">
+				<c:choose>
+					<c:when test="${empty login }">
+						<a href="/member/login"><span class="header-menu-text-xs">로그인</span></a>
+					</c:when>
+					<c:when test="${login eq true }">
+<span id="recMs" class="header-menu-text-xs" onclick="openNav()" name="recMs" style="float:left;cursor:pointer;margin-right:10px;color:pink;"><img src="/resources/img/msgicon.png" id="messageImage" style="opacity :0.3;width:15px;"></span>
+						<a href="/member/logout"><span class="header-menu-text-xs">로그아웃</span></a>
+					</c:when>
+				</c:choose>
+				<a href="/member/join"><span class="header-menu-text-xs">회원가입</span></a>
+			</div>
+			<div id="header-chat-box">
+			<a href="/chat/rooms" >
+			<i class="material-icons dp48">chat_bubble</i>
+			<span class="header-menu-text-sm">오픈채팅</span>
+			</a>
+			</div>
+		</div>
+	</div>
+	<div id="hidden-menu-box">
+		<div id="hidden-menu-board">
+			<a href="/board/freeList"><span>자유 게시판</span></a>
+			<a href="/board/photoList"><span>사진 게시판</span></a>
+		</div>
+	</div>
 <!-- ----------------------------------여기부터 쪽지-------------------------------------- -->
 
-<!-- <script src="/resources/js/sockjs.min.js"></script> -->
 
-
+<div id="mysidenav" class="sidenav">
+        <a href="#" class="closebtn" onclick='closeNav()'>x</a>
+        <div id="mssage_send_btn" name="mssage_send_btn" class="btn btn-warning"><p>쪽지 보내기</p></div>
+        <!--  <div id="bbb" name="mssage_send_btn" class="btn btn-warning"><p>쪽지</p></div> -->
+    </div>
     
-
+<div class="modal fade momo" id="MsgForm" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header fn-font">
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">X</span>
+                    </button>
+                </div>
+                <form class="msg_form">
+                    <!-- <input type="hidden" id="flag" name="flag" value="insert"/> -->
+                    <input type="hidden" id="memberNo" name="memberNo" value="${memberNo}"/>
+                    <div class="modal-body fn-font">
+                        <table>
+                            <colgroup>
+                                <col style="width:150px;"/>
+                                <col style="width:px;"/>
+                            </colgroup>
+                            <tbody>
+                                <tr>
+                                    <th>작성자</th>
+                                    <th><input type="text" id="senderName" name="senderName" class="form-control" value="<c:out value='${id}'/>" readonly/></th>
+                                </tr>
+                                <tr>
+                                    <th>받는 사람</th>
+                                    <th>
+                                        <select id="receiverName" name="receiverName" class="form-control user" value="">
+                                            
+                                                <option value="">전체</option>
+                                            
+                                        </select>
+                                    </th>
+                                </tr>
+                                <tr>
+                                    <th>제목</th>
+                                    <th><input type="text" id="msTitle" name="msTitle" class="form-control" value=""/></th>
+                                    
+                                </tr>
+                                <tr>
+                                    <th>내용</th>
+                                    <th><textArea id="msContent" name="msContent" class="form-control"></textArea></th>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </form>
+                <div class="modal-footer fn-font">
+                    <button class="btn" type="button" id="msg_submit">보내기</button>
+                    <button class="btn" type="button" data-dismiss="modal">취소</button>
+                </div>
+            </div>
+        </div>
+    </div>
 <script>
 $(document).ready(function() {
 	//$("#bbb").click(function(){
@@ -796,7 +942,7 @@ $(document).ready(function(){
     if(${login}) {
     	
 	
-    }		
+    }	
            /*  connectWS(); */
 });
    /*  $(".chat_start_main").click(function(){
@@ -844,158 +990,5 @@ $(document).ready(function(){
 </script>
 
 <!-- ----------------------------------여기까지 쪽지-------------------------------------- -->
-
-</head>
-
-<body>
-
-<!-- ----------------------------------여기부터 쪽지-------------------------------------- -->
-<div id="mysidenav" class="sidenav">
-        <a href="#" class="closebtn" onclick='closeNav()'>x</a>
-        <div id="mssage_send_btn" name="mssage_send_btn" class="btn btn-warning"><p>쪽지 보내기</p></div>
-        <!--  <div id="bbb" name="mssage_send_btn" class="btn btn-warning"><p>쪽지</p></div> -->
-    </div>
-    
-<div class="modal fade momo" id="MsgForm" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header fn-font">
-                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">X</span>
-                    </button>
-                </div>
-                <form class="msg_form">
-                    <!-- <input type="hidden" id="flag" name="flag" value="insert"/> -->
-                    <input type="hidden" id="memberNo" name="memberNo" value="${memberNo}"/>
-                    <div class="modal-body fn-font">
-                        <table>
-                            <colgroup>
-                                <col style="width:150px;"/>
-                                <col style="width:px;"/>
-                            </colgroup>
-                            <tbody>
-                                <tr>
-                                    <th>작성자</th>
-                                    <th><input type="text" id="senderName" name="senderName" class="form-control" value="<c:out value='${id}'/>" readonly/></th>
-                                </tr>
-                                <tr>
-                                    <th>받는 사람</th>
-                                    <th>
-                                        <select id="receiverName" name="receiverName" class="form-control user" value="">
-                                            
-                                                <option value="">전체</option>
-                                            
-                                        </select>
-                                    </th>
-                                </tr>
-                                <tr>
-                                    <th>제목</th>
-                                    <th><input type="text" id="msTitle" name="msTitle" class="form-control" value=""/></th>
-                                    
-                                </tr>
-                                <tr>
-                                    <th>내용</th>
-                                    <th><textArea id="msContent" name="msContent" class="form-control"></textArea></th>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </form>
-                <div class="modal-footer fn-font">
-                    <button class="btn" type="button" id="msg_submit">보내기</button>
-                    <button class="btn" type="button" data-dismiss="modal">취소</button>
-                </div>
-            </div>
-        </div>
-    </div>
-    
-<!-- ----------------------------------여기까지 쪽지-------------------------------------- -->
-<!-- ===========화상통화 알림창============ -->
-<div id="socketAlert" class="alert alert-success" role="alert" style="display:none; margin: 0;" onClick="okCall()"></div>
-
-<div>
-	<span id="video_modal"></span>
-</div>
-<!-- ===========화상통화 알림창============ -->
-
-<header id="header">
-	<div id="header-box">
-		<div id="header-logo-con" onClick="location.href='/'">
-			<div id="header-logo-box">
-				<div class="header-lmg-box">
-					<img class="header-img" src="/resources/img/headerleft.png">
-				</div>
-				<div id="header-logo">
-					<h2>Seeker</h2>
-				</div>
-				<div class="header-lmg-box">
-					<img class="header-img" src="/resources/img/headerright.png">
-				</div>
-			</div>
-			<div id="header-logo-black">
-			</div>
-		</div>
-		<div id="header-center"></div>
-		<div class="header-menu-box">
-			<a href="/myplant/list">나의 식물</a>
-		</div>
-		<div class="header-menu-box" id="menu-box-board">
-			<a id="menu-board">게시판</a>
-		</div>	
-		<div class="header-menu-box">
-			<a href="/garden/gardenMap">수목원</a>
-		</div>
-		<div class="header-menu-box">
-			<a href="/shop/home">스토어</a>
-		</div>
-		<div class="header-menu-box dropdown" >
-			<span class="dropdown-toggle" data-toggle="dropdown" role="button" style="cursor:pointer;">
-			<i class="material-icons dp48">alarm_on</i>
-			<span class="header-menu-text-sm">알람</span> 
-			</span>
-			<ul class="dropdown-menu" role="menu" style="width: 15em" >
-				<li><div id="wantsWater" style="text-align: center"></div></li>
-				<li> <div style="text-align: center">
-				<span class="dropdown-item" id="alarm1" ></span> 
-				<span class="dropdown-item" id="alarm2" ></span> 
-				<span class="dropdown-item" id="alarm3" ></span> 
-				</div>
-			    <li class="dropdown-header"></li>
-			    <li class="divider"></li>
-			</ul>
-		</div>
-		<div class="header-menu-box">
-			<a href="/shop/cartList" >
-				<i class="material-icons dp48">shopping_cart</i>
-				<span class="header-menu-text-sm">장바구니</span>
-			</a>
-		</div>	
-		<div>
-			<div id="header-login-box">
-				<c:choose>
-					<c:when test="${empty login }">
-						<a href="/member/login"><span class="header-menu-text-xs">로그인</span></a>
-					</c:when>
-					<c:when test="${login eq true }">
-<span id="recMs" class="header-menu-text-xs" onclick="openNav()" name="recMs" style="float:left;cursor:pointer;margin-right:10px;color:pink;"><img src="/resources/img/msgicon.png" id="messageImage" style="opacity :0.3;width:15px;"></span>
-						<a href="/member/logout"><span class="header-menu-text-xs">로그아웃</span></a>
-					</c:when>
-				</c:choose>
-				<a href="/member/join"><span class="header-menu-text-xs">회원가입</span></a>
-			</div>
-			<div id="header-chat-box">
-			<a href="/chat/rooms" >
-			<i class="material-icons dp48">chat_bubble</i>
-			<span class="header-menu-text-sm">오픈채팅</span>
-			</a>
-			</div>
-		</div>
-	</div>
-	<div id="hidden-menu-box">
-		<div id="hidden-menu-board">
-			<a href="/board/freeList"><span>자유 게시판</span></a>
-			<a href="/board/photoList"><span>사진 게시판</span></a>
-		</div>
-	</div>
 </header>
 <div id='wrap-con'>
