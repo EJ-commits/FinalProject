@@ -42,8 +42,9 @@ public class StompChatController {
 	@MessageMapping(value = "/chat/enter")
 	public void enter(ChatDto chatDto) {
 		chatDto.setIsStart(1); //채팅시작
+		logger.info("chatDto enter {}",chatDto.toString());
+		
 		chatService.saveMsg(chatDto);
-		logger.info("chatDto {}",chatDto.toString());
 		template.convertAndSend("/sub/chat/room" + chatDto.getRoomId(), chatDto);
 	}
 	
@@ -51,7 +52,7 @@ public class StompChatController {
 	public void message(ChatDto chatDto) {
 		template.convertAndSend("/sub/chat/room" + chatDto.getRoomId(), chatDto);
 		chatService.saveMsg(chatDto);
-		logger.info("chatLog {}",chatDto.toString());
+		logger.info("chatLog message {}",chatDto.toString());
 	}
 	
 	@MessageMapping(value = "/chat/exit")
@@ -59,9 +60,7 @@ public class StompChatController {
 		template.convertAndSend("/sub/chat/room" + chatDto.getRoomId(), chatDto);
 		chatDto.setIsEnd(1); // 채팅종료
 		chatService.saveMsg(chatDto);
-		logger.info("chatLog {}",chatDto.toString());
-		
-		
+		logger.info("chatLog exit {}",chatDto.toString());
 	}
 	
 //	-------일대일채팅--------
@@ -69,12 +68,12 @@ public class StompChatController {
 	@MessageMapping(value = "/chat/enter11")
 	public void enter11(ChatDto chatDto) {
 		chatDto.setIsStart(1); 
+		
 		chatService.saveMsg(chatDto);
-	//	chatService.saveMsg(chatDto);
-		logger.info("chatDto {}",chatDto.toString());
+		logger.info("enter11 chatDto {}",chatDto.toString());
 		
 		//채팅방의 주소는 각자의 아이디로 한다. 
-		template.convertAndSend("/sub/chat/room11" + chatDto.getUserid(), chatDto);
+		template.convertAndSend("/sub/chat/room11" + chatDto.getUserID(), chatDto);
 	}
 	
 	@MessageMapping(value = "/chat/message11")
@@ -90,8 +89,6 @@ public class StompChatController {
 		chatDto.setIsEnd(1); // 채팅종료
 		chatService.saveMsg(chatDto);
 		logger.info("chatLog {}",chatDto.toString());
-		
-		
 	}
 	
 //  ---------------알람 보내기 --------------
@@ -114,8 +111,7 @@ public class StompChatController {
           template.convertAndSend("/sub/notice"+username, gson.toJson(str));
       }
       return "chat/empty";
-      
-  }
+  }    
   
   //카트가 비어있지 않으면 알람에 추가 
   @GetMapping(value = "/chkCarts")
@@ -125,10 +121,10 @@ public class StompChatController {
 	  	 Gson gson = new Gson();
 		List<CartList> cartList = shopService.cartList(memberNo);
 		if(cartList.size()!=0) {
-			template.convertAndSend("/sub/notice"+username, gson.toJson(cartList));
+			template.convertAndSend("/sub/chkCarts"+username, gson.toJson(cartList));
 		}else {
 	          String[] str = {"emptyCart","카트가 비어 있어요."};
-	          template.convertAndSend("/sub/notice"+username, gson.toJson(str));
+	          template.convertAndSend("/sub/chkCarts"+username, gson.toJson(str));
 	      }
 	      return "chat/empty";
 	      
@@ -137,22 +133,22 @@ public class StompChatController {
   //주문한 내역이 있으면 알람에 추가 
   @GetMapping(value = "/chkOrders")
   public String messageChkOrders(String username, HttpSession session) {
+	  	
 	  	int memberNo = (Integer) session.getAttribute("memberNo");
 	  	Order order = new Order();
 	  	Gson gson = new Gson();
 	  
 	  	order.setMemberNo(memberNo);
+	  	logger.info("{}","/sub/chkOrders"+username);
 	  	List<OrderList> orderList = shopService.orderList(order);
+	  	logger.info("{}",gson.toJson(orderList));
 	  	if(orderList.size()!=0) {
-			template.convertAndSend("/sub/notice"+username, gson.toJson(orderList));
-			logger.info("{}","/sub/notice"+username);
-			logger.info("{}",gson.toJson(orderList));
+			template.convertAndSend("/sub/chkOrders"+username, gson.toJson(orderList));
 		}else {
-	          String[] str = {"noPlantsWantWater","아직 물이 부족하지 않아요."};
-	          template.convertAndSend("/sub/notice"+username, gson.toJson(str));
+	          String[] str = {"noOrderExists","주문 내역이 없어요."};
+	          template.convertAndSend("/sub/chkOrders"+username, gson.toJson(str));
 	      }
 	      return "chat/empty";
-	      
   }
 	  //주문후 배송이 완료되면 알람에 추가 (미구현)
   

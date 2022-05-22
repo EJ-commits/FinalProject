@@ -1,14 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-    
-<c:import url="/WEB-INF/views/layout/header.jsp" />
+    <c:import url="/WEB-INF/views/layout/header.jsp" />	
 <!DOCTYPE html>
 <html>
 <!-- SOCKJS -->
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.6.0/sockjs.min.js"></script>
 <!-- STOMP -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
    
 
     <style>
@@ -16,7 +16,7 @@
         .chat_wrap .inner{background-color:#acc2d2; border-radius:5px; padding:10px; overflow-y:scroll;height: 400px;}
         .chat_wrap .item{margin-top:15px}
         .chat_wrap .item:first-child{margin-top:0px}
-        .chat_wrap .item .box{ max-width:none; position:initial}
+        .chat_wrap .item .box{ max-width:none; position:initial;}
         .chat_wrap .item .box::before{content:""; position:absolute; left:-8px; top:9px; border-top:0px solid transparent; border-bottom:8px solid transparent;border-right:8px solid #fff;}
         .chat_wrap .item .box .msg {background:#fff; border-radius:10px; padding:8px; text-align:left}
         .chat_wrap .item .box .time {font-size:11px; color:#999; position:inherit; padding-left:5px; right: -75px; bottom:5px; width:70px}
@@ -27,6 +27,8 @@
         .chat_wrap .item .box{transition:all .3s ease-out; margin:0 0 0 20px;opacity: 7}
         .chat_wrap .item .mymsg .box{transition:all .3s ease-out; margin:0 20px 0 0;}
         .chat_wrap .item.on .box{margin:0; opacity: 1;}
+
+		.msg.anothermsg.box { text-align: left;}
 
         input[type="text"]{border:0; width:85%;background:#ddd; border-radius:5px; height:30px; padding-left:5px; box-sizing:border-box; margin-top:5px}
         input[type="text"]::placeholder{color:#999}
@@ -74,7 +76,7 @@ $(document).ready(function(){
 		stomp.subscribe("/sub/chat/room11"+roomId, function(chat){
   		   var content = JSON.parse(chat.body)
 			var chatLog = content.chatLog
-			var writer = content.userid;
+			var writer = content.userID;
 	 		var message = content.chatLog
 			var str = writer + ":" + message 
 			console.log(chatLog)
@@ -87,16 +89,18 @@ $(document).ready(function(){
                 str += currentTime()
                 str += "</span>";
                 str += "</div></div></div></div>";
+                str += "<div></div>"
                 $("#inner").append(str);
             }
             else{
             	   str = "<div class=' item box '>";
-                   str += "<div class='msg box'>";
+                   str += "<div class='msg anothermsg box'>";
                    str +=  writer + " : " + message 
                    str += "<span class='time'>"
                    str += currentTime()
                    str += "</span>";
                    str += "</div></div></div></div>";
+	                str += "<div></div>"
                    $("#inner").append(str);
             }
 
@@ -106,8 +110,8 @@ $(document).ready(function(){
 		//send(path, header, message)
 		stomp.send('/pub/chat/enter11', {}, 
 				JSON.stringify({roomId: roomId, 
-					userid: username,
-					chatLog: '입장'
+					userID: username,
+					chatLog: '님이 입장하셨습니다.'
 					}))
 		
 	})//connect end
@@ -153,7 +157,7 @@ $(document).ready(function(){
 		 console.log("messages "+msg)
          stomp.send('/pub/chat/message11', {}, 
  				JSON.stringify({roomId: roomId, 
- 					userid: username,
+ 					userID: username,
  					chatLog: msg.val()
  					}))
          msg.value = '';
@@ -163,8 +167,8 @@ $(document).ready(function(){
 		function pro1(){
 			stomp.send('/pub/chat/exit11', {}, 
 					JSON.stringify({roomId: roomId, 
-						userid: username,
-						chatLog: '퇴장'
+						userID: username,
+						chatLog: '님이 퇴장하셨습니다.'
 						}))
 			console.log("here1")
 		}
@@ -177,7 +181,7 @@ $(document).ready(function(){
 					url: "/chat/logdown",
 					type: "post",
 					async: false,
-					data:{userid:username, roomId:roomId}, //username은 위에서 선언한 var 
+					data:{userID:username, roomId:roomId}, //username은 위에서 선언한 var 
 // 					dataType: "json",
 	                success: function (data) {
 	                    var blob = new Blob([data], { type: "application/octet-stream" });
@@ -214,7 +218,7 @@ $(document).ready(function(){
 }
 
 		
-		if(!confirm("저장?")){ // 저장안함
+		if(!confirm("채팅 내역을 저장하시겠습니까?")){ // 저장안함
 			forcheckSaveDiv.click() 
 		} else { // 저장함 
 			pro1();
@@ -225,32 +229,56 @@ $(document).ready(function(){
 	  })//disconn end
 	
 	  $("#forcheckSaveDiv").click(function(){
-          		if (confirm("종료?")){ //종료함
+          		if (confirm("채팅을 종료하시겠습니까?")){ //종료함
      		    	onClose();
           		}
 	  })	
 	  
-	var ckpart = function(){
-					$.ajax({
-						url:"/chat/participant",
-						type:"post",
-						data:{roomId:roomId},
-						success:function(list){
-						console.log("성공");
-							for(var i=0; i<list.length; i++){
-								var participant = list[i]
-				 				console.log("참여자명 "+list)
-								$("#participants").html(participant)
-							}
-						},
-						error:function(result){
-						console.log("에러");
-							$('#participants').val('error')
-						}
-					})
-				}
-	$("#checkparts").click(ckpart)
 	
+	$.ajax({
+		url: "/chat/getPastChat",
+		type: "get",
+		data: {roomId: roomId},
+		dataType: "json",
+		success:function(pastChat){
+				//객체 가공
+				pastChat = Object.values(pastChat);
+				pastChat = Object.values(pastChat)[0]
+				
+				for(var i=0; i<pastChat.length; i++){
+				var writer = pastChat[i].userID
+		 		var message = pastChat[i].chatLog
+		 		var time = pastChat[i].chatDate.substring(0,11)
+		 		console.log(time)
+				var str = writer + ":" + message 
+					
+		            if(writer === username){
+		                str = "<div class=' item box msg'>";
+		                str += "<div class='mymsg box'>";
+		                str +=  writer + " : " + message 
+		                str += "<span class='time'>"
+		                str += time
+		                str += "</span>";
+		                str += "</div></div></div></div>";
+		                $("#inner").append(str);
+		            }
+		            else{
+		            	   str = "<div class=' item  box '>";
+		                   str += "<div class='msg anothermsg box'>";
+		                   str +=  writer + " : " + message 
+		                   str += "<span class='time'>"
+		                   str += time
+		                   str += "</span>";
+		                   str += "</div></div></div></div>";
+		                   $("#inner").append(str);
+		            }
+				}
+	  $("#inner").append("-------------이전 대화 내역-------------");
+				
+		},
+		
+		 error: console.log("error")
+	})
 	
 })
 
@@ -269,11 +297,14 @@ $(document).ready(function(){
 
 <div class="chat_wrap">
 	<div id="inner" class="inner">
+		<div>
+		</div>
 	</div>
 </div>
 <div>
 		<input type="text" id="messages" placeholder="메시지를 입력하세요.">
 		<button type="button" id="sendButton" style="width: 10%; padding: 0 0" >전송</button>
+		<div id="forcheckSaveDiv"></div> <!-- 체크용 빈 div -->
 </div>
 
 <div style="height: 1.3em">
@@ -283,4 +314,6 @@ $(document).ready(function(){
 	<div id="participants"></div>
 </div>		
 </div>
-<c:import url="/WEB-INF/views/layout/footer.jsp" />
+
+
+<c:import url="/WEB-INF/views/layout/footer.jsp" />	

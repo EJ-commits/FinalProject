@@ -5,7 +5,7 @@ public class ChatDto {
 	private String roomId;
 	private int isStart;
 	private int isEnd;
-	private String userid;
+	private String userID;
 	private String chatLog;
 	private String chatDate;
 	
@@ -27,11 +27,11 @@ public class ChatDto {
 	public void setIsEnd(int isEnd) {
 		this.isEnd = isEnd;
 	}
-	public String getUserid() {
-		return userid;
+	public String getUserID() {
+		return userID;
 	}
-	public void setUserid(String userid) {
-		this.userid = userid;
+	public void setUserID(String userID) {
+		this.userID = userID;
 	}
 	public String getChatLog() {
 		return chatLog;
@@ -47,7 +47,7 @@ public class ChatDto {
 	}
 	@Override
 	public String toString() {
-		return "ChatDto [roomId=" + roomId + ", isStart=" + isStart + ", isEnd=" + isEnd + ", userid=" + userid
+		return "ChatDto [roomId=" + roomId + ", isStart=" + isStart + ", isEnd=" + isEnd + ", userID=" + userID
 				+ ", chatLog=" + chatLog + ", chatDate=" + chatDate + "]";
 	}
 
