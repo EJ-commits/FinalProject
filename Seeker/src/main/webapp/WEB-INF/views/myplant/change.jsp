@@ -84,7 +84,7 @@ input {
 
 <div id="wrap-box-top">
 	<div><a href="/myplant/list"><span class="glyphicon glyphicon-arrow-left"></span>&nbsp;나의 식물 목록</a></div>
-	<div id="title-box">식물 등록하기</div>
+	<div id="title-box">식물 변경하기</div>
 	<div></div>
 </div>
 
@@ -223,9 +223,9 @@ search.onclick = function() {
 	window.name = 'writeForm';
 	
 	let w = (window.screen.width / 2) - 200;
-	let h = (window.screen.height / 2) - 225;
+	let h = (window.screen.height / 2) - 250;
 	
-	window.open('/myplant/searchform', 'searchForm', 'width=400, height=450, left=' + w + ', top=' + h);
+	window.open('/myplant/searchform', 'searchForm', 'width=400, height=500, left=' + w + ', top=' + h);
 	
 };
 

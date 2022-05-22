@@ -178,9 +178,9 @@ search.onclick = function() {
 	window.name = 'writeForm';
 	
 	let w = (window.screen.width / 2) - 200;
-	let h = (window.screen.height / 2) - 225;
+	let h = (window.screen.height / 2) - 250;
 	
-	window.open('/myplant/searchform', 'searchForm', 'width=400, height=450, left=' + w + ', top=' + h);
+	window.open('/myplant/searchform', 'searchForm', 'width=400, height=500, left=' + w + ', top=' + h);
 	
 };
 
