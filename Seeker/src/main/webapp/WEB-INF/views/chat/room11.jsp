@@ -52,7 +52,12 @@
 $(document).ready(function(){
 	//웹소켓 설정을 위한 준비 작업 
 	//const username = ${sessionScope.testuser}
+	
 	var username ="${id}"
+	if('${adminlogin}'== 'true' ) {
+		username = '${adminid}'
+	}
+	
 	var namelength = username.length;
 	console.log(username)
 	var msg = $("#messages");
@@ -77,6 +82,7 @@ $(document).ready(function(){
   		   var content = JSON.parse(chat.body)
 			var chatLog = content.chatLog
 			var writer = content.userID;
+  		   
 	 		var message = content.chatLog
 			var str = writer + ":" + message 
 			console.log(chatLog)
@@ -160,7 +166,7 @@ $(document).ready(function(){
  					userID: username,
  					chatLog: msg.val()
  					}))
-         msg.value = '';
+         $("#messages").val('')
 	 })
 	 
 	  $("#disconn").click(function(){
