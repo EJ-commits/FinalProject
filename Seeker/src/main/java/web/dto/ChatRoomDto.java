@@ -8,6 +8,10 @@ import java.util.Set;
 import java.util.UUID;
 import javax.servlet.http.HttpSession;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import sun.util.logging.resources.logging;
 
 public class ChatRoomDto implements Serializable{
 
@@ -27,8 +31,6 @@ public class ChatRoomDto implements Serializable{
 	public void setroomName(String roomName) {
 		this.roomName = roomName;
 	}
-	
-	
 
 	
 	@Override

@@ -42,6 +42,11 @@
   <script type="text/javascript"> 
   
   $(document).ready(function(){
+	  	if('${id}' == '') {
+	  		alart
+	  	}
+	  
+	  
 	     if (self.name != 'reload') {
 	         self.name = 'reload';
 	         self.location.reload(true);
