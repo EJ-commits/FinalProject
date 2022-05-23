@@ -116,33 +116,34 @@ body {
 	color : black;
 }
 
-#header-chat-box {
+.header-chat-box {
 	width : 130px;
 	padding : 8px 0px 0px 0px;
 	text-align : right;
 }
 
-#header-chat-box > a:hover{
+.header-chat-box > a:hover{
 	text-decoration-line : none;
 	color : black;
 }
 
-#header-chat-box > a{
+.header-chat-box > a{
 	font-size : 30px;
 	color : #688331;
 }
 
-#header-login-box {
-	width : 180px;
+.header-login-box {
+	width : 130px;
+	height : 45px;
 	padding : 20px 0px 0px 0px;
 	text-align : right;
 }
 
-#header-login-box > a{
+.header-login-box > a{
 	margin : 0px 0px 0px 5px;
 }
 
-#header-login-box > a:hover {
+.header-login-box > a:hover {
 	text-decoration-line : none;
 	color : black;
 }
@@ -182,11 +183,33 @@ body {
 	font-size : 20px;
 }
 
+#hidden-menu-garden{
+	display : none;
+	margin: 0px 0px 0px 740px;
+}
+
+#hidden-menu-garden > a:hover {
+	text-decoration-line : none;
+}
+
+#hidden-menu-garden > a > span:hover {
+	text-decoration-line : none;
+	color : black;
+}
+
+#hidden-menu-garden > a > span {
+	margin : 0px 10px 0px 0px;
+	padding : 5px 0px 0px 0px;
+	color : #688331;
+	font-size : 20px;
+}
+
 #wrap-con {
 	width : 1200px;
 	margin : auto;
 	position : relative;
 }
+
 #wrap-con::after {
 	content : "";
 	position : absolute;
@@ -786,10 +809,10 @@ function okCall(){
 			<a id="menu-board">게시판</a>
 		</div>	
 		<div class="header-menu-box">
-			<a href="/garden/gardenMap">수목원</a>
-		</div>
-		<div class="header-menu-box">
 			<a href="/shop/home">스토어</a>
+		</div>
+		<div class="header-menu-box" id="menu-box-garden">
+			<a id="menu-garden">수목원</a>
 		</div>
 		<div class="header-menu-box dropdown" >
 			<span class="dropdown-toggle" data-toggle="dropdown" role="button" style="cursor:pointer;">
@@ -829,26 +852,38 @@ function okCall(){
 				</li>
 			</ul>
 		</div>
-		<div class="header-menu-box">
-			<a href="/shop/cartList" >
-				<i class="material-icons dp48">shopping_cart</i>
-				<span class="header-menu-text-sm">장바구니</span>
-			</a>
+		<div>
+			<div class="header-login-box">
+				<c:choose>
+				<c:when test="${empty login }">
+				</c:when>
+				<c:when test="${login eq true }">
+					<span id="recMs" class="header-menu-text-xs" onclick="openNav()" name="recMs" style="cursor:pointer;color:pink;">
+					<img src="/resources/img/msgicon.png" id="messageImage" style="opacity :0.3;width:15px;"></span>
+				</c:when>
+				</c:choose>
+			</div>
+			<div class="header-chat-box">
+				<a href="/shop/cartList" >
+					<i class="material-icons dp48">shopping_cart</i>
+					<span class="header-menu-text-sm">장바구니</span>
+				</a>
+			</div>
 		</div>	
 		<div>
-			<div id="header-login-box">
+			<div class="header-login-box">
 				<c:choose>
 					<c:when test="${empty login }">
 						<a href="/member/login"><span class="header-menu-text-xs">로그인</span></a>
+						<a href="/member/join"><span class="header-menu-text-xs">회원가입</span></a>
 					</c:when>
 					<c:when test="${login eq true }">
-<span id="recMs" class="header-menu-text-xs" onclick="openNav()" name="recMs" style="float:left;cursor:pointer;margin-right:10px;color:pink;"><img src="/resources/img/msgicon.png" id="messageImage" style="opacity :0.3;width:15px;"></span>
-						<a href="/member/logout"><span class="header-menu-text-xs">로그아웃</span></a>
+					<a href="/"><span class="header-menu=text-xs">${name}님</span></a>
+					<a href="/member/logout"><span class="header-menu-text-xs">로그아웃</span></a>
 					</c:when>
 				</c:choose>
-				<a href="/member/join"><span class="header-menu-text-xs">회원가입</span></a>
 			</div>
-			<div id="header-chat-box">
+			<div class="header-chat-box">
 			<a href="/chat/rooms" >
 			<i class="material-icons dp48">chat_bubble</i>
 			<span class="header-menu-text-sm">오픈채팅</span>
@@ -860,6 +895,10 @@ function okCall(){
 		<div id="hidden-menu-board">
 			<a href="/board/freeList"><span>자유 게시판</span></a>
 			<a href="/board/photoList"><span>사진 게시판</span></a>
+		</div>
+		<div id="hidden-menu-garden">
+			<a href="/"><span>지도</span></a>
+			<a href="/"><span>예약</span></a>
 		</div>
 	</div>
 <!-- ----------------------------------여기부터 쪽지-------------------------------------- -->

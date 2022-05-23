@@ -131,15 +131,18 @@ input {
 					<button type="button" class="btn btn-default" id="search-button">검색</button>
 				</td></tr>
 				<tr><td>이름</td></tr>
-				<tr><td><div><input type="text" name="nick" class="form-control" value="${myPlant.nick}"></div></td></tr>
+				<tr><td><div><input type="text" name="nick" class="form-control" value="${myPlant.nick}" required 
+				 			  oninvalid="this.setCustomValidity('이름을 입력하세요!')" oninput="this.setCustomValidity('')"></div></td></tr>
 				<tr><td>심은날</td></tr>
 				<tr><td>
-					<div><input type="date" class="form-control" name="birth" value="${myPlant.birth}" id="date"></div>
+					<div><input type="date" class="form-control" name="birth" value="${myPlant.birth}" id="date" required
+						  oninvalid="this.setCustomValidity('날짜를 입력하세요!')" oninput="this.setCustomValidity('')"></div>
 				</td></tr>
 				<tr><td>물주기 간격</td></tr>
 				<tr><td>
 					<div id="water-box">
-					<input type="text" class="form-control" name="water" value="${myPlant.water}"placeholder="일">
+					<input type="text" class="form-control" name="water" value="${myPlant.water}" required 
+					 oninvalid="this.setCustomValidity('숫자를 입력하세요!')" oninput="this.setCustomValidity('')">
 					</div>
 					<button type="submit" class="btn btn-success" id="submit">등록 완료</button>
 				</td></tr>
