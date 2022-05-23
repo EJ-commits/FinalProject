@@ -1,3 +1,4 @@
+
 package web.controller;
 
 
@@ -15,8 +16,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import web.dto.Board;
@@ -59,7 +62,7 @@ public class BoardController {
 	}
 	 
 	@RequestMapping("/freeView")
-	public String view(Board viewBoard , Model model) {
+	public String view(Board viewBoard , Model model , HttpSession session) {
 		logger.info("freeView게시글보기{}" , viewBoard);
 		
 		//잘못된 게시글 번호 처리
@@ -78,6 +81,18 @@ public class BoardController {
 		//첨부파일 정보 모델값 전달
 		BoardFile boardFile = boardService.getAttachFile(viewBoard);
 		model.addAttribute("boardFile" , boardFile);
+		
+		//추천 상태 조회
+		Recommend recommend = new Recommend();
+		recommend.setBoardno(viewBoard.getBoardno());
+		recommend.setId((String) session.getAttribute("id"));
+		
+		//추천 상태 전달
+		boolean isRecommend = boardService.isRecommend(recommend);
+		model.addAttribute("isRecommend" , isRecommend);
+		
+		//게시글의 전체 추천수
+		model.addAttribute("cntRecommend" , boardService.getTotalCntRecommend(recommend));
 		
 		//댓글 리스트 전달
 		Reply reply = new Reply();
@@ -219,7 +234,7 @@ public class BoardController {
 		model.addAttribute("viewBoard" , viewBoard);
 			
 		//첨부파일 정보 모델값 전달
-		BoardFile boardFile = boardService.getAttachFile(viewBoard);
+		List<BoardFile> boardFile = boardService.getAttachPhotoFile(viewBoard);
 		model.addAttribute("boardFile" , boardFile);	
 		
 		//추천 상태 조회 
@@ -252,15 +267,21 @@ public class BoardController {
 	@RequestMapping("/photoWrite")
 	public void photoWrite() { }
 	
+
 	@Transactional
 	@PostMapping(value="/photoWrite")
-	public String photoWriteProc(Board board , MultipartFile file , HttpSession session) {
+	public String photoWriteProc(Board board , @RequestParam(value="file") List<MultipartFile> file, HttpSession session) {
 	logger.info("/photowrite [post]");
 
+	logger.info("멀티파트 리스트 {} " , file);
+
+	
+	
 	board.setId((String) session.getAttribute("id"));
 	board.setNick((String) session.getAttribute("nick"));
 	
 	boardService.photoWrite(board, file);
+	
 	
 	return "redirect:/board/photoList";
 	
@@ -268,15 +289,18 @@ public class BoardController {
 	
 	
 	
-	
+	//사진게시판 첨부파일 다운로드
 	@RequestMapping("/photoDownload")
 	public String photoDownload(BoardFile boardFile , Model model) {
-		boardFile = boardService.photogetFile(boardFile);
-		model.addAttribute("downFile" , boardFile);
 		
-		return "boarddown";
+		List<BoardFile> boardFile1 = boardService.photogetFile(boardFile);
+		model.addAttribute("downFile" , boardFile1);
+		
+		
+		return "redirect:/board/photoView?boardno=" + boardFile.getBoardNo();
 	}
 	
+	//사진게시판 첨부파일 업데이트
 	@Transactional
 	@RequestMapping("/photoUpdate")
 	public String photoUpdate(Board board , Model model) {
@@ -321,6 +345,7 @@ public class BoardController {
 	 }
 	
 
+	//사진게시판 추천 컨트롤러
 	@RequestMapping("/photoRecommend") @ResponseBody
 	public HashMap<String, Object> recommend(Recommend recommend  , HttpSession session) {
 		
@@ -335,9 +360,28 @@ public class BoardController {
 		//추천 수 
 		int cnt = boardService.getTotalCntRecommend(recommend);
 		
-//		mav.addObject("result" , result);
-//		mav.addObject("cnt" , cnt);
-//		mav.setViewName("jsonView");
+		map.put("result" , result);
+		map.put("cnt" , cnt);
+		
+		
+		return map;
+		
+	}
+	
+	//자유게시판 추천 컨트롤러 
+	@RequestMapping("/freeRecommend") @ResponseBody
+	public HashMap<String, Object> freerecommend(Recommend recommend  , HttpSession session) {
+		
+		
+		HashMap<String, Object>	map = new HashMap<String, Object>();
+		
+		
+		//추천정보 토글
+		recommend.setId((String) session.getAttribute("id"));
+		boolean result = boardService.photoRecommend(recommend);
+		
+		//추천 수 
+		int cnt = boardService.getTotalCntRecommend(recommend);
 		
 		map.put("result" , result);
 		map.put("cnt" , cnt);

@@ -6,7 +6,46 @@
 
 <c:import url="/WEB-INF/views/layout/header2.jsp" />
 
-
+<script type="text/javascript">
+$(document).ready(function() {
+ 
+	
+	$("#btnRecommend").click(function() {
+		
+		$.ajax({
+			type: "get"
+			, url: "/board/freeRecommend"
+			, data: { "boardno": '${viewBoard.boardno }' }
+			, dataType: "json"
+			, success: function( data ) {
+					console.log("성공");
+					console.log(data);
+	
+				if( data.result === true ) { //추천 성공
+					$("#heart").attr('src', '/resources/img/full_heart.png');
+// 					.removeClass("btn-primary")
+// 					.addClass("btn-warning")
+// 					.html('추천 취소');
+				
+				} else { //추천 취소 성공
+					$("#heart").attr('src', '/resources/img/empty_heart.png');
+// 					removeClass("btn-primary")
+// 					.addClass("btn-warning")
+// 					.html('추천 취소');
+				
+				}
+				
+				//추천수 적용
+				$("#recommend").html(data.cnt);
+			}
+			, error: function() {
+				console.log("실패");
+			}
+		}); //ajax end
+		
+	}); //$("#btnRecommend").click() end
+});
+</script>
 
 <script type="text/javascript">
 $(document).ready(function() {
@@ -96,8 +135,21 @@ function deleteReply(replyno) {
 
 <span class="title"><h1>${viewBoard.btitle }</h1></span>
 
-<span><img width="20" src="/resources/img/flower.jpg"> ${viewBoard.nick } </span> <span></span><fmt:formatDate value="${viewBoard.bdate }" pattern="yyyy-MM-dd hh:mm:ss "/></span>
+	<span><img width="20" src="/resources/img/flower.jpg"> ${viewBoard.nick } </span> <span></span><fmt:formatDate value="${viewBoard.bdate }" pattern="yyyy-MM-dd hh:mm:ss "/></span>
 
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	
+	<span type="button" id="btnRecommend">
+	   	<img src="${ isRecommend == true ? '/resources/img/full_heart.png' : '/resources/img/empty_heart.png' }" 
+	         id="heart" height="50px" width="50px">&nbsp;&nbsp;<span id="recommend">${cntRecommend }</span></span>
 <hr>
 
 <div class="content" >${viewBoard.bcontent }</div>

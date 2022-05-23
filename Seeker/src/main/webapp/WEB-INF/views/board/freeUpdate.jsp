@@ -104,7 +104,7 @@ $(document).ready(function() {
 
 		<div id="originFile">
 		<a href="/board/freeDownload?fileNo=${boardFile.fileNo }">${boardFile.originName }</a>
-		<span id="deleteFile">X</span>
+		<span id="deleteFile">삭제</span>
 		
 		</div>
 		
