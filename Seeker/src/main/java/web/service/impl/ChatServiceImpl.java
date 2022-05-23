@@ -132,7 +132,6 @@ public class ChatServiceImpl implements ChatService{
 	public ChatRoomDto findRoomById(String roomId) {
 		logger.info("findRoomById() {}", roomId);
 		ChatRoomDto room = chatDao.getRoomToGo(roomId);
-		logger.info("findRoomById() {}", room);
 		return room;
 	}
 
