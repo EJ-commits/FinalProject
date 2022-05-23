@@ -57,7 +57,9 @@
 	const board = document.getElementById('menu-board');
 	const $box = document.getElementById('hidden-menu-box');
 	const $board = document.getElementById('hidden-menu-board');
-		
+	const garden = document.getElementById('menu-garden');
+	const $garden = document.getElementById('hidden-menu-garden');
+	
 	box.onmouseover = function() {
 			
 		board.style.color = 'black';
@@ -76,6 +78,27 @@
 		
 		board.style.color = '';
 		$board.style.display = "none";
+		
+	}
+	
+	garden.onmouseover = function() {
+		
+		garden.style.color = 'black';
+		$garden.style.display = "block";
+		
+	}
+		
+	$garden.onmouseover = function() {
+		
+		garden.style.color = 'black';
+		$garden.style.display = "block";
+		
+	}
+	
+	$garden.onmouseout = function() {
+		
+		garden.style.color = '';
+		$garden.style.display = "none";
 		
 	}
 	

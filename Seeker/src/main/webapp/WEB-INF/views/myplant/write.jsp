@@ -88,7 +88,7 @@ input {
 	<div></div>
 </div>
 
-<form action="/myplant/write" method="post" enctype="multipart/form-data">
+<form action="/myplant/write" method="post" enctype="multipart/form-data" id="form">
 <div id="wrap-box">
 	<div id="profile-box">
 			<div>
@@ -110,19 +110,24 @@ input {
 				<table class="table">
 				<tr><td>식물명</td></tr>
 				<tr><td>
-				<div id="search-box"><input type="text" class="form-control" name="bname" id="bname" readonly></div>
-				<input type="hidden" name="cnum" id="cnum">
+				<div id="search-box"><input type="text" class="form-control" name="bname" id="bname" value="가울테리아" readonly></div>
+				<input type="hidden" name="cnum" id="cnum" value="12938">
 				<button type="button" class="btn btn-default" id="search-button">검색</button>
 				</td></tr>
 				<tr><td>이름</td></tr>
-				<tr><td><div><input type="text" name="nick" class="form-control"></div></td></tr>
+				<tr><td>
+					<div><input type="text" name="nick" class="form-control" required 
+						  oninvalid="this.setCustomValidity('이름을 입력하세요!')" oninput="this.setCustomValidity('')"></div>
+				</td></tr>
 				<tr><td>심은날</td></tr>
 				<tr><td>
-					<div><input type="date" class="form-control" name="birth" id="date"></div>
+					<div><input type="date" class="form-control" name="birth" id="date" required 
+						  oninvalid="this.setCustomValidity('날짜를 입력하세요!')" oninput="this.setCustomValidity('')"></div>
 				</td></tr>
-				<tr><td>물주기 간격</td></tr>
+				<tr><td>물주기 날짜 간격</td></tr>
 				<tr><td>
-					<div id="water-box"><input type="text" class="form-control" name="water" placeholder="일"></div>
+					<div id="water-box"><input type="text" class="form-control" name="water" required 
+										 oninvalid="this.setCustomValidity('숫자를 입력하세요!')" oninput="this.setCustomValidity('')"></div>
 					<button type="submit" class="btn btn-success" id="submit">등록 완료</button>
 				</td></tr>
 				</table>	
@@ -178,10 +183,9 @@ search.onclick = function() {
 	window.name = 'writeForm';
 	
 	let w = (window.screen.width / 2) - 200;
-	let h = (window.screen.height / 2) - 225;
+	let h = (window.screen.height / 2) - 250;
 	
-	window.open('/myplant/searchform', 'searchForm', 'width=400, height=450, left=' + w + ', top=' + h);
+	window.open('/myplant/searchform', 'searchForm', 'width=400, height=500, left=' + w + ', top=' + h);
 	
 };
-
 </script>
