@@ -41,6 +41,11 @@ public class BoardController {
 	
 	private Logger logger = LoggerFactory.getLogger(BoardController.class);
 	
+	@RequestMapping(value="/error")
+	public void boardError() {
+		
+	}
+	
 	@RequestMapping(value = "/freeList")
 	public void list(Paging_board ParamData , Model model) {
 		
@@ -187,6 +192,7 @@ public class BoardController {
 
 	//--------------------------------------------------------------------------
 	
+
 	
 	@RequestMapping(value="/photoList")
 	public void pList (Paging_board photoParam , Model model) {
