@@ -49,7 +49,7 @@ $(document).ready(function() {
 
 img {
   width: 100%;
-  height: 300px;
+/*   height: 300px; */
   
 }
 
@@ -139,7 +139,7 @@ img {
 		  	<div class="location-title" onclick='location.href="/board/photoView?boardno=${item.boardNo }"'>
 		  	<c:if test="${item.btitle eq '' }">(not title)</c:if>${item.btitle }</div>
 		  	<div class="location-image">
-		  	<img src="<%=request.getContextPath() %>/upload/${item.storedName }" 
+		  	<img style="height:300px" src="<%=request.getContextPath() %>/upload/${item.storedName }" 
 			alt="그림을 불러오지못함" width="50%" height="50%" class="oriImg"><br>
 
 			</div>

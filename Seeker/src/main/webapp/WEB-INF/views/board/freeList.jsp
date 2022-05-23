@@ -17,6 +17,19 @@ $(document).ready(function() {
 
 </script>
 
+<script type="text/javascript">
+$(document).ready(function() {
+	$("#btnWrite").click(function() {
+		location.href = "/board/freeWrite"
+	})
+	
+	//검색 버튼 클릭
+	$("#btnSearch").click(function() {
+		location.href="/board/freeList?search="+$("#search").val();
+	});
+})
+</script>
+
 <style type="text/css">
 table {
 	table-layout: fixed;
@@ -71,6 +84,12 @@ td:nth-child(2) {
 
 <span class="pull-right">total : ${paging.totalCount }</span>
 <div class="clearfix"></div>
+
+<div class="form-inline text-right">
+	<input class="form-control" type="text" id="search" value="${param.search }" />
+	<button id="btnSearch" class="btn">검색</button>
+</div>
+
 
 <c:import url="./paging.jsp" />
  

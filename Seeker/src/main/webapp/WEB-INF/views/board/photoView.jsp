@@ -28,13 +28,7 @@ $(document).ready(function() {
 
 <script type="text/javascript">
 $(document).ready(function() {
-// 	if(${isRecommend}) {
-// 		$("#btnRecommend").attr('src', './img/full_heart.png');
-			
-// 	} else {
-// 		$("#btnRecommend").attr('src', './img/empty_heart.png');
-			
-// 	}
+ 
 	
 	$("#btnRecommend").click(function() {
 		
@@ -173,20 +167,29 @@ function deleteReply(replyno) {
 <hr>
 
 
+
+<c:forEach var="item" items="${boardFile }">
+
 	<div class="image">
-	<img src="<%=request.getContextPath() %>/upload/${boardFile.storedName }" 
+	<img src="<%=request.getContextPath() %>/upload/${item.storedName }" 
 	alt="그림을 불러오지못함" width="70%" height="70%">
 	</div>
 	
+</c:forEach>
+	
 	<br><br>
 	<div class="content" >${viewBoard.bcontent }</div>
-
 
 		
 <hr>
 <br><br>
 
-<a href="/board/photoDownload?fileNo=${boardFile.fileNo }">${boardFile.originName }</a>
+
+<!-- 첨부파일 다운로드 -->
+<c:forEach var="item" items="${boardFile }">
+	<a href="/board/photoDownload?fileNo=${item.fileNo }" download=" ${item.originName }">${item.originName } </a>
+</c:forEach>
+
 
 <div class="text-center">
 	<button id="btnList" class="btn btn-default">목록</button>

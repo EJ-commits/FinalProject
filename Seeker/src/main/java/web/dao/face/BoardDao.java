@@ -139,8 +139,10 @@ public interface BoardDao {
 	 * @param viewBoard
 	 * @return
 	 */
-	public BoardFile selectPhotoBoardFileByBoardno(BoardFile viewBoard);
+	public List<BoardFile> selectPhotoBoardFileByBoardno(BoardFile viewBoard);
+	
 
+	
 	/**
 	 * 파일번호를 이용해서 첨부파일 정보를 조회
 	 * 
@@ -188,6 +190,15 @@ public interface BoardDao {
 	 * @return
 	 */
 	public List<BoardFile> getFilePhotoList(Paging_board paging);
+
+	
+	/**
+	 * 첨부파일 리스트 가져오기 
+	 * 
+	 * @param viewBoard
+	 * @return
+	 */
+	public List<BoardFile> selectPhotoBoardFile(Board viewBoard);
 
 	
 	

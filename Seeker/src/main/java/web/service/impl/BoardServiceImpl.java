@@ -2,6 +2,7 @@ package web.service.impl;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -12,6 +13,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import web.controller.BoardController;
 import web.dao.face.BoardDao;
@@ -44,6 +46,8 @@ public class BoardServiceImpl implements BoardService{
 		//페이징 계산
 		Paging_board paging = new Paging_board(totalCount , paramData.getCurPage());
 		
+		//검색 페이징 계산
+		paging.setSearch(paramData.getSearch());
 		
 		return paging;
 	}
@@ -275,7 +279,8 @@ public class BoardServiceImpl implements BoardService{
 
 	//사진게시판 글쓰기
 	@Override
-	public void photoWrite(Board board, MultipartFile file) {
+	public void photoWrite(Board board, List<MultipartFile> file) {
+		
 		
 		if("".equals(board.getBtitle() )) {
 			board.setBtitle("(not title)");
@@ -283,9 +288,18 @@ public class BoardServiceImpl implements BoardService{
 		}
 		
 		boardDao.photoinsertBoard(board);
+	
+		
+//		------------------------------------------------------------------
+		for (MultipartFile mf : file) {
+			
+		
+		logger.info("파일다중파일!!! {} " , mf);
+		
+		
 		
 		//빈파일인 경우
-		if( file.getSize() <=0 ) {
+		if( mf.getSize() <=0 ) {
 			return;
 		}
 		
@@ -298,19 +312,21 @@ public class BoardServiceImpl implements BoardService{
 		}
 		
 		//파일이 저장될 이름
-		String originName = file.getOriginalFilename();
+		String originName = mf.getOriginalFilename();
 		String storedName = originName + UUID.randomUUID().toString().split("-")[4];
 		
 		//저장될 파일 정보 객체
 		File dest = new File ( storedFolder , storedName );
 		
 		try {
-			file.transferTo(dest);
+			mf.transferTo(dest);
 		} catch (IllegalStateException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		
+		
 		
 		//-----------------------------------------------------
 		
@@ -322,12 +338,14 @@ public class BoardServiceImpl implements BoardService{
 		boardDao.photoinsertFile(boardFile);
 		
 		logger.info("파일확인{} " , boardFile);
+		
+		}
 
 		
 	}
 	
 	@Override
-	public BoardFile photogetFile(BoardFile viewBoard) {
+	public List<BoardFile> photogetFile(BoardFile viewBoard) {
 		return boardDao.selectPhotoBoardFileByBoardno(viewBoard);
 	}
 	
@@ -459,4 +477,13 @@ public class BoardServiceImpl implements BoardService{
 			return true;
 		}
 	}
+
+
+	
+	@Override
+	public List<BoardFile> getAttachPhotoFile(Board viewBoard) {
+		return boardDao.selectPhotoBoardFile(viewBoard);
+	}
+
+
 }
