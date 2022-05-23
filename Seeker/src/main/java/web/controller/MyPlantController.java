@@ -35,8 +35,6 @@ public class MyPlantController {
 		
 		logger.info("myplant/list [GET]");
 		
-		session.setAttribute("memberNo", 10000000);
-		
 		int memberNo = (int) session.getAttribute("memberNo");
 		model.addAttribute("list", myPlantService.list(memberNo));
 		
