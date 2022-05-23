@@ -8,6 +8,15 @@
 <!-- 스마트 에디터 2 로드 -->
 <script type="text/javascript" src="/resources/se2/js/service/HuskyEZCreator.js"></script>
 
+
+<script type="text/javascript">
+
+
+
+
+</script>
+
+
 <script type="text/javascript">
 function submitContents(elClickedObj) {
 	oEditors.getById["content"].exec("UPDATE_CONTENTS_FIELD", [])
@@ -33,6 +42,9 @@ $(document).ready(function() {
 })
 </script>
 
+
+
+
 <div class="container">
 
 <h1>글쓰기</h1>
@@ -56,8 +68,9 @@ $(document).ready(function() {
 </div>
 
 <div class="form-group">
+
 	<label for="file">첨부파일</label>
-	<input type="file" id="file" name="file" >
+	<input type="file" id="file" name="file" multiple="multiple">
 </div>
 
 <div class="text-center">
