@@ -4,6 +4,7 @@ package web.service.face;
 import java.util.List;
 
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import web.dto.Board;
 import web.dto.BoardFile;
@@ -57,6 +58,7 @@ public interface BoardService {
 	 * @param viewBoard - 조회할 게시글 번호를 가진 객체
 	 * @return 첨부파일의 정보 
 	 */
+	
 	public BoardFile getAttachFile(Board viewBoard);
 
 	/**
@@ -144,14 +146,7 @@ public interface BoardService {
 	public Board photoView(Board viewBoard);
 
 	
-	/**
-	 * 
-	 * 사진 게시글 처리 , 첨부파일과 함께 처리
-	 * 
-	 * @param board
-	 * @param file
-	 */
-	public void photoWrite(Board board, MultipartFile file);
+
 
 	/**
 	 * 
@@ -160,7 +155,8 @@ public interface BoardService {
 	 * @param boardFile
 	 * @return
 	 */
-	public BoardFile photogetFile(BoardFile boardFile);
+	public List<BoardFile> photogetFile(BoardFile boardFile);
+	
 	
 
 	/**
@@ -182,11 +178,18 @@ public interface BoardService {
 
 	/**
 	 * 
-	 * 사진게시물과 파일을 업데이트
+	 * 게시물이랑 첨부파일 업데이트 
 	 * @param board
 	 * @param file
 	 */
 	public void photoUpdate(Board board, MultipartFile file);
+	/**
+	 * 
+	 * 사진게시물과 파일을 업데이트
+	 * @param board
+	 * @param file
+	 */
+	public void photoWrite(Board board, List<MultipartFile> file);
 
 	/**
 	 * 사진게시물 삭제
@@ -234,5 +237,18 @@ public interface BoardService {
 	 * @return
 	 */
 	public boolean photoRecommend(Recommend recommend);
+
+	
+	/**
+	 * 
+	 * 첨부파일 리스트 전달 
+	 * @param viewBoard
+	 * @return
+	 */
+	public List<BoardFile> getAttachPhotoFile(Board viewBoard);
+
+
+
+
 
 }

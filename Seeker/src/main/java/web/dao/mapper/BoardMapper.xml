@@ -13,7 +13,8 @@
 				select
 					boardno , btitle , bcontent , id , nick , hit , bdate , cateno 
 				from board
-				where cateno = 1
+				where btitle like '%' || #{search} || '%'
+				and cateno = 1
 				order by boardno DESC
 			) B
 		) BOARD
@@ -26,7 +27,8 @@
 
 	<select id = "selectCntAll" resultType="int">
 		select count(*) from board	
-		where cateno = 1
+		where btitle like '%' || #{search} || '%'
+		and cateno = 1
 	</select>
 	
 	
@@ -186,7 +188,7 @@
 	
 	
 	
-	<!-- 사진 게시글번호로 첨부파일조회 -->
+ 	<!-- 사진 게시글번호로 첨부파일조회 -->
 	<select id="selectPhotoBoardFileByBoardno" parameterType="web.dto.Board" resultType="web.dto.BoardFile">
 		select 
 				fileno fileNo
@@ -195,7 +197,7 @@
 				, stored_name storedName
 			
 		from boardFile
-		where boardno = #{boardno}
+		where boardno = #{boardNo}
 	
 	</select>
 	
@@ -264,6 +266,20 @@
 		
 	</select>
 	
+	<!-- 게시글번호로 첨부파일조회 -->
+	<select id="selectPhotoBoardFile" parameterType="web.dto.Board" resultType="web.dto.BoardFile">
+		select 
+				fileno fileNo
+				, boardno boardNo
+				, origin_name originName
+				, stored_name storedName
+			
+		from boardFile
+		where boardno = #{boardno}
+	
+	</select>
+	
+
 	
 	
 </mapper>

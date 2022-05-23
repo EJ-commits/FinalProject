@@ -3,6 +3,7 @@ package web.service.face;
 import java.util.HashMap;
 import java.util.List;
 
+import web.dto.DailyPlant;
 import web.dto.PlantInfo;
 import web.dto.WeatherInfo;
 
@@ -58,4 +59,10 @@ public interface MainService {
 	 * @return - 검색한 식물의 컨텐츠 번호
 	 */
 	public String getCntntsNo(String searchTxt);
+	
+	/**
+	 * 추천 식물의 정보 가져오기
+	 * @return 추천 식물의 정보
+	 */
+	public DailyPlant getDailyPlnat();
 }

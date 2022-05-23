@@ -20,9 +20,12 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.w3c.dom.Document;
 
+import web.dao.face.MainDao;
+import web.dto.DailyPlant;
 import web.dto.PlantInfo;
 import web.dto.WeatherInfo;
 import web.service.face.MainService;
@@ -32,6 +35,9 @@ import web.service.face.MainService;
 public class MainServiceImpl implements MainService{
 	
 	private static final Logger logger = LoggerFactory.getLogger(MainService.class);
+	
+	@Autowired
+	MainDao mainDao;
 	
 	@Override
 	public WeatherInfo getWeather(Double latitude, Double longitude) {
@@ -466,5 +472,13 @@ public class MainServiceImpl implements MainService{
 		logger.info("resultMsg: {}",resultMsg);
 		
 		return cntntsNo;
+	}
+	
+	@Override
+	public DailyPlant getDailyPlnat() {
+		int sumcnt = mainDao.dailyPlantCnt();
+		logger.info("sumcnt: {}", sumcnt);
+		int ranNo = (int)(Math.random()*(sumcnt)) + 1;
+		return mainDao.getDailyPlant(ranNo);
 	}
 } //end class

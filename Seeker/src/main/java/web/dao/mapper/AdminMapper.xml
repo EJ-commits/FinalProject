@@ -316,4 +316,10 @@
 		DELETE FROM boardfile
 		WHERE boardno=#{boardno}
 	</delete>
+	
+	<!-- 식물 추천 정보 등록 -->
+	<insert id="dailyPlantInsert" parameterType="web.dto.DailyPlant">
+ 		INSERT INTO dailyplant
+     	VALUES (dailyplant_seq.nextval, #{name}, #{water}, #{sun}, #{humidity}, #{ImgOriginName}, #{ImgStoredName})
+	</insert>
 </mapper>

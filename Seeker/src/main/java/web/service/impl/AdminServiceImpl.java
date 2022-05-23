@@ -19,6 +19,7 @@ import web.dto.Admin;
 import web.dto.Board;
 import web.dto.BoardFile;
 import web.dto.Category;
+import web.dto.DailyPlant;
 import web.dto.Goods;
 import web.dto.GoodsView;
 import web.dto.Member;
@@ -368,6 +369,42 @@ public class AdminServiceImpl implements AdminService {
 		return paging;
 	}
 
+	@Override
+	public void plantInfowrite(DailyPlant dailyPlant, MultipartFile file) {
+		//빈 파일일 경우
+		if( file.getSize() <= 0 ) {
+			return;
+		}
+		
+		//파일이 저장될 경로
+		String storedPath = context.getRealPath("upload");
+		File storedFolder = new File(storedPath);
+		if( !storedFolder.exists() ) {
+			storedFolder.mkdir();
+		}
+	
+		//파일이 저장될 이름
+		String originName = file.getOriginalFilename();
+		String storedName = originName + UUID.randomUUID().toString().split("-")[4];
+		
+		//저장될 파일 정보 객체
+		File dest = new File(storedFolder, storedName);
+	
+		try {
+			file.transferTo(dest);
+		} catch (IllegalStateException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	
+		
+		//-----------------------------------------------------
+		dailyPlant.setImgOriginName(originName);
+		dailyPlant.setImgStoredName(storedName);
+		
+		adminDao.dailyPlantInsert(dailyPlant);
+	}
 
 }
 

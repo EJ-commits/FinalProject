@@ -84,7 +84,7 @@ input {
 
 <div id="wrap-box-top">
 	<div><a href="/myplant/list"><span class="glyphicon glyphicon-arrow-left"></span>&nbsp;나의 식물 목록</a></div>
-	<div id="title-box">식물 등록하기</div>
+	<div id="title-box">식물 변경하기</div>
 	<div></div>
 </div>
 
@@ -131,15 +131,18 @@ input {
 					<button type="button" class="btn btn-default" id="search-button">검색</button>
 				</td></tr>
 				<tr><td>이름</td></tr>
-				<tr><td><div><input type="text" name="nick" class="form-control" value="${myPlant.nick}"></div></td></tr>
+				<tr><td><div><input type="text" name="nick" class="form-control" value="${myPlant.nick}" required 
+				 			  oninvalid="this.setCustomValidity('이름을 입력하세요!')" oninput="this.setCustomValidity('')"></div></td></tr>
 				<tr><td>심은날</td></tr>
 				<tr><td>
-					<div><input type="date" class="form-control" name="birth" value="${myPlant.birth}" id="date"></div>
+					<div><input type="date" class="form-control" name="birth" value="${myPlant.birth}" id="date" required
+						  oninvalid="this.setCustomValidity('날짜를 입력하세요!')" oninput="this.setCustomValidity('')"></div>
 				</td></tr>
 				<tr><td>물주기 간격</td></tr>
 				<tr><td>
 					<div id="water-box">
-					<input type="text" class="form-control" name="water" value="${myPlant.water}"placeholder="일">
+					<input type="text" class="form-control" name="water" value="${myPlant.water}" required 
+					 oninvalid="this.setCustomValidity('숫자를 입력하세요!')" oninput="this.setCustomValidity('')">
 					</div>
 					<button type="submit" class="btn btn-success" id="submit">등록 완료</button>
 				</td></tr>
@@ -223,9 +226,9 @@ search.onclick = function() {
 	window.name = 'writeForm';
 	
 	let w = (window.screen.width / 2) - 200;
-	let h = (window.screen.height / 2) - 225;
+	let h = (window.screen.height / 2) - 250;
 	
-	window.open('/myplant/searchform', 'searchForm', 'width=400, height=450, left=' + w + ', top=' + h);
+	window.open('/myplant/searchform', 'searchForm', 'width=400, height=500, left=' + w + ', top=' + h);
 	
 };
 

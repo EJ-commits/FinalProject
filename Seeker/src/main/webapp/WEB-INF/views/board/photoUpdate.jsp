@@ -104,13 +104,13 @@ $(document).ready(function() {
 
 		<div id="originFile">
 		<a href="/board/freeDownload?fileNo=${boardFile.fileNo }">${boardFile.originName }</a>
-		<span id="deleteFile">X</span>
+		<span id="deleteFile">삭제</span>
 		
 		</div>
 		
 		<div id="newFile">
 			<label for="file">새로운 첨부파일</label>
-			<input type="file" id="file" name="file">
+			<input type="file" id="file" name="file" multiple="multiple">
 			
 		</div>
 
