@@ -38,5 +38,6 @@
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="lib" path="C:/Users/JYA/.m2/repository/com/oracle/database/security/oraclepki/21.5.0.0/oraclepki.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>
