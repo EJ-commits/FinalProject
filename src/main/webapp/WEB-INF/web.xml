@@ -39,10 +39,21 @@
 		<load-on-startup>1</load-on-startup>
 		<asnyc-supported>true</asnyc-supported><!-- 비동기 지원 : 웹소켓 설정용  -->
 	</servlet>
+	<servlet>
+		<description>
+		</description>
+		<display-name>a</display-name>
+		<servlet-name>a</servlet-name>
+		<servlet-class>a</servlet-class>
+	</servlet>
 		
 	<servlet-mapping>
 		<servlet-name>appServlet</servlet-name>
 		<url-pattern>/</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>a</servlet-name>
+		<url-pattern>/a</url-pattern>
 	</servlet-mapping>
 
 </web-app>
