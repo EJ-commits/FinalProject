@@ -16,7 +16,6 @@
 	</properties>
 	
 	
-	
 	<!-- ODJDBC6 repositories -->
 	<repositories>
 		<repository>
@@ -26,6 +25,13 @@
 	</repositories>
 	
 	<dependencies>
+		
+		<!-- MySQL Connector Java » 8.0.28 -->
+	<dependency>
+	    <groupId>mysql</groupId>
+	    <artifactId>mysql-connector-java</artifactId>
+	    <version>8.0.28</version>
+	</dependency>
 	
 		<!-- Gson » 2.9.0 -->
 	<dependency>
