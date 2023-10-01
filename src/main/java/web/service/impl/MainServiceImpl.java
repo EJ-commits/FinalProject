@@ -180,10 +180,10 @@ public class MainServiceImpl implements MainService{
 			for(int i=0; i<jsonArray.size(); i++) {
 				jsonObject2 = (JSONObject)jsonArray.get(i);
 				if(null != jsonObject2.get("x")) {
-					x = (String)jsonObject2.get("x").toString();
+					x = jsonObject2.get("x").toString();
 				}
 				if(null != jsonObject2.get("y")) {
-					y = (String)jsonObject2.get("y").toString();
+					y = jsonObject2.get("y").toString();
 				}
 				
 			}
@@ -250,10 +250,10 @@ public class MainServiceImpl implements MainService{
 				
 				jsonObject2 = (JSONObject)jsonArray.get(i);
 				
-				map.put("title", (String)jsonObject2.get("title").toString());
-				map.put("description", (String)jsonObject2.get("description").toString());
-				map.put("link", (String)jsonObject2.get("link").toString());
-				map.put("thumbnail", (String)jsonObject2.get("thumbnail").toString());
+				map.put("title", jsonObject2.get("title").toString());
+				map.put("description", jsonObject2.get("description").toString());
+				map.put("link", jsonObject2.get("link").toString());
+				map.put("thumbnail", jsonObject2.get("thumbnail").toString());
 				list.add(map);
 			}
 			
