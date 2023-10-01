@@ -25,43 +25,50 @@
 	</repositories>
 	
 	<dependencies>
+				
+		<!-- Ojdbc8 » 21.5.0.0 -->
+		<dependency>
+		    <groupId>com.oracle.database.jdbc</groupId>
+		    <artifactId>ojdbc8</artifactId>
+		    <version>21.5.0.0</version>
+		</dependency>
 		
-		<!-- MySQL Connector Java » 8.0.28 -->
-	<dependency>
-	    <groupId>mysql</groupId>
-	    <artifactId>mysql-connector-java</artifactId>
-	    <version>8.0.28</version>
-	</dependency>
-	
-		<!-- Gson » 2.9.0 -->
-	<dependency>
-	    <groupId>com.google.code.gson</groupId>
-	    <artifactId>gson</artifactId>
-	    <version>2.9.0</version>
-	</dependency>
+			<!-- MySQL Connector Java » 8.0.28 -->
+		<dependency>
+		    <groupId>mysql</groupId>
+		    <artifactId>mysql-connector-java</artifactId>
+		    <version>8.0.28</version>
+		</dependency>
 		
-	
-		<!-- Spring Messaging » 5.3.19 -->
-	<dependency>
-	    <groupId>org.springframework</groupId>
-	    <artifactId>spring-messaging</artifactId>
-	    <version>5.3.19</version>
-	</dependency>
-	
-	
-	<!-- STOMP WebSocket » 2.3.3-1 -->
-	<dependency>
-	    <groupId>org.webjars</groupId>
-	    <artifactId>stomp-websocket</artifactId>
-	    <version>2.3.3-1</version>
-	</dependency>
+			<!-- Gson » 2.9.0 -->
+		<dependency>
+		    <groupId>com.google.code.gson</groupId>
+		    <artifactId>gson</artifactId>
+		    <version>2.9.0</version>
+		</dependency>
+			
 		
-	<!-- Spring WebSocket » 5.3.19 -->
-	<dependency>
-	    <groupId>org.springframework</groupId>
-	    <artifactId>spring-websocket</artifactId>
-	    <version>5.3.19</version>
-	</dependency>
+			<!-- Spring Messaging » 5.3.19 -->
+		<dependency>
+		    <groupId>org.springframework</groupId>
+		    <artifactId>spring-messaging</artifactId>
+		    <version>5.3.19</version>
+		</dependency>
+		
+		
+		<!-- STOMP WebSocket » 2.3.3-1 -->
+		<dependency>
+		    <groupId>org.webjars</groupId>
+		    <artifactId>stomp-websocket</artifactId>
+		    <version>2.3.3-1</version>
+		</dependency>
+			
+		<!-- Spring WebSocket » 5.3.19 -->
+		<dependency>
+		    <groupId>org.springframework</groupId>
+		    <artifactId>spring-websocket</artifactId>
+		    <version>5.3.19</version>
+		</dependency>
 		
 		<dependency>
     		<groupId>com.googlecode.json-simple</groupId>

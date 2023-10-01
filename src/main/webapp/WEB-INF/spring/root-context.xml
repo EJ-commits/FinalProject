@@ -13,7 +13,7 @@
     <property name="password" value="ZsdHBo1UFDwe"/>
 	</bean>
 
-
+	
 	<!-- DB접속 정보 수정전: JDBC사용
 	<bean id="dataSourceSpied" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 		<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver"/>
