@@ -148,13 +148,13 @@
    	 		<version>${org.springframework-version}</version>
 		</dependency>
 
-		<!-- OJDBC6 -->
+		<!-- OJDBC6
 		<dependency>
 			<groupId>com.oracle</groupId>
 			<artifactId>ojdbc6</artifactId>
 			<version>12.1.0.2</version>
 		</dependency>
-
+ 	    -->
 		<!-- MyBatis Log -->
 		<dependency>
 		    <groupId>org.lazyluke</groupId>
