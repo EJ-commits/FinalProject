@@ -40,6 +40,8 @@
 		    <version>21.5.0.0</version>
 		</dependency>
 		
+		
+		
 			<!-- MySQL Connector Java » 8.0.28 -->
 		<dependency>
 		    <groupId>mysql</groupId>
@@ -47,6 +49,15 @@
 		    <version>8.0.28</version>
 		</dependency>
 		
+		
+			<!-- developers.coolsms.co.kr -->
+	
+		<dependency>
+		  <groupId>net.nurigo</groupId>
+		  <artifactId>sdk</artifactId>
+		  <version>4.2.7</version>
+		</dependency>
+			
 			<!-- Gson » 2.9.0 -->
 		<dependency>
 		    <groupId>com.google.code.gson</groupId>
